@@ -1,6 +1,6 @@
 # CanExpense requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanExpense.can](CanExpense.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanExpense.can](CanExpense.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Before submission, the claimant transcribes the receipt's claimed amount, date a
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My expenses (`/expenses/mine`) for employees and Expense review (`/expenses/review`) for assigned reviewers/finance. Claims, receipts and the finance reimbursement queue stay contextual. Use daisyUI for ordinary employee/review/finance work.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My expenses (`/expenses/mine`) for employees and Expense review (`/expenses/review`) for assigned reviewers/finance. Claims, receipts and the finance reimbursement queue stay contextual. Use daisyUI for ordinary employee/review/finance work.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |
@@ -94,6 +94,6 @@ CSV input uses the existing 1,000-row/10 MiB review bound and ordinary finalized
 
 Fourteen isolated intake/lookup/mapping rows and one additional connected journey specify the new behavior. Its 14 canonical calls retain evidence with finance-owned uploaded-file fixtures, link a claimant, obtain an ordinary viewer result, reject a stale mapping edit, revoke access, observe an empty viewer result, link a corrected account, reject a duplicate source key, deactivate the finance Employee through HR and reject further finance mapping. A caller without finance is separately denied. The frozen original claim remains unchanged and no live Expense, Decision or Reimbursement appears. Viewer-read result counts test requested row visibility through production reads; source-export/file serialization privacy still needs runtime testing. HR deactivation is an actual workplace-eligibility change, not a claimed team-role removal.
 
-Both the existing and historical journeys remain authored specifications. JavaScript syntax and a temporary source projection excluding unsupported sequence bodies/CSV form attributes pass; the prototype does not implement those contracts, semantic checking, file transfer, imports, replay or permission-filtered results. The retained [intake design](../design/historical-intake-20261004.md) preserves JEV uncertainty, source-data unknowns, attachment/retry mapping and the separate W booking/invoice obligations.
+Both the existing and historical journeys remain authored specifications. JavaScript syntax and a temporary source projection excluding unsupported sequence bodies/CSV form attributes pass; the prototype does not implement those contracts, semantic checking, file transfer, imports, replay or permission-filtered results. The retained [intake design](https://github.com/veighnsche/canlang/blob/main/design/historical-intake-20261004.md) preserves JEV uncertainty, source-data unknowns, attachment/retry mapping and the separate W booking/invoice obligations.
 
 The sequence reuses one typed historical claim value rather than copying its source assertions at each invocation. Each nullable row lookup has an explicit nonnull assertion before later use. Same-operation receipt replay remains a shared runtime acceptance requirement; the current bounded sequence notation intentionally does not author replay identities. No fabricated operation ID or implied replay test is used.

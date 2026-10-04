@@ -1,6 +1,6 @@
 # CanLeave requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLeave.can](CanLeave.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLeave.can](CanLeave.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ First-version requests cover whole working days with inclusive dates shown to us
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My leave, Leave review for eligible approvers/HR, then Absence dates for permitted coverage planning. Request details are contextual links. HR allowance work stays ordinary; shared absences exclude private reasons.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My leave, Leave review for eligible approvers/HR, then Absence dates for permitted coverage planning. Request details are contextual links. HR allowance work stays ordinary; shared absences exclude private reasons.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

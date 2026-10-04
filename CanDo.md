@@ -1,6 +1,6 @@
 # CanDo requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanDo.can](CanDo.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanDo.can](CanDo.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ An independent Todo completes here. A domain queue action invokes the source's c
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar destinations are Tasks, My work and Checklist templates in that order, subject to current page grants. A task or source-record detail opens from its owning view and retains that sidebar context; it does not create another global menu item.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar destinations are Tasks, My work and Checklist templates in that order, subject to current page grants. A task or source-record detail opens from its owning view and retains that sidebar context; it does not create another global menu item.
 
 | Page | daisyUI layout and information | Actions and access |
 | --- | --- | --- |
@@ -45,7 +45,7 @@ Use the shared settings facility. CanDo can retain the current user's preferred 
 
 ## Shared Shell and Personal Configuration
 
-The canonical [standard shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration) now lives in the root language requirements, with [source semantics](../DESIGN.md#9-browser-presentation) in DESIGN. CanDo has no special shell service or runtime dependency. Its companion source declares its task pages and useful personal view choices; sidebar/base account settings are implicit. This replaces the earlier staged requirements-only contract.
+The canonical [standard shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration) now lives in the root language requirements, with [source semantics](https://github.com/veighnsche/canlang/blob/main/DESIGN.md#9-browser-presentation) in DESIGN. CanDo has no special shell service or runtime dependency. Its companion source declares its task pages and useful personal view choices; sidebar/base account settings are implicit. This replaces the earlier staged requirements-only contract.
 
 ## Interfaces and Integrations
 

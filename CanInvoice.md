@@ -1,6 +1,6 @@
 # CanInvoice requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanInvoice.can](CanInvoice.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanInvoice.can](CanInvoice.can).
 
 ## Purpose and Adoption Goal
 
@@ -30,7 +30,7 @@ For an authorized recurring charge, issue one invoice per source cycle and reque
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Order permitted navigation as My invoices, then Customer invoices for finance. Parameterized invoice/document details are contextual links, never unbound sidebar entries. Customer/billing maintenance uses CanCustomer's owning operations.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order permitted navigation as My invoices, then Customer invoices for finance. Parameterized invoice/document details are contextual links, never unbound sidebar entries. Customer/billing maintenance uses CanCustomer's owning operations.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ My invoices explicitly selects the current billing contact's issued records even
 
 Inline examples cover billable/informational quantity rules, own collection permission, replacement fencing, customer-action recovery, automatic retry limits/deadlines, receipt gating, settled-reminder suppression, immutable issued totals after credit, credit during uncertainty, a late/excess success, duplicate success, exact-amount rejection, unpaid void reconciliation, source replay rejection, external full-payment evidence and external/provider refund evidence. They reuse invoice/payment/credit fixtures and vary selectors instead of copying states into near-identical models. `python3 tools/can_parser.py draft/CanInvoice.can` accepted the earlier live-contract checkpoint on 2026-10-04, before the historical sequence and associated-request additions below. This was syntax validation only: inline examples, permission/type checking, actual providers, PDF rendering and executable settlement were not run.
 
-The shared difficult snapshot/payment-boundary decisions use the three rewritten consultations saved as [billing evidence](../design/jev/draft-billing-evidence-20261004-wording.md) and [payment boundary evidence](../design/jev/draft-payment-boundary-20261004-wording.md). Their classifier judgments inform the design; they do not prove implementation or authorize deviations from these requirements.
+The shared difficult snapshot/payment-boundary decisions use the three rewritten consultations saved as [billing evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/draft-billing-evidence-20261004-wording.md) and [payment boundary evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/draft-payment-boundary-20261004-wording.md). Their classifier judgments inform the design; they do not prove implementation or authorize deviations from these requirements.
 
 ### Commercial qualification producer
 

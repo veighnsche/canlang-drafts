@@ -1,6 +1,6 @@
 # CanBook requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBook.can](CanBook.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBook.can](CanBook.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ When hosts also work published shifts or service visits, reserve the host commit
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Appointments (`/appointments`) for public availability and verified own appointments, then Host calendars (`/appointments/hosts`) for authorized hosts. Booking and appointment details are contextual views. Use daisyUI; public discovery exposes no other customer's details.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Appointments (`/appointments`) for public availability and verified own appointments, then Host calendars (`/appointments/hosts`) for authorized hosts. Booking and appointment details are contextual views. Use daisyUI; public discovery exposes no other customer's details.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ Focused inline examples cover active-host invalidation, exact source/revision re
 
 Inline examples cover holiday exclusion, authenticated booking, failed staged movement preserving the original, adoption only after both outcomes, unready resources, stale predecessor identity, repeated ready work, late host results, candidate-only cleanup, unchanged-time rejection and cancellation, with the admitted reminder row additionally observing its fresh pending receipt state. These are authored expectations, not executed scenario evidence. Focused source parsing of the disclosed projection checks surrounding syntax only. No generated CanBook JavaScript, runtime, reservation adapter or email implementation is supplied.
 
-The difficult staged-replacement decision and its three rewritten JEV consultations are saved in [crm-connections-reschedule-20261004](../design/jev/crm-connections-reschedule-20261004/README.md). Their probability distributions are advice; independent source inspection established why the original same-source replacement could lose the predecessor before the other authority settled. Cross-provider atomicity is not claimed.
+The difficult staged-replacement decision and its three rewritten JEV consultations are saved in [crm-connections-reschedule-20261004](https://github.com/veighnsche/canlang/blob/main/design/jev/crm-connections-reschedule-20261004/README.md). Their probability distributions are advice; independent source inspection established why the original same-source replacement could lose the predecessor before the other authority settled. Cross-provider atomicity is not claimed.
 
 
 ## Record-addressed background progress

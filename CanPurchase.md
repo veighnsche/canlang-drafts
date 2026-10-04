@@ -1,6 +1,6 @@
 # CanPurchase requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPurchase.can](CanPurchase.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPurchase.can](CanPurchase.can).
 
 ## Purpose and Adoption Goal
 
@@ -30,7 +30,7 @@ Supplier invoice documents are staff attestations over frozen files, not automat
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My requests, then Purchasing for permitted buyer/approver/budget roles. Reviewer, approved-to-order and stock-posting queues belong within Purchasing; request/order/receipt details open contextually. Supplier/budget maintenance remains ordinary procurement, without another administration console.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My requests, then Purchasing for permitted buyer/approver/budget roles. Reviewer, approved-to-order and stock-posting queues belong within Purchasing; request/order/receipt details open contextually. Supplier/budget maintenance remains ordinary procurement, without another administration console.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

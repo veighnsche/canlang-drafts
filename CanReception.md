@@ -1,6 +1,6 @@
 # CanReception requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanReception.can](CanReception.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanReception.can](CanReception.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Reserve one active issue per physical key/card and record issue/return once. Los
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Reception, Keys and cards, My visitors, filtered by receptionist/access-staff/verified-host access. Invitation details are contextual verified guest destinations, not unbound global links; a reception device still requires its operator's authenticated session.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Reception, Keys and cards, My visitors, filtered by receptionist/access-staff/verified-host access. Invitation details are contextual verified guest destinations, not unbound global links; a reception device still requires its operator's authenticated session.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -40,7 +40,7 @@ On narrow screens, preserve guest, interval and desired/device-confirmed status 
 
 ## Personal Configuration
 
-Inherit account/security, language, appearance and validated persistent save/reset from [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal controls remember an authorized location and visitor queue or credential-status filter; removed grants invalidate those selections. They change presentation only, never host limits, admission policy, retention or device rights. No receptionist business/technical configuration console is added; shared personal preferences remain available. Provider/device keys stay developer-maintained. The visit queue Tabs follow the saved queue with the saved location default, and collections render pagination with empty states.
+Inherit account/security, language, appearance and validated persistent save/reset from [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal controls remember an authorized location and visitor queue or credential-status filter; removed grants invalidate those selections. They change presentation only, never host limits, admission policy, retention or device rights. No receptionist business/technical configuration console is added; shared personal preferences remain available. Provider/device keys stay developer-maintained. The visit queue Tabs follow the saved queue with the saved location default, and collections render pagination with empty states.
 
 ## Interfaces and Integrations
 

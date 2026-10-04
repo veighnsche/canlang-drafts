@@ -1,6 +1,6 @@
 # CanPropose requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPropose.can](CanPropose.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPropose.can](CanPropose.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Acceptance records agreement to the priced revision; it does not claim a booking
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Offers is the staff navigation index; accepted-awaiting-booking/action queues sit within it. Recipient response routes are contextual links from the addressed revision, not unbound global destinations. Tokens locate quotes; stored verified recipient identity authorizes reading/deciding.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Offers is the staff navigation index; accepted-awaiting-booking/action queues sit within it. Recipient response routes are contextual links from the addressed revision, not unbound global destinations. Tokens locate quotes; stored verified recipient identity authorizes reading/deciding.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
@@ -112,7 +112,7 @@ Due deadlines, release replies and accepted-booking changes can produce further 
 
 `Revision.notice` and `Revision.document` use the existing bound Mail.send and Documents.quote targets. There is no stored notice ID or transport-state mirror and no notice-copy callback. The PDF completion handler remains necessary to validate the current attempt, source and commercial revision before attaching the result; transport success with mismatched business correlation remains a visible succeeded delivery and unknown document outcome. Replacing a document request selects the current attempt without cancelling an earlier one. An older completion cannot overwrite it. Existing salesperson/location and verified-recipient grants, frozen snapshot/price locks, decision guards, booking handoffs and page bindings are retained. Staff and recipient document views show both transport and business outcomes.
 
-The focused [source/JavaScript correspondence note](../design/propose-delivery-20261004.md) includes a clearly partial desired target, not a new app implementation. Two source tables contain 21 cases covering all five mail transport states, no request, document success/correlation errors/failed/unknown/skipped completion, superseded attempts, preserved previous files and quote facts, caller rejection and stale record input. Their typed delivery recipes contain complete requests and consistent status/result/error shapes. Finalized test-file recipes do not generate PDF bytes. One five-statement sequence makes two actual document calls and checks distinct current request identities and domain versions; it does not execute provider completion.
+The focused [source/JavaScript correspondence note](https://github.com/veighnsche/canlang/blob/main/design/propose-delivery-20261004.md) includes a clearly partial desired target, not a new app implementation. Two source tables contain 21 cases covering all five mail transport states, no request, document success/correlation errors/failed/unknown/skipped completion, superseded attempts, preserved previous files and quote facts, caller rejection and stale record input. Their typed delivery recipes contain complete requests and consistent status/result/error shapes. Finalized test-file recipes do not generate PDF bytes. One five-statement sequence makes two actual document calls and checks distinct current request identities and domain versions; it does not execute provider completion.
 
 Verification compares all 21 source input/expected/error tuples with the partial target and confirms 15 other scenario bodies plus policies, invariants, locks and the frozen snapshot are unchanged. The excerpt passes Node syntax checking and its fixture descriptors construct with complete dependency references. The current syntax parser rejects delivery(Target), and attached sequences are also unsupported; a temporary projection replacing only those two field types with text and omitting the new sequence parses the surrounding declarations/tables. No symbol/type validation, business execution, privacy enforcement, provider delivery, receiving-file finalization or full CanPropose generated target is verified. These remain proposed shared compiler/runtime/adapter contracts.
 

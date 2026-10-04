@@ -1,6 +1,6 @@
 # CanLoyalty requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLoyalty.can](CanLoyalty.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLoyalty.can](CanLoyalty.can).
 
 ## Purpose and Adoption Goal
 
@@ -30,7 +30,7 @@ First-version rewards cannot promise reserved workspace or automatically grant r
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). When this optional product is offered, order navigation as My rewards, Reward fulfillment for authorized staff, then Reward program for program owners. Reward/redemption details stay contextual. Protected program administration stays separate from preferences and fulfillment.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). When this optional product is offered, order navigation as My rewards, Reward fulfillment for authorized staff, then Reward program for program owners. Reward/redemption details stay contextual. Protected program administration stays separate from preferences and fulfillment.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
@@ -65,7 +65,7 @@ Repeated redemption commands return their original result. Two simultaneous requ
 
 ## Draft Status
 
-The source and [handwritten desired JavaScript target](CanLoyalty.mjs) now express enrollment/product/location qualification, source revisions and tombstones, paid-completed earning, tier intervals, guarded attributed adjustments/reversal, frozen-location redemption, fulfillment/cancellation, and a typed redemption-notification association whose outcome observes the retained Mail receipt; the pure receipt-copy completion callback is removed. Inline examples add the fresh pending receipt observation to redemption and a fulfillment table covering pending/succeeded/failed/unknown/skipped plus the null not-requested association. The three eligibility consultations and their uncertainty are saved under [design/jev/loyalty-eligibility-20261004](../design/jev/loyalty-eligibility-20261004/assessment.md). Imported stdlib/UI/owner contracts are proposed and unimplemented. The current parser rejects the canonical `delivery(Mail.send)?` field type; a disclosed temporary projection replacing only that type with `text?` accepts the surrounding declarations, the operation-resolved recipe and all seventeen tables, checking surrounding syntax only. Node syntax checks do not execute workflows, examples, read policies, concurrency, bindings or notification delivery. The deferred test contract follows DESIGN §13; no fixture provisioning or runner is supplied. The bounded presentation catalog uses typed table states, labels and metrics with explanatory text; it does not invent conditional Alert or Progress primitives.
+The source and [handwritten desired JavaScript target](CanLoyalty.mjs) now express enrollment/product/location qualification, source revisions and tombstones, paid-completed earning, tier intervals, guarded attributed adjustments/reversal, frozen-location redemption, fulfillment/cancellation, and a typed redemption-notification association whose outcome observes the retained Mail receipt; the pure receipt-copy completion callback is removed. Inline examples add the fresh pending receipt observation to redemption and a fulfillment table covering pending/succeeded/failed/unknown/skipped plus the null not-requested association. The three eligibility consultations and their uncertainty are saved under [design/jev/loyalty-eligibility-20261004](https://github.com/veighnsche/canlang/blob/main/design/jev/loyalty-eligibility-20261004/assessment.md). Imported stdlib/UI/owner contracts are proposed and unimplemented. The current parser rejects the canonical `delivery(Mail.send)?` field type; a disclosed temporary projection replacing only that type with `text?` accepts the surrounding declarations, the operation-resolved recipe and all seventeen tables, checking surrounding syntax only. Node syntax checks do not execute workflows, examples, read policies, concurrency, bindings or notification delivery. The deferred test contract follows DESIGN §13; no fixture provisioning or runner is supplied. The bounded presentation catalog uses typed table states, labels and metrics with explanatory text; it does not invent conditional Alert or Progress primitives.
 
 ## Scope and Completion
 

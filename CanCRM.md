@@ -1,6 +1,6 @@
 # CanCRM requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCRM.can](CanCRM.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCRM.can](CanCRM.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Company account creation/invitation is an authorized CanCustomer operation. Clos
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Sales pipeline (`/sales`) page supplies the sales-user sidebar entry. Company/contact, deal, Next actions and contact-transfer destinations below are contextual subviews, with conceptual labels pending page design. Use daisyUI stage-grouped Lists/Tables and currency-separated Stat cards.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Sales pipeline (`/sales`) page supplies the sales-user sidebar entry. Company/contact, deal, Next actions and contact-transfer destinations below are contextual subviews, with conceptual labels pending page design. Use daisyUI stage-grouped Lists/Tables and currency-separated Stat cards.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

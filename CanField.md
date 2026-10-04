@@ -1,6 +1,6 @@
 # CanField requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanField.can](CanField.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanField.can](CanField.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Inspection visits return their attributed checklist/report result to CanMaintain
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Derive sidebar order as Service dispatch, then My visits, showing each destination only to its permitted audience. Blocked work is a queue within dispatch; reports open from their job and are not global navigation entries. Customer selection/creation uses its authorized owner.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Derive sidebar order as Service dispatch, then My visits, showing each destination only to its permitted audience. Blocked work is a queue within dispatch; reports open from their job and are not global navigation entries. Customer selection/creation uses its authorized owner.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

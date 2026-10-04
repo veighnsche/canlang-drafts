@@ -1,6 +1,6 @@
 # CanRefer requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanRefer.can](CanRefer.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanRefer.can](CanRefer.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Default qualification requires a new customer's first paid, completed workspace 
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Referrals then Referral rewards; authenticated advocates receive their own view, with program-management and finance controls gated separately. Public referral URLs lead only to configured destinations and grant no reward-record access.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Referrals then Referral rewards; authenticated advocates receive their own view, with program-management and finance controls gated separately. Public referral URLs lead only to configured destinations and grant no reward-record access.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ These logical history/settlement sections reuse existing pages rather than intro
 
 ## Personal Configuration
 
-Inherit first-class personal account, language and appearance controls from [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Remember only the advocate's history range or authorized finance location/program/currency filters, with typed validation and reset through the shared save path. Filters do not change attribution windows, qualification milestones, reward snapshots or settlement authority. Program terms are normal manager business records, not personal preferences; payment/provider setup remains outside the product UI.
+Inherit first-class personal account, language and appearance controls from [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Remember only the advocate's history range or authorized finance location/program/currency filters, with typed validation and reset through the shared save path. Filters do not change attribution windows, qualification milestones, reward snapshots or settlement authority. Program terms are normal manager business records, not personal preferences; payment/provider setup remains outside the product UI.
 
 ## Interfaces and Integrations
 

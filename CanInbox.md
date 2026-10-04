@@ -1,6 +1,6 @@
 # CanInbox — departmental email with reviewed authority
 
-This is a complete application design draft, with its actual [Can source](CanInbox.can) and corresponding [desired JavaScript](CanInbox.mjs). It is not a deployed email client or implemented classifier. The accepted draft language/provider contracts and research are in [the Inbox design](../design/complex-apps/inbox.md); shared semantics remain owned by DESIGN/GRAMMAR.
+This is a complete application design draft, with its actual [Can source](CanInbox.can) and corresponding [desired JavaScript](CanInbox.mjs). It is not a deployed email client or implemented classifier. The accepted draft language/provider contracts and research are in [the Inbox design](https://github.com/veighnsche/canlang/blob/main/design/complex-apps/inbox.md); shared semantics remain owned by DESIGN/GRAMMAR.
 
 ## Purpose and scope
 
@@ -72,4 +72,4 @@ Source/desired-JS examples cover exact duplicate intake without repeated spend; 
 
 Fixtures are isolated typed snapshots, including protected provider receipts; they are not evidence a live model/provider was called. The late-result and recovery tables do not simulate distributed concurrency, fabricated provider certainty or wire-schema rejection. Canonical adapter/transport tests must cover result validation, file finalization, provider idempotency, concurrency fences and crash recovery. No permanent mock provider or app-local test runtime is introduced.
 
-The desired JavaScript is syntax-checked. The current parser cannot parse the accepted new `judgment` declaration, typed delivery associations, page polling or shared-state sequence form; an explicitly limited ordinary-syntax projection is checked separately. No semantic checker, BDD runner, UI renderer, stdlib adapter or deployed email flow was executed. Exact check commands, projection exclusions and source/target evidence are retained in [verification](../design/jev/complex-inbox-20261004/verification.md).
+The desired JavaScript is syntax-checked. The current parser cannot parse the accepted new `judgment` declaration, typed delivery associations, page polling or shared-state sequence form; an explicitly limited ordinary-syntax projection is checked separately. No semantic checker, BDD runner, UI renderer, stdlib adapter or deployed email flow was executed. Exact check commands, projection exclusions and source/target evidence are retained in [verification](https://github.com/veighnsche/canlang/blob/main/design/jev/complex-inbox-20261004/verification.md).

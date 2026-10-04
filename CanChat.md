@@ -55,4 +55,4 @@ Required shared-runtime/provider acceptance cases remain explicit:
 | Provider restart loses unobserved output | Report unknown; do not claim token-resume support or invent a fresh inference. |
 | Finalized foreign/unreadable file or unsupported attachment | Reject attachment/admission or return the explicit supported binding failure; never send a raw URL. |
 
-These are requirements, not claims of executed tests. The shared lifecycle decision and both complete three-call JEV rounds are recorded in [chat-media design](../design/complex-apps/chat-media.md).
+These are requirements, not claims of executed tests. The shared lifecycle decision and both complete three-call JEV rounds are recorded in [chat-media design](https://github.com/veighnsche/canlang/blob/main/design/complex-apps/chat-media.md).

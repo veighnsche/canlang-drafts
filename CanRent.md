@@ -1,6 +1,6 @@
 # CanRent requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanRent.can](CanRent.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanRent.can](CanRent.can).
 
 ## Purpose and Adoption Goal
 
@@ -32,7 +32,7 @@ Where a paid plan includes workspace units, request an identified allowance rese
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Available workspace, My bookings, Workspace arrivals, Local occupancy, Reservations, Workspace catalog, Resource catalog, exposing only permitted pages. Booking checkout/details remain contextual to the selected resource/customer; catalog administration is distinct from personal settings.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Available workspace, My bookings, Workspace arrivals, Local occupancy, Reservations, Workspace catalog, Resource catalog, exposing only permitted pages. Booking checkout/details remain contextual to the selected resource/customer; catalog administration is distinct from personal settings.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -46,7 +46,7 @@ Mobile Cards retain timezones, seat quantities, fulfillment states and price. Lo
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Saved location, resource/amenity filters and arrival-view choice affect discovery/presentation only and reset through validated persistent own-user actions. They never change business timezone/currency, published policy, capacity, company authority or payment/allowance eligibility. The arrival-view choice also renders inline on the workspace catalog page through the same owning preference; the shared dialog stays canonical. Shared catalog/policy administration stays protected business work; service bindings and provider setup remain developer maintenance.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Saved location, resource/amenity filters and arrival-view choice affect discovery/presentation only and reset through validated persistent own-user actions. They never change business timezone/currency, published policy, capacity, company authority or payment/allowance eligibility. The arrival-view choice also renders inline on the workspace catalog page through the same owning preference; the shared dialog stays canonical. Shared catalog/policy administration stays protected business work; service bindings and provider setup remain developer maintenance.
 
 ## Admin and Management Surfaces
 
@@ -127,7 +127,7 @@ One unique `CommercialSale` child per Booking stores phase and monotonically inc
 
 The original 85 scenarios and nine example tables remain; two internal sales handlers and one six-row deferred example table are added. The new examples distinguish original overage from total price, actual completion, cancellation, pre-sale expiry, terminal reversal replay and free bookings. The actual source and desired JavaScript have matching models, contracts, event routes, pure construction, guards/effects and fixture callbacks. Parser, JavaScript syntax and bounded source/target mapping checks are evidence only; no runtime, compiler/type checker, financial callback, concurrency test or inline example runner has executed these rules.
 
-Two three-request JEV records retain complete wording and results: [initial producer review](../design/jev/rent-sales-producer-20261004/assessment.md) and [corrected version-boundary review](../design/jev/rent-sales-version-boundary-20261004/assessment.md). The first scores differed (0.86/0.60/0.39); independent review found and corrected the parent-version mutation issue. The corrected child proposal returned 0.84/0.78/0.61. They are advice with retained uncertainty, not approval or runtime proof. The later explicit quote transport and location/product capture-eligibility integration are recorded as post-initial-consultation changes.
+Two three-request JEV records retain complete wording and results: [initial producer review](https://github.com/veighnsche/canlang/blob/main/design/jev/rent-sales-producer-20261004/assessment.md) and [corrected version-boundary review](https://github.com/veighnsche/canlang/blob/main/design/jev/rent-sales-version-boundary-20261004/assessment.md). The first scores differed (0.86/0.60/0.39); independent review found and corrected the parent-version mutation issue. The corrected child proposal returned 0.84/0.78/0.61. They are advice with retained uncertainty, not approval or runtime proof. The later explicit quote transport and location/product capture-eligibility integration are recorded as post-initial-consultation changes.
 
 ## Historical booking intake
 

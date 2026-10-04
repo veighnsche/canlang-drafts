@@ -1,6 +1,6 @@
 # CanBoard requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBoard.can](CanBoard.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBoard.can](CanBoard.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Prepare and reorder a draft agenda, then finalize the meeting record. Later corr
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Board records (`/board`) for authorized readers/coordinators/recorders, then Board actions (`/board/actions`) for permitted members. Meeting, paper and resolution details open contextually. Use daisyUI in the normal governance workspace.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Board records (`/board`) for authorized readers/coordinators/recorders, then Board actions (`/board/actions`) for permitted members. Meeting, paper and resolution details open contextually. Use daisyUI in the normal governance workspace.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # CanMail requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). The authored contract is [CanMail.can](CanMail.can); [CanMail.mjs](CanMail.mjs) is its handwritten desired JavaScript target, with proposed unimplemented imports.
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). The authored contract is [CanMail.can](CanMail.can); [CanMail.mjs](CanMail.mjs) is its handwritten desired JavaScript target, with proposed unimplemented imports.
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Service expiry stops new handling entitlements but existing items remain availab
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). When mail handling is offered, order navigation as My mail for verified permitted recipients, then Mail and parcels for location mail staff. Incoming, unmatched, uncollected and forwarding queues belong within the staff index; individual item/history views are contextual links. Delegate actions retain own-company authority.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). When mail handling is offered, order navigation as My mail for verified permitted recipients, then Mail and parcels for location mail staff. Incoming, unmatched, uncollected and forwarding queues belong within the staff index; individual item/history views are contextual links. Delegate actions retain own-company authority.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
@@ -79,7 +79,7 @@ Inline BDD tables, the shared-state sequence and their deferred JavaScript recip
 
 The declared `deployment.mail` and `deployment.billing` bindings must be configured under the current integration contract. `Service.billing=false` suppresses fee sends; it does not invent an optional-binding or conditional-linkage facility. Receipt photos inherit the shared bounded file policy, and ordinary canonical forms/queries retain their shared upload, permission, loading, error and retry contracts.
 
-The three freshly worded JEV consultations are retained in [mail-completion evidence](../design/jev/mail-completion-20261004/). They agree on live Term checks and a separate Dispatch model, with the original confidence/probabilities preserved. Their agreement is design advice, not proof of correctness.
+The three freshly worded JEV consultations are retained in [mail-completion evidence](https://github.com/veighnsche/canlang/tree/main/design/jev/mail-completion-20261004/). They agree on live Term checks and a separate Dispatch model, with the original confidence/probabilities preserved. Their agreement is design advice, not proof of correctness.
 
 
 ## Authority correction evidence
@@ -155,7 +155,7 @@ Confirmation of a prepared dispatch after deactivation:
 
 ## C5/A06 notice recovery (acknowledged resend)
 
-Adopted policy: **acknowledged_resend**, from the coordinator-completed witness in [mail-recovery-design](../design/muse-migration-20261004/mail-recovery-design.md) (Codex review pending). Scope is this application only. No email reconcile/retry operation is adopted: `std.EmailV1` still declares send only, `retry_fee` stays billing-only, and `deployment.mail` stays a required binding. Same-delivery-identity runtime retry (bounded policy, frozen request, same receipt id) is the only true retry and needs no new source. Every `send Mail.send` in this witness admits a **new send intent** with a new delivery identity; the staff action is labelled **Send another notice**, never "retry" or "reconcile", and makes no claim about the predecessor transport.
+Adopted policy: **acknowledged_resend**, from the coordinator-completed witness in [mail-recovery-design](https://github.com/veighnsche/canlang/blob/main/design/muse-migration-20261004/mail-recovery-design.md) (Codex review pending). Scope is this application only. No email reconcile/retry operation is adopted: `std.EmailV1` still declares send only, `retry_fee` stays billing-only, and `deployment.mail` stays a required binding. Same-delivery-identity runtime retry (bounded policy, frozen request, same receipt id) is the only true retry and needs no new source. Every `send Mail.send` in this witness admits a **new send intent** with a new delivery identity; the staff action is labelled **Send another notice**, never "retry" or "reconcile", and makes no claim about the predecessor transport.
 
 Notice history (`Notice in Item`): one immutable staff-only row per admitted notice intent, retaining frozen account, frozen address, rendered subject/body, receipt association, kind (`initial`/`reminder`/`additional`), reminder number, predecessor, staff reason, possible-duplicate acknowledgement, and server-set author. All Notice fields are locked; the only read grant is location mail staff. `Item.notice` is the staff-only current-attempt pointer; `Item.notification` keeps its existing status-only recipient projection, and the recipient grant is unchanged, so frozen address/content and staff reason/acknowledgement stay private.
 

@@ -1,6 +1,6 @@
 # CanApprove requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanApprove.can](CanApprove.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanApprove.can](CanApprove.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Coordinators assign or reassign one eligible reviewer and retain assignment hist
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My submissions (`/documents`) and Review queue (`/documents/review`) for eligible audiences. Version details and coordinator assignment stay contextual within those queues. Use daisyUI; document decisions remain ordinary review work without an administration console.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My submissions (`/documents`) and Review queue (`/documents/review`) for eligible audiences. Version details and coordinator assignment stay contextual within those queues. Use daisyUI; document decisions remain ordinary review work without an administration console.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

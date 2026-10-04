@@ -1,6 +1,6 @@
 # CanCustomer requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanCustomer.can](CanCustomer.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanCustomer.can](CanCustomer.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Removing an organization role immediately revokes its organization read/action p
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Customers (`/customers`) for scoped operator managers and Invitations (`/company-invitations`) for authenticated invitees. Company people (`/companies/{Customer.id}`) opens for the selected own company; contact/duplicate/billing details stay contextual. Use daisyUI; protected company administration remains separate from own-user settings.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Customers (`/customers`) for scoped operator managers and Invitations (`/company-invitations`) for authenticated invitees. Company people (`/companies/{Customer.id}`) opens for the selected own company; contact/duplicate/billing details stay contextual. Use daisyUI; protected company administration remains separate from own-user settings.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

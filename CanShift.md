@@ -1,6 +1,6 @@
 # CanShift requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanShift.can](CanShift.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanShift.can](CanShift.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Shared host appointments from CanBook count as employee commitments alongside Ca
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Staff roster /roster for schedulers, then My shifts /roster/mine for active employees. Draft planning and employee published work remain distinct; no new scheduling administration console is needed.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Staff roster /roster for schedulers, then My shifts /roster/mine for active employees. Draft planning and employee published work remain distinct; no new scheduling administration console is needed.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ Mobile duty Cards keep interval, location, skill and conflict details; chronolog
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional scoped preferences remember permitted location/week/role filters or a chronological versus grouped roster view; ordinary validated save/reset persists them without granting scheduling authority. Employee availability and travel buffers are canonical business records, not personal display settings. Preferences cannot change publication state, business timezone, skills, absence decisions or dependent service commitments.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional scoped preferences remember permitted location/week/role filters or a chronological versus grouped roster view; ordinary validated save/reset persists them without granting scheduling authority. Employee availability and travel buffers are canonical business records, not personal display settings. Preferences cannot change publication state, business timezone, skills, absence decisions or dependent service commitments.
 
 ## Interfaces and Integrations
 

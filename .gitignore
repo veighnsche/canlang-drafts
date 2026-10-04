@@ -1,0 +1,4 @@
+# Local macOS debris and Python bytecode caches
+.DS_Store
+__pycache__/
+*.pyc

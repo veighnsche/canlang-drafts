@@ -1,6 +1,6 @@
 # CanHire requirements
 
-Inherits [canlang requirements](../REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanHire.can](CanHire.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanHire.can](CanHire.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Candidates can submit to a published open vacancy through a verified intake flow
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](../REQUIREMENTS.md#standard-shell-and-personal-configuration). Navigation order is Careers, My applications for authenticated applicants, Hiring for recruiters, Hiring handoff for HR, then My interviews for assigned interviewers. Vacancy and candidate details open contextually from the indexes. Public discovery shows published open vacancies; candidates never receive private feedback, unrelated notes or staff privileges.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Navigation order is Careers, My applications for authenticated applicants, Hiring for recruiters, Hiring handoff for HR, then My interviews for assigned interviewers. Vacancy and candidate details open contextually from the indexes. Public discovery shows published open vacancies; candidates never receive private feedback, unrelated notes or staff privileges.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
