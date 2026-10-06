@@ -70,8 +70,8 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
   fixture mail_employee=Employee {user=mail_operator,home=test_site,locations=[test_site],start=date("2026-10-01"),role="mail operator"}
   fixture delegate_contact=Contact {parent=test_company,name="Collection delegate",email="delegate@example.test",account=nominee,verified=true}
   fixture delegate=Delegate {parent=service,contact=delegate_contact,account=nominee}
-  fixture prepared=Dispatch {parent=parcel,source="mail-forward-parcel",instruction="Collection by verified recipient",instruction_revision=1,destination="Original address",fee=money(5,"EUR"),charge={source="mail-forward-parcel",customer=test_company.id,location=test_site.id,description="Forwarding fee",amount=money(5,"EUR"),due=date("2090-01-01")},state=pending}
-  fixture parcel=Item {location=test_site,service=service,recipient=test_contact,source="physical-parcel",kind=parcel,storage="Shelf A",state=collection_ready}
+  fixture prepared=Dispatch {parent=parcel_item,source="mail-forward-parcel",instruction="Collection by verified recipient",instruction_revision=1,destination="Original address",fee=money(5,"EUR"),charge={source="mail-forward-parcel",customer=test_company.id,location=test_site.id,description="Forwarding fee",amount=money(5,"EUR"),due=date("2090-01-01")},state=pending}
+  fixture parcel_item=Item {location=test_site,service=service,recipient=test_contact,source="physical-parcel",kind=parcel,storage="Shelf A",state=collection_ready}
  When
   # Record the owning paid-service reference, without inventing a membership notification feed. @{nl="Leg de verwijzing naar de betaalde dienst vast zonder een lidmaatschapsmeldingsfeed te verzinnen."}
   scenario configure(customer:Customer,location:Location,recipient:Contact,from:datetime,until:datetime,source:text,term:Term?,paid_evidence:text?,currency:currency,billing:bool=false,instructions:text,forwarding:text?) by=mail_staff label="Configure mail service"@{nl="Postdienst instellen"}
@@ -186,15 +186,15 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
     create Handling {parent=item,kind=collection,account=collector,instruction=item.service.instructions,revision=item.service.revision,evidence,source=operation.id} as handling
     set item {state=collected,completed=now,retention_until=now+item.history_days*1d}
     cancel format("mail-reminder-{item}",{item=item.id})
-   examples seed=[test_worker,delegate] item=parcel evidence="Identity verified"
-    as,collector,item.state,service.until,delegate.active,delegate_contact.verified -> item.state,count(parcel.Handling)
+   examples seed=[test_worker,delegate] item=parcel_item evidence="Identity verified"
+    as,collector,item.state,service.until,delegate.active,delegate_contact.verified -> item.state,count(parcel_item.Handling)
     mail_staff,self,collection_ready,datetime("2021-01-01T00:00:00Z"),true,true -> collected,1
     mail_staff,nominee,collection_ready,datetime("2099-01-01T00:00:00Z"),true,true -> collected,1
     mail_staff,nominee,collection_ready,datetime("2099-01-01T00:00:00Z"),false,true -> error(rule_failed)
     mail_staff,nominee,collection_ready,datetime("2099-01-01T00:00:00Z"),true,false -> error(rule_failed)
     mail_staff,self,collected,datetime("2099-01-01T00:00:00Z"),true,true -> error(rule_failed)
     unrelated,self,collection_ready,datetime("2099-01-01T00:00:00Z"),true,true -> error(forbidden)
-   examples seed=[test_worker,delegate] item=parcel collector=nominee evidence="Identity verified"
+   examples seed=[test_worker,delegate] item=parcel_item collector=nominee evidence="Identity verified"
     as,delegate_contact.account,test_company.active -> item.state
     mail_staff,null,true -> error(rule_failed)
     mail_staff,nominee,false -> error(rule_failed)
@@ -210,7 +210,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
     if dispatch.charge!=null
      send Billing.charge {value=dispatch.charge} as delivery
      set dispatch {charge_delivery=delivery.id,charge_state=pending}
-   examples seed=[test_worker,test_admin,allocated] item=parcel fee=money(5,"EUR") destination_verified=true
+   examples seed=[test_worker,test_admin,allocated] item=parcel_item fee=money(5,"EUR") destination_verified=true
     as,paid_term.mail,paid_term.paid,service.forwarding,destination_verified -> item.state,count(item.Dispatch)
     mail_staff,true,true,"Original address",true -> forward_pending,1
     mail_staff,true,true,"Original address",false -> error(rule_failed)
@@ -225,7 +225,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
     set dispatch {state=dispatched,revision=dispatch.revision+1}
     set dispatch.parent {state=forwarded,completed=now,retention_until=now+dispatch.parent.history_days*1d}
    examples seed=[test_worker] dispatch=prepared revision=1 carrier="Manual carrier" evidence="Tracking reference"
-    as,parcel.state,parcel.dispatch,service.forwarding,dispatch.charge_state,revision -> parcel.state,max(parcel.Handling as row select row.destination)
+    as,parcel_item.state,parcel_item.dispatch,service.forwarding,dispatch.charge_state,revision -> parcel_item.state,max(parcel_item.Handling as row select row.destination)
     mail_staff,forward_pending,prepared,"Changed address",confirmed,1 -> forwarded,"Original address"
     mail_staff,forward_pending,prepared,"Original address",pending,0 -> error(rule_failed)
     mail_staff,forwarded,prepared,"Original address",confirmed,1 -> error(rule_failed)
@@ -246,7 +246,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
      set item.dispatch {state=cancelled,revision=item.dispatch.revision+1}
     set item {state=returned,completed=now,retention_until=now+item.history_days*1d}
     cancel format("mail-reminder-{item}",{item=item.id})
-   examples seed=[test_worker] item=parcel evidence="Physical return recorded" no_dispatch=false
+   examples seed=[test_worker] item=parcel_item evidence="Physical return recorded" no_dispatch=false
     as,item.state,no_dispatch -> item.state,item.retention_until
     mail_staff,received,false -> returned,now+item.history_days*1d
     mail_staff,forward_pending,false -> error(rule_failed)
@@ -279,7 +279,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
        if event.status==unknown
         set dispatch {charge_state=unknown}
    examples event={delivery_id="forward-fee",status=succeeded,result={source="mail-forward-parcel",revision=1,state=confirmed,reference="invoice-1",detail=null},error=null}
-    prepared.charge_delivery,parcel.state,prepared.state -> parcel.state,prepared.charge_state
+    prepared.charge_delivery,parcel_item.state,prepared.state -> parcel_item.state,prepared.charge_state
     "forward-fee",forward_pending,unknown -> forward_pending,confirmed
     "older-fee",forward_pending,unknown -> forward_pending,none
   scenario fee_reconciled on=Billing.reconcile.completed
@@ -307,8 +307,8 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
      set item {notification=delivery,notice=frozen,reminders=event.number}
      if item.reminders<item.reminder_limit
       schedule format("mail-reminder-{item}",{item=item.id}) at=now+item.reminder_delay event=Reminder {item,number=item.reminders+1}
-   examples event={item=parcel,number=1}
-    parcel.state,parcel.reminders -> parcel.state,parcel.reminders,parcel.retention_until
+   examples event={item=parcel_item,number=1}
+    parcel_item.state,parcel_item.reminders -> parcel_item.state,parcel_item.reminders,parcel_item.retention_until
     collection_ready,0 -> collection_ready,1,null
     collected,0 -> collected,0,null
     collection_ready,2 -> collection_ready,2,null
@@ -336,7 +336,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
       set item {state=notified}
    ## Provisioned receipts are snapshots; these handler calls test current-attempt correlation and custody preservation.
    examples event={delivery_id=attempt.id,status=succeeded,result={reference="accepted-mail"},error=null}
-    parcel.notification,parcel.state,event.delivery_id,event.status,event.result,event.error,attempt.status,attempt.result,attempt.error -> parcel.state,parcel.notice_state
+    parcel_item.notification,parcel_item.state,event.delivery_id,event.status,event.result,event.error,attempt.status,attempt.result,attempt.error -> parcel_item.state,parcel_item.notice_state
     attempt,received,attempt.id,succeeded,{reference="accepted-mail"},null,succeeded,{reference="accepted-mail"},null -> notified,succeeded
     pending_notice,received,attempt.id,succeeded,{reference="accepted-mail"},null,succeeded,{reference="accepted-mail"},null -> received,pending
     null,received,attempt.id,succeeded,{reference="accepted-mail"},null,succeeded,{reference="accepted-mail"},null -> received,null

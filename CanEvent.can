@@ -255,13 +255,13 @@ package events
      if selected.published
       schedule format("{event}:attendees",{event=selected.id}) at=now event=AttendeeUpdate {event=selected,revision=selected.revision,kind=change,reason=event.change.reason}
    examples seed=[free_ticket,test_worker] event={change=proposed}
-    as,workshop.pending_change,proposed.capacity -> workshop.from,proposed.state,workshop.revision
-    organizer,proposed,1 -> datetime("2099-01-03T09:00:00Z"),adopted,2
-    organizer,null,1 -> error(rule_failed)
+    workshop.pending_change,proposed.capacity -> workshop.from,proposed.state,workshop.revision
+    proposed,1 -> datetime("2099-01-03T09:00:00Z"),adopted,2
+    null,1 -> error(rule_failed)
    examples seed=[free_ticket,test_worker] event={change=proposed}
-    as,workshop.pending_change,proposed.base_revision -> workshop.from,proposed.state
-    organizer,proposed,2 -> error(rule_failed)
-    members,proposed,1 -> datetime("2099-01-02T09:00:00Z"),review
+    workshop.pending_change,proposed.base_revision -> workshop.from,proposed.state
+    proposed,2 -> error(rule_failed)
+    proposed,1 -> datetime("2099-01-02T09:00:00Z"),review
   # Revoke unconsumed admission first, with the ticket's frozen cutoff governing automatic refund eligibility. @{nl="Trek ongebruikte toegang eerst in; de vastgelegde grens van het toegangsbewijs bepaalt automatische terugbetaling."}
   scenario cancel(registration:Registration,reason:text) by=authenticated or organizer
    require registration.account==actor or (organizer and can_work(actor,registration.parent.location))

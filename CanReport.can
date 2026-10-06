@@ -35,8 +35,9 @@ package report
   invariant Run: row.from<row.until and count(row.locations)>0
   lock Run fields=account,locations,from,until,currency,requested,delivery
   fixture utilization=Definition {name="Utilization",metric=booked_minutes,unit="room-minute",inclusion="Confirmed resource minutes / saleable minutes",display_timezone="Europe/Brussels"}
-  fixture unavailable=Run {parent=utilization,account=self,locations=[test_site],from=datetime("2026-10-01T00:00:00Z"),until=datetime("2026-10-02T00:00:00Z"),delivery="report",checkpoint={source="workspace",revision="1",generated=datetime("2026-10-02T01:00:00Z"),state=fresh,complete=true},state=unavailable,pending=false}
+  fixture unavailable_run=Run {parent=utilization,account=self,locations=[test_site],from=datetime("2026-10-01T00:00:00Z"),until=datetime("2026-10-02T00:00:00Z"),delivery="report",checkpoint={source="workspace",revision="1",generated=datetime("2026-10-02T01:00:00Z"),state=fresh,complete=true},state=unavailable,pending=false}
   fixture service_backlog=Definition {name="Service backlog",metric=backlog,unit="job",inclusion="Authoritative open service jobs",display_timezone="Europe/Brussels"}
+  fixture service_run=Run {parent=service_backlog,account=self,locations=[test_site],from=datetime("2026-10-01T00:00:00Z"),until=datetime("2026-10-02T00:00:00Z"),delivery="report",checkpoint={source="workspace",revision="1",generated=datetime("2026-10-02T01:00:00Z"),state=fresh,complete=true},state=unavailable,pending=false}
  When
   # Refresh one permitted metric range without mutating the source business records. @{nl="Vernieuw één toegestaan meetbereik zonder de zakelijke brongegevens te wijzigen."}
   scenario refresh(definition:Definition,locations:Location[] label=label_Run_locations,from:datetime label=label_Contribution_from,until:datetime label=label_Contribution_until,currency:currency?) by=manager
@@ -55,15 +56,15 @@ package report
        set run {state=partial}
      else
       set run {state=unavailable,pending=false}
-   examples seed=[unavailable] event={delivery_id="report",status=succeeded,result={checkpoint={source="workspace",revision="1",generated=datetime("2026-10-02T01:00:00Z"),state=fresh,complete=true},rows=[]},error=null}
-    event.result.checkpoint.state,event.result.checkpoint.complete,unavailable.checkpoint,unavailable.pending -> unavailable.state,unavailable.checkpoint.complete,unavailable.pending,count(unavailable.rows)
+   examples seed=[unavailable_run] event={delivery_id="report",status=succeeded,result={checkpoint={source="workspace",revision="1",generated=datetime("2026-10-02T01:00:00Z"),state=fresh,complete=true},rows=[]},error=null}
+    event.result.checkpoint.state,event.result.checkpoint.complete,unavailable_run.checkpoint,unavailable_run.pending -> unavailable_run.state,unavailable_run.checkpoint.complete,unavailable_run.pending,count(unavailable_run.rows)
     fresh,true,null,true -> fresh,true,false,0
     fresh,false,null,true -> partial,false,false,0
     partial,false,null,true -> partial,false,false,0
     lagging,true,null,true -> lagging,true,false,0
     unavailable,false,null,true -> unavailable,false,false,0
-   examples seed=[unavailable] event={delivery_id="report",status=failed,result=null,error={code="unavailable",message="Report source unavailable"}}
-    event.status,event.error,unavailable.checkpoint,unavailable.pending -> unavailable.state,unavailable.checkpoint,unavailable.pending
+   examples seed=[unavailable_run] event={delivery_id="report",status=failed,result=null,error={code="unavailable",message="Report source unavailable"}}
+    event.status,event.error,unavailable_run.checkpoint,unavailable_run.pending -> unavailable_run.state,unavailable_run.checkpoint,unavailable_run.pending
     failed,{code="unavailable",message="Report source unavailable"},null,true -> unavailable,null,false
     unknown,null,null,true -> unavailable,null,false
   # Expose the chosen measure with denominator and missing-source state, never an invented zero. @{nl="Toon de gekozen maatstaf met noemer en ontbrekende-bronstatus, nooit een verzonnen nul."}
@@ -89,11 +90,11 @@ package report
     if run.currency!=null
      return Measure {quantity,amount=sum(selected as row where row.amount!=null and row.amount.currency==run.currency select row.amount,run.currency),state=run.state,complete=true,generated=run.checkpoint.generated,inclusion=run.parent.inclusion,unit=run.parent.unit}
     return Measure {quantity,state=run.state,complete=true,generated=run.checkpoint.generated,inclusion=run.parent.inclusion,unit=run.parent.unit}
-   examples seed=[test_worker] run=unavailable
+   examples seed=[test_worker] run=unavailable_run
     as -> result.quantity,result.state
     manager -> null,unavailable
     members -> error(forbidden)
-   examples seed=[test_worker] run=unavailable
+   examples seed=[test_worker] run=unavailable_run
     as,run.checkpoint.state,run.checkpoint.complete,run.state,run.pending -> result.quantity,result.numerator,result.denominator,result.value,result.state,result.complete,result.pending
     manager,fresh,true,fresh,false -> 0,0,0,null,fresh,true,false
     manager,fresh,false,fresh,false -> null,null,null,null,partial,false,false
@@ -103,16 +104,16 @@ package report
     manager,fresh,true,fresh,true -> null,null,null,null,fresh,true,true
     manager,fresh,true,partial,false -> null,null,null,null,partial,true,false
     members,fresh,true,fresh,false -> error(forbidden)
-   examples seed=[test_worker] run=unavailable
+   examples seed=[test_worker] run=unavailable_run
     as,run.checkpoint,run.state -> result.quantity,result.state,result.complete,result.generated
     manager,null,fresh -> null,unavailable,false,null
-   examples seed=[test_worker] run=unavailable
-    as,run.parent,run.state -> result.quantity,result.state,result.complete
-    manager,service_backlog,fresh -> 0,fresh,true
-   examples seed=[test_worker] run=unavailable
-    as,run.parent,run.state,run.checkpoint.complete,run.rows -> result.quantity,result.amount,result.state,result.complete
-    manager,service_backlog,fresh,false,[{source="job-1",revision=1,location=test_site.id,from=unavailable.from,until=unavailable.until,metric=backlog,quantity=1,unit="job"}] -> null,null,partial,false
-    manager,service_backlog,fresh,true,[{source="job-1",revision=1,location=test_site.id,from=unavailable.from,until=unavailable.until,metric=backlog,quantity=1,unit="job"}] -> 1,null,fresh,true
+   examples seed=[test_worker] run=service_run
+    as,run.state -> result.quantity,result.state,result.complete
+    manager,fresh -> 0,fresh,true
+   examples seed=[test_worker] run=service_run
+    as,run.state,run.checkpoint.complete,run.rows -> result.quantity,result.amount,result.state,result.complete
+    manager,fresh,false,[{source="job-1",revision=1,location=test_site.id,from=unavailable_run.from,until=unavailable_run.until,metric=backlog,quantity=1,unit="job"}] -> null,null,partial,false
+    manager,fresh,true,[{source="job-1",revision=1,location=test_site.id,from=unavailable_run.from,until=unavailable_run.until,metric=backlog,quantity=1,unit="job"}] -> 1,null,fresh,true
  Then
   # Compare booked and recorded occupancy, cash receipts, balances and service backlog. @{nl="Vergelijk gereserveerde en vastgelegde bezetting, ontvangen betalingen, saldi en serviceachterstand."}
   page /reports title="Operational reports"@{nl="Operationele rapporten"}

@@ -81,17 +81,17 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
   fixture roster=Roster {name="Operator"}
   fixture substitute=Employee {user=other,home=test_site,start=date("2026-10-01"),role="Reception",skills=["reception"]}
   fixture assignment=Commitment {parent=roster,employee=test_worker,location=test_site,from=datetime("2099-01-01T09:00:00Z"),until=datetime("2099-01-01T17:00:00Z"),skill="reception",kind=duty,source="duty"}
-  fixture duty=Duty {parent=assignment,role="Reception",published=true}
+  fixture reception_duty=Duty {parent=assignment,role="Reception",published=true}
   fixture working=Availability {parent=roster,employee=test_worker,from=datetime("2099-01-01T08:00:00Z"),until=datetime("2099-01-01T18:00:00Z")}
   fixture replacement_hours=Availability {parent=roster,employee=substitute,from=datetime("2099-01-01T08:00:00Z"),until=datetime("2099-01-01T18:00:00Z")}
   fixture target=Coverage {parent=roster,location=test_site,role="Reception",from=datetime("2099-01-01T09:00:00Z"),until=datetime("2099-01-01T17:00:00Z")}
   fixture afternoon=Commitment {parent=roster,employee=substitute,location=test_site,from=datetime("2099-01-01T13:00:00Z"),until=datetime("2099-01-01T17:00:00Z"),skill="reception",kind=duty,source="afternoon"}
   fixture afternoon_duty=Duty {parent=afternoon,role="Reception",published=true}
-  fixture proposed=Swap {parent=duty,substitute=test_worker,original=substitute,revision=1}
+  fixture proposed=Swap {parent=reception_duty,substitute=test_worker,original=substitute,revision=1}
   fixture away=Location {name="Second site",address="2 Example Road",timezone="Europe/Brussels",currency="EUR",hours="09:00–18:00",arrival="Report to reception"}
   fixture unavailable=Availability {parent=roster,employee=test_worker,from=datetime("2099-01-01T17:00:00Z"),until=datetime("2099-01-01T17:15:00Z"),available=false}
   fixture notice_attempt=Mail.send {request={to="staff@example.test",subject="Roster",body="Review the current roster"}}
-  fixture notification=Notice {parent=duty,recipient=self,revision=1,kind=published,delivery=notice_attempt}
+  fixture notification=Notice {parent=reception_duty,recipient=self,revision=1,kind=published,delivery=notice_attempt}
  When
   crud Roster by=scheduler fields=name delete=none
    examples create name="Operator"
@@ -125,11 +125,11 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     set duty.parent {revision=duty.parent.revision+1}
     set duty {published=true,published_revision=duty.parent.revision,published_by=actor,override_reason}
     emit DutyNotice {duty,recipient=duty.parent.employee.user,revision=duty.parent.revision,kind=published}
-   examples seed=[working,target] duty=duty override_reason=null
+   examples seed=[working,target] duty=reception_duty override_reason=null
     as,duty.published,assignment.employee.skills,assignment.employee.role -> duty.published
     scheduler,false,["reception"],"Reception" -> true
     scheduler,false,[],"Reception" -> error(rule_failed)
-   examples seed=[working,replacement_hours,target,afternoon_duty] duty=duty override_reason=null
+   examples seed=[working,replacement_hours,target,afternoon_duty] duty=reception_duty override_reason=null
     as,duty.published,assignment.until,assignment.employee.skills,assignment.employee.role -> duty.published
     scheduler,false,datetime("2099-01-01T13:00:00Z"),["reception"],"Reception" -> true
     scheduler,false,datetime("2099-01-01T12:00:00Z"),["reception"],"Reception" -> error(rule_failed)
@@ -153,7 +153,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     for other in swap.parent.Swap as item where item!=swap and item.state==open limit=100
      set other {state=obsolete}
    examples seed=[working] swap=proposed
-    as,assignment.employee,test_worker.role,test_worker.skills,assignment.conflict,assignment.active,duty.published -> swap.state,assignment.employee,assignment.conflict
+    as,assignment.employee,test_worker.role,test_worker.skills,assignment.conflict,assignment.active,reception_duty.published -> swap.state,assignment.employee,assignment.conflict
     members,substitute,"Reception",["reception"],true,true,true -> accepted,test_worker,false
     members,substitute,"Reception",["reception"],true,false,true -> error(rule_failed)
     members,substitute,"Reception",["reception"],true,true,false -> error(rule_failed)
@@ -203,7 +203,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
      emit DutyNotice {duty,recipient=original.user,revision=duty.parent.revision,kind=changed}
      if employee!=original
       emit DutyNotice {duty,recipient=employee.user,revision=duty.parent.revision,kind=changed}
-   examples seed=[working,target] duty=duty employee=test_worker from=datetime("2099-01-01T09:00:00Z") until=datetime("2099-01-01T17:00:00Z") reason="Restore eligible coverage"
+   examples seed=[working,target] duty=reception_duty employee=test_worker from=datetime("2099-01-01T09:00:00Z") until=datetime("2099-01-01T17:00:00Z") reason="Restore eligible coverage"
     as,assignment.employee.role,assignment.employee.skills,assignment.conflict,from,until -> assignment.conflict,duty.published_revision
     scheduler,"Reception",["reception"],true,datetime("2099-01-01T09:00:00Z"),datetime("2099-01-01T17:00:00Z") -> false,2
     scheduler,"Reception",["reception"],false,datetime("2099-01-01T17:00:00Z"),datetime("2099-01-01T18:00:00Z") -> error(rule_failed)

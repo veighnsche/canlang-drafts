@@ -67,13 +67,13 @@ package grant
   fixture ordinary_worker=Employee {user=ordinary_user,home=test_site,locations=[test_site],start=date("2026-10-01"),role="Reviewer"}
   fixture colleague=Employee {user=reviewer_user,home=test_site,locations=[test_site],start=date("2026-10-01"),role="Reviewer"}
   fixture program=Grant {location=test_site,name="Startup fund",terms="Cash award",questions=[Question {key="purpose",prompt="Purpose"}],criteria="Impact",budget=money(100,"EUR"),closes=datetime("2099-01-01T09:00:00Z"),timezone="Europe/Brussels",published=true}
-  fixture corrected=Application {parent=program,account=other,correction=submitted,email="applicant@example.test",title="Corrected project",description="Clarified business",terms=submitted.terms,criteria=submitted.criteria,questions=submitted.questions,answers=submitted.answers,amount=money(60,"EUR"),reviewer=reviewer_user}
-  fixture submitted=Application {parent=program,account=other,email="applicant@example.test",title="Project",description="New business",terms=program.terms,criteria=program.criteria,questions=program.questions,answers=[Answer {question="purpose",value="Launch"}],amount=money(60,"EUR"),reviewer=reviewer_user,received=datetime("2026-10-01T09:00:00Z"),state=submitted}
+  fixture corrected=Application {parent=program,account=other,correction=submitted_app,email="applicant@example.test",title="Corrected project",description="Clarified business",terms=submitted_app.terms,criteria=submitted_app.criteria,questions=submitted_app.questions,answers=submitted_app.answers,amount=money(60,"EUR"),reviewer=reviewer_user}
+  fixture submitted_app=Application {parent=program,account=other,email="applicant@example.test",title="Project",description="New business",terms=program.terms,criteria=program.criteria,questions=program.questions,answers=[Answer {question="purpose",value="Launch"}],amount=money(60,"EUR"),reviewer=reviewer_user,received=datetime("2026-10-01T09:00:00Z"),state=submitted}
  When
   crud Grant by=coordinator fields=name,terms,questions,criteria,budget,closes,published create_fields=location,name,terms,questions,criteria,budget,closes,timezone when=can_work(actor,row.location) delete=none
   crud Comment by=reviewer fields=body update=none delete=none when=row.parent.reviewer==actor and row.parent.state==submitted and row.parent.account!=actor and can_work(actor,row.parent.parent.location)
   crud Application by=authenticated fields=email,title,description,answers,amount,reviewer create=none when=row.account==actor and row.state==draft and row.parent.published and now<=row.parent.closes delete=none
-   examples update record=submitted changes={answers=[]}
+   examples update record=submitted_app changes={answers=[]}
     as,record.account,record.state,changes.answers -> count(record.answers)
     members,self,draft,[] -> 0
     members,self,draft,[Answer {question="purpose",value=""}] -> error(validation)
@@ -204,7 +204,7 @@ package grant
    require application.account==actor and application.state in [submitted,rejected] and application.parent.published and now<=application.parent.closes
    require not any(application.parent.Application as replacement,replacement.correction==application and replacement.state in [draft,submitted,approved])
    do create Application {parent=application.parent,account=actor,correction=application,email=application.email,title=application.title,description=application.description,terms=application.terms,criteria=application.criteria,questions=application.questions,answers=application.answers,amount=application.amount,reviewer=application.reviewer} as replacement
-   examples application=submitted
+   examples application=submitted_app
     as,application.account,application.state -> application.state,count(application.parent.Application)
     self,self,submitted -> submitted,2
     self,self,rejected -> rejected,2
@@ -219,7 +219,7 @@ package grant
      if application.correction.state==submitted
       set application.correction {state=superseded}
     set application {state=submitted,received=now}
-   examples seed=[colleague,ordinary_worker] application=submitted
+   examples seed=[colleague,ordinary_worker] application=submitted_app
     as,application.account,application.reviewer,application.state,application.answers,application.parent.closes,request.application.version -> application.state,application.received
     self,self,reviewer_user,draft,[Answer {question="purpose",value="Launch"}],datetime("2099-01-01T09:00:00Z"),1 -> submitted,now
     self,self,self,draft,[Answer {question="purpose",value="Launch"}],datetime("2099-01-01T09:00:00Z"),1 -> error(rule_failed)
@@ -230,7 +230,7 @@ package grant
     self,self,ordinary_user,draft,[Answer {question="purpose",value="Launch"}],datetime("2099-01-01T09:00:00Z"),1 -> error(rule_failed)
     self,self,reviewer_user,draft,[Answer {question="purpose",value="Launch"}],datetime("2099-01-01T09:00:00Z"),2 -> error(conflict)
    examples seed=[colleague] application=corrected
-    as,application.account,submitted.account,application.reviewer,submitted.state -> application.state,submitted.state,submitted.received,application.received
+    as,application.account,submitted_app.account,application.reviewer,submitted_app.state -> application.state,submitted_app.state,submitted_app.received,application.received
     self,self,self,reviewer_user,submitted -> submitted,superseded,datetime("2026-10-01T09:00:00Z"),now
     self,self,self,reviewer_user,rejected -> submitted,rejected,datetime("2026-10-01T09:00:00Z"),now
     self,self,self,reviewer_user,approved -> error(rule_failed)
@@ -265,7 +265,7 @@ package grant
      if application.correction.state==submitted
       set application.correction {state=superseded}
     set application {state=submitted,received,receipt_evidence=evidence,override_reason}
-   examples seed=[test_worker,colleague] application=submitted received=datetime("2026-10-01T09:00:00Z") evidence="Signed receipt"
+   examples seed=[test_worker,colleague] application=submitted_app received=datetime("2026-10-01T09:00:00Z") evidence="Signed receipt"
     as,application.state,application.answers,application.parent.closes,override_reason -> application.state,application.received,application.override_reason
     coordinator,draft,[Answer {question="purpose",value="Launch"}],datetime("2099-01-01T09:00:00Z"),null -> submitted,datetime("2026-10-01T09:00:00Z"),null
     coordinator,draft,[Answer {question="purpose",value="Launch"}],datetime("2000-01-01T09:00:00Z"),null -> error(rule_failed)
@@ -282,7 +282,7 @@ package grant
      set application {state=rejected,decision=reason,decided_by=actor,decided_at=now}
     send Mail.send {to=application.email,subject=format("Award decision"@{nl="Besluit over aanvraag"},locale=null),body=reason} as notice
     set application {notice}
-   examples seed=[test_worker,colleague] application=submitted approve=true reason="Meets criteria"
+   examples seed=[test_worker,colleague] application=submitted_app approve=true reason="Meets criteria"
     as,application.reviewer,application.account,application.amount,request.application.version -> application.state,program.remaining,application.notice_state
     reviewer,self,other,money(60,"EUR"),1 -> approved,money(40,"EUR"),pending
     reviewer,self,self,money(60,"EUR"),1 -> error(rule_failed)
@@ -297,7 +297,7 @@ package grant
    do
     create Recovery {parent=application,previous=application.reviewer,reviewer=assignee,reason} as recovery
     set application {reviewer=assignee}
-   examples seed=[colleague,ordinary_worker,replacement_worker,coordinator_worker] application=submitted assignee=replacement_user reason="Review unavailable"
+   examples seed=[colleague,ordinary_worker,replacement_worker,coordinator_worker] application=submitted_app assignee=replacement_user reason="Review unavailable"
     as,application.state,application.reviewer,colleague.active,assignee,reason,request.application.version -> application.reviewer,application.state,application.received,application.amount,application.terms,application.criteria,count(application.Recovery),any(application.Recovery as recovery,recovery.previous==reviewer_user and recovery.reviewer==replacement_user and recovery.reason=="Review unavailable" and recovery.author==coordinator_user)
     coordinator_user,submitted,reviewer_user,false,replacement_user," Review unavailable ",1 -> replacement_user,submitted,datetime("2026-10-01T09:00:00Z"),money(60,"EUR"),"Cash award","Impact",1,true
     coordinator_user,submitted,ordinary_user,true,replacement_user," Review unavailable ",1 -> replacement_user,submitted,datetime("2026-10-01T09:00:00Z"),money(60,"EUR"),"Cash award","Impact",1,false
@@ -314,7 +314,7 @@ package grant
    do
     create Withdrawal {parent=application,reason} as withdrawal
     set application {state=withdrawn}
-   examples seed=[test_worker] application=submitted reason="Funding cancelled"
+   examples seed=[test_worker] application=submitted_app reason="Funding cancelled"
     as,application.state,application.decision,application.decided_by,application.decided_at -> application.state,application.decision,count(application.Withdrawal),program.remaining,application.decided_by,application.decided_at
     coordinator,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z") -> withdrawn,"Meets criteria",1,money(100,"EUR"),reviewer_user,datetime("2026-10-01T09:00:00Z")
     coordinator,withdrawn,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z") -> error(rule_failed)
@@ -327,8 +327,8 @@ package grant
     coordinator_user -> 0
     ordinary_user -> error(forbidden)
    ## Status-only receipt snapshots do not alter committed awards. A detached failed attempt cannot replace the current pending association.
-   examples seed=[coordinator_worker,submitted,detached_notice,detached_success,attempt] grant=program
-    as,submitted.state,submitted.decision,submitted.decided_by,submitted.decided_at,submitted.notice,attempt.status,attempt.result,attempt.error -> submitted.notice_state,submitted.state,submitted.decision,submitted.decided_by,submitted.decided_at,submitted.amount,count(result.items),program.remaining
+   examples seed=[coordinator_worker,submitted_app,detached_notice,detached_success,attempt] grant=program
+    as,submitted_app.state,submitted_app.decision,submitted_app.decided_by,submitted_app.decided_at,submitted_app.notice,attempt.status,attempt.result,attempt.error -> submitted_app.notice_state,submitted_app.state,submitted_app.decision,submitted_app.decided_by,submitted_app.decided_at,submitted_app.amount,count(result.items),program.remaining
     coordinator_user,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),attempt,succeeded,{reference="accepted-mail"},null -> succeeded,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),money(60,"EUR"),1,money(40,"EUR")
     coordinator_user,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),attempt,unknown,null,null -> unknown,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),money(60,"EUR"),1,money(40,"EUR")
     coordinator_user,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),attempt,skipped,null,null -> skipped,approved,"Meets criteria",reviewer_user,datetime("2026-10-01T09:00:00Z"),money(60,"EUR"),1,money(40,"EUR")
