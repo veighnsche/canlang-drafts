@@ -1,6 +1,6 @@
 # CanBook requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBook.can](CanBook.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanBook.can](CanBook.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ When hosts also work published shifts or service visits, reserve the host commit
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Appointments (`/appointments`) for public availability and verified own appointments, then Host calendars (`/appointments/hosts`) for authorized hosts. Booking and appointment details are contextual views. Use daisyUI; public discovery exposes no other customer's details.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Appointments (`/appointments`) for public availability and verified own appointments, then Host calendars (`/appointments/hosts`) for authorized hosts. Booking and appointment details are contextual views. Use daisyUI; public discovery exposes no other customer's details.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

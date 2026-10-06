@@ -1,6 +1,6 @@
 # CanAffiliate requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanAffiliate.can](CanAffiliate.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanAffiliate.can](CanAffiliate.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ The configured agreement states whether commission qualifies on confirmed paymen
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Partners (`/partners`) for managers/finance and My commissions (`/partners/mine`) for verified partners. Sale, adjustment and settlement details open contextually within them. Use daisyUI; this ordinary partner/finance workspace needs no extra administration area.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Partners (`/partners`) for managers/finance and My commissions (`/partners/mine`) for verified partners. Sale, adjustment and settlement details open contextually within them. Use daisyUI; this ordinary partner/finance workspace needs no extra administration area.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # CanTime requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTime.can](CanTime.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTime.can](CanTime.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Support manual entries for forgotten timers. A member submits a period's entries
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is My time /time/mine, then Time review /time/review for project managers. Review and project-rate maintenance are normal project work; invoice/source details open contextually under their own grants.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is My time /time/mine, then Time review /time/review for project managers. Review and project-rate maintenance are normal project work; invoice/source details open contextually under their own grants.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ Mobile timer/entry Cards retain interval, origin, review state and currency; run
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional persisted project/location/week/billable filters and compact versus grouped entry view are presentation preferences, validated against authorized projects and reset by the common own-user save action. They cannot start/stop a timer, change hourly rates, business timezone/currency, review state or invoice permissions. Project rates and billable decisions remain canonical business operations, with technical integration setup outside settings.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional persisted project/location/week/billable filters and compact versus grouped entry view are presentation preferences, validated against authorized projects and reset by the common own-user save action. They cannot start/stop a timer, change hourly rates, business timezone/currency, review state or invoice permissions. Project rates and billable decisions remain canonical business operations, with technical integration setup outside settings.
 
 ## Interfaces and Integrations
 
@@ -86,7 +86,7 @@ The original source is fully neutralized before a new replacement source is char
 
 The companion [desired JavaScript](CanTime.mjs) follows DESIGN §13: one callable registry, canonical schemas/read grants/locks, actual trusted-handler metadata, typed scalar helpers, bounded owner-aware queries, `@canlang/ui` factories and deferred fixture/example recipes. Every generated import is a proposed unimplemented contract. Inline examples cover repeat stop/overnight money, overlap rejection and manager exception, whole-period submission/approval/rejection, frozen replacement evidence, and source export rejection for stale snapshots, pending collections or retained money. The original and replacement billing fixtures need distinct identities because they represent separate evidence, rather than alternate initial states of one record.
 
-Validation run: `python3 tools/can_parser.py draft/CanTime.can` and `node --check draft/CanTime.mjs` passed; the JS target was formatted with the shared `oxfmt`. These are syntax checks. They do not resolve imports, type-check grants or queries, execute inline examples, implement concurrent D1 admission, or verify provider delivery/refund behavior. Those runtime contracts remain implementation work. Three complete JEV requests/responses and the disagreement review are retained in [the consultation evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/time-completion-20261004/analysis.md).
+Validation run: `python3 tools/can_parser.py draft/CanTime.can` and `node --check draft/CanTime.mjs` passed; the JS target was formatted with the shared `oxfmt`. These are syntax checks. They do not resolve imports, type-check grants or queries, execute inline examples, implement concurrent D1 admission, or verify provider delivery/refund behavior. Those runtime contracts remain implementation work. Three complete JEV requests/responses and the disagreement review are retained in [the consultation evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/time-completion-20261004/README.md#source-analysis).
 
 ### Existing timer closure and causal correction evidence
 

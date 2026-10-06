@@ -1,6 +1,6 @@
 # CanPropose requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPropose.can](CanPropose.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanPropose.can](CanPropose.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Acceptance records agreement to the priced revision; it does not claim a booking
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Offers is the staff navigation index; accepted-awaiting-booking/action queues sit within it. Recipient response routes are contextual links from the addressed revision, not unbound global destinations. Tokens locate quotes; stored verified recipient identity authorizes reading/deciding.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Offers is the staff navigation index; accepted-awaiting-booking/action queues sit within it. Recipient response routes are contextual links from the addressed revision, not unbound global destinations. Tokens locate quotes; stored verified recipient identity authorizes reading/deciding.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

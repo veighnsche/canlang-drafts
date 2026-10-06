@@ -1,6 +1,6 @@
 # CanVolunteer requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanVolunteer.can](CanVolunteer.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanVolunteer.can](CanVolunteer.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Organizers record attended/no_show after the activity while preserving prior con
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Volunteer activities /volunteering, then Volunteer coordination /volunteering/work for organizers. Own signup/task history stays local; volunteers are community customers rather than employee roster members, and no additional administration console is needed.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Volunteer activities /volunteering, then Volunteer coordination /volunteering/work for organizers. Own signup/task history stays local; volunteers are community customers rather than employee roster members, and no additional administration console is needed.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ Mobile Cards retain interval/timezone, remaining capacity, own state and instruc
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration) for persistent validated language/appearance and account/security controls. Preferences remember authorized location/date/type filters and discovery versus own-assignment view, reset through the shared own-user action. They do not register attendance, reserve a place/venue, change business timezone or confer organizer/staff authority. Activity requirements and notification scheduling remain canonical business behavior; integration setup stays outside personal configuration.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration) for persistent validated language/appearance and account/security controls. Preferences remember authorized location/date/type filters and discovery versus own-assignment view, reset through the shared own-user action. They do not register attendance, reserve a place/venue, change business timezone or confer organizer/staff authority. Activity requirements and notification scheduling remain canonical business behavior; integration setup stays outside personal configuration.
 
 ## Interfaces and Integrations
 

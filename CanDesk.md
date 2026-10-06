@@ -1,6 +1,6 @@
 # CanDesk requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanDesk.can](CanDesk.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanDesk.can](CanDesk.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Staff triage unassigned tickets, record escalation, and distinguish waiting_on_c
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Support (`/support`) for authorized staff and My support requests (`/support/mine`) for authenticated customers. Conversations, unmatched-mail triage and related-work details stay contextual. Use daisyUI; distinguish customer messages from private notes.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Support (`/support`) for authorized staff and My support requests (`/support/mine`) for authenticated customers. Conversations, unmatched-mail triage and related-work details stay contextual. Use daisyUI; distinguish customer messages from private notes.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

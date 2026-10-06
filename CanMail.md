@@ -1,6 +1,6 @@
 # CanMail requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). The authored contract is [CanMail.can](CanMail.can); [CanMail.mjs](CanMail.mjs) is its handwritten desired JavaScript target, with proposed unimplemented imports.
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). The authored contract is [CanMail.can](CanMail.can); [CanMail.mjs](CanMail.mjs) is its handwritten desired JavaScript target, with proposed unimplemented imports.
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Service expiry stops new handling entitlements but existing items remain availab
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). When mail handling is offered, order navigation as My mail for verified permitted recipients, then Mail and parcels for location mail staff. Incoming, unmatched, uncollected and forwarding queues belong within the staff index; individual item/history views are contextual links. Delegate actions retain own-company authority.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). When mail handling is offered, order navigation as My mail for verified permitted recipients, then Mail and parcels for location mail staff. Incoming, unmatched, uncollected and forwarding queues belong within the staff index; individual item/history views are contextual links. Delegate actions retain own-company authority.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

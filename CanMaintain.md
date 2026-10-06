@@ -1,6 +1,6 @@
 # CanMaintain requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanMaintain.can](CanMaintain.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanMaintain.can](CanMaintain.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Generate one inspection instance per plan/due occurrence; repeated scheduling ca
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My facility reports, then Facilities for granted managers/technicians. Asset, inspection and repair details are contextual; inspections and verification queues sit within Facilities. Location/supplier selection uses canonical owners; no copied directory or additional administration console.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My facility reports, then Facilities for granted managers/technicians. Asset, inspection and repair details are contextual; inspections and verification queues sit within Facilities. Location/supplier selection uses canonical owners; no copied directory or additional administration console.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # CanLearn requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLearn.can](CanLearn.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanLearn.can](CanLearn.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Assign required training manually or through an explicitly configured enrollment
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My learning, then Course authoring for instructors. Enrolled course and lesson details are contextual links. Staff and member learners share presentation but retain distinct course audiences; team membership or a customer membership never reveals internal procedures.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My learning, then Course authoring for instructors. Enrolled course and lesson details are contextual links. Staff and member learners share presentation but retain distinct course audiences; team membership or a customer membership never reveals internal procedures.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # Workspace operator portfolio composition
 
-This is the accepted business composition plan for the [workspace operator requirements](WORKSPACE_OPERATOR.md). It uses the existing [package composition model](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#packages-and-files); it does not change language/runtime design. App names below identify requirement ownership. All existing requirement documents and `.can` sketches remain as focused examples. No file rename, deletion, source migration, new runtime primitive, or separate deployment is implied by consolidation.
+This is the accepted business composition plan for the [workspace operator requirements](WORKSPACE_OPERATOR.md). It uses the existing [package composition model](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#packages-and-files); it does not change language/runtime design. App names below identify requirement ownership. All existing requirement documents and `.can` sketches remain as focused examples. No file rename, deletion, source migration, new runtime primitive, or separate deployment is implied by consolidation.
 
 ## Recommended applications and packages
 

@@ -1,6 +1,6 @@
 # CanContract requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanContract.can](CanContract.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanContract.can](CanContract.can).
 
 ## Purpose and Adoption Goal
 
@@ -26,7 +26,7 @@ Record a renewal as a new term linked to the previous one, not an overwrite of t
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Agreements (`/agreements`) page supplies the sidebar entry for authorized sales/property/legal/finance users. Agreement/term details and notice/obligation queues are contextual subviews with conceptual labels. Use daisyUI with category/location/functional restrictions; no extra administration console is needed.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Agreements (`/agreements`) page supplies the sidebar entry for authorized sales/property/legal/finance users. Agreement/term details and notice/obligation queues are contextual subviews with conceptual labels. Use daisyUI with category/location/functional restrictions; no extra administration console is needed.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

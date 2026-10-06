@@ -1,6 +1,6 @@
 # CanTable requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTable.can](CanTable.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTable.can](CanTable.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Café creation, café naming and table definition/capacity changes are ordinary 
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Café host /cafe is the sole sidebar destination for authenticated café/host staff at permitted locations. Waiting, reservations and occupancy are in-page Tabs; a reception device uses staff grants and is not an anonymous kiosk.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Café host /cafe is the sole sidebar destination for authenticated café/host staff at permitted locations. Waiting, reservations and occupancy are in-page Tabs; a reception device uses staff grants and is not an anonymous kiosk.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ On narrow devices use labeled action Buttons and stacked Cards retaining party s
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration) for personal account, language and appearance controls. Optional remembered café/location or waiting/reservations/occupancy tab is an own-user presentation choice, reset through the common primitive. It cannot alter table capacity, priority, business timezone, access grants or clearance evidence. No extra business/technical settings area or administrator role is required; this does not prohibit shared personal preferences.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration) for personal account, language and appearance controls. Optional remembered café/location or waiting/reservations/occupancy tab is an own-user presentation choice, reset through the common primitive. It cannot alter table capacity, priority, business timezone, access grants or clearance evidence. No extra business/technical settings area or administrator role is required; this does not prohibit shared personal preferences.
 
 ## Interfaces and Integrations
 

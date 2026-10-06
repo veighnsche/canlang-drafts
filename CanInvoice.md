@@ -1,6 +1,6 @@
 # CanInvoice requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanInvoice.can](CanInvoice.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanInvoice.can](CanInvoice.can).
 
 ## Purpose and Adoption Goal
 
@@ -30,7 +30,7 @@ For an authorized recurring charge, issue one invoice per source cycle and reque
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order permitted navigation as My invoices, then Customer invoices for finance. Parameterized invoice/document details are contextual links, never unbound sidebar entries. Customer/billing maintenance uses CanCustomer's owning operations.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order permitted navigation as My invoices, then Customer invoices for finance. Parameterized invoice/document details are contextual links, never unbound sidebar entries. Customer/billing maintenance uses CanCustomer's owning operations.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

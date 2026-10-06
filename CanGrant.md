@@ -1,6 +1,6 @@
 # CanGrant requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanGrant.can](CanGrant.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanGrant.can](CanGrant.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Keep this as a cash-award commitment workflow. Free desks, booking credits, and 
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as Funded programs, then Award review for eligible reviewers/coordinators. Published discovery is public; intake and status require the applicant's own authenticated access. Application details are contextual links from these indexes, not sidebar entries. Coordinator budget work is a normal grant workflow, with no additional administration console.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as Funded programs, then Award review for eligible reviewers/coordinators. Published discovery is public; intake and status require the applicant's own authenticated access. Application details are contextual links from these indexes, not sidebar entries. Coordinator budget work is a normal grant workflow, with no additional administration console.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

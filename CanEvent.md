@@ -1,6 +1,6 @@
 # CanEvent requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanEvent.can](CanEvent.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanEvent.can](CanEvent.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Zero-price registration confirms a place without fabricating a payment. Event ad
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Events (`/events`) for discovery/own tickets and Event operations (`/events/work`) for organizers/reception. Event, ticket, check-in and permitted finance details stay contextual. Use daisyUI; publication/admission remain ordinary operational work.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Events (`/events`) for discovery/own tickets and Event operations (`/events/work`) for organizers/reception. Event, ticket, check-in and permitted finance details stay contextual. Use daisyUI; publication/admission remain ordinary operational work.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

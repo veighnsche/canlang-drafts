@@ -1,6 +1,6 @@
 # CanSuccess requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanSuccess.can](CanSuccess.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanSuccess.can](CanSuccess.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Record explicit completion rather than treating a viewed notification as done. A
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Customer success /customer-success is the account-manager sidebar destination; account details and customer/source links remain contextual authorized selections. This is ordinary account work, with no extra administration console.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Customer success /customer-success is the account-manager sidebar destination; account details and customer/source links remain contextual authorized selections. This is ordinary account work, with no extra administration console.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Mobile Cards retain next action, owner, due date, manual risk reason and source 
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal controls remember permitted manager/location/risk filters, renewal range or portfolio versus overdue view; the shared typed save path validates, persists and resets them. These filters do not share private notes, assign customers, change risk assessments, alter business reminder timezone or confer payment/company-admin permissions. Integration endpoints and source configuration stay developer-maintained.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal controls remember permitted manager/location/risk filters, renewal range or portfolio versus overdue view; the shared typed save path validates, persists and resets them. These filters do not share private notes, assign customers, change risk assessments, alter business reminder timezone or confer payment/company-admin permissions. Integration endpoints and source configuration stay developer-maintained.
 
 ## Interfaces and Integrations
 

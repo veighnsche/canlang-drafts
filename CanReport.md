@@ -1,6 +1,6 @@
 # CanReport requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanReport.can](CanReport.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md), [workspace operator context](WORKSPACE_OPERATOR.md), and [portfolio composition](PORTFOLIO.md). Companion draft: [CanReport.can](CanReport.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Paid revenue here means authenticated received customer funds minus confirmed re
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Operational reports is the single sidebar destination /reports for authorized managers; finance, HR and organization grants further restrict metrics and source records. Metric sections are local Tabs, not invented settings or report-definition pages.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Operational reports is the single sidebar destination /reports for authorized managers; finance, HR and organization grants further restrict metrics and source records. Metric sections are local Tabs, not invented settings or report-definition pages.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Table rows collapse to labeled Cards on mobile while retaining checkpoint, curre
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration) for account/security, language and appearance with actual scoped persistence, validation and reset. Optional personal preferences remember an authorized metric tab and location/date/currency filters; they do not edit metric definitions, inclusion rules, source checkpoints, display timezone or permissions. No report configuration/editor/admin console is added. Source connections and refresh policy remain developer-maintained.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration) for account/security, language and appearance with actual scoped persistence, validation and reset. Optional personal preferences remember an authorized metric tab and location/date/currency filters; they do not edit metric definitions, inclusion rules, source checkpoints, display timezone or permissions. No report configuration/editor/admin console is added. Source connections and refresh policy remain developer-maintained.
 
 ## Interfaces and Integrations
 

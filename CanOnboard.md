@@ -1,6 +1,6 @@
 # CanOnboard requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanOnboard.can](CanOnboard.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanOnboard.can](CanOnboard.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ A hired outcome does not automatically create staff membership or privilege. HR 
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My readiness, then Onboarding for HR coordinators. Employee/checklist/document details are contextual links, with HR document policies independent of shared work-profile visibility. Readiness and HR coordination remain normal workflows rather than an extra administration console.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order navigation as My readiness, then Onboarding for HR coordinators. Employee/checklist/document details are contextual links, with HR document policies independent of shared work-profile visibility. Readiness and HR coordination remain normal workflows rather than an extra administration console.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |

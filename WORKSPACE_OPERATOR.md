@@ -1,6 +1,6 @@
 # Workspace operator application context
 
-This is the shared business context for the 39 `Can*.md` app/package requirement documents: the original 35 sketches and four additional modules. [Portfolio composition](PORTFOLIO.md) defines recommended deployments, internal package boundaries, canonical record ownership, and acceptance journeys. It complements [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md); it defines application behavior, not new language syntax. All 39 companion `.can` sources have now been rewritten, including customer, reception, mail and reporting. [Migration coverage](MIGRATION.md) records remaining behavior/design gaps and validation limits; the expanded requirements below remain the completion target.
+This is the shared business context for the 39 `Can*.md` app/package requirement documents: the original 35 sketches and four additional modules. [Portfolio composition](PORTFOLIO.md) defines recommended deployments, internal package boundaries, canonical record ownership, and acceptance journeys. It complements [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md); it defines application behavior, not new language syntax. All 39 companion `.can` sources have now been rewritten, including customer, reception, mail and reporting. [Migration coverage](MIGRATION.md) records remaining behavior/design gaps and validation limits; the expanded requirements below remain the completion target.
 
 ## Business and product scope
 

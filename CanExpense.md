@@ -1,6 +1,6 @@
 # CanExpense requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanExpense.can](CanExpense.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanExpense.can](CanExpense.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Before submission, the claimant transcribes the receipt's claimed amount, date a
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My expenses (`/expenses/mine`) for employees and Expense review (`/expenses/review`) for assigned reviewers/finance. Claims, receipts and the finance reimbursement queue stay contextual. Use daisyUI for ordinary employee/review/finance work.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are My expenses (`/expenses/mine`) for employees and Expense review (`/expenses/review`) for assigned reviewers/finance. Claims, receipts and the finance reimbursement queue stay contextual. Use daisyUI for ordinary employee/review/finance work.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # CanTrade requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTrade.can](CanTrade.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanTrade.can](CanTrade.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Member-only publishing requires a current customer membership verified through a
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Community marketplace /marketplace, then Listing reports /marketplace/reports for moderators and the operator owner. The owner-only audience card grants no access to moderator reports or decisions. An owner-status view is a local filter. Public browsing exists only for explicitly enabled public listings; neither navigation nor staff team membership grants customer-member eligibility.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Sidebar order is Community marketplace /marketplace, then Listing reports /marketplace/reports for moderators and the operator owner. The owner-only audience card grants no access to moderator reports or decisions. An owner-status view is a local filter. Public browsing exists only for explicitly enabled public listings; neither navigation nor staff team membership grants customer-member eligibility.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ This queue is the justified business administration surface, separate from perso
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Personal settings remember permitted location/category/kind filters and own-listings versus community browsing; persistent save/reset never changes the listing's audience or contact publication. Posting preferences cannot substitute for per-listing choices, grant active membership or confer moderation powers. Moderator decisions remain protected business operations rather than settings; public-listing enablement and technical configuration are not personal controls.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Personal settings remember permitted location/category/kind filters and own-listings versus community browsing; persistent save/reset never changes the listing's audience or contact publication. Posting preferences cannot substitute for per-listing choices, grant active membership or confer moderation powers. Moderator decisions remain protected business operations rather than settings; public-listing enablement and technical configuration are not personal controls.
 
 ## Admin and Management Surfaces
 

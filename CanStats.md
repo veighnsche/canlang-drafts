@@ -1,6 +1,6 @@
 # CanStats requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanStats.can](CanStats.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanStats.can](CanStats.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Define visitors as distinct available tracker identifiers, not guaranteed unique
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Website traffic /traffic is the analyst-only sidebar destination. Configured sites appear within the page; ingestion/tracker URLs are machine endpoints, not navigation or settings destinations. Add no site-provisioning or developer administration console.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Website traffic /traffic is the analyst-only sidebar destination. Configured sites appear within the page; ingestion/tracker URLs are machine endpoints, not navigation or settings destinations. Add no site-provisioning or developer administration console.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ Narrow layouts retain labeled Stat values and use Cards for dimensions/health wh
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration) for persisted, validated language/appearance and account controls. Optional saved site, report tab, range and existing-goal filters are personal presentation choices, revalidated against current access. They do not alter configured reporting timezone, instrumentation, consent, quotas, keys, retention or source goals. Site/tracker provisioning and reporting defaults remain developer maintenance outside the product UI.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration) for persisted, validated language/appearance and account controls. Optional saved site, report tab, range and existing-goal filters are personal presentation choices, revalidated against current access. They do not alter configured reporting timezone, instrumentation, consent, quotas, keys, retention or source goals. Site/tracker provisioning and reporting defaults remain developer maintenance outside the product UI.
 
 ## Interfaces and Integrations
 

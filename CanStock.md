@@ -1,6 +1,6 @@
 # CanStock requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanStock.can](CanStock.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanStock.can](CanStock.can).
 
 ## Purpose and Adoption Goal
 
@@ -28,7 +28,7 @@ Post each accepted source receipt once using its stable receipt identity and rej
 
 ## Pages and Interactions
 
-Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Consumables /stock is the authenticated stock-staff sidebar destination, with only permitted locations visible. Item/threshold maintenance is ordinary stock work rather than a new administration console.
+Use the staged [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Consumables /stock is the authenticated stock-staff sidebar destination, with only permitted locations visible. Item/threshold maintenance is ordinary stock work rather than a new administration console.
 
 | Page or logical destination | DaisyUI presentation and content | Owning actions and conditions |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ On mobile, use labeled balance/movement Cards retaining SKU, fixed unit, locatio
 
 ## Personal Configuration
 
-Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal settings remember an authorized storeroom and low-stock/history view filters, using the common validated persistent save/reset behavior. Reorder thresholds and SKU units are business records, not personal settings; saved filters cannot grant a source-site read or spend another site's stock. Supplier integrations, receipt bindings and retry configuration remain developer maintenance.
+Inherit [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Optional personal settings remember an authorized storeroom and low-stock/history view filters, using the common validated persistent save/reset behavior. Reorder thresholds and SKU units are business records, not personal settings; saved filters cannot grant a source-site read or spend another site's stock. Supplier integrations, receipt bindings and retry configuration remain developer maintenance.
 
 ## Interfaces and Integrations
 

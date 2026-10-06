@@ -1,6 +1,6 @@
 # CanCheck requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCheck.can](CanCheck.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCheck.can](CanCheck.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Creation arms a first deadline at creation plus period and grace; the page shows
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Job health (`/job-health`) page supplies the operations sidebar entry; check detail/history and application/location filtering stay contextual. Use daisyUI. Check provisioning, period/grace, retention, alert destinations, copied secret ping URLs and token rotation remain developer maintenance outside product forms/tools/settings.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Job health (`/job-health`) page supplies the operations sidebar entry; check detail/history and application/location filtering stay contextual. Use daisyUI. Check provisioning, period/grace, retention, alert destinations, copied secret ping URLs and token rotation remain developer maintenance outside product forms/tools/settings.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

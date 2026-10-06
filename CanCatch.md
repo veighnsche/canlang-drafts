@@ -1,6 +1,6 @@
 # CanCatch requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCatch.can](CanCatch.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanCatch.can](CanCatch.can).
 
 ## Purpose and Adoption Goal
 
@@ -22,7 +22,7 @@ Deduplicate event IDs within a project before increasing counts. Group by except
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Application errors (`/errors`) page supplies the authorized viewer's sidebar entry; project selection, issue detail and occurrence evidence stay contextual. Use daisyUI. Project provisioning, DSN/SDK wiring, credentials, grouping, quotas, retention and alert destinations remain developer maintenance outside product forms/settings.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). The declared Application errors (`/errors`) page supplies the authorized viewer's sidebar entry; project selection, issue detail and occurrence evidence stay contextual. Use daisyUI. Project provisioning, DSN/SDK wiring, credentials, grouping, quotas, retention and alert destinations remain developer maintenance outside product forms/settings.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |

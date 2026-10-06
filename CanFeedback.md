@@ -1,6 +1,6 @@
 # CanFeedback requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanFeedback.can](CanFeedback.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanFeedback.can](CanFeedback.can).
 
 ## Purpose and Adoption Goal
 
@@ -24,7 +24,7 @@ Staff may link duplicate suggestions directly to a different root suggestion wit
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Suggestions (`/feedback`) for public/contributor use and Moderation and roadmap (`/feedback/moderation`) for designated owners. Suggestion/product details stay contextual. Use daisyUI; protected moderation/roadmap pages remain separate from own-user settings.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Declared sidebar pages are Suggestions (`/feedback`) for public/contributor use and Moderation and roadmap (`/feedback/moderation`) for designated owners. Suggestion/product details stay contextual. Use daisyUI; protected moderation/roadmap pages remain separate from own-user settings.
 
 | Page or logical destination | Components and content layout | Canonical actions and conditions |
 | --- | --- | --- |
@@ -86,7 +86,7 @@ Location and category filters join the existing status preference, the public ta
 
 [CanFeedback.mjs](CanFeedback.mjs) is the handwritten desired target using the proposed `@canlang/stdlib`, `@canlang/ui` and owning-package contracts. It mirrors the declaration permissions, field grants, hooks, ordering, duplicate invariant and inline example recipes. Its `canApp()` returns callable handlers/rule maps only. The source and target include independent success/rejection examples for submission quotas, own edits, review, retained voting/withdrawal, unauthorized withdrawal, duplicate cycles, public counts and hidden duplicate targets. Fixture callbacks resolve real identities only after dependencies are provisioned.
 
-Three freshly worded JEV consultations are saved in [the completion evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/feedback-completion-20261004/analysis.md); their agreement is design advice. The initial parser accepts the declarations and table examples when the later shared-state sequence is excluded, and `node --check` accepts the complete target syntax. The sequence uses the settled DESIGN §5.1/GRAMMAR draft contract beyond the initial parser. Those checks do not resolve imports or types, execute policies/hooks/examples, provision fixtures, render pages, or prove runtime behavior. No compiler, standard library, provider adapter, infrastructure or example runner is implemented by this draft.
+Three freshly worded JEV consultations are saved in [the completion evidence](https://github.com/veighnsche/canlang/blob/main/design/jev/feedback-completion-20261004/README.md#source-analysis); their agreement is design advice. The initial parser accepts the declarations and table examples when the later shared-state sequence is excluded, and `node --check` accepts the complete target syntax. The sequence uses the settled DESIGN §5.1/GRAMMAR draft contract beyond the initial parser. Those checks do not resolve imports or types, execute policies/hooks/examples, provision fixtures, render pages, or prove runtime behavior. No compiler, standard library, provider adapter, infrastructure or example runner is implemented by this draft.
 
 
 The public Suggestions page keeps personal Vote reads inside a nested authenticated detail. Anonymous viewers can still browse public products, suggestion content, the published aggregate roadmap and the released operator-decision history; the page does not gain a membership or voter-record admission test. Authenticated users see only votes permitted by the existing own-account policy. Canonical contribution/vote/unvote/moderation authority stays with its owner operation. The desired target shares one static owner/page descriptor between discovery and rendering, with only resolved team context at public admission and the product-owner gate at moderation admission. Non-sequence source syntax and complete target JavaScript syntax are checked; no descriptor dispatcher or runtime is implemented.

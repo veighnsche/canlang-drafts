@@ -1,6 +1,6 @@
 # CanMember requirements
 
-Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanMember.can](CanMember.can).
+Inherits [canlang requirements](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md) and [workspace operator context](WORKSPACE_OPERATOR.md), with [portfolio composition](PORTFOLIO.md). Companion draft: [CanMember.can](CanMember.can).
 
 ## Purpose and Adoption Goal
 
@@ -36,7 +36,7 @@ Recurring renewal creates one provisional identified next term and source charge
 
 ## Pages and Interactions
 
-Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order accessible navigation as My membership, Member information, Membership register, then Membership plans for plan owners. Contextual member details retain authenticated billing/renewal after expiry. Customer and employee identities remain distinct.
+Use the [shared shell and personal configuration](https://github.com/veighnsche/canlang/blob/main/docs/specification/REQUIREMENTS.md#standard-shell-and-personal-configuration). Order accessible navigation as My membership, Member information, Membership register, then Membership plans for plan owners. Contextual member details retain authenticated billing/renewal after expiry. Customer and employee identities remain distinct.
 
 | Page or destination | daisyUI layout and content | Canonical actions and conditions |
 | --- | --- | --- |
