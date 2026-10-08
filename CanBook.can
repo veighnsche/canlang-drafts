@@ -374,6 +374,20 @@ package appointments
     confirmed,1 -> 1,pending
  Then
   preferences { location:Location?, appointment_state:Appointment.state? label="Initial appointment state filter"@{nl="Eerste filter afspraakstatus"} }
+  view appointment_coordination(row:Appointment)
+   badge row.state
+   status row.host_ok
+   status row.room_ok
+   actions cancel,reschedule,discard_reschedule,retry_cleanup
+   collapse "Appointment coordination"@{nl="Afspraakafstemming"}
+    text row.host_ok,row.room_ok,row.host_delivery,row.room_delivery
+    list row.Attempt columns=kind,from,until,state,host_ok,room_ok,host_unknown,room_unknown,host_released,room_released
+     pagination
+     badge row.state
+     button action=recover_attempt arguments={attempt=row}
+    list row.Notice columns=kind,state
+     pagination
+     badge row.state
   # Choose a location, appointment type and published host window. @{nl="Kies een locatie, afspraaktype en gepubliceerd gastheervenster."}
   page /appointments title="Appointments"@{nl="Afspraken"}
    breadcrumbs
@@ -408,35 +422,11 @@ package appointments
      tab "Upcoming"@{nl="Aankomend"}
       table Appointment as visit where visit.from>=now columns=from,until,duration,state,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
        pagination
-       badge row.state
-       status row.host_ok
-       status row.room_ok
-       actions cancel,reschedule,discard_reschedule,retry_cleanup
-       collapse "Appointment coordination"@{nl="Afspraakafstemming"}
-        text row.host_ok,row.room_ok,row.host_delivery,row.room_delivery
-        list row.Attempt columns=kind,from,until,state,host_ok,room_ok,host_unknown,room_unknown,host_released,room_released
-         pagination
-         badge row.state
-         button action=recover_attempt arguments={attempt=row}
-        list row.Notice columns=kind,state
-         pagination
-         badge row.state
+       show appointment_coordination {row=row}
      tab "Past"@{nl="Verleden"}
       table Appointment as visit where visit.from<now columns=from,until,duration,state,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
        pagination
-       badge row.state
-       status row.host_ok
-       status row.room_ok
-       actions cancel,reschedule,discard_reschedule,retry_cleanup
-       collapse "Appointment coordination"@{nl="Afspraakafstemming"}
-        text row.host_ok,row.room_ok,row.host_delivery,row.room_delivery
-        list row.Attempt columns=kind,from,until,state,host_ok,room_ok,host_unknown,room_unknown,host_released,room_released
-         pagination
-         badge row.state
-         button action=recover_attempt arguments={attempt=row}
-        list row.Notice columns=kind,state
-         pagination
-         badge row.state
+       show appointment_coordination {row=row}
   # Maintain availability and record attendance under host grants. @{nl="Beheer beschikbaarheid en leg aanwezigheid vast binnen gastheerbevoegdheden."}
   page /appointments/hosts title="Host calendars"@{nl="Gastheerkalenders"}
    breadcrumbs
