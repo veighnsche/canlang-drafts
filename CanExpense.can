@@ -58,7 +58,6 @@ package expense label="Expenses"@{nl="Onkosten"}
   fixture legacy_receipt_upload=file {owner=finance_user}
   fixture legacy_source_upload=file {owner=finance_user}
   fixture legacy_entry=LegacyExpense {source="vendor-a",external_id="old-17",location=test_site,claim={actor="Former employee 41",reviewer="Reviewer 8",decision_time_original="2021-05-12T09:00:00Z",decided_at=datetime("2021-05-12T09:00:00Z"),paid=date("2021-05-20"),status="Paid",purpose="Travel",amount=money(25,"EUR"),receipt=receipt,receipt_issue=null},source_evidence=legacy_source,attestation="Source fields transcribed; no live approval inferred"}
-  preferences { status:Expense.status? }
   message evidenced_reimbursement_caption = "Evidenced reimbursement"@{nl="Onderbouwde vergoeding"}
   message label_reviewer = "Reviewer"@{nl="Beoordelaar"}
   message label_Expense_receipt = "Receipt"@{nl="Bon"}
@@ -355,6 +354,7 @@ package expense label="Expenses"@{nl="Onkosten"}
     finance,null,self,"Verified match",2 -> error(conflict)
     members,null,self,"Verified match",1 -> error(forbidden)
  Then
+  preferences { status:Expense.status? }
   # Submit your receipts and see their private decision history. @{nl="Dien je bonnen in en bekijk hun privébesluithistorie."}
   page /expenses/mine title="My expenses"@{nl="Mijn onkosten"}
    breadcrumbs

@@ -13,7 +13,6 @@ package success
  Given
   export contract WorkItem { reference:text, revision:int, location:text?, title:text, detail:text?, due:datetime?, action:action(complete) } label="Authorized work item"@{nl="Toegestaan werkitem"}
   export contract WorkBatch { items:WorkItem[]! max=500 } label="Authorized work batch"@{nl="Toegestane werkverzameling"}
-  preferences { location:Location?, risk_filter:Account.risk? label="Initial risk filter"@{nl="Eerste risicofilter"} }
   message label_account_manager = "Account manager"@{nl="Klantbeheerder"}
   message label_Milestone_completed_by = "Completed by"@{nl="Afgerond door"}
   message label_Milestone_completed_at = "Completed at"@{nl="Afgerond op"}
@@ -144,6 +143,7 @@ package success
    require can_work(actor,record.parent.location) and record.parent.active and not record.done
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.location.id,title=record.title,detail=null,due=record.due,action=action(complete,{followup=record})}
  Then
+  preferences { location:Location?, risk_filter:Account.risk? label="Initial risk filter"@{nl="Eerste risicofilter"} }
   # Review renewal risk, dated milestones and source agreement references. @{nl="Beoordeel verlengingsrisico, gedateerde mijlpalen en bronreferenties naar overeenkomsten."}
   page /customer-success title="Customer success"@{nl="Klantopvolging"}
    require account_manager

@@ -7,7 +7,6 @@ package trade
  use member_terms {eligible_term,Term,paid_term as paid,allocated}
  use customer {test_admin,test_contact}
  Given
-  preferences { location:Location?, category:text? label=label_Post_category, kind:Post.kind?, view:enum(community,mine)=community label={text="Initial view"@{nl="Beginweergave"},values={community="Community listings"@{nl="Communityadvertenties"},mine="My listings"@{nl="Mijn advertenties"}}} }
   message label_Post_author = "Recorded by"@{nl="Vastgelegd door"}
   message label_Post_category = "Category"@{nl="Categorie"}
   role moderator label="Moderator"@{nl="Moderator"}
@@ -78,6 +77,7 @@ package trade
     moderator,"No abuse found",true -> error(rule_failed)
     members,"No abuse found",false -> error(forbidden)
  Then
+  preferences { location:Location?, category:text? label=label_Post_category, kind:Post.kind?, view:enum(community,mine)=community label={text="Initial view"@{nl="Beginweergave"},values={community="Community listings"@{nl="Communityadvertenties"},mine="My listings"@{nl="Mijn advertenties"}}} }
   # Find active community listings and publish only contact details you deliberately choose. @{nl="Vind actieve communityadvertenties en publiceer alleen contactgegevens die je bewust kiest."}
   page /marketplace title="Community marketplace"@{nl="Communitymarktplaats"}
    breadcrumbs

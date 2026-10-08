@@ -9,7 +9,6 @@ package stats
  use stats {DimensionsV1 as Dimensions} from=deployment.dimensions
  use stats {TrackerV1 as Tracker} from=deployment.tracker
  Given
-  preferences { site:Site? label=label_Site }
   message health_title = "Processing health"@{nl="Verwerkingsstatus"}
   message label_Site = "Website"@{nl="Website"}
   role analyst label="Analyst"@{nl="Analist"}
@@ -152,6 +151,7 @@ package stats
     true,2,"foreign",true -> failed,true
     true,2,website.id,false -> pending,true
  Then
+  preferences { site:Site? label=label_Site }
   # Inspect configured sites and clearly labeled tracker-observed goals. @{nl="Bekijk ingestelde websites en duidelijk gelabelde doelen die de tracker heeft waargenomen."}
   page /traffic title="Website traffic"@{nl="Websiteverkeer"} poll=5s
    require analyst

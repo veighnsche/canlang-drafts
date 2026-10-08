@@ -33,7 +33,6 @@ package board label="Governance"@{nl="Bestuur"}
   fixture decision=Resolution {parent=prepared,title="Open location",outcome=accepted,evidence="Approved expansion budget",decided_by=self,decided_at=now}
   fixture correction=Amendment {parent=prepared,text="Recorded attendance correction",paper=replacement,author=self}
   fixture assigned=Action {parent=decision,title="Arrange opening",owner=self,due=date("2099-01-02")}
-  preferences { finalized:bool? label=label_Meeting_finalized, amendments_open:bool=false label="Expand meeting amendments"@{nl="Vergaderaanvullingen uitklappen"} }
   message label_Meeting_finalized = "Finalized"@{nl="Definitief"}
   message label_Agenda_paper = "Paper"@{nl="Vergaderstuk"}
  When
@@ -122,6 +121,7 @@ package board label="Governance"@{nl="Bestuur"}
    require (record.owner==actor or secretary) and not record.done and record.parent.outcome==accepted
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.parent.location.id,title=record.title,detail=record.parent.title,due=local_instant(record.due,"00:00",record.parent.parent.timezone,fold=earlier),action=action(complete,{action=record})}
  Then
+  preferences { finalized:bool? label=label_Meeting_finalized, amendments_open:bool=false label="Expand meeting amendments"@{nl="Vergaderaanvullingen uitklappen"} }
   # Read ordered papers and retain the finalized minutes with amendments. @{nl="Lees stukken op volgorde en bewaar de definitieve notulen met aanvullingen."}
   page /board title="Board records"@{nl="Bestuursverslagen"}
    require board_member or coordinator or secretary

@@ -16,7 +16,6 @@ package loyalty label=heading_rewards
   message label_Program_locations = "Locations"@{nl="Locaties"}
   message label_Reward_cost = "Cost"@{nl="Kosten"}
   message label_Earning_source = "Source reference"@{nl="Bronreferentie"}
-  preferences { view:enum(rewards,history)=rewards label={text="Reward view"@{nl="Beloningsweergave"},values={rewards=heading_rewards,history="History"@{nl="Geschiedenis"}}}, location:Location? label="Reward location"@{nl="Beloningslocatie"}, redemption_state:Redemption.state? label="Reward state"@{nl="Beloningsstatus"} }
   role program_owner label="Program owner"@{nl="Programma-eigenaar"}
   role reward_staff label="Reward staff"@{nl="Beloningsmedewerker"}
   Program { name:text, locations:Location[] label=label_Program_locations, terms:text label="Terms"@{nl="Voorwaarden"}, products:text[]! min=1 label="Qualifying products"@{nl="Kwalificerende producten"}, points_per_sale:int min=1 label="Points per sale"@{nl="Punten per verkoop"}, active:bool=true } label=page_loyalty_catalog_title
@@ -215,6 +214,7 @@ package loyalty label=heading_rewards
     event.value.revision,event.value.product -> wallet.available
     2,"office" -> error(rule_failed)
  Then
+  preferences { view:enum(rewards,history)=rewards label={text="Reward view"@{nl="Beloningsweergave"},values={rewards=heading_rewards,history="History"@{nl="Geschiedenis"}}}, location:Location? label="Reward location"@{nl="Beloningslocatie"}, redemption_state:Redemption.state? label="Reward state"@{nl="Beloningsstatus"} }
   # View your point history and reserve an available manually fulfillable perk. @{nl="Bekijk je puntengeschiedenis en reserveer een beschikbaar handmatig uitvoerbaar voordeel."}
   page /loyalty title="My rewards"@{nl="Mijn beloningen"}
    require authenticated

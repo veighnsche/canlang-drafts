@@ -59,7 +59,6 @@ package events
   fixture event_room=Resource {location=test_site,name="Event hall",kind=event_space,party_limit=20,timezone="Europe/Brussels",currency="EUR",hourly=money(100,"EUR"),terms="Venue allocation",refund_notice=1d,accessibility="Step-free"}
   fixture incumbent=Change {parent=workshop,source="original-venue",base_revision=1,location=test_site,timezone="Europe/Brussels",from=datetime("2099-01-02T09:00:00Z"),until=datetime("2099-01-02T10:00:00Z"),capacity=1,sales_until=datetime("2099-01-02T08:00:00Z"),reason="Original confirmed venue",resource=event_room,customer=test_company,account=self,previous=null,state=adopted,venue_state=confirmed,venue_revision=2,reference="original-reservation"}
   fixture proposed=Change {parent=workshop,source="candidate",base_revision=1,location=test_site,timezone="Europe/Brussels",from=datetime("2099-01-03T09:00:00Z"),until=datetime("2099-01-03T10:00:00Z"),capacity=1,sales_until=datetime("2099-01-03T08:00:00Z"),reason="New schedule",resource=null,customer=null,account=self,previous=null}
-  preferences { location:Location?, ticket_state:Registration.state? label="Initial ticket state filter"@{nl="Eerste filter toegangsbewijsstatus"} }
   message notice_title(kind:Notice.kind) = "{kind,select,confirmation{Event ticket confirmed}change{Event schedule or venue changed}cancellation{Event admission cancelled}other{Event ticket update}}"@{nl="{kind,select,confirmation{Toegangsbewijs evenement bevestigd}change{Planning of locatie evenement gewijzigd}cancellation{Toegang tot evenement geannuleerd}other{Wijziging toegangsbewijs evenement}}"}
   message notice_details(name:text,location:text,from:datetime,until:datetime,zone:timezone,reason:text,ticket:text,revision:int) = "{name} at {location}. Start: {from}; end: {until}. Event timezone: {zone}. Revision {revision}. {reason} Ticket: {ticket}."@{nl="{name} bij {location}. Begin: {from}; einde: {until}. Tijdzone evenement: {zone}. Revisie {revision}. {reason} Toegangsbewijs: {ticket}."}
   message label_Event_cancelled = "Cancelled"@{nl="Geannuleerd"}
@@ -524,6 +523,7 @@ package events
     send Mail.send {to=notice.parent.email,subject=notice.subject,body=notice.body} when=notice.parent.parent.revision==notice.revision and (notice.kind!=confirmation or (notice.parent.state==confirmed and not notice.parent.parent.cancelled)) as delivery
     create Notice {parent=notice.parent,kind=notice.kind,revision=notice.revision,subject=notice.subject,body=notice.body,delivery} as retry
  Then
+  preferences { location:Location?, ticket_state:Registration.state? label="Initial ticket state filter"@{nl="Eerste filter toegangsbewijsstatus"} }
   # Discover published events and retrieve only your own tickets. @{nl="Ontdek gepubliceerde evenementen en haal uitsluitend je eigen toegangsbewijzen op."}
   page /events title="Events"@{nl="Evenementen"}
    breadcrumbs

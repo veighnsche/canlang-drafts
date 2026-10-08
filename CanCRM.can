@@ -39,8 +39,6 @@ package crm label="Sales"@{nl="Verkoop"}
   fixture linked_tour=Activity {parent=prospect,kind=tour,body="Scheduled tour",appointment=booked}
   fixture linked_quote=Activity {parent=prospect,kind=quote,body="Issued quote",revision=current_offer}
   fixture reviewed_link=Activity {parent=prospect,kind=tour,body="Reviewed tour",link="https://example.test/tours/1"}
-  preferences { location:Location?, stage:Deal.stage?, followup:enum(overdue,upcoming)=overdue label={text="Next-action view"@{nl="Weergave vervolgacties"},values={overdue="Overdue next actions"@{nl="Achterstallige vervolgacties"},upcoming="Upcoming next actions"@{nl="Komende vervolgacties"}}} }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   message label_Deal_stage = "Sales stage"@{nl="Verkoopfase"}
   message label_Deal_outcome_reference = "Confirmed outcome reference"@{nl="Referentie bevestigde uitkomst"}
  When
@@ -163,6 +161,8 @@ package crm label="Sales"@{nl="Verkoop"}
   scenario pipeline(currency:currency) read=true -> Pipeline by=salesperson label="Read pipeline"@{nl="Verkoopkansen lezen"}
    do return Pipeline {count=count(Deal as deal where deal.stage in [lead,qualified,proposal] and deal.value.currency==currency),total=sum(Deal as deal where deal.stage in [lead,qualified,proposal] and deal.value.currency==currency select deal.value,currency)}
  Then
+  preferences { location:Location?, stage:Deal.stage?, followup:enum(overdue,upcoming)=overdue label={text="Next-action view"@{nl="Weergave vervolgacties"},values={overdue="Overdue next actions"@{nl="Achterstallige vervolgacties"},upcoming="Upcoming next actions"@{nl="Komende vervolgacties"}}} }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Review prospects, location needs and dated follow-up. @{nl="Bekijk prospects, locatiebehoeften en gedateerde vervolgacties."}
   page /sales title="Sales pipeline"@{nl="Verkoopkansen"}
    require salesperson

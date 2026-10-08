@@ -46,7 +46,6 @@ package feedback
   fixture recent5=Suggestion {parent=product,title="Plants",description="Add greenery",category="Amenity"}
   fixture moderator=user {roles=[product_owner]}
   fixture journey_product=Product {name="Facilities",owner=moderator}
-  preferences { product:Product? label="Product"@{nl="Product"}, location:Location?, category:Suggestion.category?, status:Suggestion.status? }
   message label_Suggestion = "Suggestion"@{nl="Suggestie"}
   message label_Suggestion_status = "Status"@{nl="Status"}
   message label_Suggestion_hidden = "Hidden"@{nl="Verborgen"}
@@ -259,6 +258,7 @@ package feedback
     as,suggestion.duplicate,root.hidden -> first(result.items)?.duplicate
     public,root,true -> null
  Then
+  preferences { product:Product? label="Product"@{nl="Product"}, location:Location?, category:Suggestion.category?, status:Suggestion.status? }
   # Browse a public roadmap with counts that expose no voter records. @{nl="Bekijk een openbare roadmap met aantallen die geen stemmerrecords blootgeven."}
   page /feedback title="Suggestions"@{nl="Suggesties"}
    breadcrumbs

@@ -6,7 +6,6 @@ package cafe
  use rent_catalog {Location,test_site}
  use employee {can_work,test_worker}
  Given
-  preferences { cafe:Cafe? label=label_Cafe, view:enum(all,waiting,reservations,occupancy)=all label={text="Initial view"@{nl="Beginweergave"},values={waiting=label_Booking_state_waiting,all="All"@{nl="Alles"},reservations="Reservations"@{nl="Reserveringen"},occupancy="Physical occupancy"@{nl="Werkelijke bezetting"}}} }
   message label_Cafe = "Café"@{nl="Café"}
   message label_Table = "Dining table"@{nl="Cafétafel"}
   message label_Booking_state_waiting = "Waiting"@{nl="Wachtend"}
@@ -132,6 +131,7 @@ package cafe
     as -> booking.state
     host -> error(rule_failed)
  Then
+  preferences { cafe:Cafe? label=label_Cafe, view:enum(all,waiting,reservations,occupancy)=all label={text="Initial view"@{nl="Beginweergave"},values={waiting=label_Booking_state_waiting,all="All"@{nl="Alles"},reservations="Reservations"@{nl="Reserveringen"},occupancy="Physical occupancy"@{nl="Werkelijke bezetting"}}} }
   # Run a host floor view with separate waiting, upcoming and actual occupancy evidence. @{nl="Bedien het café met afzonderlijk bewijs van wachten, toekomstige reserveringen en werkelijk gebruik."}
   page /cafe title="Café host"@{nl="Cafébediening"}
    require host

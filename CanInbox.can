@@ -64,7 +64,6 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
   lock Reply fields=subject,body,attachments,request when=row.state!=draft
   lock Attempt fields=parent,approved_by,approved_at
   lock Disposition fields=closed,reason,reviewer,reviewed
-  preferences { queue:Queue?, state:Message.state? }
   fixture operator=user {roles=[mail_staff]}
   fixture seller=user {roles=[mail_staff]}
   fixture stranger=user {roles=[mail_staff]}
@@ -314,6 +313,7 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
     operator,uncertain,unknown -> error(rule_failed)
     operator,uncertain,not_sent -> closed
  Then
+  preferences { queue:Queue?, state:Message.state? }
   # Work only with messages granted to your current queue; review preserves every earlier decision. @{nl="Werk alleen met berichten waarvoor je huidige wachtrij toegang geeft; elke eerdere beslissing blijft bewaard."}
   page /inbox title="Departmental inbox"@{nl="Afdelingspostvak"} poll=5s
    require mail_staff or inbox_admin

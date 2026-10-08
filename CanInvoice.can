@@ -39,7 +39,6 @@ package invoice label="Invoices"@{nl="Facturen"}
   message label_Attempt = "Payment attempt"@{nl="Betaalpoging"}
   message label_Attempt_delivery = "Delivery reference"@{nl="Verzendingsreferentie"}
   message label_Credit_author = "Author"@{nl="Auteur"}
-  preferences { location:Location?, currency:currency? }
   export contract Charge { source:text label=label_Charge_source, customer:text label=label_Charge_customer, location:text, description:text, amount:money, due:date, issuer:text?, terms:text?, items:DocumentLine[]?, consent:text? label=label_Charge_consent } label="Charge"@{nl="Kostenpost"}
   export contract Settlement { source:text, invoice:text, revision:int, amount:money, collected:money, refunded:money, collection_pending:bool, refund_pending:bool, state:Invoice.state, recorded_at:datetime } label="Invoice settlement snapshot"@{nl="Momentopname factuurafwikkeling"}
   export capability BillingV1 version=1
@@ -818,6 +817,7 @@ package invoice label="Invoices"@{nl="Facturen"}
      require invoice.state!=draft
      emit ReconcileOutcome {source=event.source,value=settlement(invoice)}
  Then
+  preferences { location:Location?, currency:currency? }
   # Read retained invoices and reviewed booking relationships under current billing access. @{nl="Lees bewaarde facturen en beoordeelde reserveringsrelaties met huidige factuurtoegang."}
   page /finance/invoice-history title="Historical invoice evidence"@{nl="Historisch factuurbewijs"}
    require authenticated

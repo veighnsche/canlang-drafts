@@ -55,7 +55,6 @@ package catch
   fixture alert_notice=Notice {parent=open_issue,kind=new,destination="https://alerts.example.invalid/hook"}
   fixture alert_attempt=Alerts.notify {request={value={source=alert_notice.id,destination="https://alerts.example.invalid/hook",message="New application error"}}}
   fixture other_attempt=Alerts.notify {request={value={source=alert_notice.id,destination="https://alerts.example.invalid/hook",message="New application error"}},status=failed,error={code="provider",message="Delivery rejected"}}
-  preferences { environment:text? label=label_Issue_environment, evidence_open:bool=false label="Expand retained occurrence evidence"@{nl="Bewaarde foutgegevens uitklappen"} }
   message retained_raw_evidence_caption = "Retained raw evidence"@{nl="Bewaarde ruwe gegevens"}
   message label_Alert_message = "Message"@{nl="Bericht"}
   message label_Project_grouping_version = "Grouping version"@{nl="Groepeerversie"}
@@ -168,6 +167,7 @@ package catch
     alert_attempt.id,succeeded,{reference="accepted"},null,alert_attempt,"Alert destination unavailable",succeeded,{reference="accepted"},null -> succeeded,null,open,1
     other_attempt.id,failed,null,{code="unavailable",message="Alert destination unavailable"},alert_attempt,"Kept diagnostic",pending,null,null -> pending,"Kept diagnostic",open,1
  Then
+  preferences { environment:text? label=label_Issue_environment, evidence_open:bool=false label="Expand retained occurrence evidence"@{nl="Bewaarde foutgegevens uitklappen"} }
   # Triage configured projects without SDK-key, quota or retention settings tools. @{nl="Beoordeel geconfigureerde projecten zonder instellingen voor SDK-sleutels, quota of bewaartermijnen."}
   page /errors title="Application errors"@{nl="Applicatiefouten"}
    require developer

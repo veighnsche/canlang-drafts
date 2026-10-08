@@ -20,8 +20,6 @@ package purchase label=page_purchasing_title
   message label_Receipt_accepted = "Accepted quantity"@{nl="Geaccepteerd aantal"}
   message label_Receipt_rejected = "Rejected quantity"@{nl="Afgekeurd aantal"}
   message label_Receipt_received = "Received at"@{nl="Ontvangen op"}
-  preferences { location:Location?, supplier:Supplier?, state:Request.state? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   export contract PayableEvidence { source:text, order:text, supplier:text, supplier_name:text, supplier_contact:email, location:text, invoice:text, amount:money, issued:date, evidence:text, revision:int }
   ## PayableEvidenceV1.record must retain source/digest identity, acknowledge identical replay and reject conflicting evidence. This draft requires a configured real accounting binding; it never requests vendor payment.
   export capability PayableEvidenceV1 version=1
@@ -377,6 +375,8 @@ package purchase label=page_purchasing_title
       else
        set payable {posting=unknown}
  Then
+  preferences { location:Location?, supplier:Supplier?, state:Request.state? }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Submit and follow your own purchase authorization. @{nl="Dien je eigen inkoopautorisatie in en volg deze."}
   page /purchasing/mine title="My requests"@{nl="Mijn aanvragen"}
    require members

@@ -42,8 +42,6 @@ package agreements
   fixture due_obligation=Obligation {parent=current_term,title="Insurance evidence",due=date("2098-10-01")}
   fixture reminder=Mail.send {request={to="owner@example.test",subject="Agreement obligation due",body="Insurance evidence"}}
   fixture recorded_notice=NoticeDelivery {parent=current_term,obligation=due_obligation,revision=1,delivery=reminder}
-  preferences { location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   message label_Agreement_category_customer = "Customer"@{nl="Klant"}
   message label_Agreement_category_supplier = "Supplier"@{nl="Leverancier"}
   message label_Term_from = "From"@{nl="Vanaf"}
@@ -151,6 +149,8 @@ package agreements
     false,false,false,1 -> 0,null,null
     false,false,true,2 -> 0,null,null
  Then
+  preferences { location:Location? }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Retrieve executed terms, amendments and current obligation queues. @{nl="Haal ondertekende voorwaarden, aanvullingen en huidige verplichtingswachtrijen op."}
   page /agreements title="Agreements"@{nl="Overeenkomsten"}
    require legal or sales or property_manager or finance

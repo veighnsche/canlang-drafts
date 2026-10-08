@@ -20,7 +20,6 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
   message label_Item_incident = "Handling incident"@{nl="Afhandelingsincident"}
   message label_Handling_carrier = "Carrier"@{nl="Vervoerder"}
   message label_Handling_fee = "Fee"@{nl="Kosten"}
-  preferences { location:Location?, view:enum(all,collection,forwarding,history)=all label={text="Mail view"@{nl="Postweergave"},values={all="All mail"@{nl="Alle post"},collection="Collection queue"@{nl="Afhaalwachtrij"},forwarding="Forwarding queue"@{nl="Doorzendwachtrij"},history="Mail history"@{nl="Postgeschiedenis"}}} }
   role mail_staff label="Mailroom staff"@{nl="Postmedewerker"}
   Service in Customer { location:Location, recipient:Contact label=label_Service_recipient, from:datetime label="Start"@{nl="Begin"}, until:datetime label="End"@{nl="Einde"}, instructions:text, forwarding:text? label="Forwarding instructions"@{nl="Doorzendinstructies"}, revision:int=1, verified:bool=false label="Verified"@{nl="Geverifieerd"}, source:text unique label=label_Service_source, term:Term? label="Purchased paid term"@{nl="Gekochte betaalde termijn"}, paid_evidence:text? label="Paid-service evidence"@{nl="Bewijs betaalde dienst"}, currency:currency, billing:bool=false label="Invoice handling fees"@{nl="Afhandelingskosten factureren"}, active:bool=true } label="Mail service"@{nl="Postdienst"}
   Delegate in Service { contact:Contact label="Nominated contact"@{nl="Genomineerde contactpersoon"}, account:user label=label_Delegate_account, active:bool=true } label="Collection delegate"@{nl="Afhaalgemachtigde"}
@@ -345,6 +344,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
     attempt,received,attempt.id,skipped,null,null,skipped,null,null -> received,skipped
     attempt,collected,attempt.id,succeeded,{reference="accepted-mail"},null,succeeded,{reference="accepted-mail"},null -> collected,succeeded
  Then
+  preferences { location:Location?, view:enum(all,collection,forwarding,history)=all label={text="Mail view"@{nl="Postweergave"},values={all="All mail"@{nl="Alle post"},collection="Collection queue"@{nl="Afhaalwachtrij"},forwarding="Forwarding queue"@{nl="Doorzendwachtrij"},history="Mail history"@{nl="Postgeschiedenis"}}} }
   # Receive, locate and resolve mail while restricting physical storage information. @{nl="Ontvang, lokaliseer en handel post af terwijl fysieke opslaginformatie afgeschermd blijft."}
   page /mailroom title="Mail and parcels"@{nl="Post en pakketten"} order=2
    require mail_staff

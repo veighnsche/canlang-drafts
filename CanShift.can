@@ -12,7 +12,6 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
  use std {OperationOutcome,DeliveryResult}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
-  preferences { location:Location? }
   message title_roster = "Staff roster"@{nl="Personeelsrooster"}
   message label_CommitmentRequest_source = "Source reference"@{nl="Bronreferentie"}
   message label_CommitmentRequest_employee = "Employee"@{nl="Medewerker"}
@@ -322,6 +321,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
      set commitment {active=false,revision=event.revision}
     emit ReservationOutcome {value={source=event.source,revision=event.revision,state=released,reference=event.source}}
  Then
+  preferences { location:Location? }
   # Plan drafts, publish coverage and resolve current commitments. @{nl="Plan concepten, publiceer bezetting en los huidige inzetverplichtingen op."}
   page /roster title=title_roster
    require scheduler

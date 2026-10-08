@@ -37,7 +37,6 @@ package enrich label="Company enrichment"@{nl="Bedrijfsverrijking"}
   derive incomplete(value:Report):bool = value.legal_name==null or value.registered_office==null or value.registry_status==null
   derive selected(value:Report,field:AcceptedFact.field):Fact? = choose(field==legal_name,value.legal_name,choose(field==registered_office,value.registered_office,value.registry_status))
   export derive current(company:Company,field:AcceptedFact.field):AcceptedFact? = first(company.AcceptedFact as fact where fact.field==field order=-fact.ordinal)
-  preferences {enabled:bool=true}
   fixture analyst=user {roles=[researcher]}
   fixture editor=user {roles=[reviewer]}
   fixture linked_company=Company {customer=test_company,number="01234567"}
@@ -165,6 +164,7 @@ package enrich label="Company enrichment"@{nl="Bedrijfsverrijking"}
      stopped.stopped,linked_company.current==stopped -> true,true
      call accept {run=stopped,lookup=primary,field=legal_name,prior=null,reason="Late result"} by=editor -> error(rule_failed)
  Then
+  preferences {enabled:bool=true}
   # Compare evidence, usage and prior decisions before accepting individual facts. @{nl="Vergelijk bewijs, gebruik en eerdere beslissingen voordat u afzonderlijke gegevens accepteert."}
   page /enrichment title="Company enrichment"@{nl="Bedrijfsverrijking"} poll=5s
    require researcher or reviewer

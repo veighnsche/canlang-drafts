@@ -8,8 +8,6 @@ package stock
  use stock {StockIngressV1 as Receipts} from=deployment.stock_receipts
  use std {OperationOutcome}
  Given
-  preferences { location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   message label_StockReceipt_source = "Source reference"@{nl="Bronreferentie"}
   message label_StockReceipt_order = "Purchase order reference"@{nl="Inkoopreferentie"}
   message label_StockReceipt_sku = "SKU"@{nl="Artikelcode"}
@@ -164,6 +162,8 @@ package stock
    require can_work(actor,location)
    do return available(item,location)
  Then
+  preferences { location:Location? }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Inspect location balances and enter deliberate ledger movements. @{nl="Bekijk locatiesaldi en voer bewuste voorraadmutaties in."}
   page /stock title="Consumables"@{nl="Verbruiksartikelen"}
    require stock_staff

@@ -52,7 +52,6 @@ package appointments
   fixture published=Window {parent=host_calendar,from=datetime("2099-01-01T09:00:00Z"),until=datetime("2099-01-01T18:00:00Z")}
   fixture original=Attempt {parent=booked,source="tour",kind=initial,from=datetime("2099-01-01T09:00:00Z"),until=datetime("2099-01-01T09:30:00Z"),state=active,host_ok=true,room_ok=true,room_released=true}
   fixture candidate=Attempt {parent=booked,source="move",kind=movement,from=datetime("2099-01-01T10:00:00Z"),until=datetime("2099-01-01T10:30:00Z"),previous_source="tour",host_delivery="move-host",room_ok=true,room_released=true}
-  preferences { location:Location?, appointment_state:Appointment.state? label="Initial appointment state filter"@{nl="Eerste filter afspraakstatus"} }
   message label_Calendar_host = "Host"@{nl="Gastheer"}
   message label_Window_from = "From"@{nl="Vanaf"}
   message label_Window_until = "Until"@{nl="Tot"}
@@ -374,6 +373,7 @@ package appointments
     confirmed,0 -> error(rule_failed)
     confirmed,1 -> 1,pending
  Then
+  preferences { location:Location?, appointment_state:Appointment.state? label="Initial appointment state filter"@{nl="Eerste filter afspraakstatus"} }
   # Choose a location, appointment type and published host window. @{nl="Kies een locatie, afspraaktype en gepubliceerd gastheervenster."}
   page /appointments title="Appointments"@{nl="Afspraken"}
    breadcrumbs

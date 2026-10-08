@@ -26,7 +26,6 @@ package reception
   message label_Visit_until = "End"@{nl="Einde"}
   message label_Visit_purpose = "Purpose"@{nl="Doel"}
   message label_Issue_holder = "Holder"@{nl="Houder"}
-  preferences { location:Location?, queue:enum(all,expected,today,on_site,overdue)=all label={text="Visitor queue"@{nl="Bezoekerswachtrij"},values={all="All visitors"@{nl="Alle bezoekers"},expected=label_preferences_queue_expected,today="Today"@{nl="Vandaag"},on_site="On site"@{nl="Aanwezig"},overdue="Overdue"@{nl="Te laat"}}} }
   export contract DeviceState { source:text label=label_DeviceState_source, revision:int, observation:int min=1, desired:enum(active,revoked) label={text=label_DeviceState_desired,values={active=label_DeviceState_desired_active,revoked=label_DeviceState_desired_revoked}}, confirmed:enum(pending,active,revoked,failed,unknown) label={text=label_DeviceState_confirmed,values={active=label_DeviceState_desired_active,revoked=label_DeviceState_desired_revoked,pending=label_DeviceState_confirmed_pending,failed=label_DeviceState_confirmed_failed,unknown=label_DeviceState_confirmed_unknown}}, reference:text? } label="Device outcome"@{nl="Apparaatresultaat"}
   export capability DeviceV1 version=1
    apply(source:text,device:text,credential:text,holder:text,location:text,until:datetime,desired:DeviceState.desired,revision:int) -> DeviceState
@@ -363,6 +362,7 @@ package reception
      send Mail.send {to=event.visit.guest.email,subject=format(notice_visitor_invitation,locale=null),body=event.visit.location.arrival} when=event.visit.state==expected and event.visit.from>now and current_access(event.visit) as notice
      set event.visit {notice_delivery=notice}
  Then
+  preferences { location:Location?, queue:enum(all,expected,today,on_site,overdue)=all label={text="Visitor queue"@{nl="Bezoekerswachtrij"},values={all="All visitors"@{nl="Alle bezoekers"},expected=label_preferences_queue_expected,today="Today"@{nl="Vandaag"},on_site="On site"@{nl="Aanwezig"},overdue="Overdue"@{nl="Te laat"}}} }
   # Discover safe owner review without mounting private reception work in Customer.
   page /reception/access-review title="Reception access review"@{nl="Beoordeling receptietoegang"}
    require receptionist or access_staff or any(Customer as customer,has_role(actor,customer,administrator))

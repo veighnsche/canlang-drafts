@@ -24,7 +24,6 @@ package propose
   message label_QuotePdf_document = "Generate quote document"@{nl="Offertedocument genereren"}
   message label_Revision_resource = "Resource reference"@{nl="Referentie voorziening"}
   message label_Revision_seats = "Seats"@{nl="Plaatsen"}
-  preferences { location:Location?, state:Revision.state?, items_open:bool=true label="Expand itemized quote"@{nl="Offerteregels uitklappen"} }
   export contract QuoteLine { title:text, quantity:decimal, unit:text, price:money, tax:money label=label_QuoteLine_tax, discount:money label=label_QuoteLine_discount } label="Quote line"@{nl="Offerteregel"}
   export contract QuoteInterval { from:datetime, until:datetime } label="Quoted access interval"@{nl="Geoffreerd toegangstijdvak"}
   export derive quote_intervals_valid(from:datetime,until:datetime,intervals:QuoteInterval[]):bool = from<until and (count(intervals)==0 or (all(intervals as interval,from<=interval.from and interval.from<interval.until and interval.until<=until) and count(group(intervals as interval,interval.from))==count(intervals) and all(intervals as left,all(intervals as right,left.from==right.from or left.until<=right.from or right.until<=left.from)) and min(intervals as interval select interval.from)==from and max(intervals as interval select interval.until)==until))
@@ -378,6 +377,7 @@ package propose
    require can_work(actor,revision.parent.location) and revision.hold_state==releasing
    do set revision {hold_release=null}
  Then
+  preferences { location:Location?, state:Revision.state?, items_open:bool=true label="Expand itemized quote"@{nl="Offerteregels uitklappen"} }
   # Author offers and resolve accepted quotations still awaiting inventory. @{nl="Maak offertes en los geaccepteerde offertes op die nog op voorraad wachten."}
   page /offers title="Offers"@{nl="Offertes"}
    require salesperson

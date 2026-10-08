@@ -13,7 +13,6 @@ package refer
  use customer {test_company}
  use sales_attribution {Capture,capture}
  Given
-  preferences { program:Program? label=label_Program }
   message balances_title = "Earned and paid rewards"@{nl="Verdiende en uitbetaalde beloningen"}
   message label_Program = "Referral program"@{nl="Verwijzingsprogramma"}
   message label_Credit = "Reward credit"@{nl="Beloningstegoed"}
@@ -157,6 +156,7 @@ package refer
     program_manager,"" -> error(rule_failed)
     finance,"Duplicate attribution" -> error(forbidden)
  Then
+  preferences { program:Program? label=label_Program }
   # Share your configured referral destination and trace earned, paid and owed balances. @{nl="Deel de ingestelde verwijzingsbestemming en volg verdiende, betaalde en verschuldigde saldi."}
   page /referrals title="Referrals"@{nl="Verwijzingen"}
    require authenticated and actor.email_verified

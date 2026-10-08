@@ -6,7 +6,6 @@ package member_plans
  use rent_catalog {Location}
  use employee {can_work}
  Given
-  preferences { active_filter:bool? label="Active plans"@{nl="Actieve abonnementen"} }
   role plan_owner label="Plan owner"@{nl="Abonnementseigenaar"}
   export contract MemberHours { location:text, timezone:timezone, weekdays:int[]!, opens:text, closes:text, close_after:AccessHours.close_after, fold:AccessHours.fold }
   export AccessHours in Plan { location:Location, weekdays:int[]! label="Days of week"@{nl="Weekdagen"}, opens:text="09:00" label="Opens"@{nl="Opent"}, closes:text="18:00" label="Closes"@{nl="Sluit"}, close_after:int=0 min=0 max=1 label="Closing day offset"@{nl="Dagverschuiving sluiting"}, fold:enum(earlier,later)=earlier label={text="Clock-change choice"@{nl="Keuze bij klokwijziging"},values={earlier="Earlier occurrence"@{nl="Eerder tijdstip"},later="Later occurrence"@{nl="Later tijdstip"}}} } label="Purchased access hours"@{nl="Gekochte toegangsuren"}
@@ -24,6 +23,7 @@ package member_plans
   crud AccessHours by=plan_owner fields=location,weekdays,opens,closes,close_after,fold when=all(row.parent.locations as location,can_work(actor,location)) delete=none
   crud Benefit by=plan_owner fields=product,unit,quantity,duration,overage when=all(row.parent.locations as location,can_work(actor,location)) delete=none
  Then
+  preferences { active_filter:bool? label="Active plans"@{nl="Actieve abonnementen"} }
   # Author the sellable plan catalog under a distinct plan-owner grant. @{nl="Beheer het verkoopbare abonnementscatalogus onder een afzonderlijk eigenaarsrecht."}
   page /membership/plans title="Membership plans"@{nl="Lidmaatschapsabonnementen"} order=4
    require plan_owner
@@ -92,7 +92,6 @@ package member_terms label=label_package
   message label_Term = "Paid term"@{nl="Betaalde termijn"}
   message label_Term_locations = "Locations"@{nl="Locaties"}
   message label_Term_cycle = "Billing cycle"@{nl="Facturatiecyclus"}
-  preferences { current_only:bool=false label="Current terms only"@{nl="Alleen huidige termijnen"} }
   export contract BenefitInterval { from:datetime, until:datetime }
   export contract Entitlement { source:text, customer:text, account:user, location:text, product:text, intervals:BenefitInterval[]!, quantity:int, unit:Benefit.unit, duration:duration, rate:money, previous_source:text?, restore_consumed:bool=false }
   export contract AllowanceOutcome { source:text, revision:int, state:OperationOutcome.state, phase:BenefitRequest.state, reference:text?, detail:text?, units:decimal, covered_units:decimal, overage:money, unit:Benefit.unit, duration:duration, rate:money }
@@ -711,6 +710,7 @@ package member_terms label=label_package
      emit WatchAccessStep {customer=event.customer,location=event.location,after=watch.id}
 
  Then
+  preferences { current_only:bool=false label="Current terms only"@{nl="Alleen huidige termijnen"} }
   # Discover the owner review independently of any customer application's selected pages.
   page /membership/access-review title="Membership access review"@{nl="Beoordeling lidmaatschapstoegang"}
    require member_manager or any(Customer as customer,has_role(actor,customer,administrator))

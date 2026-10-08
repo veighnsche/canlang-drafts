@@ -14,7 +14,6 @@ package learn label="Learning"@{nl="Opleidingen"}
   message label_DraftLesson_content = "Lesson content"@{nl="Lesinhoud"}
   message label_DraftLesson_position = "Position"@{nl="Volgorde"}
   message label_Enrollment_account = "Account"@{nl="Account"}
-  preferences { view:enum(all,required,optional,overdue)=all label={text="Course view"@{nl="Cursusweergave"},values={all="All courses"@{nl="Alle cursussen"},required="Required courses"@{nl="Verplichte cursussen"},optional="Optional courses"@{nl="Optionele cursussen"},overdue="Overdue courses"@{nl="Achterstallige cursussen"}}}, location:Location?, audience:Course.audience?, order:enum(due,title)=due label={text="Course order"@{nl="Cursusvolgorde"},values={due="Due date"@{nl="Vervaldatum"},title="Course title"@{nl="Cursustitel"}}} }
   role instructor label="Instructor"@{nl="Docent"}
   Course { title:text, audience:enum(staff,member) label={text="Audience"@{nl="Doelgroep"},values={staff="Staff"@{nl="Personeel"},member="Member"@{nl="Lid"}}}, locations:Location[]! min=1 label=label_Course_locations, required:bool=false label=label_Course_required, revision:int=0 } label="Course"@{nl="Cursus"}
   DraftLesson in Course { title:text, content:text label=label_DraftLesson_content, position:int min=1 label=label_DraftLesson_position } label="Draft lesson"@{nl="Conceptles"}
@@ -142,6 +141,7 @@ package learn label="Learning"@{nl="Opleidingen"}
    require all(enrollment.parent.locations as location,can_work(actor,location))
    do set enrollment {active=false}
  Then
+  preferences { view:enum(all,required,optional,overdue)=all label={text="Course view"@{nl="Cursusweergave"},values={all="All courses"@{nl="Alle cursussen"},required="Required courses"@{nl="Verplichte cursussen"},optional="Optional courses"@{nl="Optionele cursussen"},overdue="Overdue courses"@{nl="Achterstallige cursussen"}}}, location:Location?, audience:Course.audience?, order:enum(due,title)=due label={text="Course order"@{nl="Cursusvolgorde"},values={due="Due date"@{nl="Vervaldatum"},title="Course title"@{nl="Cursustitel"}}} }
   # Read the exact enrolled content and acknowledge it without a separate testing DSL. @{nl="Lees de exacte ingeschreven inhoud en bevestig die zonder afzonderlijke testtaal."}
   page /learning/mine title="My learning"@{nl="Mijn opleidingen"}
    require authenticated

@@ -7,7 +7,6 @@ package report
  use employee {can_work,test_worker}
  use report {ReportsV1 as Reports} from=deployment.reports
  Given
-  preferences { definition:Definition? label=label_Definition }
   message label_Checkpoint = "Source checkpoint"@{nl="Broncontrolepunt"}
   message label_Checkpoint_source = "Source reference"@{nl="Bronreferentie"}
   message label_Checkpoint_generated = "Generated at"@{nl="Gegenereerd op"}
@@ -115,6 +114,7 @@ package report
     manager,fresh,false,[{source="job-1",revision=1,location=test_site.id,from=unavailable_run.from,until=unavailable_run.until,metric=backlog,quantity=1,unit="job"}] -> null,null,partial,false
     manager,fresh,true,[{source="job-1",revision=1,location=test_site.id,from=unavailable_run.from,until=unavailable_run.until,metric=backlog,quantity=1,unit="job"}] -> 1,null,fresh,true
  Then
+  preferences { definition:Definition? label=label_Definition }
   # Compare booked and recorded occupancy, cash receipts, balances and service backlog. @{nl="Vergelijk gereserveerde en vastgelegde bezetting, ontvangen betalingen, saldi en serviceachterstand."}
   page /reports title="Operational reports"@{nl="Operationele rapporten"}
    require manager

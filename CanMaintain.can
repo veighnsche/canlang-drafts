@@ -21,7 +21,6 @@ package maintain
   message label_Inspection_result_pending = "Pending"@{nl="In afwachting"}
   message label_Inspection_result_failed = "Failed"@{nl="Mislukt"}
   message label_Repair_photo = "Photo"@{nl="Foto"}
-  preferences { location:Location?, severity:Repair.severity? }
   role maintenance_manager label="Maintenance manager"@{nl="Onderhoudsbeheerder"}
   role technician label="Technician"@{nl="Technicus"}
   export Asset { location:Location, identifier:text unique label="Identifier"@{nl="Identificatie"}, name:text, category:text label="Category"@{nl="Categorie"}, supplier:Supplier?, resource:text? label="Resource reference"@{nl="Referentie voorziening"}, serial:text? label="Serial number"@{nl="Serienummer"}, warranty:date? label="Warranty expiry"@{nl="Garantie-einddatum"}, manual:file? label="Manual"@{nl="Handleiding"}, inspection_epoch:int=0 min=0, retired:bool=false label="Retired"@{nl="Buiten gebruik"} } label="Asset"@{nl="Bedrijfsmiddel"}
@@ -429,6 +428,7 @@ package maintain
    require record.inspector==actor and inspection_pending(record) and can_work(actor,record.parent.parent.location)
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.parent.location.id,title=record.parent.name,detail=record.parent.parent.name,due=local_instant(record.due,"00:00",record.parent.parent.location.timezone,fold=earlier),action=action(inspect,{inspection=record})}
  Then
+  preferences { location:Location?, severity:Repair.severity? }
   # Keep assets, overdue inspections and repair verification connected. @{nl="Houd bedrijfsmiddelen, achterstallige inspecties en reparatieverificatie met elkaar verbonden."}
   page /facilities title="Facilities"@{nl="Faciliteiten"}
    require maintenance_manager or technician

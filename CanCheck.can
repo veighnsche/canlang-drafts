@@ -30,8 +30,6 @@ package check
   fixture notification=Notice {parent=heartbeat,kind=recovery,revision=1}
   fixture attempt=Alerts.notify {request={value={source=notification.id,destination=heartbeat.alert,message="Job heartbeat recovered"}}}
   fixture other_attempt=Alerts.notify {request={value={source=notification.id,destination=heartbeat.alert,message="Job heartbeat recovered"}},status=failed,error={code="provider",message="Delivery rejected"}}
-  preferences { application:text? label=label_Check_application, location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   message label_Check_application = "Application"@{nl="Applicatie"}
  When
   # Pause deadlines and alerts while retaining the last durable receipt. @{nl="Pauzeer deadlines en meldingen met behoud van de laatst opgeslagen ontvangst."}
@@ -162,6 +160,8 @@ package check
     other_attempt.id,failed,null,{code="provider",message="Delivery rejected"},attempt,null,new,failed,null,{code="provider",message="Delivery rejected"} -> error(rule_failed)
 
  Then
+  preferences { application:text? label=label_Check_application, location:Location? }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Read configured checks and perform only authorized pause and resume. @{nl="Lees geconfigureerde controles en voer uitsluitend toegestane pauze- en hervatacties uit."}
   page /job-health title="Job health"@{nl="Taakgezondheid"}
    require operations

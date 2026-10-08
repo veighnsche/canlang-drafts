@@ -16,7 +16,6 @@ package leave label="Leave"@{nl="Verlof"}
   message label_Request_state_pending = "Pending"@{nl="In afwachting"}
   contract PreviewPortion { year:int label=label_preferences_year, days:int label=label_Allowance_days, allowance:Allowance? }
   contract Preview { days:int label=label_Allowance_days, portions:PreviewPortion[]! }
-  preferences { year:int? label=label_preferences_year, bucket:text? label=label_preferences_bucket }
   role hr label="HR staff"@{nl="HR-medewerker"}
   role leave_reviewer label="Leave reviewer"@{nl="Verlofbeoordelaar"}
   Calendar in Employee { name:text, timezone:timezone, revision:int=1 min=1 } label="Working calendar"@{nl="Werkkalender"}
@@ -238,6 +237,7 @@ package leave label="Leave"@{nl="Verlof"}
     cancelled,"leave-source",2,"release-current",released,"release-current",{source="different-source",revision=2,state=released,reference=null,detail=null},succeeded,null -> released
     cancelled,"leave-source",2,"release-current",pending,"release-current",null,failed,{code="provider",message="Release rejected"} -> failed
  Then
+  preferences { year:int? label=label_preferences_year, bucket:text? label=label_preferences_bucket }
   # Preview recorded calendar and allowance data before requesting whole working days. @{nl="Bekijk vastgelegde kalender- en tegoedgegevens voordat je hele werkdagen aanvraagt."}
   page /leave/mine title="My leave"@{nl="Mijn verlof"}
    breadcrumbs

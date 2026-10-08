@@ -11,7 +11,6 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
   contract Availability { remaining:int } label="Available volunteer places"@{nl="Beschikbare vrijwilligersplaatsen"}
   export contract WorkItem { reference:text, revision:int, location:text?, title:text, detail:text?, due:datetime?, action:action(complete) } label="Authorized work item"@{nl="Toegestaan werkitem"}
   export contract WorkBatch { items:WorkItem[]! max=500 } label="Authorized work batch"@{nl="Toegestane werkverzameling"}
-  preferences { location:Location?, view:enum(discovery,assignments)=discovery label={text="Initial view"@{nl="Beginweergave"},values={discovery="Discover activities"@{nl="Activiteiten ontdekken"},assignments="My assignments"@{nl="Mijn opdrachten"}}} }
   message label_Opportunity_cancelled = "Cancelled"@{nl="Geannuleerd"}
   message label_Signup_state_attended = "Attended"@{nl="Aanwezig geweest"}
   role organizer label="Organizer"@{nl="Organisator"}
@@ -203,6 +202,7 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
    require record.parent.account==actor and record.parent.state==confirmed and not record.parent.parent.cancelled and (record.parent.parent.venue==null or record.parent.parent.venue_confirmed) and not record.done
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.parent.location.id,title=record.title,detail=record.parent.parent.title,due=record.parent.parent.from,action=action(complete,{task=record})}
  Then
+  preferences { location:Location?, view:enum(discovery,assignments)=discovery label={text="Initial view"@{nl="Beginweergave"},values={discovery="Discover activities"@{nl="Activiteiten ontdekken"},assignments="My assignments"@{nl="Mijn opdrachten"}}} }
   # Discover activities and follow only your own assignments. @{nl="Ontdek activiteiten en volg alleen je eigen opdrachten."}
   page /volunteering title="Volunteer activities"@{nl="Vrijwilligersactiviteiten"}
    ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.

@@ -37,7 +37,6 @@ package sync label="CRM synchronization"@{nl="CRM-synchronisatie"}
   derive safe_rebase(proposal:Proposal,current:Snapshot):bool = current.id==proposal.before.id and (proposal.desired.name==proposal.before.values.name or current.values.name in [proposal.before.values.name,proposal.desired.name]) and (proposal.desired.phone==proposal.before.values.phone or current.values.phone in [proposal.before.values.phone,proposal.desired.phone]) and (proposal.desired.website==proposal.before.values.website or current.values.website in [proposal.before.values.website,proposal.desired.website])
   derive rebased(proposal:Proposal,current:Snapshot):Values = Values {name=choose(proposal.desired.name==proposal.before.values.name,current.values.name,proposal.desired.name),phone=choose(proposal.desired.phone==proposal.before.values.phone,current.values.phone,proposal.desired.phone),website=choose(proposal.desired.website==proposal.before.values.website,current.values.website,proposal.desired.website)}
   derive Proposal.outcome:WriteResult.state? = row.current?.request?.result?.state label="Confirmed write result"@{nl="Bevestigd schrijfresultaat"}
-  preferences {view:enum(active,paused)=active}
   fixture author=user {roles=[operator]}
   fixture approver=user {roles=[reviewer]}
   fixture both=user {roles=[operator,reviewer]}
@@ -169,6 +168,7 @@ package sync label="CRM synchronization"@{nl="CRM-synchronisatie"}
     set link {enabled=true,epoch=link.epoch+1}
     schedule link.id at=now event=RefreshDue {link,epoch=link.epoch}
  Then
+  preferences {view:enum(active,paused)=active}
   # Inspect observations, approve exact corrections and retain unresolved provider outcomes. @{nl="Bekijk waarnemingen, keur exacte correcties goed en bewaar onopgeloste externe uitkomsten."}
   page /sync title="CRM synchronization"@{nl="CRM-synchronisatie"} poll=5s
    require operator or reviewer

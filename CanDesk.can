@@ -43,7 +43,6 @@ package desk
   fixture attempt=Mail.send {request={to="customer@example.test",subject="Wi-Fi",body="We are checking",attachments=[document]}}
   fixture outbound=Message {parent=conversation,external_id="staff-reply",kind=reply,body="We are checking",sender="staff@example.test",recipient="customer@example.test",author=self,attachments=[document],delivery=attempt}
   fixture desk_asset=Asset {location=test_site,identifier="WIFI-1",name="Router",category="Connectivity"}
-  preferences { state:Ticket.state?, priority:Ticket.priority? }
   message label_IncomingMail_sender = "Sender"@{nl="Afzender"}
   message label_IncomingMail_recipient = "Recipient"@{nl="Ontvanger"}
   message label_IncomingMail_thread = "Conversation token"@{nl="Gesprekstoken"}
@@ -180,6 +179,7 @@ package desk
     support,"" -> error(rule_failed)
     members,"Router is not responding" -> error(forbidden)
  Then
+  preferences { state:Ticket.state?, priority:Ticket.priority? }
   # Triage location queues and distinguish internal notes from customer replies. @{nl="Beoordeel locatiewachtrijen en onderscheid interne notities van klantantwoorden."}
   page /support title="Support"@{nl="Support"}
    breadcrumbs

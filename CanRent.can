@@ -8,9 +8,9 @@ app Workspace uses=[CanRent,CanMember,CanReport]
 package rent_catalog_ui
  use rent_catalog {Location,WeeklyHours,ClosedDate,DateHours,catalog_owner}
  Given
-  preferences { arrival_open:bool=false label="Show arrival instructions"@{nl="Aankomstinstructies tonen"} }
  When
  Then
+  preferences { arrival_open:bool=false label="Show arrival instructions"@{nl="Aankomstinstructies tonen"} }
   # Author location descriptions and arrival information. @{nl="Schrijf locatiebeschrijvingen en aankomstinformatie."}
   page /workspace/catalog title="Workspace catalog"@{nl="Werkplekcatalogus"} order=6
    require catalog_owner
@@ -80,7 +80,6 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
  use std {OperationOutcome,DeliveryResult}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
-  preferences { location:Location? }
   message policy_title = "Commercial policy and access"@{nl="Commerciële voorwaarden en toegang"}
   message label_RoomRequest_source = "Source reference"@{nl="Bronreferentie"}
   message label_RoomRequest_account = "User account"@{nl="Gebruikersaccount"}
@@ -1435,6 +1434,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       set event.booking {cancel_delivery=cancellation.id}
     emit ReservationChanged {booking=event.booking,revision=event.booking.version+1}
  Then
+  preferences { location:Location? }
   # Read retained booking evidence under current staff or explicitly mapped account access. @{nl="Lees bewaard reserveringsbewijs met huidige medewerkersrechten of toegang voor een uitdrukkelijk gekoppeld account."}
   page /workspace/history title="Historical booking evidence"@{nl="Historisch reserveringsbewijs"}
    require authenticated
@@ -1882,9 +1882,9 @@ package rent_reporting label="Workspace occupancy"@{nl="Werkplekbezetting"}
  use rent_reservations {Resource,Booking,resource_report,reservation_manager}
  use rent_catalog {Location}
  Given
-  preferences { location:Location? }
  When
  Then
+  preferences { location:Location? }
   # Keep booked intervals and actual occupancy visible as distinct evidence. @{nl="Houd gereserveerde tijdvakken en werkelijke bezetting zichtbaar als afzonderlijk bewijs."}
   page /workspace/occupancy title="Local occupancy"@{nl="Lokale bezetting"} order=4
    require authenticated

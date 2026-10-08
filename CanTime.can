@@ -9,7 +9,6 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
  use rent_catalog {Location,test_site}
  use invoice {BillingV1 as Billing} from=deployment.billing
  Given
-  preferences { project:Project? label=label_Project, location:Location?, week:date?, billable_filter:bool? label="Initial billable filter"@{nl="Eerste facturatiefilter"} }
   message label_Project = "Time project"@{nl="Tijdregistratieproject"}
   message label_Entry_from = "Started at"@{nl="Gestart op"}
   message label_Entry_until = "Stopped at"@{nl="Gestopt op"}
@@ -248,6 +247,7 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
      if event.value.revision>correction.revision
       set correction {absent=false,revision=event.value.revision,collected=event.value.collected,refunded=event.value.refunded,collection_pending=event.value.collection_pending,refund_pending=event.value.refund_pending}
  Then
+  preferences { project:Project? label=label_Project, location:Location?, week:date?, billable_filter:bool? label="Initial billable filter"@{nl="Eerste facturatiefilter"} }
   # Start, stop and submit your own time with separate observed and entered evidence. @{nl="Start, stop en dien je eigen tijd in met afzonderlijk gemeten en ingevoerd bewijs."}
   page /time/mine title="My time"@{nl="Mijn tijd"}
    require members

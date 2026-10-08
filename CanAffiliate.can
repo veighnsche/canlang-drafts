@@ -48,7 +48,6 @@ package affiliate
   fixture sale=Sale {parent=broker,source="sale",revision=1,customer="company",location=test_site.id,product="office",milestone=completed,qualified_at=datetime("2026-10-01T00:00:00Z"),amount=money(1000,"EUR"),rate=0.1,agreement="v1",commission=money(100,"EUR")}
   fixture payout=Settlement {parent=broker,source="payout",account="connected",amount=money(100,"EUR"),delivery="transfer-delivery"}
   fixture attributed=SourceEvidence {parent=broker,source="qualified",value={source="qualified",revision=1,customer="company",account=self,location=test_site.id,product="office",amount=money(1000,"EUR"),purchased_at=datetime("2026-10-01T01:00:00Z"),occurred=datetime("2026-10-02T00:00:00Z"),milestone=completed,attribution=broker.id,exclusive_program=format("affiliate.Partner:{id}",{id=broker.id}),attributed_at=datetime("2026-10-01T00:00:00Z"),attribution_window=30d,first_customer=true,history_known=true}}
-  preferences { reversed:bool? label=label_CommissionResult_allocation_reversed }
   message label_CommissionResult_source = "Source reference"@{nl="Bronreferentie"}
   message label_CommissionResult_account = "Account"@{nl="Account"}
   message label_CommissionResult_allocation = "Allocation state"@{nl="Toewijzingsstatus"}
@@ -212,6 +211,7 @@ package affiliate
      set settlement {reconcile_delivery=delivery.id}
      schedule format("commission-{id}",{id=settlement.id}) at=now+5m event=SettlementCheck {settlement}
  Then
+  preferences { reversed:bool? label=label_CommissionResult_allocation_reversed }
   # Maintain agreement rates and inspect source sales without repricing previous commission. @{nl="Beheer overeenkomsttarieven en bekijk bronverkopen zonder eerdere commissies te herberekenen."}
   page /partners title="Partners"@{nl="Partners"}
    require partner_manager or finance

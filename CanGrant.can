@@ -12,7 +12,6 @@ package grant
   message label_reviewer = "Reviewer"@{nl="Beoordelaar"}
   message label_Application_received = "Received at"@{nl="Ontvangen op"}
   message label_Application_override_reason = "Deadline override reason"@{nl="Reden deadline-uitzondering"}
-  preferences { location:Location?, application_state:Application.state? label="Application state"@{nl="Aanvraagstatus"} }
   role coordinator label="Program coordinator"@{nl="Programmacoördinator"}
   role reviewer label=label_reviewer
   contract Question { key:text trim min=1, prompt:text trim min=1 } label="Eligibility question"@{nl="Toelatingsvraag"}
@@ -340,6 +339,7 @@ package grant
     coordinator_user,submitted,null,null,null,attempt,skipped,null,null -> skipped,submitted,null,null,null,money(60,"EUR"),0,money(100,"EUR")
     coordinator_user,submitted,null,null,null,attempt,pending,null,null -> pending,submitted,null,null,null,money(60,"EUR"),0,money(100,"EUR")
  Then
+  preferences { location:Location?, application_state:Application.state? label="Application state"@{nl="Aanvraagstatus"} }
   # Discover the published cash-award terms and use private applicant intake. @{nl="Bekijk de gepubliceerde subsidievoorwaarden en gebruik de private aanvraagprocedure."}
   page /awards title="Funded programs"@{nl="Financieringsprogramma's"}
    breadcrumbs

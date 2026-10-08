@@ -40,8 +40,6 @@ package todo
   lock Comment fields=body,author
   fixture open_task=Task {title="Opening checks",assignee=self}
   fixture work_view=WorkView {account=self,requested=datetime("2026-10-03T09:00:00Z"),delivery="work-test"}
-  preferences { location:Location?, done:bool?, view:enum(all,today,overdue)=all label={text="Task view"@{nl="Taakweergave"},values={all="All tasks"@{nl="Alle taken"},today="Due today"@{nl="Vandaag verschuldigd"},overdue="Overdue"@{nl="Te laat"}}} }
-  invariant preferences: row.location==null or can_work(actor,row.location)
   message source_freshness_caption = "Source freshness"@{nl="Actualiteit bron"}
   message label_WorkItem_source = "Source reference"@{nl="Bronreferentie"}
   message label_WorkItem_detail = "Details"@{nl="Details"}
@@ -114,6 +112,8 @@ package todo
   scenario report_error on=instrumentation.error
    do send Catch.report {event=event} as delivery
  Then
+  preferences { location:Location?, done:bool?, view:enum(all,today,overdue)=all label={text="Task view"@{nl="Taakweergave"},values={all="All tasks"@{nl="Alle taken"},today="Due today"@{nl="Vandaag verschuldigd"},overdue="Overdue"@{nl="Te laat"}}} }
+  invariant preferences: row.location==null or can_work(actor,row.location)
   # Add tasks quickly and follow location, due date and ownership. @{nl="Voeg taken snel toe en volg locatie, deadline en eigenaarschap."}
   page /tasks title="Tasks"@{nl="Taken"}
    require members

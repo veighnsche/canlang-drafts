@@ -61,7 +61,6 @@ package customer
   fixture company_invitation=Invitation {parent=test_company,email=actor.email,role=booker,locations=[test_site],expires=now+7d}
   fixture duplicate_company=Customer {name="Example company",kind=company,locations=[test_site]}
   fixture reviewed_alias=Alias {from_customer=duplicate_company,to_customer=test_company,reason="Reviewed duplicate"}
-  preferences { kind:Customer.kind?, active:bool? }
   message notice_company_invitation = "Company invitation"@{nl="Bedrijfsuitnodiging"}
   message label_Customer_kind_company = "Company"@{nl="Bedrijf"}
   message label_Customer_locations = "Locations"@{nl="Locaties"}
@@ -225,6 +224,7 @@ package customer
      set event.invitation {status=expired}
 
  Then
+  preferences { kind:Customer.kind?, active:bool? }
   # Maintain customers and review duplicates under location scope. @{nl="Beheer klanten en beoordeel dubbelen binnen locatiebevoegdheden."}
   page /customers title="Customers"@{nl="Klanten"}
    breadcrumbs
