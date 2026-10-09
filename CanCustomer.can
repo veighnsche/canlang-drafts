@@ -317,7 +317,7 @@ package customer
      text row.name,row.email
      button action=claim arguments={contact=row}
    card "Addressed company invitations"@{nl="Gerichte bedrijfsuitnodigingen"}
-    list Invitation as invitation where invitation.email==actor.email and invitation.status==open
+    list Invitation as invitation where actor!=null and invitation.email==actor.email and invitation.status==open
      pagination
      badge row.status
      text row.email,row.role,row.locations,row.expires
