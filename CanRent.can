@@ -624,9 +624,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     for movement in Movement as row where row.source==event.value.source limit=1
      require movement.extra_due!=null and event.value.amount==movement.extra_due
+     let extra_due=movement.extra_due
      if event.value.revision>movement.extra_revision
       set movement {extra_revision=event.value.revision}
-      if event.value.collected-event.value.refunded>=movement.extra_due
+      if event.value.collected-event.value.refunded>=extra_due
        set movement {extra_paid=true}
        if movement.state==waiting_money and movement.outcome!=null
         emit MovementObserved {movement,value=movement.outcome}
@@ -640,13 +641,15 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     let booking=movement.parent
     if charge_source==booking.source
      require booking.collected!=null and booking.refunded!=null and amount<=booking.collected-booking.refunded
+     let refunded=booking.refunded
      send Billing.refund {source=charge_source,amount,reason} as refund
-     create MovementCredit {parent=movement,charge_source,amount,baseline=credit_baseline(charge_source,booking.refunded),delivery=refund.id,reason} as credit
+     create MovementCredit {parent=movement,charge_source,amount,baseline=credit_baseline(charge_source,refunded),delivery=refund.id,reason} as credit
     else
      let adjustment=first(booking.Adjustment as row where row.source==charge_source and row.state==paid)
      require adjustment!=null and adjustment.collected!=null and adjustment.refunded!=null and amount<=adjustment.collected-adjustment.refunded
+     let refunded=adjustment.refunded
      send Billing.refund {source=charge_source,amount,reason} as refund
-     create MovementCredit {parent=movement,charge_source,amount,baseline=credit_baseline(charge_source,adjustment.refunded),delivery=refund.id,reason} as credit
+     create MovementCredit {parent=movement,charge_source,amount,baseline=credit_baseline(charge_source,refunded),delivery=refund.id,reason} as credit
   scenario movement_credit_result on=Billing.refund.completed
    do
     for credit in MovementCredit as row where row.delivery==event.delivery_id limit=1
@@ -988,16 +991,17 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   scenario quote_changed on=ReservationChanged
    require event.booking.quote!=null and event.booking.version==event.revision
    do
+    let quote_revision=event.booking.quote.revision
     if event.booking.status in [confirmed,occupied,completed]
-     emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=confirmed,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+     emit OfferOutcome {value={source=event.booking.source,revision=quote_revision,kind=booking,version=event.booking.version,state=confirmed,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
     else
      if event.booking.status in [cancelled,expired,review,no_show]
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=unavailable,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=quote_revision,kind=booking,version=event.booking.version,state=unavailable,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
     if event.booking.status in [held,pending]
      if event.booking.payment==unknown
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=unknown,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=quote_revision,kind=booking,version=event.booking.version,state=unknown,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
      else
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=pending,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=quote_revision,kind=booking,version=event.booking.version,state=pending,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
   scenario quote_expire on=QuoteDue
    require event.hold.active and event.hold.expires<=now
    do
@@ -1097,11 +1101,12 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let extra=amount ?? (booking.rate*((until-booking.until)/1h)*booking.quantity*(1-booking.discount_fraction)*(1+booking.tax_fraction))
     require extra.minor>0
-    create Adjustment {parent=booking,source=operation.id,amount=extra,reason,original_until=booking.until,original_reserved_until=booking.reserved_until,new_until=until,expires=now+booking.parent.hold_for} as adjustment
+    let expires=now+booking.parent.hold_for
+    create Adjustment {parent=booking,source=operation.id,amount=extra,reason,original_until=booking.until,original_reserved_until=booking.reserved_until,new_until=until,expires} as adjustment
     set booking {reserved_until=until+booking.departure_buffer}
     send Billing.charge {value={source=adjustment.source,customer=booking.customer.id,location=booking.parent.location.id,description=reason,amount=extra,due=local_date(now,booking.parent.timezone)}} as charge
     set adjustment {delivery=charge.id}
-    schedule adjustment.id at=adjustment.expires event=AdjustmentDue {adjustment}
+    schedule adjustment.id at=expires event=AdjustmentDue {adjustment}
   scenario adjustment_money on=SettlementObserved
    do
     for adjustment in Adjustment as row where row.source==event.value.source limit=1
@@ -1117,8 +1122,9 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
        if adjustment.new_until==null
         set adjustment {state=paid}
        else
-        if adjustment.parent.status in [confirmed,occupied] and adjustment.parent.until==adjustment.original_until and resource_free(adjustment.parent.parent,adjustment.parent.reserved_from,adjustment.new_until+adjustment.parent.departure_buffer,adjustment.parent.quantity,adjustment.parent)
-         set adjustment.parent {until=adjustment.new_until,reserved_until=adjustment.new_until+adjustment.parent.departure_buffer}
+        let new_until=adjustment.new_until
+        if adjustment.parent.status in [confirmed,occupied] and adjustment.parent.until==adjustment.original_until and resource_free(adjustment.parent.parent,adjustment.parent.reserved_from,new_until+adjustment.parent.departure_buffer,adjustment.parent.quantity,adjustment.parent)
+         set adjustment.parent {until=new_until,reserved_until=new_until+adjustment.parent.departure_buffer}
          create ResourcePolicy {parent=adjustment.parent.parent,sequence=count(adjustment.parent.parent.ResourcePolicy)+1,value=resource_evidence(adjustment.parent.parent)} as policy_snapshot_1
          create BookingEvidence {parent=adjustment.parent.parent,sequence=policy_snapshot_1.sequence,key=adjustment.parent.id,value=report_booking(adjustment.parent)} as booking_evidence_1
          set adjustment {state=paid}
@@ -1126,15 +1132,19 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
          emit ReservationChanged {booking=adjustment.parent,revision=adjustment.parent.version+1}
         else
          set adjustment {state=review}
-         if adjustment.parent.until==adjustment.original_until and adjustment.parent.reserved_until==adjustment.new_until+adjustment.parent.departure_buffer
+         if adjustment.parent.until==adjustment.original_until and adjustment.parent.reserved_until==new_until+adjustment.parent.departure_buffer
+          require adjustment.original_reserved_until!=null
           set adjustment.parent {reserved_until=adjustment.original_reserved_until}
      if fresh and adjustment.refund_delivery!=null and event.value.refunded>=adjustment.amount
       set adjustment {state=refunded}
   scenario extension_expire on=AdjustmentDue
    require event.adjustment.state==pending and event.adjustment.expires!=null and event.adjustment.expires<=now
    do
+    require event.adjustment.new_until!=null
+    let new_until=event.adjustment.new_until
     set event.adjustment {state=expired}
-    if event.adjustment.parent.until==event.adjustment.original_until and event.adjustment.parent.reserved_until==event.adjustment.new_until+event.adjustment.parent.departure_buffer
+    if event.adjustment.parent.until==event.adjustment.original_until and event.adjustment.parent.reserved_until==new_until+event.adjustment.parent.departure_buffer
+     require event.adjustment.original_reserved_until!=null
      set event.adjustment.parent {reserved_until=event.adjustment.original_reserved_until}
     send Billing.cancel {source=event.adjustment.source,reason="Extension hold expired"} as cancellation
   scenario refund_adjustment(adjustment:Adjustment,reason:text) by=billing label="Refund adjustment exception"@{nl="Correctie-uitzondering terugbetalen"}
@@ -1169,6 +1179,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let booking=event.booking
     if booking.billing_location!=null and booking.sale_product!=null and booking.purchased_at!=null and booking.monetary_due!=null and booking.monetary_due.minor>0 and booking.billing_delivery!=null
+     let billing_location=booking.billing_location
+     let sale_product=booking.sale_product
+     let purchased_at=booking.purchased_at
+     let monetary_due=booking.monetary_due
      if not any(booking.CommercialSale as sale,true)
       create CommercialSale {parent=booking} as created
      let sale=first(booking.CommercialSale as sale order=sale.id)
@@ -1176,17 +1190,18 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      if sale.phase!=reversed
       if booking.status in [cancelled,no_show] or booking.cancel_delivery!=null or booking.cancellation_reason!=null or booking.refund_delivery!=null or booking.refund_requested!=null or (booking.refunded!=null and booking.refunded.minor>0) or (sale.phase!=null and (booking.status in [review,expired] or booking.payment!=paid or not (booking.allowance in [not_required,consumed])))
        set sale {phase=reversed,revision=sale.revision+1}
-       emit CommercialSaleChanged {value=commercial(booking,sale,booking.billing_location,booking.sale_product,booking.monetary_due,booking.purchased_at,reversed,now)}
+       emit CommercialSaleChanged {value=commercial(booking,sale,billing_location,sale_product,monetary_due,purchased_at,reversed,now)}
       else
-       if booking.payment==paid and booking.status in [confirmed,occupied,completed] and booking.allowance in [not_required,consumed] and booking.cancel_delivery==null and not booking.collection_pending and not booking.refund_pending and booking.refund_state==none and booking.collected!=null and booking.collected>=booking.monetary_due and booking.refunded!=null and booking.refunded.minor==0
+       if booking.payment==paid and booking.status in [confirmed,occupied,completed] and booking.allowance in [not_required,consumed] and booking.cancel_delivery==null and not booking.collection_pending and not booking.refund_pending and booking.refund_state==none and booking.collected!=null and booking.collected>=monetary_due and booking.refunded!=null and booking.refunded.minor==0
         if booking.status==completed and booking.checked_out!=null
+         let checked_out=booking.checked_out
          if sale.phase!=completed
           set sale {phase=completed,revision=sale.revision+1}
-          emit CommercialSaleChanged {value=commercial(booking,sale,booking.billing_location,booking.sale_product,booking.monetary_due,booking.purchased_at,completed,booking.checked_out)}
+          emit CommercialSaleChanged {value=commercial(booking,sale,billing_location,sale_product,monetary_due,purchased_at,completed,checked_out)}
         else
          if sale.phase==null
           set sale {phase=paid,revision=sale.revision+1}
-          emit CommercialSaleChanged {value=commercial(booking,sale,booking.billing_location,booking.sale_product,booking.monetary_due,booking.purchased_at,paid,now)}
+          emit CommercialSaleChanged {value=commercial(booking,sale,billing_location,sale_product,monetary_due,purchased_at,paid,now)}
    examples seed=[test_sale] event={booking=test_hold}
     test_hold.billing_location,test_hold.sale_product,test_hold.purchased_at,test_hold.monetary_due,test_hold.billing_delivery,test_hold.collected,test_hold.refunded,test_hold.status,test_hold.payment,test_hold.checked_out,test_sale.phase -> test_sale.phase,test_sale.revision
     test_site,"meeting",now-1h,money(500,"EUR"),"original-charge",money(500,"EUR"),money(0,"EUR"),confirmed,paid,null,null -> paid,1
@@ -1677,7 +1692,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
         copy row.source
         pagination
        alert "Conflicts need manager review"@{nl="Conflicten vereisen beoordeling"}
-       list row.Conflict where not row.resolved empty="No unresolved conflicts"@{nl="Geen onopgeloste conflicten"}
+       list row.Conflict as conflict where not conflict.resolved empty="No unresolved conflicts"@{nl="Geen onopgeloste conflicten"}
         text row.booking,row.reason
         button opens=conflict_resolve
         modal "Resolve reservation conflict"@{nl="Reserveringsconflict oplossen"} id=conflict_resolve
