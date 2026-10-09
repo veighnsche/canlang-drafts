@@ -378,7 +378,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     let boundaries=[from,until]+weekly+dated+midnight+windows+downtime+service+access+venues+(policies as policy select policy.effective)+(openings as policy select policy.effective)
     let points=group((boundaries as point where from<=point and point<=until) as point,point) as point order=point.key select point.key
     let complete=any(policies as policy,policy.effective<=from and policy.baseline) and any(openings as policy,policy.effective<=from)
-    let stamp=join((policies as policy order=policy.sequence select format("{id}:{sequence}",{id=policy.id,sequence=policy.sequence})),",")+":"+join((openings as policy order=policy.sequence select format("{id}:{sequence}",{id=policy.id,sequence=policy.sequence})),",")+":"+join((resource.BookingEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),",")+":"+join((resource.VenueEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),",")+":"+join((resource.WindowEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),",")+":"+join((resource.DowntimeEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),",")
+    let stamp=join([join((policies as policy order=policy.sequence select format("{id}:{sequence}",{id=policy.id,sequence=policy.sequence})),","),join((openings as policy order=policy.sequence select format("{id}:{sequence}",{id=policy.id,sequence=policy.sequence})),","),join((resource.BookingEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),","),join((resource.VenueEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),","),join((resource.WindowEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),","),join((resource.DowntimeEvidence as fact order=fact.sequence select format("{id}:{sequence}",{id=fact.id,sequence=fact.sequence})),",")],":")
     if complete
      return ReportBatch {checkpoint=Checkpoint {source=resource.id,revision=stamp,generated=now,state=fresh,complete=true},rows=saved_rows(resource,points,until)}
     return ReportBatch {checkpoint=Checkpoint {source=resource.id,revision=stamp,generated=now,state=partial,complete=false},rows=saved_rows(resource,points,until)}
@@ -435,7 +435,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     let discount=subtotal*resource.discount_rate
     let tax=(subtotal-discount)*resource.tax_rate
     let total=subtotal-discount+tax
-    create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=now,attribution=capture?.code,exclusive_program=capture?.program,attributed_at=capture?.captured,attribution_window=capture?.window,customer,account=account ?? actor,email,from,until,quantity,attendees,rate=resource.hourly,tax_fraction=resource.tax_rate,discount_fraction=resource.discount_rate,subtotal,discount,tax,total,refund_amount=max(money(0,resource.currency),total-(resource.cancellation_fee ?? money(0,resource.currency))),terms=resource.terms,refund_before=from-resource.refund_notice,reserved_from=from-resource.buffer_before,reserved_until=until+resource.buffer_after,expires=now+resource.hold_for,source=operation.id,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before,benefit_unit=resource.price_unit,benefit_duration=resource.increment,benefit_rate=resource.hourly*(resource.increment/1h),benefit_intervals=[BenefitInterval {from,until}]} as booking
+    create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=now,attribution=capture?.code,exclusive_program=capture?.program,attributed_at=capture?.captured,attribution_window=capture?.window,customer,account=account ?? actor,email,from,until,quantity,attendees,rate=resource.hourly,tax_fraction=resource.tax_rate,discount_fraction=resource.discount_rate,subtotal,discount,tax,total,refund_amount=max([money(0,resource.currency),total-(resource.cancellation_fee ?? money(0,resource.currency))]),terms=resource.terms,refund_before=from-resource.refund_notice,reserved_from=from-resource.buffer_before,reserved_until=until+resource.buffer_after,expires=now+resource.hold_for,source=operation.id,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before,benefit_unit=resource.price_unit,benefit_duration=resource.increment,benefit_rate=resource.hourly*(resource.increment/1h),benefit_intervals=[BenefitInterval {from,until}]} as booking
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
     create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
     if use_allowance
@@ -464,7 +464,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     let discount=subtotal*resource.discount_rate
     let tax=(subtotal-discount)*resource.tax_rate
     let total=subtotal-discount+tax
-    create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=now,attribution=capture?.code,exclusive_program=capture?.program,attributed_at=capture?.captured,attribution_window=capture?.window,customer,account=account ?? actor,email,from=first_day.from+resource.buffer_before,until=last_day.until-resource.buffer_after,intervals=access,original_intervals=access,benefit_unit=day,benefit_duration=1d,benefit_rate=resource.daily,benefit_intervals=access as interval select BenefitInterval {from=interval.from+resource.buffer_before,until=interval.until-resource.buffer_after},quantity,attendees,rate=resource.daily,tax_fraction=resource.tax_rate,discount_fraction=resource.discount_rate,subtotal,discount,tax,total,refund_amount=max(money(0,resource.currency),total-(resource.cancellation_fee ?? money(0,resource.currency))),terms=resource.terms,refund_before=first_day.from+resource.buffer_before-resource.refund_notice,reserved_from=first_day.from,reserved_until=last_day.until,expires=now+resource.hold_for,source=operation.id,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before} as booking
+    create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=now,attribution=capture?.code,exclusive_program=capture?.program,attributed_at=capture?.captured,attribution_window=capture?.window,customer,account=account ?? actor,email,from=first_day.from+resource.buffer_before,until=last_day.until-resource.buffer_after,intervals=access,original_intervals=access,benefit_unit=day,benefit_duration=1d,benefit_rate=resource.daily,benefit_intervals=access as interval select BenefitInterval {from=interval.from+resource.buffer_before,until=interval.until-resource.buffer_after},quantity,attendees,rate=resource.daily,tax_fraction=resource.tax_rate,discount_fraction=resource.discount_rate,subtotal,discount,tax,total,refund_amount=max([money(0,resource.currency),total-(resource.cancellation_fee ?? money(0,resource.currency))]),terms=resource.terms,refund_before=first_day.from+resource.buffer_before-resource.refund_notice,reserved_from=first_day.from,reserved_until=last_day.until,expires=now+resource.hold_for,source=operation.id,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before} as booking
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
     create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
     if use_allowance
@@ -574,7 +574,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      let old_balance=booking.service_due ?? booking.monetary_due ?? booking.total
      if now<booking.refund_before and now<movement.expires and booking.status==confirmed and booking.checked_in==null and all(movement.intervals as interval,free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,0,null))
       if balance<=old_balance or movement.extra_paid
-       set movement {state=committing,outcome=event.value,credit_due=max(money(0,booking.total.currency),old_balance-balance)}
+       set movement {state=committing,outcome=event.value,credit_due=max([money(0,booking.total.currency),old_balance-balance])}
        send Membership.commit {source=movement.source,customer=booking.customer.id} as commit
        set movement {commit_delivery=commit.id}
       else
@@ -734,7 +734,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     set booking {status=occupied,checked_in=now}
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
     create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
-    schedule booking.source+":occupancy" at=booking.until event=OccupancyDue {booking}
+    schedule format("{source}:occupancy",{source=booking.source}) at=booking.until event=OccupancyDue {booking}
     emit ReservationChanged {booking,revision=booking.version+1}
   scenario overdue_occupancy on=OccupancyDue
    require event.booking.checked_in!=null and event.booking.checked_out==null and event.booking.until<=now
@@ -747,8 +747,8 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   export scenario depart(booking:Booking) by=reception label="Record departure"@{nl="Vertrek vastleggen"}
    require can_work(actor,booking.parent.location) and booking.checked_in!=null and booking.checked_out==null
    do
-    cancel booking.source+":occupancy"
-    set booking {status=completed,overdue=false,checked_out=now,reserved_until=max(booking.reserved_until,now+booking.departure_buffer)}
+    cancel format("{source}:occupancy",{source=booking.source})
+    set booking {status=completed,overdue=false,checked_out=now,reserved_until=max([booking.reserved_until,now+booking.departure_buffer])}
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
     create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
     emit ReservationChanged {booking,revision=booking.version+1}
@@ -773,8 +773,8 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     send Billing.cancel {source=booking.source,reason} as invoice_cancel
     set booking {cancel_delivery=invoice_cancel.id}
     if booking.payment==paid and now<booking.refund_before and booking.refund_amount.minor>0
-     send Billing.refund {source=booking.source,amount=max(money(0,booking.total.currency),(booking.monetary_due ?? booking.total)-(booking.total-booking.refund_amount)),reason} as refund
-     set booking {refund_delivery=refund.id,refund_state=pending,refund_requested=max(money(0,booking.total.currency),(booking.monetary_due ?? booking.total)-(booking.total-booking.refund_amount))}
+     send Billing.refund {source=booking.source,amount=max([money(0,booking.total.currency),(booking.monetary_due ?? booking.total)-(booking.total-booking.refund_amount)]),reason} as refund
+     set booking {refund_delivery=refund.id,refund_state=pending,refund_requested=max([money(0,booking.total.currency),(booking.monetary_due ?? booking.total)-(booking.total-booking.refund_amount)])}
     emit ReservationChanged {booking,revision=booking.version+1}
    ## A committed cancellation captures one marker and one fact; rejections commit nothing.
    examples seed=[test_hold] booking=test_hold reason="Customer request"
@@ -1321,7 +1321,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       emit SettlementObserved {value=event.result}
      if event.status in [failed,unknown]
       set booking {refund_state=unknown}
-  scenario money on=SettlementObserved
+  scenario booking_money on=SettlementObserved
    do
     for booking in Booking as b where b.source==event.value.source limit=1
      require event.value.amount==(booking.monetary_due ?? booking.total) and event.value.collected.currency==booking.total.currency and event.value.refunded.currency==booking.total.currency
