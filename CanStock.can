@@ -88,6 +88,7 @@ package stock
     if previous!=null
      require previous.value==value and previous.location==location
      if previous.state==confirmed
+      require previous.movement!=null
       emit PostOutcome {value={source=value.source,revision=value.revision,state=confirmed,reference=previous.movement.id,detail=null}}
      else
       set previous {state=pending,detail=null}
@@ -163,7 +164,7 @@ package stock
    do return available(item,location)
  Then
   preferences { location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Inspect location balances and enter deliberate ledger movements. @{nl="Bekijk locatiesaldi en voer bewuste voorraadmutaties in."}
   page /stock title="Consumables"@{nl="Verbruiksartikelen"}
    require stock_staff

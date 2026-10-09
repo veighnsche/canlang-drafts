@@ -162,7 +162,7 @@ package crm label="Sales"@{nl="Verkoop"}
    do return Pipeline {count=count(Deal as deal where deal.stage in [lead,qualified,proposal] and deal.value.currency==currency),total=sum(Deal as deal where deal.stage in [lead,qualified,proposal] and deal.value.currency==currency select deal.value,currency)}
  Then
   preferences { location:Location?, stage:Deal.stage?, followup:enum(overdue,upcoming)=overdue label={text="Next-action view"@{nl="Weergave vervolgacties"},values={overdue="Overdue next actions"@{nl="Achterstallige vervolgacties"},upcoming="Upcoming next actions"@{nl="Komende vervolgacties"}}} }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Review prospects, location needs and dated follow-up. @{nl="Bekijk prospects, locatiebehoeften en gedateerde vervolgacties."}
   page /sales title="Sales pipeline"@{nl="Verkoopkansen"}
    require salesperson

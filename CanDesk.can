@@ -273,7 +273,7 @@ package desk
      textarea body
      input category
      radio priority
-   list Ticket as ticket where ticket.email==actor.email filter=state,priority defaults={state=preferences.state,priority=preferences.priority} display=split
+   list Ticket as ticket where actor!=null and ticket.email==actor.email filter=state,priority defaults={state=preferences.state,priority=preferences.priority} display=split
     pagination
     badge row.state
     badge row.priority

@@ -251,6 +251,7 @@ package sales_attribution
      require advocate.parent.active and advocate.account!=actor
      create Capture {parent=customer,advocate,code=advocate.code,program=format("refer.Program:{id}",{id=advocate.parent.id}),window=advocate.parent.window,source=operation.id} as captured
      return captured
+    require partner!=null
     require partner.active and partner.account!=actor
     create Capture {parent=customer,partner,code=partner.id,program=format("affiliate.Partner:{id}",{id=partner.id}),window=partner.window,source=operation.id} as captured
     return captured
