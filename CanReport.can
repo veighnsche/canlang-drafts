@@ -72,6 +72,7 @@ package report
    do
     if run.checkpoint==null
      return Measure {state=unavailable,pending=run.pending,inclusion=run.parent.inclusion,unit=run.parent.unit}
+    require run.checkpoint!=null
     if run.checkpoint.state==fresh and not run.checkpoint.complete
      return Measure {state=partial,pending=run.pending,generated=run.checkpoint.generated,inclusion=run.parent.inclusion,unit=run.parent.unit}
     if run.checkpoint.state!=fresh
