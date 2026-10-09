@@ -189,11 +189,11 @@ package success
       tab "Source agreement"@{nl="Bronovereenkomst"}
        require row.agreement!=null
        text row.agreement
-       form renew(term=row.agreement)
+       form renew arguments={term=row.agreement}
       tab "Source membership"@{nl="Bronlidmaatschap"}
        require row.membership!=null
        text row.membership
-       form term(membership=row.membership)
+       form term arguments={membership=row.membership}
        table row.membership.Term columns=from,until,paid,collection,cancellation order=-from empty="No terms found"@{nl="Geen voorwaarden gevonden"}
         pagination
       tab "Reminder delivery"@{nl="Herinneringsbezorging"}

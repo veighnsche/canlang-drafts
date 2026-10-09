@@ -376,7 +376,7 @@ package purchase label=page_purchasing_title
        set payable {posting=unknown}
  Then
   preferences { location:Location?, supplier:Supplier?, state:Request.state? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Submit and follow your own purchase authorization. @{nl="Dien je eigen inkoopautorisatie in en volg deze."}
   page /purchasing/mine title="My requests"@{nl="Mijn aanvragen"}
    require members

@@ -7,6 +7,7 @@ package agreements
  use supplier {Supplier}
  use rent_catalog {Location,test_site}
  use employee {Employee,can_work,test_worker}
+ use std {DeliveryResult}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
   role legal label="Legal reviewer"@{nl="Juridisch beoordelaar"}
@@ -150,7 +151,7 @@ package agreements
     false,false,true,2 -> 0,null,null
  Then
   preferences { location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Retrieve executed terms, amendments and current obligation queues. @{nl="Haal ondertekende voorwaarden, aanvullingen en huidige verplichtingswachtrijen op."}
   page /agreements title="Agreements"@{nl="Overeenkomsten"}
    require legal or sales or property_manager or finance

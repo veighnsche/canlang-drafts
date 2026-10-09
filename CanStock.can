@@ -215,7 +215,7 @@ package stock
           input reorder
           validator reorder
          button submit=true
-        table row.Threshold columns=location,reorder order=location.name filter=location defaults={location=preferences.location} empty="No thresholds for this location"@{nl="Geen drempels voor deze locatie"}
+        table row.Threshold columns=location,reorder order=location filter=location defaults={location=preferences.location} empty="No thresholds for this location"@{nl="Geen drempels voor deze locatie"}
          stat row.available
          status row.low
          edit

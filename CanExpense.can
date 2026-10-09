@@ -362,7 +362,7 @@ package expense label="Expenses"@{nl="Onkosten"}
    card "Claim intake"@{nl="Declaratie aanmaken"}
     list Employee as claimant where claimant.user==actor and claimant.active
      pagination
-     list Location as site where can_work(actor,site)
+     list Location as site where actor!=null and can_work(actor,site)
       pagination
       form reviewer_choices arguments={location=site}
        list result as candidate columns=name,user,role,home

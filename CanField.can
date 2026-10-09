@@ -194,7 +194,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
      set replacement {release_delivery=null}
  Then
   preferences { location:Location?, state:Job.state?, skill:text? label=label_preferences_skill }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Dispatch by skill and location and resolve blocked work. @{nl="Plan op vaardigheid en locatie en los geblokkeerd werk op."}
   page /dispatch title="Service dispatch"@{nl="Serviceplanning"}
    breadcrumbs
