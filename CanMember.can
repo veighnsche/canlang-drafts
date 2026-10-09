@@ -395,16 +395,17 @@ package member_terms label=label_package
     if request.state==staged
      require all(Allocation as allocation where allocation.request==request,allocation.parent.until>now and eligible_term(request.value.account,allocation.parent.parent,max([now,allocation.from])) and permitted_hours(allocation.parent.parent,request.value.location,allocation.from,allocation.until))
      require request.previous!=null and (request.previous.state==reserved or (request.previous.state==consumed and request.value.restore_consumed))
-     let next_state=request.previous.state
-     for allocation in Allocation as row where row.request==request.previous and row.state in [reserved,consumed] limit=100
+     let previous=request.previous
+     let next_state=previous.state
+     for allocation in Allocation as row where row.request==previous and row.state in [reserved,consumed] limit=100
       if allocation.state==consumed
        create Reversal {parent=allocation,source=request.source,units=allocation.units,restored=allocation.parent.until>now} as reversal
       set allocation {state=released}
-     set request.previous {state=released,result=released,revision=request.previous.revision+1}
+     set previous {state=released,result=released,revision=previous.revision+1}
      for allocation in Allocation as row where row.request==request and row.state==staged limit=100
       set allocation {state=next_state}
      set request {state=next_state,revision=request.revision+1}
-     emit AllowanceChanged {value=outcome(request.previous)}
+     emit AllowanceChanged {value=outcome(previous)}
      emit AllowanceChanged {value=outcome(request)}
     emit CommitOutcome {value=outcome(request)}
   # Consume once at owner-confirmed fulfillment; staged originals remain protected. @{nl="Verbruik één keer bij door de eigenaar bevestigde uitvoering; tijdelijke originelen blijven beschermd."}
@@ -591,6 +592,7 @@ package member_terms label=label_package
    do
     let term=event.term
     if term.price.minor>0 and term.billing_location!=null
+     let billing_location=term.billing_location
      if not any(term.CommercialSale as sale,true)
       create CommercialSale {parent=term} as created
      let sale=first(term.CommercialSale as sale order=sale.id)
@@ -598,17 +600,17 @@ package member_terms label=label_package
      if sale.phase!=reversed
       if term.cancellation!=none or term.refund_access==revoke or (sale.phase!=null and not term.paid)
        set sale {phase=reversed,revision=sale.revision+1}
-       emit CommercialSaleChanged {value=commercial(term,sale,term.billing_location,reversed,now)}
+       emit CommercialSaleChanged {value=commercial(term,sale,billing_location,reversed,now)}
       else
        if term.paid
         if term.until<=now
          if sale.phase!=completed
           set sale {phase=completed,revision=sale.revision+1}
-          emit CommercialSaleChanged {value=commercial(term,sale,term.billing_location,completed,term.until)}
+          emit CommercialSaleChanged {value=commercial(term,sale,billing_location,completed,term.until)}
         else
          if sale.phase==null
           set sale {phase=paid,revision=sale.revision+1}
-          emit CommercialSaleChanged {value=commercial(term,sale,term.billing_location,paid,now)}
+          emit CommercialSaleChanged {value=commercial(term,sale,billing_location,paid,now)}
    examples event={term=paid_term}
     paid_term.billing_location,paid_term.paid,paid_term.cancellation -> count(paid_term.CommercialSale),first(paid_term.CommercialSale as sale order=sale.id)?.phase
     test_site,true,none -> 1,paid
