@@ -183,13 +183,13 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   derive venue_busy(venue:VenueReservation):bool = venue.status in [held,staged,confirmed] and (venue.status==confirmed or now<venue.expires)
   derive venue_covers(venue:VenueReservation,point:datetime):bool = venue.from<=point and point<venue.until and not (venue.previous!=null and venue_busy(venue.previous) and venue.previous.from<=point and point<venue.previous.until)
   derive quote_covers(hold:QuoteHold,point:datetime):bool = (count(hold.intervals)==0 and hold.from<=point and point<hold.until) or any(hold.intervals as interval,interval.from<=point and point<interval.until)
-  derive quote_available(resource:Resource,value:QuoteDocument,quantity:int):bool = quote_intervals_valid(value.from,value.until,value.intervals) and (resource.price_unit!=day or count(value.intervals)>0) and ((count(value.intervals)==0 and free(resource,value.from-resource.buffer_before,value.until+resource.buffer_after,quantity,null)) or (count(value.intervals)>0 and all(value.intervals as interval,(resource.price_unit!=day or any(resource.DayCalendar as day,not day.closed and interval.from==local_instant(day.day,day.opens,resource.timezone,fold=day.fold) and interval.until==local_instant(day.day,day.closes,resource.timezone,fold=day.fold))) and free(resource,interval.from-resource.buffer_before,interval.until+resource.buffer_after,quantity,null))))
+  derive quote_available(resource:Resource,value:QuoteDocument,quantity:int):bool = quote_intervals_valid(value.from,value.until,value.intervals) and (resource.price_unit!=day or count(value.intervals)>0) and ((count(value.intervals)==0 and resource_free(resource,value.from-resource.buffer_before,value.until+resource.buffer_after,quantity,null)) or (count(value.intervals)>0 and all(value.intervals as interval,(resource.price_unit!=day or any(resource.DayCalendar as day,not day.closed and interval.from==local_instant(day.day,day.opens,resource.timezone,fold=day.fold) and interval.until==local_instant(day.day,day.closes,resource.timezone,fold=day.fold))) and resource_free(resource,interval.from-resource.buffer_before,interval.until+resource.buffer_after,quantity,null))))
   derive free_at(resource:Resource,point:datetime,quantity:int,skip:Booking?,skip_venue:VenueReservation?=null):bool = quantity+sum(resource.Booking as b where b!=skip and busy(b) and covers(b,point) select b.quantity)+sum(resource.VenueReservation as venue where venue!=skip_venue and venue_busy(venue) and venue_covers(venue,point) select venue.quantity)+sum(resource.QuoteHold as hold where hold.active and now<hold.expires and quote_covers(hold,point) select hold.quantity)+sum(Movement as movement where movement.parent.parent==resource and movement_busy(movement) and movement_covers(movement,point) select movement.parent.quantity)<=resource.capacity
-  derive free(resource:Resource,from:datetime,until:datetime,quantity:int,skip:Booking?,skip_venue:VenueReservation?=null):bool = resource.active and is_open(resource.location,from,until) and from<until and quantity<=resource.capacity and any(resource.Window as w,not w.closed and w.from<=from and until<=w.until) and not any(resource.Window as w,w.closed and overlaps(from,until,w.from,w.until)) and not any(resource.Downtime as d,d.active and d.from<until and (d.until==null or from<d.until)) and free_at(resource,from,quantity,skip,skip_venue) and all(resource.Booking as b,b==skip or not busy(b) or ((b.reserved_from<from or until<=b.reserved_from or free_at(resource,b.reserved_from,quantity,skip,skip_venue)) and all(b.intervals as interval,interval.from<from or until<=interval.from or free_at(resource,interval.from,quantity,skip,skip_venue)))) and all(resource.VenueReservation as venue,venue==skip_venue or not venue_busy(venue) or venue.from<from or until<=venue.from or free_at(resource,venue.from,quantity,skip,skip_venue)) and all(resource.QuoteHold as hold,not hold.active or hold.expires<=now or ((count(hold.intervals)==0 and (hold.from<from or until<=hold.from or free_at(resource,hold.from,quantity,skip,skip_venue))) or (count(hold.intervals)>0 and all(hold.intervals as interval,interval.from<from or until<=interval.from or free_at(resource,interval.from,quantity,skip,skip_venue))))) and all(Movement as movement,movement.parent.parent!=resource or not movement_busy(movement) or all(movement.intervals as interval,interval.from-movement.parent.arrival_buffer<from or until<=interval.from-movement.parent.arrival_buffer or free_at(resource,interval.from-movement.parent.arrival_buffer,quantity,skip,skip_venue)))
+  derive resource_free(resource:Resource,from:datetime,until:datetime,quantity:int,skip:Booking?,skip_venue:VenueReservation?=null):bool = resource.active and is_open(resource.location,from,until) and from<until and quantity<=resource.capacity and any(resource.Window as w,not w.closed and w.from<=from and until<=w.until) and not any(resource.Window as w,w.closed and overlaps(from,until,w.from,w.until)) and not any(resource.Downtime as d,d.active and d.from<until and (d.until==null or from<d.until)) and free_at(resource,from,quantity,skip,skip_venue) and all(resource.Booking as b,b==skip or not busy(b) or ((b.reserved_from<from or until<=b.reserved_from or free_at(resource,b.reserved_from,quantity,skip,skip_venue)) and all(b.intervals as interval,interval.from<from or until<=interval.from or free_at(resource,interval.from,quantity,skip,skip_venue)))) and all(resource.VenueReservation as venue,venue==skip_venue or not venue_busy(venue) or venue.from<from or until<=venue.from or free_at(resource,venue.from,quantity,skip,skip_venue)) and all(resource.QuoteHold as hold,not hold.active or hold.expires<=now or ((count(hold.intervals)==0 and (hold.from<from or until<=hold.from or free_at(resource,hold.from,quantity,skip,skip_venue))) or (count(hold.intervals)>0 and all(hold.intervals as interval,interval.from<from or until<=interval.from or free_at(resource,interval.from,quantity,skip,skip_venue))))) and all(Movement as movement,movement.parent.parent!=resource or not movement_busy(movement) or all(movement.intervals as interval,interval.from-movement.parent.arrival_buffer<from or until<=interval.from-movement.parent.arrival_buffer or free_at(resource,interval.from-movement.parent.arrival_buffer,quantity,skip,skip_venue)))
   derive may_reserve(account:user,customer:Customer,resource:Resource):bool = customer.active and resource.location in customer.locations and (owns(account,customer) or has_location_role(account,customer,booker,resource.location) or has_location_role(account,customer,administrator,resource.location))
   derive may_move(booking:Booking):bool = may_reserve(booking.account,booking.customer,booking.parent) or (booking.customer.active and booking.parent.location in booking.customer.locations and reservation_manager and can_work(actor,booking.parent.location))
   derive credit_allowed(customer:Customer,resource:Resource):bool = customer.active and any(customer.BillingProfile as profile,profile.on_account and resource.location in profile.approved_locations)
-  derive bookable(booking:Booking):bool = (count(booking.intervals)==0 and free(booking.parent,booking.reserved_from,booking.reserved_until,booking.quantity,booking)) or (count(booking.intervals)>0 and all(booking.intervals as interval,free(booking.parent,interval.from,interval.until,booking.quantity,booking)))
+  derive bookable(booking:Booking):bool = (count(booking.intervals)==0 and resource_free(booking.parent,booking.reserved_from,booking.reserved_until,booking.quantity,booking)) or (count(booking.intervals)>0 and all(booking.intervals as interval,resource_free(booking.parent,interval.from,interval.until,booking.quantity,booking)))
   derive credit_baseline(charge_source:text,current:money):money = max([current]+(MovementCredit as credit where credit.charge_source==charge_source and credit.state!=failed select credit.baseline+credit.amount))
   derive financial_cover(booking:Booking):bool = (booking.collected ?? money(0,booking.total.currency))-(booking.refunded ?? money(0,booking.total.currency))+sum(booking.Adjustment as adjustment where adjustment.movement!=null select (adjustment.collected ?? money(0,booking.total.currency))-(adjustment.refunded ?? money(0,booking.total.currency)),booking.total.currency)>=(booking.service_due ?? booking.monetary_due ?? booking.total)
   derive benefit_request(booking:Booking):Entitlement = Entitlement {source=booking.source,customer=booking.customer.id,account=booking.account,location=booking.parent.location.id,product="workspace",intervals=booking.benefit_intervals,quantity=booking.quantity,unit=booking.benefit_unit,duration=booking.benefit_duration,rate=booking.benefit_rate ?? booking.rate,previous_source=null,restore_consumed=false}
@@ -407,7 +407,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let subtotal=resource.hourly*((until-from)/1h)*quantity
     let discounted=subtotal-subtotal*resource.discount_rate
-    return WorkspaceAvailability {resource,from,until,quantity,attendees,available=attendees<=resource.party_limit and (not resource.pooled or attendees<=quantity) and until-from>=resource.minimum and (until-from)%resource.increment==0m and all(amenities as amenity,amenity in resource.amenities) and free(resource,from-resource.buffer_before,until+resource.buffer_after,quantity,null),total=discounted+discounted*resource.tax_rate,terms=resource.terms,refund_before=from-resource.refund_notice}
+    return WorkspaceAvailability {resource,from,until,quantity,attendees,available=attendees<=resource.party_limit and (not resource.pooled or attendees<=quantity) and until-from>=resource.minimum and (until-from)%resource.increment==0m and all(amenities as amenity,amenity in resource.amenities) and resource_free(resource,from-resource.buffer_before,until+resource.buffer_after,quantity,null),total=discounted+discounted*resource.tax_rate,terms=resource.terms,refund_before=from-resource.refund_notice}
    examples seed=[test_hold,test_window,sunday_site] resource=test_room from=local_instant(add_days(local_date(now,"Europe/Brussels"),1),"10:00","Europe/Brussels",fold=earlier) until=local_instant(add_days(local_date(now,"Europe/Brussels"),1),"11:00","Europe/Brussels",fold=earlier)
     test_hold.from,test_hold.until,test_hold.reserved_from,test_hold.reserved_until,test_hold.expires,test_window.from,test_window.until,sunday_site.weekday,test_hold.status,test_hold.checked_in -> result.available
     local_instant(add_days(local_date(now,"Europe/Brussels"),1),"10:00","Europe/Brussels",fold=earlier),local_instant(add_days(local_date(now,"Europe/Brussels"),1),"11:00","Europe/Brussels",fold=earlier),local_instant(add_days(local_date(now,"Europe/Brussels"),1),"10:00","Europe/Brussels",fold=earlier),local_instant(add_days(local_date(now,"Europe/Brussels"),1),"11:00","Europe/Brussels",fold=earlier),now-1m,now-1d,now+3d,weekday(local_date(local_instant(add_days(local_date(now,"Europe/Brussels"),1),"10:00","Europe/Brussels",fold=earlier),"Europe/Brussels")),held,null -> true
@@ -421,7 +421,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     let access=resource.DayCalendar as day where start<=day.day and day.day<end and not day.closed order=day.day select BookingInterval {from=local_instant(day.day,day.opens,resource.timezone,fold=day.fold)-resource.buffer_before,until=local_instant(day.day,day.closes,resource.timezone,fold=day.fold)+resource.buffer_after}
     let subtotal=resource.daily*count(dates(start,end,1000))*quantity
     let discounted=subtotal-subtotal*resource.discount_rate
-    return DayAvailability {resource,start,end,quantity,attendees,available=attendees<=resource.party_limit and (not resource.pooled or attendees<=quantity) and all(amenities as amenity,amenity in resource.amenities) and count(access)==count(dates(start,end,1000)) and count(access)>0 and all(access as interval,now<=interval.from and free(resource,interval.from,interval.until,quantity,null)),total=discounted+discounted*resource.tax_rate,terms=resource.terms}
+    return DayAvailability {resource,start,end,quantity,attendees,available=attendees<=resource.party_limit and (not resource.pooled or attendees<=quantity) and all(amenities as amenity,amenity in resource.amenities) and count(access)==count(dates(start,end,1000)) and count(access)>0 and all(access as interval,now<=interval.from and resource_free(resource,interval.from,interval.until,quantity,null)),total=discounted+discounted*resource.tax_rate,terms=resource.terms}
   # Hold a published interval at its frozen price; confirmation remains pending billing and allowance. @{nl="Reserveer een gepubliceerd tijdvak tijdelijk tegen de vastgelegde prijs; bevestiging blijft afhankelijk van facturatie en tegoed."}
   scenario hold(resource:Resource,customer:Customer,from:datetime label=label_RoomRequest_from,until:datetime label=label_RoomRequest_until,quantity:int,email:email,account:user?=null label="Booking account"@{nl="Reserveringsaccount"},attendees:int=1 label="Attendees"@{nl="Deelnemers"},capture:Capture?=null,use_allowance:bool=false label=label_hold_use_allowance) -> Booking by=authenticated or reception label="Hold workspace"@{nl="Werkplek tijdelijk reserveren"}
    require capture==null or (actor.email_verified and capture.parent==customer and capture.account==(account ?? actor) and capture.account==actor and capture==latest_capture(customer,actor,resource.location,format("{kind}",{kind=resource.kind})))
@@ -429,7 +429,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    require account==null or (reception and can_work(actor,resource.location) and ((customer.kind==individual and owns(account,customer)) or has_location_role(account,customer,booker,resource.location) or has_location_role(account,customer,administrator,resource.location)))
    require (account!=null and reception and can_work(actor,resource.location)) or (reservation_manager and can_work(actor,resource.location)) or (customer.kind==individual and owns(actor,customer)) or has_location_role(actor,customer,booker,resource.location) or has_location_role(actor,customer,administrator,resource.location)
    require resource.price_unit==hour and attendees>0 and attendees<=resource.party_limit and (not resource.pooled or attendees<=quantity) and from>=now and from<until and quantity>0 and until-from>=resource.minimum and (until-from)%resource.increment==0m
-   require free(resource,from-resource.buffer_before,until+resource.buffer_after,quantity,null)
+   require resource_free(resource,from-resource.buffer_before,until+resource.buffer_after,quantity,null)
    do
     let subtotal=resource.hourly*((until-from)/1h)*quantity
     let discount=subtotal*resource.discount_rate
@@ -457,9 +457,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let access=resource.DayCalendar as day where start<=day.day and day.day<end and not day.closed order=day.day select BookingInterval {from=local_instant(day.day,day.opens,resource.timezone,fold=day.fold)-resource.buffer_before,until=local_instant(day.day,day.closes,resource.timezone,fold=day.fold)+resource.buffer_after}
     require count(access)==count(dates(start,end,1000)) and count(access)>0
-    require all(access as interval,now<=interval.from and free(resource,interval.from,interval.until,quantity,null))
+    require all(access as interval,now<=interval.from and resource_free(resource,interval.from,interval.until,quantity,null))
     let first_day=at(access,0)
     let last_day=at(access,count(access)-1)
+    require first_day!=null and last_day!=null
     let subtotal=resource.daily*count(access)*quantity
     let discount=subtotal*resource.discount_rate
     let tax=(subtotal-discount)*resource.tax_rate
@@ -476,7 +477,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   export scenario move(booking:Booking,from:datetime label=label_RoomRequest_from,until:datetime label=label_RoomRequest_until) by=authenticated label="Move held booking"@{nl="Tijdelijke reservering verplaatsen"}
    require may_move(booking)
    require booking.account==actor and booking.status in [held,confirmed] and booking.allowance==not_required and count(booking.intervals)==0 and booking.checked_in==null and from>=now and from<until and until-from==booking.until-booking.from
-   require free(booking.parent,from-booking.parent.buffer_before,until+booking.parent.buffer_after,booking.quantity,booking)
+   require resource_free(booking.parent,from-booking.parent.buffer_before,until+booking.parent.buffer_after,booking.quantity,booking)
    do
     set booking {from,until,reserved_from=from-booking.parent.buffer_before,reserved_until=until+booking.departure_buffer}
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_move
@@ -499,9 +500,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let access=booking.parent.DayCalendar as day where start<=day.day and day.day<end and not day.closed order=day.day select BookingInterval {from=local_instant(day.day,day.opens,booking.parent.timezone,fold=day.fold)-booking.parent.buffer_before,until=local_instant(day.day,day.closes,booking.parent.timezone,fold=day.fold)+booking.departure_buffer}
     require count(access)==count(booking.intervals) and count(access)==count(dates(start,end,1000))
-    require all(access as interval,now<=interval.from and free(booking.parent,interval.from,interval.until,booking.quantity,booking))
+    require all(access as interval,now<=interval.from and resource_free(booking.parent,interval.from,interval.until,booking.quantity,booking))
     let first_day=at(access,0)
     let last_day=at(access,count(access)-1)
+    require first_day!=null and last_day!=null
     set booking {intervals=access,from=first_day.from+booking.parent.buffer_before,until=last_day.until-booking.departure_buffer,reserved_from=first_day.from,reserved_until=last_day.until}
     create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
     create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
@@ -519,7 +521,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    require booking.benefit_unit==hour and from<until and until-from==booking.until-booking.from
    do
     let access=[BenefitInterval {from,until}]
-    require all(access as interval,now<=interval.from and free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,booking.quantity,booking))
+    require all(access as interval,now<=interval.from and resource_free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,booking.quantity,booking))
     create Movement {parent=booking,source=operation.id,intervals=access,expires=now+booking.parent.hold_for} as movement
     send Membership.reserve {value=movement_request(movement)} as allocation
     set movement {reserve_delivery=allocation.id}
@@ -532,7 +534,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     let access=booking.parent.DayCalendar as day where start<=day.day and day.day<end and not day.closed order=day.day select BenefitInterval {from=local_instant(day.day,day.opens,booking.parent.timezone,fold=day.fold),until=local_instant(day.day,day.closes,booking.parent.timezone,fold=day.fold)}
     require count(access)==count(booking.benefit_intervals) and count(access)==count(dates(start,end,1000))
-    require all(access as interval,now<=interval.from and free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,booking.quantity,booking))
+    require all(access as interval,now<=interval.from and resource_free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,booking.quantity,booking))
     create Movement {parent=booking,source=operation.id,intervals=access,expires=now+booking.parent.hold_for} as movement
     send Membership.reserve {value=movement_request(movement)} as allocation
     set movement {reserve_delivery=allocation.id}
@@ -572,7 +574,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      let tax=(event.value.overage-discount)*booking.tax_fraction
      let balance=event.value.overage-discount+tax
      let old_balance=booking.service_due ?? booking.monetary_due ?? booking.total
-     if now<booking.refund_before and now<movement.expires and booking.status==confirmed and booking.checked_in==null and all(movement.intervals as interval,free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,0,null))
+     if now<booking.refund_before and now<movement.expires and booking.status==confirmed and booking.checked_in==null and all(movement.intervals as interval,resource_free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,0,null))
       if balance<=old_balance or movement.extra_paid
        set movement {state=committing,outcome=event.value,credit_due=max([money(0,booking.total.currency),old_balance-balance])}
        send Membership.commit {source=movement.source,customer=booking.customer.id} as commit
@@ -580,8 +582,13 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       else
        if movement.extra_delivery==null
         let extra=balance-old_balance
+        let first_interval=at(movement.intervals,0)
+        let last_interval=at(movement.intervals,count(movement.intervals)-1)
+        require first_interval!=null and last_interval!=null
+        let first_from=first_interval.from
+        let last_until=last_interval.until
         create Adjustment {parent=booking,source=movement.source,amount=extra,reason="Membership movement overage",movement} as adjustment
-        send Billing.charge {value={source=movement.source,customer=booking.customer.id,location=booking.parent.location.id,description="Membership movement overage",amount=extra,due=local_date(at(movement.intervals,0).from,booking.parent.timezone),terms=booking.terms,items=[DocumentLine {title="Workspace movement balance",quantity=1,price=event.value.overage-(booking.allowance_base ?? booking.subtotal),discount=discount-(booking.allowance_discount ?? booking.discount),tax=tax-(booking.allowance_tax ?? booking.tax),unit="adjustment",from=at(movement.intervals,0).from,until=at(movement.intervals,count(movement.intervals)-1).until,location=booking.parent.location.name,reference=movement.source}]}} as charge
+        send Billing.charge {value={source=movement.source,customer=booking.customer.id,location=booking.parent.location.id,description="Membership movement overage",amount=extra,due=local_date(first_from,booking.parent.timezone),terms=booking.terms,items=[DocumentLine {title="Workspace movement balance",quantity=1,price=event.value.overage-(booking.allowance_base ?? booking.subtotal),discount=discount-(booking.allowance_discount ?? booking.discount),tax=tax-(booking.allowance_tax ?? booking.tax),unit="adjustment",from=first_from,until=last_until,location=booking.parent.location.name,reference=movement.source}]}} as charge
         set adjustment {delivery=charge.id}
         set movement {state=waiting_money,outcome=event.value,extra_due=extra,extra_delivery=charge.id}
      else
@@ -590,9 +597,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       set movement {release_delivery=release.id}
       send Billing.cancel {source=movement.source,reason="Workspace move unavailable"} as cancellation
     if event.value.phase==consumed and event.value.state==confirmed and movement.state==committing
-     if booking.status==confirmed and booking.checked_in==null and all(movement.intervals as interval,free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,0,null))
+     if booking.status==confirmed and booking.checked_in==null and all(movement.intervals as interval,resource_free(booking.parent,interval.from-booking.arrival_buffer,interval.until+booking.departure_buffer,0,null))
       let first=at(movement.intervals,0)
       let last=at(movement.intervals,count(movement.intervals)-1)
+      require first!=null and last!=null
       set booking {from=first.from,until=last.until,reserved_from=first.from-booking.arrival_buffer,reserved_until=last.until+booking.departure_buffer,service_due=event.value.overage-event.value.overage*booking.discount_fraction+(event.value.overage-event.value.overage*booking.discount_fraction)*booking.tax_fraction,allowance_base=event.value.overage,allowance_discount=event.value.overage*booking.discount_fraction,allowance_tax=(event.value.overage-event.value.overage*booking.discount_fraction)*booking.tax_fraction,allowance_source=movement.source,allowance_revision=event.value.revision,allowance_units=event.value.units,included_units=event.value.covered_units}
       if booking.benefit_unit==day
        set booking {intervals=movement.intervals as interval select BookingInterval {from=interval.from-booking.arrival_buffer,until=interval.until+booking.departure_buffer}}
@@ -787,7 +795,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     for venue in VenueReservation as row where row.source==event.value.source and row.parent.id==event.value.resource limit=1
      require venue.status in [held,confirmed] and venue.account==event.value.account and venue.customer==event.value.customer and venue.quantity==event.value.quantity and venue.version==event.value.revision
-     require free(venue.parent,event.value.from-venue.parent.buffer_before,event.value.until+venue.parent.buffer_after,venue.quantity,null,venue)
+     require resource_free(venue.parent,event.value.from-venue.parent.buffer_before,event.value.until+venue.parent.buffer_after,venue.quantity,null,venue)
      set venue {from=event.value.from-venue.parent.buffer_before,until=event.value.until+venue.parent.buffer_after}
      create ResourcePolicy {parent=venue.parent,sequence=count(venue.parent.ResourcePolicy)+1,value=resource_evidence(venue.parent)} as policy_snapshot_1
      create VenueEvidence {parent=venue.parent,sequence=policy_snapshot_1.sequence,key=venue.id,value=report_venue(venue)} as venue_evidence_1
@@ -841,7 +849,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     for resource in Resource as row where row.id==event.value.resource limit=1
      require not any(resource.VenueFence as fence,fence.source==event.value.source)
      require not any(resource.VenueReservation as venue,venue.source==event.value.source)
-     require free(resource,event.value.from-resource.buffer_before,event.value.until+resource.buffer_after,event.value.quantity,null)
+     require resource_free(resource,event.value.from-resource.buffer_before,event.value.until+resource.buffer_after,event.value.quantity,null)
      create VenueReservation {parent=resource,source=event.value.source,request_revision=event.value.revision,customer=event.value.customer,account=event.value.account,from=event.value.from-resource.buffer_before,until=event.value.until+resource.buffer_after,quantity=event.value.quantity,expires=now+resource.hold_for} as venue
      create ResourcePolicy {parent=venue.parent,sequence=count(venue.parent.ResourcePolicy)+1,value=resource_evidence(venue.parent)} as policy_snapshot_1
      create VenueEvidence {parent=venue.parent,sequence=policy_snapshot_1.sequence,key=venue.id,value=report_venue(venue)} as venue_evidence_1
@@ -854,7 +862,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      require previous.version==event.previous_revision and previous.status==confirmed and previous.parent.id==event.value.resource and previous.account==event.value.account and previous.customer==event.value.customer and previous.quantity==event.value.quantity
      require not any(previous.parent.VenueFence as fence,fence.source==event.value.source)
      require not any(previous.parent.VenueReservation as venue,venue.source==event.value.source or (venue.previous==previous and venue_busy(venue)))
-     require free(previous.parent,event.value.from-previous.parent.buffer_before,event.value.until+previous.parent.buffer_after,event.value.quantity,null,previous)
+     require resource_free(previous.parent,event.value.from-previous.parent.buffer_before,event.value.until+previous.parent.buffer_after,event.value.quantity,null,previous)
      create VenueReservation {parent=previous.parent,source=event.value.source,request_revision=event.value.revision,customer=event.value.customer,account=event.value.account,from=event.value.from-previous.parent.buffer_before,until=event.value.until+previous.parent.buffer_after,quantity=event.value.quantity,expires=now+previous.parent.hold_for,status=staged,previous} as venue
      create ResourcePolicy {parent=venue.parent,sequence=count(venue.parent.ResourcePolicy)+1,value=resource_evidence(venue.parent)} as policy_snapshot_1
      create VenueEvidence {parent=venue.parent,sequence=policy_snapshot_1.sequence,key=venue.id,value=report_venue(venue)} as venue_evidence_1
@@ -864,7 +872,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    do
     for venue in VenueReservation as row where row.source==event.source and row.parent.id==event.resource limit=1
      require venue.status in [held,staged] and now<venue.expires
-     require free(venue.parent,venue.from,venue.until,0,null)
+     require resource_free(venue.parent,venue.from,venue.until,0,null)
      set venue {status=confirmed}
      create ResourcePolicy {parent=venue.parent,sequence=count(venue.parent.ResourcePolicy)+1,value=resource_evidence(venue.parent)} as policy_snapshot_1
      create VenueEvidence {parent=venue.parent,sequence=policy_snapshot_1.sequence,key=venue.id,value=report_venue(venue)} as venue_evidence_1
@@ -907,9 +915,9 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      require not any(resource.ReservationFence as fence,fence.source==event.value.source and fence.revision==event.value.revision)
      require not any(resource.QuoteHold as hold,hold.source==event.value.source)
      require quote_available(resource,event.value.snapshot,event.value.quantity)
-     create QuoteHold {parent=resource,source=event.value.source,revision=event.value.revision,offer=event.value,quantity=event.value.quantity,from=event.value.snapshot.from-resource.buffer_before,until=event.value.snapshot.until+resource.buffer_after,intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},expires=event.value.hold_until} as hold
-     schedule hold.id at=hold.expires event=QuoteDue {hold}
-     emit OfferOutcome {value={source=hold.source,revision=hold.revision,kind=ReservationOfferOutcome.kind.hold,version=hold.version,state=confirmed,reference=hold.id,expires=hold.expires}}
+     create QuoteHold {parent=resource,source=event.value.source,revision=event.value.revision,offer=event.value,quantity=event.value.quantity,from=event.value.snapshot.from-resource.buffer_before,until=event.value.snapshot.until+resource.buffer_after,intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},expires=event.value.hold_until} as held_quote
+     schedule held_quote.id at=held_quote.expires event=QuoteDue {hold=held_quote}
+     emit OfferOutcome {value={source=held_quote.source,revision=held_quote.revision,kind=hold,version=held_quote.version,state=confirmed,reference=held_quote.id,expires=held_quote.expires}}
   scenario quote_accept on=RoomsIngressV1.accept_offer
    require event.value.accepted_at<=now and event.value.accepted_at<=event.value.snapshot.expires and event.value.snapshot.resource==event.value.resource and event.value.snapshot.quantity==event.value.quantity and event.value.snapshot.attendees==event.value.attendees and event.value.snapshot.recipient==event.value.recipient and event.value.quantity>0 and event.value.attendees>0
    require (event.value.attribution==null and event.value.exclusive_program==null and event.value.attributed_at==null and event.value.attribution_window==null) or (event.value.attribution!=null and event.value.exclusive_program!=null and event.value.attributed_at!=null and event.value.attribution_window!=null and event.value.attribution_window>0m and event.value.attributed_at<=event.value.accepted_at and event.value.accepted_at<=event.value.attributed_at+event.value.attribution_window)
@@ -919,7 +927,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
      let fence=first(resource.ReservationFence as row where row.source==event.value.source and row.revision==event.value.revision order=row.id)
      if fence!=null
       require fence.offer==null or fence.offer==event.value
-      emit OfferOutcome {value={source=fence.source,revision=fence.revision,kind=ReservationOfferOutcome.kind.booking,version=fence.version,state=unavailable,detail=fence.reason}}
+      emit OfferOutcome {value={source=fence.source,revision=fence.revision,kind=booking,version=fence.version,state=unavailable,detail=fence.reason}}
      else
       require event.value.attribution==null or (event.value.product!=null and event.value.product==format("{kind}",{kind=resource.kind}))
       require resource.location.id==event.value.location and event.value.attendees<=resource.party_limit and (not resource.pooled or event.value.attendees<=event.value.quantity)
@@ -934,16 +942,16 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
         cancel hold.id
        if not quote_available(resource,event.value.snapshot,event.value.quantity)
         create ReservationFence {parent=resource,source=event.value.source,revision=event.value.revision,reason=format("Quoted inventory unavailable"@{nl="Geoffreerde voorraad niet beschikbaar"},locale=null),offer=event.value} as rejected
-        emit OfferOutcome {value={source=rejected.source,revision=rejected.revision,kind=ReservationOfferOutcome.kind.booking,version=rejected.version,state=unavailable,detail=rejected.reason}}
+        emit OfferOutcome {value={source=rejected.source,revision=rejected.revision,kind=booking,version=rejected.version,state=unavailable,detail=rejected.reason}}
        else
-        create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=event.value.accepted_at,attribution=event.value.attribution,exclusive_program=event.value.exclusive_program,attributed_at=event.value.attributed_at,attribution_window=event.value.attribution_window,customer,account=event.value.account,email=event.value.recipient,from=event.value.snapshot.from,until=event.value.snapshot.until,intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},original_intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},quantity=event.value.quantity,attendees=event.value.attendees,rate=event.value.snapshot.total,subtotal=sum(event.value.snapshot.lines as item select item.price*item.quantity,resource.currency),tax=sum(event.value.snapshot.lines as item select item.tax,resource.currency),discount=sum(event.value.snapshot.lines as item select item.discount,resource.currency),total=event.value.snapshot.total,refund_amount=event.value.snapshot.total,terms=event.value.snapshot.terms,refund_before=event.value.snapshot.refund_before,reserved_from=event.value.snapshot.from-resource.buffer_before,reserved_until=event.value.snapshot.until+resource.buffer_after,expires=now+resource.hold_for,source=event.value.source,quote=event.value,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before,benefit_unit=resource.price_unit,benefit_duration=resource.increment,benefit_rate=resource.hourly*(resource.increment/1h),benefit_intervals=[BenefitInterval {from=event.value.snapshot.from,until=event.value.snapshot.until}]} as booking
-        if booking.total.minor>0
-         send Billing.charge {value={source=booking.source,customer=booking.customer.id,location=resource.location.id,description=event.value.snapshot.title,amount=booking.total,due=local_date(booking.from,resource.timezone),issuer=event.value.snapshot.issuer,terms=event.value.snapshot.terms,items=event.value.snapshot.lines as item select DocumentLine {title=item.title,quantity=item.quantity,price=item.price,tax=item.tax,discount=item.discount,unit=item.unit,from=event.value.snapshot.from,until=event.value.snapshot.until,location=event.value.snapshot.location,reference=event.value.source}}} as charge
-         set booking {status=pending,payment=pending,billing_delivery=charge.id,monetary_due=booking.total}
-        create ResourcePolicy {parent=booking.parent,sequence=count(booking.parent.ResourcePolicy)+1,value=resource_evidence(booking.parent)} as policy_snapshot_1
-        create BookingEvidence {parent=booking.parent,sequence=policy_snapshot_1.sequence,key=booking.id,value=report_booking(booking)} as booking_evidence_1
-        schedule booking.id at=booking.expires event=HoldDue {booking}
-        emit OfferOutcome {value={source=booking.source,revision=event.value.revision,kind=ReservationOfferOutcome.kind.booking,version=booking.version,state=pending,reference=booking.id,expires=booking.expires}}
+        create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=event.value.accepted_at,attribution=event.value.attribution,exclusive_program=event.value.exclusive_program,attributed_at=event.value.attributed_at,attribution_window=event.value.attribution_window,customer,account=event.value.account,email=event.value.recipient,from=event.value.snapshot.from,until=event.value.snapshot.until,intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},original_intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},quantity=event.value.quantity,attendees=event.value.attendees,rate=event.value.snapshot.total,subtotal=sum(event.value.snapshot.lines as item select item.price*item.quantity,resource.currency),tax=sum(event.value.snapshot.lines as item select item.tax,resource.currency),discount=sum(event.value.snapshot.lines as item select item.discount,resource.currency),total=event.value.snapshot.total,refund_amount=event.value.snapshot.total,terms=event.value.snapshot.terms,refund_before=event.value.snapshot.refund_before,reserved_from=event.value.snapshot.from-resource.buffer_before,reserved_until=event.value.snapshot.until+resource.buffer_after,expires=now+resource.hold_for,source=event.value.source,quote=event.value,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before,benefit_unit=resource.price_unit,benefit_duration=resource.increment,benefit_rate=resource.hourly*(resource.increment/1h),benefit_intervals=[BenefitInterval {from=event.value.snapshot.from,until=event.value.snapshot.until}]} as accepted_booking
+        if accepted_booking.total.minor>0
+         send Billing.charge {value={source=accepted_booking.source,customer=accepted_booking.customer.id,location=resource.location.id,description=event.value.snapshot.title,amount=accepted_booking.total,due=local_date(accepted_booking.from,resource.timezone),issuer=event.value.snapshot.issuer,terms=event.value.snapshot.terms,items=event.value.snapshot.lines as item select DocumentLine {title=item.title,quantity=item.quantity,price=item.price,tax=item.tax,discount=item.discount,unit=item.unit,from=event.value.snapshot.from,until=event.value.snapshot.until,location=event.value.snapshot.location,reference=event.value.source}}} as charge
+         set accepted_booking {status=pending,payment=pending,billing_delivery=charge.id,monetary_due=accepted_booking.total}
+        create ResourcePolicy {parent=accepted_booking.parent,sequence=count(accepted_booking.parent.ResourcePolicy)+1,value=resource_evidence(accepted_booking.parent)} as policy_snapshot_1
+        create BookingEvidence {parent=accepted_booking.parent,sequence=policy_snapshot_1.sequence,key=accepted_booking.id,value=report_booking(accepted_booking)} as booking_evidence_1
+        schedule accepted_booking.id at=accepted_booking.expires event=HoldDue {booking=accepted_booking}
+        emit OfferOutcome {value={source=accepted_booking.source,revision=event.value.revision,kind=booking,version=accepted_booking.version,state=pending,reference=accepted_booking.id,expires=accepted_booking.expires}}
    ## Current authority precedes releasing a hold or creating a monetary obligation.
    examples seed=[test_admin,open_site,quote_window,quoted_hold] event={value={product=null,attribution=null,exclusive_program=null,attributed_at=null,attribution_window=null,source="quote-test",revision=1,customer=test_company.id,location=test_site.id,resource=test_room.id,account=self,recipient="customer@example.test",accepted_at=now,quantity=1,attendees=1,snapshot=quoted_hold.offer.snapshot}}
     test_admin.active,test_admin.locations,test_company.active,test_room.active -> count(test_room.Booking),count(test_room.ReservationFence),quoted_hold.active
@@ -971,7 +979,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       require hold.revision==event.revision
       set hold {active=false}
       cancel hold.id
-     emit OfferOutcome {value={source=event.source,revision=event.revision,kind=ReservationOfferOutcome.kind.release,version=1,state=released}}
+     emit OfferOutcome {value={source=event.source,revision=event.revision,kind=release,version=1,state=released}}
    ## Releasing quote inventory cannot cancel or rewrite an existing booking with that source.
    examples seed=[test_hold] event={source=test_hold.source,revision=1,resource=test_room.id,reason="Close quoted inventory"}
     test_hold.status,test_hold.payment -> test_hold.status,test_hold.payment,count(test_room.Booking),count(test_room.ReservationFence)
@@ -981,20 +989,20 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    require event.booking.quote!=null and event.booking.version==event.revision
    do
     if event.booking.status in [confirmed,occupied,completed]
-     emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=ReservationOfferOutcome.kind.booking,version=event.booking.version,state=confirmed,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+     emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=confirmed,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
     else
      if event.booking.status in [cancelled,expired,review,no_show]
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=ReservationOfferOutcome.kind.booking,version=event.booking.version,state=unavailable,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=unavailable,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
     if event.booking.status in [held,pending]
      if event.booking.payment==unknown
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=ReservationOfferOutcome.kind.booking,version=event.booking.version,state=unknown,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=unknown,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
      else
-      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=ReservationOfferOutcome.kind.booking,version=event.booking.version,state=pending,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
+      emit OfferOutcome {value={source=event.booking.source,revision=event.booking.quote.revision,kind=booking,version=event.booking.version,state=pending,reference=event.booking.id,invoice=event.booking.invoice,expires=event.booking.expires}}
   scenario quote_expire on=QuoteDue
    require event.hold.active and event.hold.expires<=now
    do
     set event.hold {active=false}
-    emit OfferOutcome {value={source=event.hold.source,revision=event.hold.revision,kind=ReservationOfferOutcome.kind.hold,version=event.hold.version+1,state=unavailable,reference=event.hold.id,detail="Quote capacity hold expired"}}
+    emit OfferOutcome {value={source=event.hold.source,revision=event.hold.revision,kind=hold,version=event.hold.version+1,state=unavailable,reference=event.hold.id,detail="Quote capacity hold expired"}}
   # Change pooled capacity while preserving reservations and exposing every affected booking. @{nl="Wijzig poolcapaciteit, behoud reserveringen en toon elke getroffen reservering."}
   scenario revise_capacity(resource:Resource,capacity:int,reason:text) by=reservation_manager label="Revise pooled capacity"@{nl="Poolcapaciteit herzien"}
    require can_work(actor,resource.location) and resource.pooled and capacity>0 and trim(reason)!=""
@@ -1003,7 +1011,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     set resource {capacity}
     create ResourcePolicy {parent=resource,sequence=count(resource.ResourcePolicy)+1,value=resource_evidence(resource)} as policy_snapshot_1
     for booking in resource.Booking as b where busy(b) limit=1000
-     if not free(resource,booking.reserved_from,booking.reserved_until,booking.quantity,booking)
+     if not resource_free(resource,booking.reserved_from,booking.reserved_until,booking.quantity,booking)
       create Conflict {parent=resource,booking,reason} as conflict
   # Allocate a named desk inside this booking's existing pool quantity. @{nl="Wijs een genoemd bureau toe binnen de bestaande poolhoeveelheid van deze reservering."}
   export scenario assign_desk(booking:Booking,desk:Desk,from:datetime,until:datetime) by=reception label="Assign pool desk"@{nl="Poolbureau toewijzen"}
@@ -1085,7 +1093,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    require (booking.account==actor or ((reception or billing) and can_work(actor,booking.parent.location))) and booking.status in [confirmed,occupied] and booking.allowance==not_required and count(booking.intervals)==0 and booking.until<until and (until-booking.until)%booking.parent.increment==0m and trim(reason)!=""
    require (booking.quote==null and amount==null) or (booking.quote!=null and billing and can_work(actor,booking.parent.location) and amount!=null and amount.currency==booking.total.currency and amount.minor>0)
    require not any(booking.Adjustment as adjustment,adjustment.new_until!=null and adjustment.state==pending)
-   require free(booking.parent,booking.reserved_from,until+booking.departure_buffer,booking.quantity,booking)
+   require resource_free(booking.parent,booking.reserved_from,until+booking.departure_buffer,booking.quantity,booking)
    do
     let extra=amount ?? (booking.rate*((until-booking.until)/1h)*booking.quantity*(1-booking.discount_fraction)*(1+booking.tax_fraction))
     require extra.minor>0
@@ -1109,7 +1117,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
        if adjustment.new_until==null
         set adjustment {state=paid}
        else
-        if adjustment.parent.status in [confirmed,occupied] and adjustment.parent.until==adjustment.original_until and free(adjustment.parent.parent,adjustment.parent.reserved_from,adjustment.new_until+adjustment.parent.departure_buffer,adjustment.parent.quantity,adjustment.parent)
+        if adjustment.parent.status in [confirmed,occupied] and adjustment.parent.until==adjustment.original_until and resource_free(adjustment.parent.parent,adjustment.parent.reserved_from,adjustment.new_until+adjustment.parent.departure_buffer,adjustment.parent.quantity,adjustment.parent)
          set adjustment.parent {until=adjustment.new_until,reserved_until=adjustment.new_until+adjustment.parent.departure_buffer}
          create ResourcePolicy {parent=adjustment.parent.parent,sequence=count(adjustment.parent.parent.ResourcePolicy)+1,value=resource_evidence(adjustment.parent.parent)} as policy_snapshot_1
          create BookingEvidence {parent=adjustment.parent.parent,sequence=policy_snapshot_1.sequence,key=adjustment.parent.id,value=report_booking(adjustment.parent)} as booking_evidence_1
@@ -1151,7 +1159,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   # Mark a capacity conflict resolved only after the owner can honor or clear its booking. @{nl="Markeer een capaciteitsconflict pas opgelost nadat de eigenaar de reservering kan nakomen of vrijgeven."}
   scenario resolve_conflict(conflict:Conflict,evidence:text) by=reservation_manager label="Resolve reservation conflict"@{nl="Reserveringsconflict oplossen"}
    require can_work(actor,conflict.parent.location) and not conflict.resolved and trim(evidence)!=""
-   require not busy(conflict.booking) or free(conflict.parent,conflict.booking.reserved_from,conflict.booking.reserved_until,conflict.booking.quantity,conflict.booking)
+   require not busy(conflict.booking) or resource_free(conflict.parent,conflict.booking.reserved_from,conflict.booking.reserved_until,conflict.booking.quantity,conflict.booking)
    do set conflict {resolved=true,resolution=evidence}
   crud Desk by=reservation_manager fields=name,active when=can_work(actor,row.parent.location) delete=none
   ## Source lifecycle evidence uses the frozen original charge; Invoice independently proves money and customer history.
@@ -1400,7 +1408,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     cancelled,"consume-test" -> cancelled
     completed,"consume-test" -> completed
     pending,"consume-test" -> review
-  scenario released on=Membership.release.completed
+  scenario allowance_released on=Membership.release.completed
    do
     for booking in Booking as b where b.release_delivery==event.delivery_id limit=1
      if event.status==succeeded and event.result!=null and event.result.source==(booking.allowance_source ?? booking.source) and event.result.state==released
