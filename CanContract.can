@@ -18,8 +18,8 @@ package agreements
   export Term in Agreement { snapshot:ExecutedParties?, timezone:timezone?, executed_by:user?, executed_at:datetime?, expired:bool=false label="Expired"@{nl="Verlopen"}, notice_suppressed:bool=false, file:file, from:date label=label_Term_from, until:date label=label_Term_until, notice_days:int=30 min=0 label=label_Term_notice_days, pricing:text label=label_Term_pricing, currency:currency, previous:Term? label="Previous term"@{nl="Vorige termijn"}, executed:bool=false label="Executed"@{nl="Ondertekend"}, terminated:bool=false label="Terminated"@{nl="Beëindigd"}, reason:text? } label="Agreement term"@{nl="Overeenkomsttermijn"}
   Obligation in Term { title:text, due:date, done:bool=false, completed_by:user? label="Completed by"@{nl="Afgerond door"}, completed_at:datetime? label="Completion time"@{nl="Afgerond op"} } label="Obligation"@{nl="Verplichting"}
   Amendment in Term { text:text label="Text"@{nl="Tekst"}, file:file?, author:user server=actor label="Author"@{nl="Auteur"} } label="Agreement amendment"@{nl="Overeenkomstaanvulling"}
-  NoticeDelivery in Term { obligation:Obligation?, revision:int, delivery:delivery(Mail.send) } label="Reminder outcome"@{nl="Herinneringsresultaat"}
-  derive NoticeDelivery.state:DeliveryResult.status = row.delivery.status label="Reminder delivery"@{nl="Herinneringsbezorging"}
+  NoticeDelivery in Term { obligation:Obligation?, revision:int, delivery:delivery(Mail.send)? } label="Reminder outcome"@{nl="Herinneringsresultaat"}
+  derive NoticeDelivery.state:DeliveryResult.status? = row.delivery?.status label="Reminder delivery"@{nl="Herinneringsbezorging"}
   event Notice { term:Term, revision:int }
   event Expire { term:Term, at:datetime }
   event ObligationDue { obligation:Obligation, revision:int }
