@@ -160,7 +160,7 @@ package member_terms label=label_package
   derive Allowance.available:decimal = sum([row] as grant where grant.until>now and grant.parent.paid and not grant.parent.parent.paused and not grant.parent.parent.revoked select balance(grant)) label="Available units"@{nl="Beschikbare eenheden"}
   derive Allowance.reserved:decimal = sum(row.Allocation as allocation where allocation.state==reserved select allocation.units)+sum(row.Allocation as allocation where allocation.state==staged select allocation.held) label="Reserved units"@{nl="Gereserveerde eenheden"}
   derive Allowance.consumed:decimal = sum(row.Allocation as allocation where allocation.state==consumed select allocation.units) label="Consumed units"@{nl="Verbruikte eenheden"}
-  derive Allowance.expired:decimal = sum([row] as grant where grant.until<=now select max([0,balance(grant)])) label="Expired units"@{nl="Verlopen eenheden"}
+  derive Allowance.expired:decimal = sum([row] as grant where grant.until<=now select max([0.0,balance(grant)])) label="Expired units"@{nl="Verlopen eenheden"}
   derive outcome(request:BenefitRequest):AllowanceOutcome = AllowanceOutcome {source=request.source,revision=request.revision,state=request.result,phase=request.state,reference=request.id,detail=null,units=request.units,covered_units=request.covered_units,overage=request.overage,unit=request.value.unit,duration=request.value.duration,rate=request.value.rate}
   derive cycle_boundary(membership:Membership,offset:int):datetime = local_instant(add_months(membership.anchor,offset*membership.months),"00:00",membership.timezone,fold=earlier)
   derive access_term(watch:AccessWatch,term:Term):bool = term.parent.parent==watch.parent and watch.location in term.locations and location_account(watch.account,watch.parent,watch.location) and max([now,watch.at])<watch.until and is_open(watch.location,max([now,watch.at]),watch.until) and eligible_term(watch.account,term,max([now,watch.at])) and term.until>=watch.until and permitted_hours(term,watch.location.id,max([now,watch.at]),watch.until)
@@ -367,13 +367,13 @@ package member_terms label=label_package
        require permitted_hours(grant.parent,value.location,from,until)
        require value.unit!=day or (from==interval.from and until==interval.until)
        require value.unit!=hour or (until-from)%grant.duration==0m
-       create Allocation {parent=grant,request,from,until,requested_units=value.quantity,units=0,held=0,state=request.state} as allocation
+       create Allocation {parent=grant,request,from,until,requested_units=value.quantity*1.0,units=0,held=0,state=request.state} as allocation
        if value.unit==hour
         set allocation {requested_units=(until-from)/grant.duration*value.quantity}
        let units=allocation.requested_units
        let credit=sum(grant.Allocation as old where previous!=null and old.request==previous and old.state in [reserved,consumed] select old.units)-sum(grant.Allocation as staged where staged.request==request select staged.units-staged.held)
-       let covered=min([units,balance(grant)+max([0,credit])])
-       set allocation {units=covered,held=max([0,covered-max([0,credit])])}
+       let covered=min([units,balance(grant)+max([0.0,credit])])
+       set allocation {units=covered,held=max([0.0,covered-max([0.0,credit])])}
        set request {units=request.units+units,covered_units=request.covered_units+covered,overage=request.overage+value.rate*(units-covered)}
      emit ReserveOutcome {value=outcome(request)}
      emit AllowanceChanged {value=outcome(request)}
@@ -433,7 +433,7 @@ package member_terms label=label_package
     require customer!=null
     let fence=first(customer.BenefitFence as row where row.source==event.source order=row.id)
     if fence==null
-     create BenefitFence {parent=customer,source=event.source,restore_consumed=event.restore_consumed} as fence
+     create BenefitFence {parent=customer,source=event.source,restore_consumed=event.restore_consumed} as created_fence
     else
      require fence.restore_consumed==event.restore_consumed
     let request=first(customer.BenefitRequest as row where row.source==event.source order=row.id)
@@ -449,7 +449,9 @@ package member_terms label=label_package
       emit AllowanceChanged {value=outcome(request)}
      emit ReleaseOutcome {value={source=event.source,revision=request.revision,state=released,reference=request.id,detail=null}}
     else
-     emit ReleaseOutcome {value={source=event.source,revision=1,state=released,reference=fence.id,detail=null}}
+     let release_fence=first(customer.BenefitFence as row where row.source==event.source order=row.id)
+     require release_fence!=null
+     emit ReleaseOutcome {value={source=event.source,revision=1,state=released,reference=release_fence.id,detail=null}}
    examples seed=[test_admin,test_contact,allocated,reserved_request,reserved_allocation] event={source="reserved-booking",customer=test_company.id,restore_consumed=false}
     reserved_request.state,reserved_allocation.state,reserved_request.result -> reserved_request.state,reserved_allocation.state
     reserved,reserved,confirmed -> released,released
@@ -473,11 +475,13 @@ package member_terms label=label_package
     require customer!=null and location!=null and event.at<event.until
     let watch=first(customer.AccessWatch as row where row.source==event.source order=row.id)
     if watch==null
-     create AccessWatch {parent=customer,source=event.source,account=event.account,location,at=event.at,until=event.until} as watch
+     create AccessWatch {parent=customer,source=event.source,account=event.account,location,at=event.at,until=event.until} as created_watch
     else
      require watch.account==event.account and watch.location==location and watch.at==event.at and watch.until==event.until
-    set watch {revision=watch.revision+1}
-    emit EligibilityOutcome {value=access(watch)}
+    let resolved_watch=first(customer.AccessWatch as row where row.source==event.source order=row.id)
+    require resolved_watch!=null
+    set resolved_watch {revision=resolved_watch.revision+1}
+    emit EligibilityOutcome {value=access(resolved_watch)}
    examples seed=[test_admin,test_contact,paid_term,allocated,access_day] event={source="guest-window",customer=test_company.id,account=self,location=test_site.id,at=datetime("2090-01-01T09:00:00Z"),until=datetime("2090-01-01T10:00:00Z")}
     event.until,paid_term.guest_limit,paid_term.paid -> any(AccessWatch as watch,watch.source=="guest-window" and access(watch).eligible),max(AccessWatch as watch where watch.source=="guest-window" select access(watch).guest_limit)
     datetime("2090-01-01T10:00:00Z"),2,true -> true,2
@@ -715,7 +719,7 @@ package member_terms label=label_package
   preferences { current_only:bool=false label="Current terms only"@{nl="Alleen huidige termijnen"} }
   # Discover the owner review independently of any customer application's selected pages.
   page /membership/access-review title="Membership access review"@{nl="Beoordeling lidmaatschapstoegang"}
-   require member_manager or any(Customer as customer,has_role(actor,customer,administrator))
+   require actor!=null and (member_manager or any(Customer as customer,has_role(actor,customer,administrator)))
    breadcrumbs
    card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
     form access_review
@@ -723,7 +727,7 @@ package member_terms label=label_package
     form recheck_access
   # Keep company access review in the membership owner, without disclosing visitor/device records.
   page /companies/{Customer.id}/membership-access title="Company membership access"@{nl="Bedrijfslidmaatschapstoegang"}
-   require has_role(actor,row,administrator) or (member_manager and any(row.locations as location,can_work(actor,location)))
+   require actor!=null and (has_role(actor,row,administrator) or (member_manager and any(row.locations as location,can_work(actor,location))))
    breadcrumbs
    card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
     form access_review
