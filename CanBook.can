@@ -19,9 +19,9 @@ package appointments
   WeeklyHours in Calendar { weekday:int min=1 max=7, opens:text="09:00", closes:text="18:00", fold:enum(earlier,later)=earlier } label="Weekly opening hours"@{nl="Wekelijkse openingstijden"}
   ClosedDay in Calendar { day:date unique, reason:text } label="Holiday or closed day"@{nl="Feestdag of sluitingsdag"}
   Attempt in Appointment { source:text unique, kind:enum(initial,movement) label={text="Request kind"@{nl="Verzoeksoort"},values={initial="Initial booking"@{nl="Eerste boeking"},movement="Reschedule"@{nl="Verplaatsing"}}}, from:datetime, until:datetime, previous_source:text?, previous_host_revision:int=1, previous_room_revision:int=1, requested_by:user server=actor, state:enum(pending,active,failed,cancelled,retired,released)=pending label={text="Reservation attempt"@{nl="Reserveringspoging"},values={pending="Pending"@{nl="In behandeling"},active="Active"@{nl="Actief"},failed="Failed"@{nl="Mislukt"},cancelled="Cancelled"@{nl="Geannuleerd"},retired="Previous slot awaiting release"@{nl="Vorige afspraak wacht op vrijgave"},released="Released"@{nl="Vrijgegeven"}}}, host_ok:bool=false, room_ok:bool=false, host_unknown:bool=false, room_unknown:bool=false, host_revision:int=1, room_revision:int=1, host_delivery:text?, room_delivery:text?, room_confirmation:text?, host_release:text?, room_release:text?, host_released:bool=false, room_released:bool=false } label="Reservation attempt"@{nl="Reserveringspoging"}
-  Notice in Appointment { kind:enum(confirmation,reminder) label={text="Notice kind"@{nl="Berichtsoort"},values={confirmation="Confirmation"@{nl="Bevestiging"},reminder="Reminder"@{nl="Herinnering"}}}, source:text, delivery:delivery(Mail.send) } label="Appointment notice delivery"@{nl="Verzending afspraakbericht"}
+  Notice in Appointment { kind:enum(confirmation,reminder) label={text="Notice kind"@{nl="Berichtsoort"},values={confirmation="Confirmation"@{nl="Bevestiging"},reminder="Reminder"@{nl="Herinnering"}}}, source:text, delivery:delivery(Mail.send)? } label="Appointment notice delivery"@{nl="Verzending afspraakbericht"}
   ## Notice state observes the Mail receipt; the existing Delivered caption renders succeeded.
-  derive Notice.state:DeliveryResult.status = row.delivery.status label={text="Delivery"@{nl="Verzending"},values={pending="Pending"@{nl="In behandeling"},succeeded="Delivered"@{nl="Afgeleverd"},failed="Failed"@{nl="Mislukt"},unknown="Unknown"@{nl="Onbekend"},skipped="Skipped"@{nl="Overgeslagen"}}}
+  derive Notice.state:DeliveryResult.status? = row.delivery?.status label={text="Delivery"@{nl="Verzending"},values={pending="Pending"@{nl="In behandeling"},succeeded="Delivered"@{nl="Afgeleverd"},failed="Failed"@{nl="Mislukt"},unknown="Unknown"@{nl="Onbekend"},skipped="Skipped"@{nl="Overgeslagen"}}}
   derive available(calendar:Calendar,from:datetime,until:datetime):bool = is_open(calendar.location,from,until) and from<until and local_date(from,calendar.timezone)==local_date(until-1ms,calendar.timezone) and any(calendar.WeeklyHours as hours,hours.weekday==weekday(local_date(from,calendar.timezone)) and local_instant(local_date(from,calendar.timezone),hours.opens,calendar.timezone,fold=hours.fold)<=from and until<=local_instant(local_date(from,calendar.timezone),hours.closes,calendar.timezone,fold=hours.fold)) and not any(calendar.ClosedDay as closure,closure.day==local_date(from,calendar.timezone)) and any(calendar.Window as window,window.available and window.from<=from and until<=window.until) and not any(calendar.Window as window,not window.available and overlaps(from,until,window.from,window.until))
   event Reminder { appointment:Appointment, revision:int }
   event AttemptProgress { attempt:Attempt }
@@ -197,9 +197,10 @@ package appointments
     for attempt in Attempt as item where item.room_delivery==event.delivery_id and item.state==pending limit=1
      if event.status==succeeded and event.result!=null and event.result.source==attempt.source and event.result.revision==1 and event.result.state in [pending,confirmed] and attempt.state==pending
       if attempt.room_confirmation==null
+       let confirmed_revision=event.result.revision
        require attempt.parent.room_snapshot!=null
        send Rooms.confirm {source=attempt.source,resource=attempt.parent.room_snapshot} as confirmation
-       set attempt {room_confirmation=confirmation.id,room_revision=event.result.revision}
+       set attempt {room_confirmation=confirmation.id,room_revision=confirmed_revision}
      else
       if event.status==failed or (event.status==succeeded and event.result!=null and event.result.state in [unavailable,failed,released])
        set attempt {state=failed,room_unknown=false}
@@ -212,9 +213,10 @@ package appointments
     for attempt in Attempt as item where item.room_delivery==event.delivery_id and item.state==pending limit=1
      if event.status==succeeded and event.result!=null and event.result.source==attempt.source and event.result.revision==1 and event.result.state in [pending,confirmed] and attempt.state==pending
       if attempt.room_confirmation==null
+       let confirmed_revision=event.result.revision
        require attempt.parent.room_snapshot!=null
        send Rooms.confirm {source=attempt.source,resource=attempt.parent.room_snapshot} as confirmation
-       set attempt {room_confirmation=confirmation.id,room_revision=event.result.revision}
+       set attempt {room_confirmation=confirmation.id,room_revision=confirmed_revision}
      else
       if event.status==failed or (event.status==succeeded and event.result!=null and event.result.state in [unavailable,failed,released])
        set attempt {state=failed,room_unknown=false}
