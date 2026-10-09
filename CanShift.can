@@ -123,7 +123,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     require override_reason!=null or all(duty.parent.parent.Coverage as window,window.location!=duty.parent.location or window.role!=duty.role or not overlaps(duty.parent.from,duty.parent.until,window.from,window.until) or coverage_met(duty.parent.parent,window,duty))
     set duty.parent {revision=duty.parent.revision+1}
     set duty {published=true,published_revision=duty.parent.revision,published_by=actor,override_reason}
-    emit DutyNotice {duty,recipient=duty.parent.employee.user,revision=duty.parent.revision,kind=published}
+    emit DutyNotice {duty,recipient=duty.parent.employee.user,revision=duty.parent.revision,kind=published,swap=null}
    examples seed=[working,target] duty=reception_duty override_reason=null
     as,duty.published,assignment.employee.skills,assignment.employee.role -> duty.published
     scheduler,false,["reception"],"Reception" -> true
@@ -183,7 +183,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     for swap in duty.Swap as item where item.state==open limit=100
      set swap {state=obsolete}
     if duty.published
-     emit DutyNotice {duty,recipient=duty.parent.employee.user,revision=duty.parent.revision,kind=cancelled}
+     emit DutyNotice {duty,recipient=duty.parent.employee.user,revision=duty.parent.revision,kind=cancelled,swap=null}
   # Resolve an attributed duty conflict after connected visits and appointments have been handled. @{nl="Los een toegeschreven dienstconflict op nadat verbonden bezoeken en afspraken zijn afgehandeld."}
   scenario reconcile(duty:Duty,employee:Employee,from:datetime,until:datetime,before:duration=0m,after:duration=0m,reason:text) by=scheduler label="Resolve roster conflict"@{nl="Roosterconflict oplossen"}
    require duty.parent.location.active and can_work(actor,duty.parent.location) and duty.parent.active and trim(reason)!="" and can_work(employee.user,duty.parent.location) and employee.role==duty.role and duty.parent.skill in employee.skills and from<until and before>=0m and after>=0m
@@ -199,9 +199,9 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     if duty.published
      require all(duty.parent.parent.Coverage as window,window.location!=duty.parent.location or window.role!=duty.role or (not overlaps(original_from,original_until,window.from,window.until) and not overlaps(duty.parent.from,duty.parent.until,window.from,window.until)) or coverage_met(duty.parent.parent,window,duty))
      set duty {published_revision=duty.parent.revision,override_reason=reason,published_by=actor}
-     emit DutyNotice {duty,recipient=original.user,revision=duty.parent.revision,kind=changed}
+     emit DutyNotice {duty,recipient=original.user,revision=duty.parent.revision,kind=changed,swap=null}
      if employee!=original
-      emit DutyNotice {duty,recipient=employee.user,revision=duty.parent.revision,kind=changed}
+      emit DutyNotice {duty,recipient=employee.user,revision=duty.parent.revision,kind=changed,swap=null}
    examples seed=[working,target] duty=reception_duty employee=test_worker from=datetime("2099-01-01T09:00:00Z") until=datetime("2099-01-01T17:00:00Z") reason="Restore eligible coverage"
     as,assignment.employee.role,assignment.employee.skills,assignment.conflict,from,until -> assignment.conflict,duty.published_revision
     scheduler,"Reception",["reception"],true,datetime("2099-01-01T09:00:00Z"),datetime("2099-01-01T17:00:00Z") -> false,2
@@ -223,16 +223,16 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
     scheduler,"Reception",[],test_worker,substitute -> true,true,obsolete
     members,"Reception",["reception"],test_worker,substitute -> error(forbidden)
   scenario employee_changed on=EmployeeChanged
-   do emit EligibilityReview {employee=event.employee}
+   do emit EligibilityReview {employee=event.employee,location=null,account=null,roster=null}
   ## Location deactivation retains commitments for explicit resolution by their owners.
   scenario location_changed on=Location.updated
-   do emit EligibilityReview {location=event.id}
+   do emit EligibilityReview {employee=null,location=event.id,account=null,roster=null}
   scenario member_removed on=teams.member_removed
-   do emit EligibilityReview {account=event.user}
+   do emit EligibilityReview {employee=null,location=null,account=event.user,roster=null}
   scenario availability_changed on=Availability.update
-   do emit EligibilityReview {employee=event.after.employee,roster=event.after.parent}
+   do emit EligibilityReview {employee=event.after.employee,location=null,account=null,roster=event.after.parent}
   scenario availability_created on=Availability.create
-   do emit EligibilityReview {employee=event.after.employee,roster=event.after.parent}
+   do emit EligibilityReview {employee=event.after.employee,location=null,account=null,roster=event.after.parent}
   scenario review_commitment on=EligibilityReview each=Commitment as commitment
    do
     if commitment.active and commitment.until+commitment.after>now and (event.employee==null or commitment.employee==event.employee) and (event.location==null or commitment.location.id==event.location) and (event.account==null or commitment.employee.user==event.account) and (event.roster==null or commitment.parent==event.roster)
