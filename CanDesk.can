@@ -87,7 +87,7 @@ package desk
     members,open,"another@example.test" -> error(rule_failed)
     public,open,"another@example.test" -> error(forbidden)
   # Append a staff reply to the frozen conversation destination before queueing delivery. @{nl="Voeg een personeelsantwoord toe aan de vastgelegde gespreksbestemming voordat levering in de wachtrij komt."}
-  scenario reply(ticket:Ticket,body:text,attachments:Message.attachments=[]) by=support label="Reply to customer"@{nl="Klant beantwoorden"}
+  scenario reply_customer(ticket:Ticket,body:text,attachments:Message.attachments=[]) by=support label="Reply to customer"@{nl="Klant beantwoorden"}
    require can_work(actor,ticket.location) and trim(body)!=""
    do
     let recipient=ticket.email
@@ -230,7 +230,7 @@ package desk
       file_input photo
     tabs
      tab "Customer conversation"@{nl="Klantgesprek"}
-      form reply
+      form reply_customer
        textarea body
       ## chat_bubble slots preserve the enclosing row chain; every column of the
       ## former message table stays visible (kind badge, sender/recipient/time,

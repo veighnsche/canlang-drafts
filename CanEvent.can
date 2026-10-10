@@ -278,7 +278,7 @@ package events
       set registration {refund_state=review}
     emit AttendeeNotice {registration,kind=cancellation,revision=registration.parent.revision,body=reason}
   # Release the elapsed ticket hold and reconcile any uncertain payment. @{nl="Geef de verstreken tijdelijke toegang vrij en reconcilieer onzekere betaling."}
-  scenario expired on=HoldDue
+  scenario expire_hold on=HoldDue
    require event.registration.state in [held,pending] and event.registration.expires<=now
    do
     set event.registration {state=expired}
