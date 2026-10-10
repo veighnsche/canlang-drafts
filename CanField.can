@@ -47,7 +47,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
     set job {schedule_delivery=delivery.id}
   # Start only your current confirmed visit. @{nl="Start alleen je huidige bevestigde bezoek."}
   scenario start(job:Job) by=technician label="Start"@{nl="Starten"}
-   require job.employee.user==actor and job.employee.active and can_work(actor,job.location) and job.skill in job.employee.skills and job.state==planned and not any(job.Replacement as pending,pending.state in [pending,unknown])
+   require job.employee.user==actor and job.employee.active and can_work(actor,job.location) and job.skill in job.employee.skills and job.state==planned and not any(job.Replacement as candidate,candidate.state in [pending,unknown])
    do set job {state=in_progress}
    examples job=visit
     as,job.state -> job.state
@@ -60,7 +60,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
    do set job {state=blocked,blocked_reason=reason}
   # Retain an attributable notes or photo report and release unused schedule time. @{nl="Bewaar een herleidbaar verslag met notities of foto en geef ongebruikte planningstijd vrij."}
   scenario complete(job:Job,notes:text,photo:file? label=label_Report_photo,answers:Inspection.answers=[],result:Inspection.result?) by=technician
-   require job.employee.user==actor and job.employee.active and can_work(actor,job.location) and job.state in [in_progress,blocked] and not any(job.Replacement as pending,pending.state in [pending,unknown]) and trim(notes)!=""
+   require job.employee.user==actor and job.employee.active and can_work(actor,job.location) and job.state in [in_progress,blocked] and not any(job.Replacement as candidate,candidate.state in [pending,unknown]) and trim(notes)!=""
    do
     if job.inspection!=null
      require result!=null
