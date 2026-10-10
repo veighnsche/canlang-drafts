@@ -320,7 +320,7 @@ package invoice label="Invoices"@{nl="Facturen"}
        else
         set request {status=unknown,error=event.error?.message}
   # Generate a separate receipt only for evidenced full settlement. @{nl="Genereer een afzonderlijk betalingsbewijs alleen na bewezen volledige betaling."}
-  scenario receipt(invoice:Invoice) by=finance or authenticated label="Generate receipt"@{nl="Betalingsbewijs genereren"}
+  scenario generate_receipt(invoice:Invoice) by=finance or authenticated label="Generate receipt"@{nl="Betalingsbewijs genereren"}
    require invoice.settled and invoice.number!=null and invoice.issued_at!=null and invoice.received.minor>0
    require owns(actor,invoice.parent) or has_role(actor,invoice.parent,billing) or (finance and can_work(actor,invoice.location))
    do
@@ -443,7 +443,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     finance,money(10,"EUR"),"Refund bank statement" -> money(10,"EUR"),money(10,"EUR")
     finance,money(20,"EUR"),"" -> error(rule_failed)
   # Stop new collection immediately and reconcile an accepted payment before final void. @{nl="Stop nieuwe inning onmiddellijk en stem een geaccepteerde betaling af vóór de definitieve ongeldigverklaring."}
-  scenario void(invoice:Invoice,reason:text) by=finance label="Void invoice"@{nl="Factuur ongeldig maken"}
+  scenario void_invoice(invoice:Invoice,reason:text) by=finance label="Void invoice"@{nl="Factuur ongeldig maken"}
    require can_work(actor,invoice.location) and invoice.state==issued and invoice.received.minor==0 and trim(reason)!=""
    do
     if not any(BillingCancellation as fence,fence.source==invoice.source)
@@ -890,7 +890,7 @@ package invoice label="Invoices"@{nl="Facturen"}
      badge row.state
      text row.number,row.description,row.total,row.balance,row.settled,row.collection_pending,row.due,row.currency
      copy row.number
-     actions collect,document,receipt
+     actions collect,document,generate_receipt
      tabs
       tab "Documents and lines"@{nl="Documenten en regels"}
        table row.Document columns=kind,revision,file,generated empty="No documents generated yet"@{nl="Nog geen documenten gegenereerd"}
@@ -955,7 +955,7 @@ package invoice label="Invoices"@{nl="Facturen"}
          pagination
         pagination
       tab "Collection and refund evidence"@{nl="Innings- en terugbetalingsbewijs"}
-       actions document,receipt,collect
+       actions document,generate_receipt,collect
        button opens=issue_detail
        modal "Issue invoice"@{nl="Factuur uitgeven"} id=issue_detail
         slot content
@@ -999,7 +999,7 @@ package invoice label="Invoices"@{nl="Facturen"}
          button opens=void_detail
          modal "Void invoice"@{nl="Factuur ongeldig maken"} id=void_detail
           slot content
-           form void arguments={invoice=row} display=inline
+           form void_invoice arguments={invoice=row} display=inline
             textarea reason
        table row.Attempt columns=mode,requested,outcome_at,kind,amount,status,failure,checkout,received empty="No attempts recorded yet"@{nl="Nog geen pogingen vastgelegd"}
         table row.PaymentRequest columns=kind,status,review_reason,reviewed_by,reviewed_at empty="No observation requests yet"@{nl="Nog geen waarnemingsaanvragen"}
@@ -1026,7 +1026,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     metrics row.total,row.credits,row.received,row.refunded,row.balance,row.refund_due
     text row.settled,row.collection_pending,row.refund_pending
    card "Documents and adjustments"@{nl="Documenten en correcties"}
-    actions document,receipt,collect
+    actions document,generate_receipt,collect
     table row.Document columns=kind,revision,file,generated empty="No documents generated yet"@{nl="Nog geen documenten gegenereerd"}
      pagination
     table row.DocumentRequest columns=kind,revision,status,error empty="No document requests yet"@{nl="Nog geen documentaanvragen"}
