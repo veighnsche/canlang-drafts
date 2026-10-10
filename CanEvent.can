@@ -111,7 +111,7 @@ package events
     check_in,confirmed,datetime("2026-10-04T12:00:00Z") -> error(rule_failed)
     organizer,confirmed,null -> error(forbidden)
   # Keep the original room until a replacement has committed; changing location rechecks current worker scope at both locations. @{nl="Behoud de oorspronkelijke ruimte totdat een vervanging is vastgelegd; controleer bij locatiewijziging actuele werkrechten op beide locaties."}
-  scenario change(event:Event,location:Event.location,timezone:Event.timezone,from:Event.from,until:Event.until,capacity:Event.capacity,sales_until:Event.sales_until,reason:text,resource:Change.resource=null,customer:Change.customer=null) -> Change by=organizer label="Change schedule or reserve venue"@{nl="Planning wijzigen of locatie reserveren"}
+  scenario change_schedule(event:Event,location:Event.location,timezone:Event.timezone,from:Event.from,until:Event.until,capacity:Event.capacity,sales_until:Event.sales_until,reason:text,resource:Change.resource=null,customer:Change.customer=null) -> Change by=organizer label="Change schedule or reserve venue"@{nl="Planning wijzigen of locatie reserveren"}
    require can_work(actor,event.location) and can_work(actor,location) and not event.cancelled and event.pending_change==null and from>now and from<until and sales_until<=from and trim(reason)!="" and not any(event.Registration as registration,registration.checked_in!=null)
    require location.currency==event.price.currency and capacity>=count(event.Registration as registration where registration.state==confirmed or (registration.state in [held,pending] and now<registration.expires))
    require resource==null or (resource.active and resource.location==location and resource.party_limit>=capacity and customer!=null and customer.active and location in customer.locations)
@@ -591,7 +591,7 @@ package events
       textarea description
       textarea terms
      button action=publish arguments={event=row}
-     form change
+     form change_schedule
       textarea reason
      form cancel_event
       textarea reason

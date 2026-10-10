@@ -109,7 +109,7 @@ package desk
     support,attempt,skipped,null,null -> waiting_on_customer,skipped,2
     support,null,pending,null,null -> waiting_on_customer,null,2
   # Record a staff-only note that is never emailed to the customer. @{nl="Leg een personeelsnotitie vast die nooit naar de klant wordt gemaild."}
-  scenario note(ticket:Ticket,body:text,attachments:Message.attachments=[]) by=support label="Add private staff note"@{nl="Privénotitie toevoegen"}
+  scenario add_note(ticket:Ticket,body:text,attachments:Message.attachments=[]) by=support label="Add private staff note"@{nl="Privénotitie toevoegen"}
    require can_work(actor,ticket.location) and trim(body)!=""
    do create Message {parent=ticket,external_id=operation.id,kind=note,body,sender=actor.email,recipient=actor.email,author=actor,attachments} as note
    examples seed=[test_worker] ticket=conversation attachments=[]
@@ -248,7 +248,7 @@ package desk
          badge row.state
          text row.author
      tab "Private staff notes"@{nl="Privénotities"}
-      form note
+      form add_note
        textarea body
       list row.Message as message where message.kind==note order=created
        pagination
