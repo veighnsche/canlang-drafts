@@ -147,15 +147,15 @@ package purchase label=page_purchasing_title
     buyer,closed,1 -> error(rule_failed)
     members,approved,1 -> error(forbidden)
   # Accept a physical delivery once and replay its saved evidence without receiving it again. @{nl="Accepteer een fysieke levering één keer en herhaal het opgeslagen bewijs zonder opnieuw te ontvangen."}
-  scenario receive(line:Line,source:text label=label_Receipt_source,accepted:int label=label_Receipt_accepted,rejected:int label=label_Receipt_rejected,received:date label=label_Receipt_received,evidence:text) -> Receipt by=buyer label="Record receipt"@{nl="Ontvangst registreren"}
+  scenario receive(line:Line,source:text label=label_Receipt_source,accepted:int label=label_Receipt_accepted,rejected:int label=label_Receipt_rejected,received_on:date label=label_Receipt_received,evidence:text) -> Receipt by=buyer label="Record receipt"@{nl="Ontvangst registreren"}
    require can_work(actor,line.parent.location) and trim(source)!="" and accepted>=0 and rejected>=0 and accepted+rejected>0 and trim(evidence)!=""
    do
     let previous=first(Receipt as receipt where receipt.source==source order=receipt.id)
     if previous!=null
-     require previous.parent==line and previous.accepted==accepted and previous.rejected==rejected and previous.received==received and previous.evidence==evidence
+     require previous.parent==line and previous.accepted==accepted and previous.rejected==rejected and previous.received==received_on and previous.evidence==evidence
      return previous
     require line.parent.parent.state==approved and line.parent.state in [ordered,part_received] and accepted<=line.ordered-line.accepted
-    create Receipt {parent=line,source,accepted,rejected,received,evidence} as receipt
+    create Receipt {parent=line,source,accepted,rejected,received=received_on,evidence} as receipt
     if accepted>0
      send Stock.post {value={source,order=line.parent.reference,sku=line.sku,unit=line.unit,location=line.parent.location.id,quantity=accepted,revision=receipt.revision,reversal=null}} as delivery
      set receipt {delivery=delivery.id,attempts=1}
@@ -165,7 +165,7 @@ package purchase label=page_purchasing_title
     if all(line.parent.Line as item,item.accepted==item.ordered)
      set line.parent {state=received}
     return receipt
-   examples seed=[test_worker,goods_receipt] line=purchase_line rejected=0 received=date("2099-01-02")
+   examples seed=[test_worker,goods_receipt] line=purchase_line rejected=0 received_on=date("2099-01-02")
     as,line.parent.parent.state,line.parent.state,source,accepted,evidence -> count(Receipt),line.accepted,line.parent.state,result.posting
     buyer,approved,part_received,"delivery-B",4,"Delivery B" -> 2,6,received,pending
     buyer,closed,cancelled,"delivery-A",2,"Delivery A" -> 1,2,cancelled,confirmed
@@ -510,7 +510,7 @@ package purchase label=page_purchasing_title
            input source
            input accepted
            input rejected
-           calendar received
+           calendar received_on
            textarea evidence
          table row.Receipt columns=source,accepted,rejected,returned,received,posting,evidence order=-received empty="No delivery receipts recorded."@{nl="Geen ontvangstregistraties vastgelegd."}
           pagination
