@@ -184,7 +184,7 @@ package propose
     salesperson,"office",datetime("2098-12-31T00:00:00Z") -> pending,datetime("2098-12-31T00:00:00Z")
     salesperson,"office",datetime("2099-01-02T00:00:00Z") -> error(rule_failed)
     members,"office",datetime("2098-12-31T00:00:00Z") -> error(forbidden)
-  scenario held on=Rooms.hold_offer.completed
+  scenario hold_result on=Rooms.hold_offer.completed
    do
     for revision in Revision as row where row.hold_delivery==event.delivery_id and row.hold_state in [pending,unknown] limit=1
      if event.status==succeeded and event.result!=null and event.result.source==revision.id and event.result.revision==revision.number and event.result.kind==hold
