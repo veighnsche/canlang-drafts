@@ -501,7 +501,7 @@ package member_terms label=label_package
     set membership {paused=false}
     emit AccessChanged {membership,revision=membership.access_revision+1}
   # Revoke prospective benefits and retain the customer money evidence. @{nl="Trek toekomstige voordelen in en bewaar het financiële klantbewijs."}
-  scenario revoke(membership:Membership,reason:text) by=member_manager label="Revoke benefits"@{nl="Voordelen intrekken"}
+  scenario revoke_membership(membership:Membership,reason:text) by=member_manager label="Revoke benefits"@{nl="Voordelen intrekken"}
    require trim(reason)!="" and any(membership.plan.locations as location,can_work(actor,location))
    do
     set membership {revoked=true,recurrence=false}
@@ -841,7 +841,7 @@ package member_terms label=label_package
          textarea reason
      modal "Revoke benefits"@{nl="Voordelen intrekken"} id=membership_revoke
       slot content
-       form revoke arguments={membership=row} display=inline
+       form revoke_membership arguments={membership=row} display=inline
         fieldset
          textarea reason
      table row.Renewal columns=cycle,state,term empty="No renewal requests for this membership"@{nl="Geen verlengingsaanvragen voor dit lidmaatschap"}
