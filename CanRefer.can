@@ -61,7 +61,7 @@ package refer
  When
   crud Program by=program_manager fields=name,locations,products,reward,destination,window,active when=all(row.locations as location,can_work(actor,location)) delete=none
   # Create your verified own advocate identity and public referral code. @{nl="Maak je eigen geverifieerde ambassadeursidentiteit en openbare verwijzingscode aan."}
-  scenario join(program:Program) by=authenticated label="Join program"@{nl="Deelnemen aan programma"}
+  scenario join_program(program:Program) by=authenticated label="Join program"@{nl="Deelnemen aan programma"}
    require actor.email_verified and program.active and not any(program.Advocate as advocate,advocate.account==actor)
    do create Advocate {parent=program,email=actor.email,code=operation.id} as advocate
   # Allocate affordable earned rewards to the same external payment evidence once. @{nl="Wijs betaalbare verdiende beloningen eenmalig toe aan hetzelfde externe betalingsbewijs."}
@@ -165,9 +165,9 @@ package refer
    card "Programs and your referral code"@{nl="Programma's en je verwijzingscode"}
     list Program
      badge row.reward
-     ## join auto-binds the enclosing program; the canonical form opens only for missing inputs.
+     ## join_program auto-binds the enclosing program; the canonical form opens only for missing inputs.
      tooltip "Join this program"@{nl="Deelnemen aan dit programma"}
-      button action=join
+      button action=join_program
     list Advocate as advocate where advocate.account==actor and (preferences.program==null or advocate.parent==preferences.program)
      copy app_url(format("/referrals/share/{id}",{id=row.id}))
      text row.parent.destination
