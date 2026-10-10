@@ -44,7 +44,7 @@ package workbench label="AI workbench"@{nl="AI-werkbank"}
   scenario context(location:Location,targets:Scope.targets) read=true -> Fact[] by=members
    require staff(actor) and can_work(actor,location)
    do
-    let visible=collect(Task as task where task in targets and task.location==location)
+    let visible=Task as task where task in targets and task.location==location
     require count(visible)==count(targets)
     return visible as task select Fact {task,version=task.version,title=task.title,description=task.description,due=task.due,priority=task.priority,done=task.done}
   # Open a private one-hour session with at most ten explicitly selected tasks. @{nl="Open een privésessie van één uur met maximaal tien expliciet geselecteerde taken."}
