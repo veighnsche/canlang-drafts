@@ -412,7 +412,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     finance,succeeded -> money(100,"EUR"),money(0,"EUR"),money(20,"EUR"),false
     public,unknown -> error(forbidden)
   # Request the evidenced overpayment refund separately from the credit decision. @{nl="Vraag de bewezen terugbetaling van een overbetaling afzonderlijk van het creditbesluit aan."}
-  scenario refund(invoice:Invoice,payment:Attempt label=label_Attempt,amount:money,reason:text) by=finance label="Refund payment"@{nl="Betaling terugbetalen"}
+  scenario refund_payment(invoice:Invoice,payment:Attempt label=label_Attempt,amount:money,reason:text) by=finance label="Refund payment"@{nl="Betaling terugbetalen"}
    require can_work(actor,invoice.location) and payment.parent==invoice and payment.kind==collection and payment.status==succeeded and amount<=invoice.refund_due and amount.minor>0 and trim(reason)!=""
    require amount<=payment.amount-sum(invoice.Attempt as old where old.kind==refund and old.payment==payment.reference and old.status==succeeded select old.amount,invoice.currency)
    require not any(invoice.Attempt as attempt,attempt.status in [pending,unknown])
@@ -982,7 +982,7 @@ package invoice label="Invoices"@{nl="Facturen"}
          button opens=refund_detail
          modal "Refund payment"@{nl="Betaling terugbetalen"} id=refund_detail
           slot content
-           form refund arguments={invoice=row} display=inline
+           form refund_payment arguments={invoice=row} display=inline
             select payment
             input amount
             textarea reason

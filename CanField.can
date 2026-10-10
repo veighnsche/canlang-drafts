@@ -176,7 +176,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
     if job!=null
      send StaffSchedule.release {source=job.schedule_source??job.source,revision=job.schedule_revision} as delivery
      set job {release_delivery=delivery.id}
-  scenario released on=StaffSchedule.release.completed
+  scenario observe_release on=StaffSchedule.release.completed
    do
     for replacement in Replacement as row where row.release_delivery==event.delivery_id limit=1
      if event.status==succeeded and event.result!=null and event.result.state==released and ((replacement.state==applied and event.result.source==replacement.previous_source and event.result.revision>=replacement.previous_revision) or (replacement.state in [failed,discarded] and event.result.source==replacement.source and event.result.revision>=1))
