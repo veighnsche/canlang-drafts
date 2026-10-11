@@ -29,6 +29,9 @@ package creative
   policy Run read=can_view(actor,row) fields=source,author,conversation,revision,prompt,negative,width,height,state,used,unfinished,stop_requested,detail,request.id,request.status,request.error,request.progress.state,request.progress.detail,cancellation.id,cancellation.status,cancellation.error,reconciliation.id,reconciliation.status,reconciliation.error,delivery_state,stop_delivery,reconcile_delivery,created,updated
   policy Run read=members and row.author==actor fields=source,author,conversation,state,used,unfinished,stop_requested,detail,request.id,request.status,request.error,request.progress.state,request.progress.detail,cancellation.id,cancellation.status,cancellation.error,reconciliation.id,reconciliation.status,reconciliation.error,delivery_state,stop_delivery,reconcile_delivery,created,updated
   policy Output read=can_view(actor,row.parent)
+  ## Callback diagnostics have their own explicit current grants.
+  policy Run read=can_view(actor,row) fields=request.callback_diagnostics
+  policy Run read=members and row.author==actor fields=request.callback_diagnostics
   invariant Template: row.duration>=1s and row.duration<=15m and (row.current==null or (row.current.parent==row and row.current.published))
   invariant Revision: row.duration>=1s and row.duration<=15m and (not row.published or row.digest!=null)
   invariant Budget: row.spent+row.held<=row.cap and row.running<=row.parallel
@@ -200,8 +203,42 @@ package creative
     pagination
     title row.prompt
     status row.delivery_state
+    alert tone=error
+     require row.request?.error!=null
+     text "Submission diagnostic"@{nl="Indieningsdiagnose"}
+     text row.request?.error?.code,row.request?.error?.message
+    alert tone=warning
+     require row.delivery_state in [failed,unknown] and row.request?.error==null
+     text "Submission details unavailable"@{nl="Indieningsdetails niet beschikbaar"}
     status row.stop_delivery
+    alert tone=error
+     require row.cancellation?.error!=null
+     text "Stop diagnostic"@{nl="Stopdiagnose"}
+     text row.cancellation?.error?.code,row.cancellation?.error?.message
+    alert tone=warning
+     require row.stop_delivery in [failed,unknown] and row.cancellation?.error==null
+     text "Stop details unavailable"@{nl="Stopdetails niet beschikbaar"}
     status row.reconcile_delivery
+    alert tone=error
+     require row.reconciliation?.error!=null
+     text "Recovery diagnostic"@{nl="Hersteldiagnose"}
+     text row.reconciliation?.error?.code,row.reconciliation?.error?.message
+    alert tone=warning
+     require row.reconcile_delivery in [failed,unknown] and row.reconciliation?.error==null
+     text "Recovery details unavailable"@{nl="Hersteldetails niet beschikbaar"}
+    ## One whole protected observation; local members remain on that immutable result.
+    list [row.request?.callback_diagnostics] as diagnostic
+     card "Historical callback refusals"@{nl="Historische weigeringen van callbacks"}
+      require diagnostic!=null
+      card
+       require diagnostic.outcome==unsupported
+       alert tone=warning
+        text "Historical callback diagnostics unavailable."@{nl="Historische callbackdiagnoses zijn niet beschikbaar."}
+      card
+       require diagnostic.outcome==complete
+       list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
+        alert tone=error
+         text failure.code,failure.message
     badge row.state
     text row.stop_requested,row.used,row.detail
     loading row.unfinished
@@ -239,6 +276,42 @@ package creative
    table Run as run where run.unfinished or run.used==null columns=state,delivery_state,stop_delivery,reconcile_delivery,used,detail empty="No unresolved image jobs"@{nl="Geen onopgeloste beeldtaken"}
     pagination
     status row.delivery_state
+    alert tone=error
+     require row.request?.error!=null
+     text "Submission diagnostic"@{nl="Indieningsdiagnose"}
+     text row.request?.error?.code,row.request?.error?.message
+    alert tone=warning
+     require row.delivery_state in [failed,unknown] and row.request?.error==null
+     text "Submission details unavailable"@{nl="Indieningsdetails niet beschikbaar"}
+    status row.stop_delivery
+    alert tone=error
+     require row.cancellation?.error!=null
+     text "Stop diagnostic"@{nl="Stopdiagnose"}
+     text row.cancellation?.error?.code,row.cancellation?.error?.message
+    alert tone=warning
+     require row.stop_delivery in [failed,unknown] and row.cancellation?.error==null
+     text "Stop details unavailable"@{nl="Stopdetails niet beschikbaar"}
+    status row.reconcile_delivery
+    alert tone=error
+     require row.reconciliation?.error!=null
+     text "Recovery diagnostic"@{nl="Hersteldiagnose"}
+     text row.reconciliation?.error?.code,row.reconciliation?.error?.message
+    alert tone=warning
+     require row.reconcile_delivery in [failed,unknown] and row.reconciliation?.error==null
+     text "Recovery details unavailable"@{nl="Hersteldetails niet beschikbaar"}
+    ## One whole protected observation; local members remain on that immutable result.
+    list [row.request?.callback_diagnostics] as diagnostic
+     card "Historical callback refusals"@{nl="Historische weigeringen van callbacks"}
+      require diagnostic!=null
+      card
+       require diagnostic.outcome==unsupported
+       alert tone=warning
+        text "Historical callback diagnostics unavailable."@{nl="Historische callbackdiagnoses zijn niet beschikbaar."}
+      card
+       require diagnostic.outcome==complete
+       list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
+        alert tone=error
+         text failure.code,failure.message
     actions stop,reconcile,release_skipped
   page /creative/workflows title="Workflow templates"@{nl="Workflowsjablonen"} poll=1s
    require creative_manager

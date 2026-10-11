@@ -24,9 +24,14 @@ package chat
   policy Allowance read=ai_manager or (members and row.account==actor)
   policy Conversation read=members and row.account==actor
   policy Branch read=can_use(actor,row.parent)
+  ## Recovery exposes only the owning member's live containment link.
+  policy Branch read=members and row.parent.account==actor fields=parent
   policy Turn read=can_use(actor,row.parent.parent)
   policy Run read=can_use(actor,row.parent.parent) fields=parent,account,allowance,reserved,state,partial,request.progress.content,used,unfinished,stop_requested,detail,request.id,request.status,request.error,request.progress.state,request.progress.detail,cancellation.id,cancellation.status,cancellation.error,reconciliation.id,reconciliation.status,reconciliation.error,delivery_state,stop_delivery,reconcile_delivery,created,updated
   policy Run read=members and row.account==actor fields=account,allowance,reserved,state,used,unfinished,stop_requested,detail,request.id,request.status,request.error,request.progress.state,request.progress.detail,cancellation.id,cancellation.status,cancellation.error,reconciliation.id,reconciliation.status,reconciliation.error,delivery_state,stop_delivery,reconcile_delivery,created,updated
+  ## Callback diagnostics have their own explicit current grants.
+  policy Run read=can_use(actor,row.parent.parent) fields=request.callback_diagnostics
+  policy Run read=members and row.account==actor fields=request.callback_diagnostics
   invariant Turn: row.role in [user,assistant]
   invariant Profile: row.duration>=1s and row.duration<=10m
   invariant Allowance: row.spent+row.held<=row.cap and row.running<=row.parallel
@@ -223,8 +228,42 @@ package chat
         pagination
         card "Reply status"@{nl="Antwoordstatus"}
          status row.delivery_state
+         alert tone=error
+          require row.request?.error!=null
+          text "Submission diagnostic"@{nl="Indieningsdiagnose"}
+          text row.request?.error?.code,row.request?.error?.message
+         alert tone=warning
+          require row.delivery_state in [failed,unknown] and row.request?.error==null
+          text "Submission details unavailable"@{nl="Indieningsdetails niet beschikbaar"}
          status row.stop_delivery
+         alert tone=error
+          require row.cancellation?.error!=null
+          text "Stop diagnostic"@{nl="Stopdiagnose"}
+          text row.cancellation?.error?.code,row.cancellation?.error?.message
+         alert tone=warning
+          require row.stop_delivery in [failed,unknown] and row.cancellation?.error==null
+          text "Stop details unavailable"@{nl="Stopdetails niet beschikbaar"}
          status row.reconcile_delivery
+         alert tone=error
+          require row.reconciliation?.error!=null
+          text "Recovery diagnostic"@{nl="Hersteldiagnose"}
+          text row.reconciliation?.error?.code,row.reconciliation?.error?.message
+         alert tone=warning
+          require row.reconcile_delivery in [failed,unknown] and row.reconciliation?.error==null
+          text "Recovery details unavailable"@{nl="Hersteldetails niet beschikbaar"}
+         ## One whole protected observation; local members remain on that immutable result.
+         list [row.request?.callback_diagnostics] as diagnostic
+          card "Historical callback refusals"@{nl="Historische weigeringen van callbacks"}
+           require diagnostic!=null
+           card
+            require diagnostic.outcome==unsupported
+            alert tone=warning
+             text "Historical callback diagnostics unavailable."@{nl="Historische callbackdiagnoses zijn niet beschikbaar."}
+           card
+            require diagnostic.outcome==complete
+            list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
+             alert tone=error
+              text failure.code,failure.message
          badge row.state
          text row.stop_requested,row.detail,row.reserved,row.used
          ## Null usage renders the catalog-defined unavailable presentation.
@@ -246,6 +285,42 @@ package chat
    table Run as run where run.used==null or run.unfinished columns=state,delivery_state,stop_delivery,reconcile_delivery,reserved,used,detail empty="No unresolved usage"@{nl="Geen onopgelost gebruik"}
     pagination
     status row.delivery_state
+    alert tone=error
+     require row.request?.error!=null
+     text "Submission diagnostic"@{nl="Indieningsdiagnose"}
+     text row.request?.error?.code,row.request?.error?.message
+    alert tone=warning
+     require row.delivery_state in [failed,unknown] and row.request?.error==null
+     text "Submission details unavailable"@{nl="Indieningsdetails niet beschikbaar"}
+    status row.stop_delivery
+    alert tone=error
+     require row.cancellation?.error!=null
+     text "Stop diagnostic"@{nl="Stopdiagnose"}
+     text row.cancellation?.error?.code,row.cancellation?.error?.message
+    alert tone=warning
+     require row.stop_delivery in [failed,unknown] and row.cancellation?.error==null
+     text "Stop details unavailable"@{nl="Stopdetails niet beschikbaar"}
+    status row.reconcile_delivery
+    alert tone=error
+     require row.reconciliation?.error!=null
+     text "Recovery diagnostic"@{nl="Hersteldiagnose"}
+     text row.reconciliation?.error?.code,row.reconciliation?.error?.message
+    alert tone=warning
+     require row.reconcile_delivery in [failed,unknown] and row.reconciliation?.error==null
+     text "Recovery details unavailable"@{nl="Hersteldetails niet beschikbaar"}
+    ## One whole protected observation; local members remain on that immutable result.
+    list [row.request?.callback_diagnostics] as diagnostic
+     card "Historical callback refusals"@{nl="Historische weigeringen van callbacks"}
+      require diagnostic!=null
+      card
+       require diagnostic.outcome==unsupported
+       alert tone=warning
+        text "Historical callback diagnostics unavailable."@{nl="Historische callbackdiagnoses zijn niet beschikbaar."}
+      card
+       require diagnostic.outcome==complete
+       list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
+        alert tone=error
+         text failure.code,failure.message
     actions stop,reconcile,release_skipped
   page /chat/admin title="AI access and limits"@{nl="AI-toegang en limieten"}
    require ai_manager

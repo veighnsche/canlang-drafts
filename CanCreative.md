@@ -26,6 +26,8 @@ Stop sends a targeted external command. The binding must verify targeted cancell
 
 Membership removal and conversation revocation recheck current authority and request cancellation for active affected jobs and suppress further undispatched starts. Private image run content follows current conversation access. Trusted results can still finalize accounting while content stays hidden. The recovery page exposes only safe status/accounting and targeted stop/reconcile controls to the original author. It does not expose revoked prompts or files.
 
+The authored, separately granted `request.callback_diagnostics` capability gives the owning member a safe recovery view of historical escaped callback refusals, kept distinct from provider status and error. Unsupported, withheld or unassociated diagnostics mean unavailable evidence, not a complete empty history or current success. Recovery rechecks current membership and own-account authority and exposes only safe recovery information, never transcript, prefix or file content. These source additions remain unqualified pending runtime, source-to-State and native checks.
+
 ## Resource and file guarantees
 
 One allowance per member caps cumulative image jobs and parallel runs. Admission atomically reserves one job; final `charged_jobs=0|1` settles once. Null usage holds the job, even after confirmed execution cancellation. Nonterminal usage is null. The concurrency slot is released only for a terminal execution state. An authoritative skipped submission can be released locally as never dispatched. Caps are jobs/dimensions/duration, not a fabricated provider currency price. A binding unable to enforce them rejects before execution.

@@ -24,6 +24,8 @@ The allowance tracks `spent`, `held` and `running`. Admission atomically reserve
 
 These are enforceable resource caps, not invented currency prices. A native/provider binding must enforce the declared token and duration limits or reject before starting. A hard monetary ceiling needs a separate supported pricing contract. The owner can see safe unresolved status/usage after conversation revocation; they cannot read revoked transcript content through recovery. Provider diagnostics must omit private prompt/file content.
 
+The authored, separately granted `request.callback_diagnostics` capability gives the owning member a safe recovery view of historical escaped callback refusals, kept distinct from provider status and error. Unsupported, withheld or unassociated diagnostics mean unavailable evidence, not a complete empty history or current success. Recovery rechecks current membership and own-account authority; Chat exposes only the narrow parent link for `Branch`, with no transcript, prefix or file content. These source additions remain unqualified pending runtime, source-to-State and native checks.
+
 The maximum of ten simultaneous runs is an explicit app concurrency policy and the proof for the cancellation loops' bound. There is no truncation of an unbounded population, arbitrary cohort cap or dependency on the unresolved C1 fanout proposal. Long-term history is subject to the shared work/query limits and fails visibly when exceeded.
 
 ## Pages and composition
