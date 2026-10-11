@@ -269,6 +269,15 @@ package chat
          ## Null usage renders the catalog-defined unavailable presentation.
          progress row.used max=row.reserved
          loading row.unfinished
+         alert tone=info
+          require row.request?.progress?.content==null
+          text "Response content unavailable."@{nl="Antwoordinhoud niet beschikbaar."}
+         alert tone=warning
+          require row.request?.progress?.content!=null and row.partial!="" and row.state!=null and row.state!=succeeded
+          text "Partial response"@{nl="Gedeeltelijk antwoord"}
+         alert tone=info
+          require row.request?.progress?.content!=null and row.state==succeeded and row.partial==""
+          text "The completed response is empty."@{nl="Het voltooide antwoord is leeg."}
          content row.partial
          actions stop,reconcile,release_skipped
        tooltip "Send message and reserve tokens"@{nl="Bericht sturen en tokens reserveren"}
