@@ -39,6 +39,7 @@ package stock
   derive available(item:Item,location:Location):int = sum(item.Movement as movement where movement.location==location select movement.quantity)
   derive Threshold.available:int = available(row.parent,row.location) label="Available stock"@{nl="Beschikbare voorraad"}
   derive Threshold.low:bool = row.available<=row.reorder label="Reorder needed"@{nl="Aanvulling nodig"}
+  derive Threshold.location_name:text = row.location.name
   derive Item.low:bool = row.total<=row.reorder label="Total reorder needed"@{nl="Totale aanvulling nodig"}
   derive Item.total:int = sum(row.Movement as movement select movement.quantity) label="Total stock"@{nl="Totale voorraad"}
   policy Item read=stock_staff
@@ -215,7 +216,7 @@ package stock
           input reorder
           validator reorder
          button submit=true
-        table row.Threshold columns=location,reorder order=location filter=location defaults={location=preferences.location} empty="No thresholds for this location"@{nl="Geen drempels voor deze locatie"}
+        table row.Threshold columns=location,reorder order=location_name filter=location defaults={location=preferences.location} empty="No thresholds for this location"@{nl="Geen drempels voor deze locatie"}
          stat row.available
          status row.low
          edit
