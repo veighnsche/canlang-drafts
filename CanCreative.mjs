@@ -1,10 +1,10 @@
-import { require as check,hasRole,active_member,same,records,first,count,any,int64,create,set,send,call,delivery,trim } from "@canlang/stdlib";
+import { require as check,hasRole,active_member,same,records,first,count,any,int64,create,set,send,call,delivery,generationCallbackDiagnostics,trim } from "@canlang/stdlib";
 import { message,renderPage,list,gallery,table,form,actions,content,text,title,edit,breadcrumbs,pagination,badge,status,loading,chat_bubble,alert,fieldset,input,textarea,select,range,checkbox,file_input } from "@canlang/ui";
 // Desired lowering: breadcrumbs, pagination, badge, status, loading, chat_bubble,
 // alert, fieldset, file_input and placed controls are proposed @canlang/ui
-// contracts (desired/unimplemented). gallery with empty+pagination (collection, GRAMMAR L419).
+// contracts described by DESIGN §13; this witness is not native qualification.
 import { Conversation,Branch,Turn,can_use } from "./chat.mjs";
-/* Handwritten desired target, not implemented code generation/runtime. ImagesV1
+/* Handwritten desired target, not generated output or full native acceptance. ImagesV1
  * owns safe graph inspection, allowlist validation, durable provider correlation,
  * sequenced observations, targeted stop and receiving-app file finalization.
  * The selected CanGallery composition adds review; this owner never publishes.
@@ -27,7 +27,7 @@ export const appDefinition={
   "creative.Template":{label:message("Image workflow",{nl:"Beeldworkflow"}),readGrants:[{rule:"Template.read.1",fields:["name","active","current"]},{rule:"Template.read.2"}],invariants:["Template.require.1"],locks:["Template.lock.1"],fields:{name:{type:"text",trim:true,max:200n},owner:{type:"user",server:"actor"},graph:{type:"file"},prompt_node:{type:"text",default:"6"},prompt_key:{type:"text",default:"text"},negative_node:{type:"text",default:"7"},negative_key:{type:"text",default:"text"},width_node:{type:"text",default:"5"},width_key:{type:"text",default:"width"},height_node:{type:"text",default:"5"},height_key:{type:"text",default:"height"},outputs:{type:"int",default:1n,min:1n,max:4n},duration:{type:"duration",default:120000n},active:{type:"bool",default:true},current:{type:"creative.Revision",nullable:true},inspection:{type:"delivery",operation:"creative.Images.inspect",nullable:true}}},
   "creative.Revision":{parent:"creative.Template",label:message("Immutable workflow revision",{nl:"Onveranderlijke workflowversie"}),readGrants:[{rule:"Revision.read.1",fields:["parent","number","definition","published","digest","outputs","duration"]},{rule:"Revision.read.2"}],invariants:["Revision.require.1"],locks:["Revision.lock.1","Revision.lock.2"],unique:[{fields:["number"]}],fields:{number:{type:"int",min:1n},definition:{type:"std.WorkflowDefinition"},outputs:{type:"int",min:1n,max:4n},duration:{type:"duration"},validation:{type:"delivery",operation:"creative.Images.validate",nullable:true},published:{type:"bool",default:false},digest:{type:"text",nullable:true}}},
   "creative.Budget":{label:message("Image-job allowance",{nl:"Budget voor beeldtaken"}),readGrants:[{rule:"Budget.read.1"}],invariants:["Budget.require.1"],locks:["Budget.lock.1"],fields:{account:{type:"user",unique:true},cap:{type:"int",min:1n},parallel:{type:"int",default:2n,min:1n,max:10n},spent:{type:"int",default:0n,min:0n},held:{type:"int",default:0n,min:0n},running:{type:"int",default:0n,min:0n,max:10n},active:{type:"bool",default:true}}},
-  [Run]:{exported:true,label:message("Image generation",{nl:"Beeldgeneratie"}),readGrants:[{rule:"Run.read.1",fields:["source","author","conversation","revision","prompt","negative","width","height","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]},{rule:"Run.read.2",fields:["source","author","conversation","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]}],invariants:["Run.require.1"],locks:["Run.lock.1"],derived:{state:{handler:"Run.state",type:"std.ImageRun.state",nullable:true},detail:{handler:"Run.detail",type:"text",nullable:true},delivery_state:{handler:"Run.delivery_state",type:"std.DeliveryResult.status",nullable:true,label:message("Submission receipt",{nl:"Indieningsbewijs"})},stop_delivery:{handler:"Run.stop_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Stop receipt",{nl:"Stopbewijs"})},reconcile_delivery:{handler:"Run.reconcile_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Recovery receipt",{nl:"Herstelbewijs"})}},fields:{source:{type:"text",unique:true},author:{type:"user",server:"actor"},conversation:{type:Conversation,nullable:true},revision:{type:"creative.Revision"},budget:{type:"creative.Budget"},prompt:{type:"std.ImageRequest.prompt"},negative:{type:"std.ImageRequest.negative"},width:{type:"std.ImageRequest.width"},height:{type:"std.ImageRequest.height"},request:{type:"delivery",operation:"creative.Images.submit",nullable:true},cancellation:{type:"delivery",operation:"creative.Images.cancel",nullable:true},reconciliation:{type:"delivery",operation:"creative.Images.reconcile",nullable:true},used:{type:"int",nullable:true,min:0n,max:1n},unfinished:{type:"bool",default:true},stop_requested:{type:"bool",default:false}}},
+  [Run]:{exported:true,label:message("Image generation",{nl:"Beeldgeneratie"}),readGrants:[{rule:"Run.read.1",fields:["source","author","conversation","revision","prompt","negative","width","height","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]},{rule:"Run.read.2",fields:["source","author","conversation","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]}],callbackReadGrants:[{rule:"Run.read.3",field:"request",fields:[]},{rule:"Run.read.4",field:"request",fields:[]}],invariants:["Run.require.1"],locks:["Run.lock.1"],derived:{state:{handler:"Run.state",type:"std.ImageRun.state",nullable:true},detail:{handler:"Run.detail",type:"text",nullable:true},delivery_state:{handler:"Run.delivery_state",type:"std.DeliveryResult.status",nullable:true,label:message("Submission receipt",{nl:"Indieningsbewijs"})},stop_delivery:{handler:"Run.stop_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Stop receipt",{nl:"Stopbewijs"})},reconcile_delivery:{handler:"Run.reconcile_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Recovery receipt",{nl:"Herstelbewijs"})}},fields:{source:{type:"text",unique:true},author:{type:"user",server:"actor"},conversation:{type:Conversation,nullable:true},revision:{type:"creative.Revision"},budget:{type:"creative.Budget"},prompt:{type:"std.ImageRequest.prompt"},negative:{type:"std.ImageRequest.negative"},width:{type:"std.ImageRequest.width"},height:{type:"std.ImageRequest.height"},request:{type:"delivery",operation:"creative.Images.submit",nullable:true},cancellation:{type:"delivery",operation:"creative.Images.cancel",nullable:true},reconciliation:{type:"delivery",operation:"creative.Images.reconcile",nullable:true},used:{type:"int",nullable:true,min:0n,max:1n},unfinished:{type:"bool",default:true},stop_requested:{type:"bool",default:false}}},
   [Output]:{exported:true,parent:Run,label:message("Finalized image",{nl:"Afgerond beeldbestand"}),readGrants:[{rule:"Output.read.1"}],locks:["Output.lock.1"],unique:[{fields:["position"]}],fields:{position:{type:"int",min:0n,max:3n},image:{type:"file"}}}
  },
  pure:{"creative.definition":{handler:"definition",inputs:{template:{type:"creative.Template"}},result:{type:"std.WorkflowDefinition"}},"creative.can_view":{handler:"can_view",exported:true,inputs:{person:{type:"user",nullable:true},run:{type:Run}},result:{type:"bool"}}},
@@ -53,7 +53,7 @@ export function canApp(){
  const crudWhen={Template:(c,row)=>same(row.owner,c.actor)};
  return {
   crudWhen,definition,can_view,
-  read:{"Template.read.1":c=>hasRole(c,"members"),"Template.read.2":(c,r)=>hasRole(c,"creative.creative_manager")&&same(r.owner,c.actor),"Revision.read.1":(c,r)=>hasRole(c,"members")&&r.published&&r.parent.active,"Revision.read.2":(c,r)=>hasRole(c,"creative.creative_manager")&&same(r.parent.owner,c.actor),"Budget.read.1":(c,r)=>hasRole(c,"creative.creative_manager")||(hasRole(c,"members")&&same(r.account,c.actor)),"Run.read.1":(c,r)=>can_view(c,c.actor,r),"Run.read.2":(c,r)=>hasRole(c,"members")&&same(r.author,c.actor),"Output.read.1":(c,r)=>can_view(c,c.actor,r.parent)},
+  read:{"Template.read.1":c=>hasRole(c,"members"),"Template.read.2":(c,r)=>hasRole(c,"creative.creative_manager")&&same(r.owner,c.actor),"Revision.read.1":(c,r)=>hasRole(c,"members")&&r.published&&r.parent.active,"Revision.read.2":(c,r)=>hasRole(c,"creative.creative_manager")&&same(r.parent.owner,c.actor),"Budget.read.1":(c,r)=>hasRole(c,"creative.creative_manager")||(hasRole(c,"members")&&same(r.account,c.actor)),"Run.read.1":(c,r)=>can_view(c,c.actor,r),"Run.read.2":(c,r)=>hasRole(c,"members")&&same(r.author,c.actor),"Output.read.1":(c,r)=>can_view(c,c.actor,r.parent),"Run.read.3":(c,r)=>can_view(c,c.actor,r),"Run.read.4":(c,r)=>hasRole(c,"members")&&same(r.author,c.actor)},
   invariants:{"Template.require.1":(c,r)=>r.duration>=1000n&&r.duration<=900000n&&(r.current===null||(same(r.current.parent,r)&&r.current.published)),"Revision.require.1":(c,r)=>r.duration>=1000n&&r.duration<=900000n&&(!r.published||r.digest!==null),"Budget.require.1":(c,r)=>int64(r.spent+r.held)<=r.cap&&r.running<=r.parallel,"Run.require.1":(c,r)=>int64(r.width%64n)===0n&&int64(r.height%64n)===0n},
   locks:{"Template.lock.1":{fields:["owner"]},"Revision.lock.1":{fields:["number","definition","outputs","duration","validation"]},"Revision.lock.2":{fields:["published","digest"],when:(c,r)=>r.published},"Budget.lock.1":{fields:["account"]},"Run.lock.1":{fields:["source","author","conversation","revision","budget","prompt","negative","width","height","request"]},"Output.lock.1":{fields:["position","image"]}},
   derives:{async "Run.state"(c,r){return (await delivery(c,{record:r,field:"request"},["progress.state"]))?.progress?.state??null;},async "Run.detail"(c,r){return (await delivery(c,{record:r,field:"request"},["progress.detail"]))?.progress?.detail??null;},async "Run.delivery_state"(c,r){return (await delivery(c,{record:r,field:"request"},["status"]))?.status??null;},async "Run.stop_delivery"(c,r){return (await delivery(c,{record:r,field:"cancellation"},["status"]))?.status??null;},async "Run.reconcile_delivery"(c,r){return (await delivery(c,{record:r,field:"reconciliation"},["status"]))?.status??null;},},
@@ -71,8 +71,8 @@ export function canApp(){
   async generate(c,{template,prompt,negative="",width=512n,height=512n,conversation=null}){
    check(hasRole(c,"members"),"forbidden");check(template.active&&template.current!==null&&template.current.published&&trim(prompt)!=="");check(int64(width%64n)===0n&&int64(height%64n)===0n&&(conversation===null||await can_use(c,c.actor,conversation)));
    const budget=first(await records(c,"creative.Budget",{where:r=>same(r.account,c.actor),order:{by:r=>r.id}}));check(budget!==null&&budget.active&&budget.running<budget.parallel&&int64(int64(budget.spent+budget.held)+1n)<=budget.cap);
-   const revision=template.current;check(revision.digest!==null);const run=await create(c,Run,{source:c.operation.id,conversation,revision,budget,prompt,negative,width,height});await set(c,budget,{held:int64(budget.held+1n),running:int64(budget.running+1n)});
-   const request=await send(c,"creative.Images.submit",{value:{source:run.source,revision:1n,workflow:revision.definition,validation:revision.digest,prompt,negative,width,height,max_outputs:revision.outputs,max_duration:revision.duration}},{when:async()=>await active_member(c,run.author,c.team)&&template.active&&budget.active&&!run.stop_requested&&(run.conversation===null||await can_use(c,run.author,run.conversation))});
+   const revision=template.current;check(revision.digest!==null);const validation=revision.digest;const run=await create(c,Run,{source:c.operation.id,conversation,revision,budget,prompt,negative,width,height});await set(c,budget,{held:int64(budget.held+1n),running:int64(budget.running+1n)});
+   const request=await send(c,"creative.Images.submit",{value:{source:run.source,revision:1n,workflow:revision.definition,validation,prompt,negative,width,height,max_outputs:revision.outputs,max_duration:revision.duration}},{when:async()=>await active_member(c,run.author,c.team)&&template.active&&budget.active&&!run.stop_requested&&(run.conversation===null||await can_use(c,run.author,run.conversation))});
    await set(c,run,{request});return run;
   },
   async from_turn(c,{turn,template,negative="",width=512n,height=512n}){check(hasRole(c,"members"),"forbidden");check(await can_use(c,c.actor,turn.parent.parent));return await call(c,generate,{template,prompt:turn.content,negative,width,height,conversation:turn.parent.parent});},
@@ -99,6 +99,42 @@ export function canApp(){
   }
  };
 }
+// Presentation-only helpers mirror the authored status/error blocks. Protected
+// delivery reads retain ordinary failures; no denial is converted into null.
+async function runDeliveryFeedback(c,run){
+ const children=[];
+ for(const [field,stateField,caption,localized,unavailable,unavailableLocalized] of [
+  ["request","delivery_state","Submission diagnostic","Indieningsdiagnose","Submission details unavailable","Indieningsdetails niet beschikbaar"],
+  ["cancellation","stop_delivery","Stop diagnostic","Stopdiagnose","Stop details unavailable","Stopdetails niet beschikbaar"],
+  ["reconciliation","reconcile_delivery","Recovery diagnostic","Hersteldiagnose","Recovery details unavailable","Hersteldetails niet beschikbaar"]]){
+  const state=await run[stateField];
+  children.push(status({context:c,value:state}));
+  const observation=await delivery(c,{record:run,field},["error"]);
+  const error=observation?.error??null;
+  if(error!==null)children.push(alert({context:c,tone:"error",children:[
+   text({context:c,values:[message(caption,{nl:localized})]}),
+   text({context:c,values:[error.code,error.message]})]}));
+  if(["failed","unknown"].includes(state)&&error===null)children.push(alert({context:c,tone:"warning",children:[
+   text({context:c,values:[message(unavailable,{nl:unavailableLocalized})]})]}));
+ }
+ return children;
+}
+async function historicalCallbackRefusals(c,run){
+ // One whole protected observation; descendants use only this immutable result.
+ const diagnostic=await generationCallbackDiagnostics(c,{record:run,field:"request"});
+ return list({context:c,items:[diagnostic],renderRow:(diagnostic,dc)=>{
+  if(diagnostic===null)return [];
+  const children=[];
+  if(diagnostic.outcome==="unsupported")children.push(card({context:dc,children:[
+   alert({context:dc,tone:"warning",children:[text({context:dc,values:[
+    message("Historical callback diagnostics unavailable.",{nl:"Historische callbackdiagnoses zijn niet beschikbaar."})]})]})]}));
+  if(diagnostic.outcome==="complete")children.push(card({context:dc,children:[
+   list({context:dc,items:diagnostic.failures,empty:message("No retained historical callback refusals.",{nl:"Geen bewaarde historische weigeringen van callbacks."}),renderRow:(failure,fc)=>[
+    alert({context:fc,tone:"error",children:[text({context:fc,values:[failure.code,failure.message]})]})]})]}));
+  return [card({context:dc,title:message("Historical callback refusals",{nl:"Historische weigeringen van callbacks"}),children})];
+ }});
+}
+
 export async function studioPage(c){return renderPage(c,studioDescriptor,()=>[
  breadcrumbs({context:c}),
  form({context:c,operation:generate,display:"inline",children:[
@@ -110,12 +146,11 @@ export async function studioPage(c){return renderPage(c,studioDescriptor,()=>[
    input({context:c,field:"width"}),
    input({context:c,field:"height"}),
    select({context:c,field:"conversation"})]})]}),
- list({context:c,model:Run,where:r=>can_view(c,c.actor,r),order:["-created"],empty:message("No image jobs yet",{nl:"Nog geen beeldtaken"}),renderRow:(run,rv)=>[
+ list({context:c,model:Run,where:r=>can_view(c,c.actor,r),order:["-created"],empty:message("No image jobs yet",{nl:"Nog geen beeldtaken"}),renderRow:async(run,rv)=>[
   pagination({context:rv}),
   title({context:rv,value:run.prompt}),
-  status({context:rv,value:run.delivery_state}),
-  status({context:rv,value:run.stop_delivery}),
-  status({context:rv,value:run.reconcile_delivery}),
+  ...await runDeliveryFeedback(rv,run),
+  await historicalCallbackRefusals(rv,run),
   badge({context:rv,value:run.state}),
   text({context:rv,values:[run.stop_requested,run.used,run.detail]}),
   loading({context:rv,value:run.unfinished}),
@@ -147,7 +182,7 @@ export async function chatPage(c){return renderPage(c,chatDescriptor,()=>[
  ]);}
 export async function recoveryPage(c){return renderPage(c,recoveryDescriptor,()=>[
  breadcrumbs({context:c}),
- table({context:c,model:Run,where:r=>r.unfinished||r.used===null,columns:["state","delivery_state","stop_delivery","reconcile_delivery","used","detail"],empty:message("No unresolved image jobs",{nl:"Geen onopgeloste beeldtaken"}),renderRow:(run,rv)=>[pagination({context:rv}),status({context:rv,value:run.delivery_state}),actions({context:rv,operations:["creative.stop","creative.reconcile","creative.release_skipped"],boundArgs:{run}})]})
+ table({context:c,model:Run,where:r=>r.unfinished||r.used===null,columns:["state","delivery_state","stop_delivery","reconcile_delivery","used","detail"],empty:message("No unresolved image jobs",{nl:"Geen onopgeloste beeldtaken"}),renderRow:async(run,rv)=>[pagination({context:rv}),...await runDeliveryFeedback(rv,run),await historicalCallbackRefusals(rv,run),actions({context:rv,operations:["creative.stop","creative.reconcile","creative.release_skipped"],boundArgs:{run}})]})
  ]);}
 export async function workflowsPage(c){return renderPage(c,workflowsDescriptor,()=>[
  breadcrumbs({context:c}),

@@ -237,8 +237,7 @@ export const appDefinition = {
         amount: { type: "money" },
         cancel_delivery: { type: "text", nullable: true },
         cancel_status: {
-          type: "enum",
-          cases: ["pending", "succeeded", "failed", "unknown"],
+          type: "std.DeliveryResult.status",
           default: "pending",
         },
         fenced: { type: "bool", default: false },
@@ -252,15 +251,13 @@ export const appDefinition = {
         refund_delivery: { type: "text", nullable: true },
         refund_revision: { type: "int", default: 0n },
         refund_status: {
-          type: "enum",
+          type: "std.DeliveryResult.status",
           nullable: true,
-          cases: ["pending", "succeeded", "failed", "unknown"],
         },
         reconcile_delivery: { type: "text", nullable: true },
         reconcile_status: {
-          type: "enum",
+          type: "std.DeliveryResult.status",
           nullable: true,
-          cases: ["pending", "succeeded", "failed", "unknown"],
         },
       },
       readGrants: [{ rule: "Correction.read.1" }, { rule: "Correction.read.2" }],
@@ -904,7 +901,7 @@ export function canApp() {
       check(
         (await can_work(c, c.actor, correction.parent.project.location)) &&
           correction.original_source !== null &&
-          correction.cancel_status === "failed" &&
+          ["failed", "skipped"].includes(correction.cancel_status) &&
           !correction.fenced,
       );
       const delivery = await send(c, "time.Billing.cancel", {
@@ -935,7 +932,7 @@ export function canApp() {
           !correction.refund_pending &&
           compareMoney(correction.collected, correction.refunded) > 0 &&
           (correction.refund_status === null ||
-            correction.refund_status === "failed" ||
+            ["failed", "skipped"].includes(correction.refund_status) ||
             (correction.refund_status === "succeeded" &&
               correction.revision > correction.refund_revision)) &&
           reason.trim() !== "",

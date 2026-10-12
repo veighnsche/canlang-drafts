@@ -161,7 +161,7 @@ package check
 
  Then
   preferences { application:text? label=label_Check_application, location:Location? }
-  invariant preferences: row.location==null or can_work(actor,row.location)
+  invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Read configured checks and perform only authorized pause and resume. @{nl="Lees geconfigureerde controles en voer uitsluitend toegestane pauze- en hervatacties uit."}
   page /job-health title="Job health"@{nl="Taakgezondheid"}
    require operations

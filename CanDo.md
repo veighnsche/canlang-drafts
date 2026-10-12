@@ -12,7 +12,7 @@ Require email/password authentication and team membership. Authorized members ma
 
 ## Data and Ownership
 
-Todo belongs to a team and contains a trimmed, non-empty title, completion flag, optional assignee, and record version. Assignment requires active membership. Removing an assignee's membership clears the active assignment while preserving the task and its attribution.
+Todo belongs to a team and contains a trimmed, non-empty title, completion flag, optional assignee, and record version. Assignment requires active membership. Removing an assignee's membership clears the active assignment while preserving the task and its attribution. The lifecycle handler emits AssigneeRemoved for the existing declared-event Task cohort; each admitted current child clears only the matching assignee. Durable cohort progress/replay replaces the unproven 500-assignment bound. This is resumable reconciliation, not a promise of one atomic transaction over every task; complete runtime qualification remains pending.
 
 Add location or operator-wide scope, description, due date/time, priority, and optional related-record reference. Keep a completion/reopening history and attributed staff comments.
 

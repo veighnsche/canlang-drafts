@@ -1,10 +1,10 @@
-import { require as check, hasRole, active_member, same, records, first, count, any, int64, create, set, send, call, delivery,trim } from "@canlang/stdlib";
+import { require as check, hasRole, active_member, same, records, first, count, any, int64, create, set, send, call, delivery,generationCallbackDiagnostics,trim } from "@canlang/stdlib";
 import { message, renderPage, list, table, form, actions, card, details, content, text, title, edit, breadcrumbs, pagination, badge, status, progress, loading, chat_bubble, tooltip, divider, alert, fieldset, input, textarea, select, range, checkbox, label, validator } from "@canlang/ui";
 // Desired lowering: breadcrumbs, pagination, badge, status, progress, loading,
 // chat_bubble, tooltip, divider, alert, fieldset and placed controls are proposed
-// @canlang/ui contracts (desired/unimplemented). details/drawer kept.
+// @canlang/ui contracts described by DESIGN §13; this witness is not native qualification.
 
-/* Handwritten desired JavaScript; DESIGN §13 contracts are unimplemented.
+/* Handwritten desired JavaScript, not generated output or full native acceptance.
  * Shared TextGenerationV1 owns provider streams, durable correlation, targeted
  * cancellation and normalization. This owner supplies only business policy.
  * Records use current invocation authority; limits fail instead of truncating.
@@ -33,11 +33,11 @@ export const appDefinition = {
     "chat.Allowance":{label:message("Token allowance",{nl:"Tokenbudget"}),readGrants:[{rule:"Allowance.read.1"}],invariants:["Allowance.require.1"],locks:["Allowance.lock.1"],fields:{
       account:{type:"user",unique:true},cap:{type:"int",min:1n},parallel:{type:"int",default:2n,min:1n,max:10n},spent:{type:"int",default:0n,min:0n},held:{type:"int",default:0n,min:0n},running:{type:"int",default:0n,min:0n,max:10n},active:{type:"bool",default:true}}},
     [Conversation]:{exported:true,label:message("Conversation",{nl:"Gesprek"}),readGrants:[{rule:"Conversation.read.1"}],locks:["Conversation.lock.1"],fields:{title:{type:"text",trim:true,max:200n},account:{type:"user",server:"actor"},active:{type:"bool",default:true}}},
-    [Branch]:{exported:true,parent:Conversation,label:message("Branch",{nl:"Vertakking"}),readGrants:[{rule:"Branch.read.1"}],locks:["Branch.lock.1"],fields:{title:{type:"text",trim:true,max:200n},profile:{type:"chat.Profile"},prefix:{type:"std.TextMessage",array:true,max:120n},origin:{type:Turn,nullable:true}}},
+    [Branch]:{exported:true,parent:Conversation,label:message("Branch",{nl:"Vertakking"}),readGrants:[{rule:"Branch.read.1"},{rule:"Branch.read.2",fields:["parent"]}],locks:["Branch.lock.1"],fields:{title:{type:"text",trim:true,max:200n},profile:{type:"chat.Profile"},prefix:{type:"std.TextMessage",array:true,max:120n},origin:{type:Turn,nullable:true}}},
     [Turn]:{exported:true,parent:Branch,label:message("Message",{nl:"Bericht"}),readGrants:[{rule:"Turn.read.1"}],invariants:["Turn.require.1"],locks:["Turn.lock.1"],unique:[{fields:["position"]},{fields:["run","role"]}],fields:{position:{type:"int",min:1n},role:{type:"std.TextMessage.role",label:{text:message("Speaker",{nl:"Spreker"}),values:{user:message("You",{nl:"Jij"}),assistant:message("Assistant",{nl:"Assistent"})}}},content:{type:"text",max:65536n},attachments:{type:"file",array:true,max:8n},run:{type:"chat.Run"}}},
     "chat.Run":{parent:Branch,label:message("Reply generation",{nl:"Antwoordgeneratie"}),readGrants:[
       {rule:"Run.read.1",fields:["parent","account","allowance","reserved","state","partial","request.progress.content","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]},
-      {rule:"Run.read.2",fields:["account","allowance","reserved","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]}],
+      {rule:"Run.read.2",fields:["account","allowance","reserved","state","used","unfinished","stop_requested","detail","request.id","request.status","request.error","request.progress.state","request.progress.detail","cancellation.id","cancellation.status","cancellation.error","reconciliation.id","reconciliation.status","reconciliation.error","delivery_state","stop_delivery","reconcile_delivery","created","updated"]}],callbackReadGrants:[{rule:"Run.read.3",field:"request",fields:[]},{rule:"Run.read.4",field:"request",fields:[]}],
       invariants:["Run.require.1"],locks:["Run.lock.1"],derived:{state:{handler:"Run.state",type:"std.TextRun.state",nullable:true,label:message("Generation state",{nl:"Generatiestatus"})},partial:{handler:"Run.partial",type:"text"},detail:{handler:"Run.detail",type:"text",nullable:true},delivery_state:{handler:"Run.delivery_state",type:"std.DeliveryResult.status",nullable:true,label:message("Request delivery",{nl:"Verzoekbezorging"})},stop_delivery:{handler:"Run.stop_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Stop request",{nl:"Stopverzoek"})},reconcile_delivery:{handler:"Run.reconcile_delivery",type:"std.DeliveryResult.status",nullable:true,label:message("Recovery request",{nl:"Herstelverzoek"})}},fields:{account:{type:"user"},allowance:{type:"chat.Allowance"},request_value:{type:"std.TextRequest"},reserved:{type:"int",min:1n},request:{type:"delivery",operation:"chat.LLM.generate",nullable:true},cancellation:{type:"delivery",operation:"chat.LLM.cancel",nullable:true},reconciliation:{type:"delivery",operation:"chat.LLM.reconcile",nullable:true},used:{type:"int",nullable:true,min:0n},unfinished:{type:"bool",default:true},stop_requested:{type:"bool",default:false}}}
   },
   pure:{"chat.can_use":{handler:"can_use",exported:true,inputs:{person:{type:"user",nullable:true},conversation:{type:Conversation}},result:{type:"bool"}},"chat.transcript":{handler:"transcript",exported:true,inputs:{branch:{type:Branch}},result:{type:"std.TextMessage",array:true}}},
@@ -66,8 +66,9 @@ export function canApp() {
       "Profile.read.1":c=>hasRole(c,"members"),
       "Allowance.read.1":(c,r)=>hasRole(c,"chat.ai_manager")||(hasRole(c,"members")&&same(r.account,c.actor)),
       "Conversation.read.1":(c,r)=>hasRole(c,"members")&&same(r.account,c.actor),
-      "Branch.read.1":(c,r)=>can_use(c,c.actor,r.parent),"Turn.read.1":(c,r)=>can_use(c,c.actor,r.parent.parent),
-      "Run.read.1":(c,r)=>can_use(c,c.actor,r.parent.parent),"Run.read.2":(c,r)=>hasRole(c,"members")&&same(r.account,c.actor)
+      "Branch.read.1":(c,r)=>can_use(c,c.actor,r.parent),"Branch.read.2":(c,r)=>hasRole(c,"members")&&same(r.parent.account,c.actor),"Turn.read.1":(c,r)=>can_use(c,c.actor,r.parent.parent),
+      "Run.read.1":(c,r)=>can_use(c,c.actor,r.parent.parent),"Run.read.2":(c,r)=>hasRole(c,"members")&&same(r.account,c.actor),
+      "Run.read.3":(c,r)=>can_use(c,c.actor,r.parent.parent),"Run.read.4":(c,r)=>hasRole(c,"members")&&same(r.account,c.actor)
     },
     invariants:{"Profile.require.1":(c,r)=>r.duration>=1000n&&r.duration<=600000n,"Allowance.require.1":(c,r)=>int64(r.spent+r.held)<=r.cap&&r.running<=r.parallel,"Run.require.1":(c,r)=>r.used===null||r.used<=r.reserved,"Turn.require.1":(c,r)=>["user","assistant"].includes(r.role)},
     locks:{"Profile.lock.1":{fields:["name","provider_key","policy_revision","system_prompt","input_tokens","output_tokens","duration"]},"Allowance.lock.1":{fields:["account"]},"Conversation.lock.1":{fields:["account"]},"Branch.lock.1":{fields:["profile","prefix","origin"]},"Turn.lock.1":{fields:["position","role","content","attachments","run"]},"Run.lock.1":{fields:["account","allowance","request_value","reserved","request"]}},
@@ -138,6 +139,54 @@ export function canApp() {
     }
   };
 }
+// Presentation-only helpers mirror the authored status/error blocks. Protected
+// delivery reads retain ordinary failures; no denial is converted into null.
+async function runDeliveryFeedback(c,run){
+ const children=[];
+ for(const [field,stateField,caption,localized,unavailable,unavailableLocalized] of [
+  ["request","delivery_state","Submission diagnostic","Indieningsdiagnose","Submission details unavailable","Indieningsdetails niet beschikbaar"],
+  ["cancellation","stop_delivery","Stop diagnostic","Stopdiagnose","Stop details unavailable","Stopdetails niet beschikbaar"],
+  ["reconciliation","reconcile_delivery","Recovery diagnostic","Hersteldiagnose","Recovery details unavailable","Hersteldetails niet beschikbaar"]]){
+  const state=await run[stateField];
+  children.push(status({context:c,value:state}));
+  const observation=await delivery(c,{record:run,field},["error"]);
+  const error=observation?.error??null;
+  if(error!==null)children.push(alert({context:c,tone:"error",children:[
+   text({context:c,values:[message(caption,{nl:localized})]}),
+   text({context:c,values:[error.code,error.message]})]}));
+  if(["failed","unknown"].includes(state)&&error===null)children.push(alert({context:c,tone:"warning",children:[
+   text({context:c,values:[message(unavailable,{nl:unavailableLocalized})]})]}));
+ }
+ return children;
+}
+async function responsePresence(c,run){
+ const observation=await delivery(c,{record:run,field:"request"},["progress.content"]);
+ const response=observation?.progress?.content??null;
+ const children=[];
+ if(response===null)children.push(alert({context:c,tone:"info",children:[text({context:c,values:[
+  message("Response content unavailable.",{nl:"Antwoordinhoud niet beschikbaar."})]})]}));
+ if(response!==null&&run.partial!==""&&run.state!==null&&run.state!=="succeeded")children.push(alert({context:c,tone:"warning",children:[text({context:c,values:[
+  message("Partial response",{nl:"Gedeeltelijk antwoord"})]})]}));
+ if(response!==null&&run.state==="succeeded"&&run.partial==="")children.push(alert({context:c,tone:"info",children:[text({context:c,values:[
+  message("The completed response is empty.",{nl:"Het voltooide antwoord is leeg."})]})]}));
+ return children;
+}
+async function historicalCallbackRefusals(c,run){
+ // One whole protected observation; descendants use only this immutable result.
+ const diagnostic=await generationCallbackDiagnostics(c,{record:run,field:"request"});
+ return list({context:c,items:[diagnostic],renderRow:(diagnostic,dc)=>{
+  if(diagnostic===null)return [];
+  const children=[];
+  if(diagnostic.outcome==="unsupported")children.push(card({context:dc,children:[
+   alert({context:dc,tone:"warning",children:[text({context:dc,values:[
+    message("Historical callback diagnostics unavailable.",{nl:"Historische callbackdiagnoses zijn niet beschikbaar."})]})]})]}));
+  if(diagnostic.outcome==="complete")children.push(card({context:dc,children:[
+   list({context:dc,items:diagnostic.failures,empty:message("No retained historical callback refusals.",{nl:"Geen bewaarde historische weigeringen van callbacks."}),renderRow:(failure,fc)=>[
+    alert({context:fc,tone:"error",children:[text({context:fc,values:[failure.code,failure.message]})]})]})]}));
+  return [card({context:dc,title:message("Historical callback refusals",{nl:"Historische weigeringen van callbacks"}),children})];
+ }});
+}
+
 export async function conversationsPage(c){
   return renderPage(c,conversationsDescriptor,()=>[
     breadcrumbs({context:c}),
@@ -182,17 +231,17 @@ export async function conversationsPage(c){
             divider({context:bv,caption:message("Reply generations",{nl:"Antwoordgeneraties"})}),
             list({context:bv,model:"chat.Run",parent:branch,order:["created"],
               empty:message("No reply generations yet",{nl:"Nog geen antwoordgeneraties"}),
-              renderRow:(run,rv)=>[
+              renderRow:async(run,rv)=>[
               pagination({context:rv}),
               card({context:rv,
               title:message("Reply status",{nl:"Antwoordstatus"}),children:[
-              status({context:rv,value:run.delivery_state}),
-              status({context:rv,value:run.stop_delivery}),
-              status({context:rv,value:run.reconcile_delivery}),
+              ...await runDeliveryFeedback(rv,run),
+              await historicalCallbackRefusals(rv,run),
               badge({context:rv,value:run.state}),
               text({context:rv,values:[run.stop_requested,run.detail,run.reserved,run.used]}),
               progress({context:rv,value:run.used,max:run.reserved}),
               loading({context:rv,value:run.unfinished}),
+              ...await responsePresence(rv,run),
               content({context:rv,value:run.partial}),
               actions({context:rv,operations:["chat.stop","chat.reconcile","chat.release_skipped"],boundArgs:{run}})]})]}),
             tooltip({context:bv,caption:message("Send message and reserve tokens",
@@ -211,7 +260,7 @@ export async function conversationsPage(c){
 export async function recoveryPage(c){return renderPage(c,recoveryDescriptor,()=>[
   breadcrumbs({context:c}),
   alert({context:c,children:[text({context:c,values:[message("Stopping is a request. Unknown usage stays reserved until the provider confirms it.",{nl:"Stoppen is een verzoek. Onbekend gebruik blijft gereserveerd totdat de aanbieder het bevestigt."})]})]}),
-  table({context:c,model:"chat.Run",where:r=>r.used===null||r.unfinished,columns:["state","delivery_state","stop_delivery","reconcile_delivery","reserved","used","detail"],empty:message("No unresolved usage",{nl:"Geen onopgelost gebruik"}),renderRow:(run,rv)=>[pagination({context:rv}),status({context:rv,value:run.delivery_state}),actions({context:rv,operations:["chat.stop","chat.reconcile","chat.release_skipped"],boundArgs:{run}})]})
+  table({context:c,model:"chat.Run",where:r=>r.used===null||r.unfinished,columns:["state","delivery_state","stop_delivery","reconcile_delivery","reserved","used","detail"],empty:message("No unresolved usage",{nl:"Geen onopgelost gebruik"}),renderRow:async(run,rv)=>[pagination({context:rv}),...await runDeliveryFeedback(rv,run),await historicalCallbackRefusals(rv,run),actions({context:rv,operations:["chat.stop","chat.reconcile","chat.release_skipped"],boundArgs:{run}})]})
  ]);}
 export async function adminPage(c){return renderPage(c,adminDescriptor,()=>[
   breadcrumbs({context:c}),

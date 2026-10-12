@@ -314,7 +314,7 @@ export function canApp() {
       Notice: (c, row) => addDuration(row.occurred, int64(86400000n * row.parent.history_days)),
     },
     preferencesValid: async (c, row) =>
-      row.location === null || (await can_work(c, c.actor, row.location)),
+      row.location === null || (c.actor !== null && (await can_work(c, c.actor, row.location))),
     async pause(c, { check: job }) {
       check(hasRole(c, "check.operations"), "forbidden");
       check((job.location === null || (await can_work(c, c.actor, job.location))) && job.enabled);

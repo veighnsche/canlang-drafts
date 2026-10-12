@@ -286,7 +286,7 @@ package catch
         pagination
         chat_bubble
          slot header
-          text row.author,row.occurred
+          text row.author,row.created
          slot content
           text row.body
         ## No avatar slot: no authorized images exist and no user directory is inferred.

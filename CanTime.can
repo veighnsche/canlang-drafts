@@ -8,6 +8,7 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
  use field {Job}
  use rent_catalog {Location,test_site}
  use invoice {BillingV1 as Billing} from=deployment.billing
+ use std {DeliveryResult}
  Given
   message label_Project = "Time project"@{nl="Tijdregistratieproject"}
   message label_Entry_from = "Started at"@{nl="Gestart op"}
@@ -17,7 +18,7 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
   Project { name:text, location:Location, customer:Customer?, rate:money label="Current hourly rate"@{nl="Huidig uurtarief"}, active:bool=true } label=label_Project
   Entry in Employee { project:Project, service:Job? label="Service visit"@{nl="Servicebezoek"}, description:text, from:datetime label=label_Entry_from, until:datetime? label=label_Entry_until, rate:money label="Frozen rate"@{nl="Vastgelegd tarief"}, billable:bool=true label=label_Entry_billable, origin:enum(timer,manual) label={text="Time origin"@{nl="Herkomst tijdregistratie"},values={timer="Observed timer"@{nl="Gemeten timer"},manual="Manual entry"@{nl="Handmatige registratie"}}}, reason:text?, author:user server=actor, overlap_reason:text? label="Overlap exception"@{nl="Overlapuitzondering"}, overlap_author:user?, state:enum(draft,submitted,approved,exported,superseded)=draft, review:PeriodReview?, correction:Correction?, decision:text?, exported_source:text?, delivery:text? } label="Time entry"@{nl="Tijdregistratie"}
   PeriodReview in Employee { from:datetime, until:datetime, entries:Entry[]!, state:enum(submitted,approved,rejected,withdrawn)=submitted, submitted_by:user server=actor, decided_by:user?, reason:text? } label="Period review"@{nl="Periodebeoordeling"}
-  Correction in Entry { reason:text, replacement:Entry, author:user server=actor, original_source:text?, amount:money, cancel_delivery:text?, cancel_status:enum(pending,succeeded,failed,unknown)=pending, fenced:bool=false, fence_revision:int=0, absent:bool=false, revision:int=0, collected:money, refunded:money, collection_pending:bool=true, refund_pending:bool=false, refund_delivery:text?, refund_revision:int=0, refund_status:enum(pending,succeeded,failed,unknown)?, reconcile_delivery:text?, reconcile_status:enum(pending,succeeded,failed,unknown)? } label="Time correction"@{nl="Tijdcorrectie"}
+  Correction in Entry { reason:text, replacement:Entry, author:user server=actor, original_source:text?, amount:money, cancel_delivery:text?, cancel_status:DeliveryResult.status=pending, fenced:bool=false, fence_revision:int=0, absent:bool=false, revision:int=0, collected:money, refunded:money, collection_pending:bool=true, refund_pending:bool=false, refund_delivery:text?, refund_revision:int=0, refund_status:DeliveryResult.status?, reconcile_delivery:text?, reconcile_status:DeliveryResult.status? } label="Time correction"@{nl="Tijdcorrectie"}
   derive Entry.duration:duration = (row.until ?? now)-row.from
   derive Entry.amount:money = row.rate*(row.duration/1h)
   derive Correction.ready:bool = row.fenced and (row.absent or (row.revision>0 and row.revision>=row.fence_revision and not row.collection_pending and not row.refund_pending and row.collected==row.refunded))
@@ -202,9 +203,9 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
     project_manager,approved,adjustment,1,false,money(120,"EUR") -> error(rule_failed)
     project_manager,approved,adjustment,2,true,money(120,"EUR") -> error(rule_failed)
     project_manager,approved,adjustment,2,false,money(0,"EUR") -> error(rule_failed)
-  # Retry a definite failed original-source cancellation without releasing the replacement. @{nl="Probeer een definitief mislukte annulering van de oorspronkelijke bron opnieuw zonder de vervanging vrij te geven."}
+  # Retry a failed or never-dispatched original-source cancellation without releasing the replacement. @{nl="Probeer een mislukte of nooit verzonden annulering van de oorspronkelijke bron opnieuw zonder de vervanging vrij te geven."}
   scenario retry_cancel(correction:Correction) by=project_manager
-   require can_work(actor,correction.parent.project.location) and correction.original_source!=null and correction.cancel_status==failed and not correction.fenced
+   require can_work(actor,correction.parent.project.location) and correction.original_source!=null and correction.cancel_status in [failed,skipped] and not correction.fenced
    do
     send Billing.cancel {source=correction.original_source,reason=correction.reason} as delivery
     set correction {cancel_delivery=delivery.id,cancel_status=pending}
@@ -216,7 +217,7 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
     set correction {reconcile_delivery=delivery.id,reconcile_status=pending}
   # Ask the invoice owner to refund remaining original-source funds only after uncertainty has cleared. @{nl="Vraag de factuureigenaar resterende bronbedragen terug te betalen zodra onzekerheid is verdwenen."}
   scenario refund(correction:Correction,reason:text) by=project_manager
-   require can_work(actor,correction.parent.project.location) and correction.original_source!=null and correction.fenced and correction.revision>0 and not correction.collection_pending and not correction.refund_pending and correction.collected>correction.refunded and (correction.refund_status==null or correction.refund_status==failed or (correction.refund_status==succeeded and correction.revision>correction.refund_revision)) and trim(reason)!=""
+   require can_work(actor,correction.parent.project.location) and correction.original_source!=null and correction.fenced and correction.revision>0 and not correction.collection_pending and not correction.refund_pending and correction.collected>correction.refunded and (correction.refund_status==null or correction.refund_status in [failed,skipped] or (correction.refund_status==succeeded and correction.revision>correction.refund_revision)) and trim(reason)!=""
    do
     send Billing.refund {source=correction.original_source,amount=correction.collected-correction.refunded,reason} as delivery
     set correction {refund_delivery=delivery.id,refund_revision=correction.revision,refund_status=pending}

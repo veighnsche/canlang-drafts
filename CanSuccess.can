@@ -41,7 +41,8 @@ package success
   fixture managed=Account {parent=test_company,location=test_site,manager=self,email="manager@example.test"}
   fixture followup=FollowUp {parent=managed,title="Renewal conversation",due=datetime("2099-01-01T09:00:00Z"),assignee=self,email="manager@example.test"}
  When
-  crud Account by=account_manager fields=manager,email,renewal,risk,risk_reason,notes,agreement,membership,active create_fields=location,manager,email,renewal,risk,risk_reason,notes,agreement,membership when=can_work(actor,row.location) and account_manager(row.manager) and can_work(row.manager,row.location) delete=none
+  ## Changing manager or destination goes through reassign, which transfers pending follow-ups.
+  crud Account by=account_manager fields=renewal,risk,risk_reason,notes,agreement,membership,active create_fields=location,manager,email,renewal,risk,risk_reason,notes,agreement,membership when=can_work(actor,row.location) and account_manager(row.manager) and can_work(row.manager,row.location) delete=none
   crud Milestone by=account_manager fields=title,due when=can_work(actor,row.parent.location) and row.parent.active and not row.done
   crud FollowUp by=account_manager fields=title,due,assignee,email when=can_work(actor,row.parent.location) and row.parent.active and not row.done and account_manager(row.assignee) and can_work(row.assignee,row.parent.location) delete=none
   # Complete a current account milestone with attribution. @{nl="Rond een huidige klantmijlpaal met toeschrijving af."}

@@ -33,6 +33,8 @@ import {
  * checking/emission). Business lowering (registry, guards, fixtures, inline
  * examples) stays with the future full witness; this file mirrors the Then
  * page composition only — badges, pagination, and placed inputs (no modals).
+ * The source now relays membership removal through AssigneeRemoved and the
+ * declared Task cohort; durable business lowering remains outside this Then-only witness.
  * It must pass node --check (syntax only) and never claims to run.
  */
 

@@ -62,7 +62,7 @@ An account manager can prepare a company's move-in, follow up an unresolved issu
 Frontend acceptance journeys:
 
 - A manager prepares a move-in, adds a milestone and observes its progress denominator, then records a dated follow-up and explicit completion. The linked paid membership remains unchanged by that completion.
-- Reassignment transfers pending work to an active manager and invalidates old reminders; archiving stops future notices. A failed delivery or stale source summary remains visible, while notes entered during a conflict are preserved for authorized correction.
+- Manager and reminder email changes use the canonical reassignment operation, not generic Account.update. Reassignment transfers pending work to an active manager and invalidates old reminders; archiving stops future notices. A failed delivery or stale source summary remains visible, while notes entered during a conflict are preserved for authorized correction.
 
 ## Composition and Ownership
 

@@ -12,6 +12,8 @@ Authorized location mail staff record receipts and handling. Verified designated
 
 ## Data and Ownership
 
+Automatic reminder notices have no human author: their server-owned nullable author is null and their verified event supplies attribution. Initial and additional staff notices require a nonnull human author. Notice kind and author are validated together and remain immutable.
+
 Mail service entitlement records customer, location, active period, permitted handling, and recorded recipient instructions/version. An item has stable receipt identity, recipient/service reference, receipt time, type, safe storage reference, optional bounded receipt photo, and received/notified/collection_ready/collected/forward_pending/forwarded/returned state. Retain collection delegate/actor/time or dispatch/carrier reference, fees/currency, and immutable handling history. Default identifiable item-history retention is 180 days after completion, with developer-maintained retention configuration outside the product UI.
 
 ## Workflows and Business Rules

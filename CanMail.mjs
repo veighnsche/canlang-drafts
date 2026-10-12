@@ -427,6 +427,7 @@ export const appDefinition = {
       parent: "mailroom.Item",
       label: message("Notice attempt"),
       readGrants: [{ rule: "Notice.read.1" }],
+      invariants: ["Notice.require.1"],
       locks: ["Notice.lock.1"],
       fields: {
         account: { type: "user", label: message("Frozen account") },
@@ -448,7 +449,7 @@ export const appDefinition = {
           default: false,
           label: message("Possible duplicate accepted"),
         },
-        author: { type: "user", server: "actor", label: message("Author") },
+        author: { type: "user", nullable: true, server: "actor", label: message("Author") },
       },
     },
   },
@@ -919,6 +920,9 @@ export function canApp() {
         hasRole(c, "mailroom.mail_staff") && (await can_work(c, c.actor, row.parent.location)),
     },
     invariants: {
+      "Notice.require.1": (c, row) =>
+        (row.kind === "reminder" && row.author === null) ||
+        (["initial", "additional"].includes(row.kind) && row.author !== null),
       "Service.require.1": (c, row) =>
         compareInstant(row.from, row.until) < 0 &&
         same(row.recipient.parent, row.parent) &&

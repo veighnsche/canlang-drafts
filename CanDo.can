@@ -38,6 +38,7 @@ package todo
   lock WorkView fields=account,requested,delivery
   invariant Task: row.assignee==null or (active_member(row.assignee,team) and staff(row.assignee))
   lock Comment fields=body,author
+  event AssigneeRemoved { account:user }
   fixture open_task=Task {title="Opening checks",assignee=self}
   fixture work_view=WorkView {account=self,requested=datetime("2026-10-03T09:00:00Z"),delivery="work-test"}
   message source_freshness_caption = "Source freshness"@{nl="Actualiteit bron"}
@@ -106,8 +107,11 @@ package todo
     {delivery_id="work-test",status=failed,result=null,error={code="unavailable",message="Source unavailable"}} -> unavailable
     {delivery_id="other-work",status=failed,result=null,error={code="unavailable",message="Source unavailable"}} -> pending
   scenario removed on=teams.member_removed
+   do emit AssigneeRemoved {account=event.user}
+  ## The declared-event cohort owns durable progress and child replay, without a total-row cap.
+  scenario clear_removed_assignment on=AssigneeRemoved each=Task as task
    do
-    for task in Task as t where t.assignee==event.user limit=500
+    if task.assignee==event.account
      set task {assignee=null}
   scenario report_error on=instrumentation.error
    do send Catch.report {event=event} as delivery
