@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanInbox/CanInbox.can",
   "owner": "inbox",
-  "page": "/inbox",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use a compact departmental email queue with readable subjects and sender context. Distinguish incoming evidence, route probabilities, urgency judgments, and staff decisions; keep private transfers and evidenced replies visible beside the selected message. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /inbox page content; keep page admission and the shared shell unchanged.",
+  "label": "InboxWorkspace",
+  "prompt": "Use a compact departmental email queue with readable subjects and sender context. Distinguish incoming evidence, route probabilities, urgency judgments, and staff decisions; keep private transfers and evidenced replies visible beside the selected message. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 321,
-  "draft_source_key": "[\"inbox\",\"page\",\"/inbox\",null]",
+  "source_line": 316,
+  "draft_source_key": "[\"inbox\",\"style\",\"InboxWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

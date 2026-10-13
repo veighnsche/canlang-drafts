@@ -375,6 +375,7 @@ package appointments
     confirmed,0 -> error(rule_failed)
     confirmed,1 -> 1,pending
  Then
+  style AppointmentsWorkspace $"Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, appointment_state:Appointment.state? label="Initial appointment state filter"@{nl="Eerste filter afspraakstatus"} }
   view appointment_coordination(row:Appointment)
    badge row.state
@@ -392,7 +393,7 @@ package appointments
      badge row.state
   # Choose a location, appointment type and published host window. @{nl="Kies een locatie, afspraaktype en gepubliceerd gastheervenster."}
   page /appointments title="Appointments"@{nl="Afspraken"}
-   style "Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /appointments page content; keep page admission and the shared shell unchanged."
+   style AppointmentsWorkspace
     breadcrumbs
     hero "Published host windows"@{nl="Gepubliceerde gastheervensters"}
      list Calendar columns=location,timezone,duration,active filter=location,active defaults={location=preferences.location} display=split
@@ -434,7 +435,7 @@ package appointments
   page /appointments/hosts title="Host calendars"@{nl="Gastheerkalenders"}
    breadcrumbs
    require host_manager
-   style PageAppointmentsHosts2Segment1 "Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /appointments/hosts page content; keep page admission and the shared shell unchanged."
+   style AppointmentsWorkspace
     card "Calendar intake"@{nl="Kalender aanmaken"}
      form Calendar.create
       input hours

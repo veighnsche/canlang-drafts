@@ -1,0 +1,27 @@
+{
+  "unit_id": "1337f3b5-3901-42ce-9c04-dc2e263f8c62",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "board",
+  "label": null,
+  "profile": "shared",
+  "source": "apps/CanBoard/CanBoard.can",
+  "prompt": "Give this Meeting its existing finalization evidence: finalized defaults to false; finalized_by and finalized_at remain nullable. Preserve the original localized field labels. Do not finalize automatically, add invariants, relax the lock or grant permission; the existing finalize scenario owns the transition.",
+  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
+  "source_transformation": {
+    "kind": "model-declaration",
+    "original": "  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label=\"Attendance\"@{nl=\"Aanwezigheid\"}, minutes:text? label=\"Minutes\"@{nl=\"Notulen\"}, finalized:bool=false label=label_Meeting_finalized, finalized_by:user? label=\"Finalized by\"@{nl=\"Definitief gemaakt door\"}, finalized_at:datetime? label=\"Finalization time\"@{nl=\"Definitief gemaakt op\"} } label=\"Meeting\"@{nl=\"Vergadering\"}\n",
+    "replacement": "  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label=\"Attendance\"@{nl=\"Aanwezigheid\"}, minutes:text? label=\"Minutes\"@{nl=\"Notulen\"} } trait $\"Give this Meeting its existing finalization evidence: finalized defaults to false; finalized_by and finalized_at remain nullable. Preserve the original localized field labels. Do not finalize automatically, add invariants, relax the lock or grant permission; the existing finalize scenario owns the transition.\" label=\"Meeting\"@{nl=\"Vergadering\"}\n"
+  },
+  "target_kind": "model",
+  "target_model": "Meeting",
+  "fields": [
+    "finalized",
+    "finalized_by",
+    "finalized_at"
+  ]
+}

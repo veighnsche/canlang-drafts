@@ -156,11 +156,12 @@ package refer
     program_manager,"" -> error(rule_failed)
     finance,"Duplicate attribution" -> error(forbidden)
  Then
+  style ReferWorkspace $"Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { program:Program? label=label_Program }
   # Share your configured referral destination and trace earned, paid and owed balances. @{nl="Deel de ingestelde verwijzingsbestemming en volg verdiende, betaalde en verschuldigde saldi."}
   page /referrals title="Referrals"@{nl="Verwijzingen"}
    require authenticated and actor.email_verified
-   style "Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /referrals page content; keep page admission and the shared shell unchanged."
+   style ReferWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     card "Programs and your referral code"@{nl="Programma's en je verwijzingscode"}
@@ -191,7 +192,7 @@ package refer
   # Review cash rewards and evidence actual external settlement. @{nl="Beoordeel geldbeloningen en leg bewijs van daadwerkelijke externe uitbetaling vast."}
   page /referrals/work title="Referral rewards"@{nl="Verwijzingsbeloningen"}
    require program_manager or finance
-   style PageReferralsWork2Segment1 "Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /referrals/work page content; keep page admission and the shared shell unchanged."
+   style ReferWorkspace
     breadcrumbs
     card "Program maintenance"@{nl="Programmabeheer"}
      form Program.create
@@ -223,7 +224,7 @@ package refer
   # A shared link discloses only its public code and configured destination; capture requires verified customer authority. @{nl="Een gedeelde link toont alleen de openbare code en ingestelde bestemming; vastlegging vereist geverifieerde klantbevoegdheid."}
   page /referrals/share/{Advocate.id} title="Referral invitation"@{nl="Verwijzingsuitnodiging"} nav=none
    require row.parent.active
-   style PageReferralsShareAdvocateId3Segment1 "Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /referrals/share/{Advocate.id} page content; keep page admission and the shared shell unchanged."
+   style ReferWorkspace
     breadcrumbs
     hero
      badge row.code

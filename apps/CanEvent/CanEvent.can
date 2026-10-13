@@ -525,10 +525,11 @@ package events
     send Mail.send {to=notice.parent.email,subject=notice.subject,body=notice.body} when=notice.parent.parent.revision==notice.revision and (notice.kind!=confirmation or (notice.parent.state==confirmed and not notice.parent.parent.cancelled)) as delivery
     create Notice {parent=notice.parent,kind=notice.kind,revision=notice.revision,subject=notice.subject,body=notice.body,delivery} as retry
  Then
+  style EventsWorkspace $"Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, ticket_state:Registration.state? label="Initial ticket state filter"@{nl="Eerste filter toegangsbewijsstatus"} }
   # Discover published events and retrieve only your own tickets. @{nl="Ontdek gepubliceerde evenementen en haal uitsluitend je eigen toegangsbewijzen op."}
   page /events title="Events"@{nl="Evenementen"}
-   style "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /events page content; keep page admission and the shared shell unchanged."
+   style EventsWorkspace
     breadcrumbs
     hero "Published event discovery"@{nl="Gepubliceerde evenementen ontdekken"}
      list (Event as offering where offering.published and not offering.cancelled) columns=name,location,from,until,price,available filter=location defaults={location=preferences.location} search=name order=from display=split
@@ -569,7 +570,7 @@ package events
   page /events/work title="Event operations"@{nl="Evenementuitvoering"}
    breadcrumbs
    require organizer or check_in or finance
-   style PageEventsWork2Segment1 "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /events/work page content; keep page admission and the shared shell unchanged."
+   style EventsWorkspace
     card "Event intake"@{nl="Evenement aanmaken"}
      require organizer
      form Program.create

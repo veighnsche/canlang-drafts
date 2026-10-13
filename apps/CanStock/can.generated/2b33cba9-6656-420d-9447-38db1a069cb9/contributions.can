@@ -1,0 +1,3 @@
+## Handwritten field contribution; the constant declarations remain authoritative.
+Item { reorder:int=0 min=0 }
+Threshold { reorder:int=0 min=0 }

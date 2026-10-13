@@ -1,0 +1,38 @@
+{
+  "unit_id": "2b33cba9-6656-420d-9447-38db1a069cb9",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "stock",
+  "label": "reorder_threshold",
+  "profile": "shared",
+  "source": "apps/CanStock/CanStock.can",
+  "prompt": "For an existing integer reorder threshold, preserve the exact native-integer default zero and minimum zero. Apply the same rule to item-wide and location-specific thresholds. Keep the existing caption, balance/low derivations, policies and movement history; do not reserve, purchase or adjust stock.",
+  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
+  "source_transformation": {
+    "kind": "field-declarations",
+    "declaration": "  trait reorder_threshold $\"For an existing integer reorder threshold, preserve the exact native-integer default zero and minimum zero. Apply the same rule to item-wide and location-specific thresholds. Keep the existing caption, balance/low derivations, policies and movement history; do not reserve, purchase or adjust stock.\"\n",
+    "replacements": [
+      {
+        "original": "  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int=0 min=0 label=label_Item_reorder, active:bool=true } label=\"Stock item\"@{nl=\"Voorraadartikel\"}\n",
+        "replacement": "  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int reorder_threshold label=label_Item_reorder, active:bool=true } label=\"Stock item\"@{nl=\"Voorraadartikel\"}\n"
+      },
+      {
+        "original": "  Threshold in Item { location:Location, reorder:int=0 min=0 label=label_Item_reorder } label=\"Location reorder threshold\"@{nl=\"Besteldrempel per locatie\"}\n",
+        "replacement": "  Threshold in Item { location:Location, reorder:int reorder_threshold label=label_Item_reorder } label=\"Location reorder threshold\"@{nl=\"Besteldrempel per locatie\"}\n"
+      }
+    ]
+  },
+  "target_kind": "field",
+  "applications": [
+    "Item.reorder",
+    "Threshold.reorder"
+  ],
+  "export_roles": [
+    "defaultValue",
+    "check"
+  ]
+}

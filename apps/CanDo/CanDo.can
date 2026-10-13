@@ -13,7 +13,6 @@ package todo
  use board {complete as complete_board,work as board_work,work_detail as board_detail} from=deployment.board
  use volunteer {complete as complete_volunteer,work as volunteering_work,work_detail as volunteering_detail} from=deployment.volunteering
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   export contract WorkItem { source:text label=label_WorkItem_source, reference:text, revision:int, location:text?, title:text, detail:text? label=label_WorkItem_detail, due:datetime?, state:enum(open,done,stale,unavailable) label={text=label_WorkItem_state,values={open="Open"@{nl="Open"},done="Done"@{nl="Gereed"},stale=label_WorkItem_state_stale,unavailable=label_WorkItem_state_unavailable}}, action:action(inspect,complete_account,complete_step,complete_board,complete_volunteer)? label="Source action"@{nl="Bronactie"} } label="Source work item"@{nl="Werk uit bronsysteem"}
   export contract WorkSourceState { source:text label=label_WorkItem_source, state:enum(fresh,stale,unavailable) label={text=label_WorkItem_state,values={stale=label_WorkItem_state_stale,unavailable=label_WorkItem_state_unavailable,fresh=label_WorkSourceState_state_fresh}}, detail:text? label=label_WorkItem_detail } label=source_freshness_caption
   export contract WorkBatch { items:WorkItem[] max=500 label=label_WorkBatch_items, states:WorkSourceState[]! min=5 max=5 label="Source states"@{nl="Bronstatussen"} } label="Source work batch"@{nl="Bundel werk uit bronsystemen"}
@@ -22,8 +21,8 @@ package todo
   export capability WorkSourcesV1 version=1
    work(account:user,locations:text[]) -> WorkBatch
   role task_manager label="Checklist manager"@{nl="Checklistbeheerder"}
-  export Task { location:Location?, title:text nonempty, description:text?, due:datetime?, priority:enum(low,normal,high)=normal label={text="Task priority"@{nl="Taakprioriteit"},values={low="Low"@{nl="Laag"},normal="Normal"@{nl="Normaal"},high="High"@{nl="Hoog"}}}, assignee:user? label="Assignee"@{nl="Toegewezen aan"}, done:bool=false, completed_by:user? label="Completed by"@{nl="Afgerond door"}, completed_at:datetime? label="Completion time"@{nl="Afgerond op"} } label="Task"@{nl="Taak"}
-  Comment in Task { body:text nonempty, author:user server=actor label="Author"@{nl="Auteur"} } label="Task comment"@{nl="Taakreactie"}
+  export Task { location:Location?, title:text trim min=1, description:text?, due:datetime?, priority:enum(low,normal,high)=normal label={text="Task priority"@{nl="Taakprioriteit"},values={low="Low"@{nl="Laag"},normal="Normal"@{nl="Normaal"},high="High"@{nl="Hoog"}}}, assignee:user? label="Assignee"@{nl="Toegewezen aan"}, done:bool=false, completed_by:user? label="Completed by"@{nl="Afgerond door"}, completed_at:datetime? label="Completion time"@{nl="Afgerond op"} } label="Task"@{nl="Taak"}
+  Comment in Task { body:text trim min=1, author:user server=actor label="Author"@{nl="Auteur"} } label="Task comment"@{nl="Taakreactie"}
   Template { name:text, location:Location? } label=label_Template
   TemplateTask in Template { title:text, offset:duration=0m label="Due offset"@{nl="Deadlineverschuiving"}, priority:Task.priority=normal } label="Template task"@{nl="Sjabloontaak"}
   Generation { template:Template label=label_Template, reference:text unique, due:datetime } label="Checklist generation"@{nl="Checklistgeneratie"}
@@ -68,7 +67,7 @@ package todo
   scenario reopen(task:Task) by=members
    require staff(actor) and task.done and (task.location==null or can_work(actor,task.location))
    ## Original body: do set task {done=false,completed_by=null,completed_at=null}
-   do "Reopen the admitted task through its canonical update path: set done to false, completed_by to null and completed_at to null in one staged update. Preserve the explicit permission and guards; make no other changes."
+   do set task {done=false,completed_by=null,completed_at=null}
   # Copy a checklist once without changing existing generated tasks. @{nl="Kopieer een checklist één keer zonder bestaande gegenereerde taken te wijzigen."}
   scenario generate(template:Template,due:datetime) by=task_manager label="Generate tasks from checklist"@{nl="Taken uit checklist genereren"}
    require staff(actor) and (template.location==null or can_work(actor,template.location))
@@ -118,17 +117,18 @@ package todo
   scenario report_error on=instrumentation.error
    do send Catch.report {event=event} as delivery
  Then
+  style TodoWorkspace $"Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, done:bool?, view:enum(all,today,overdue)=all label={text="Task view"@{nl="Taakweergave"},values={all="All tasks"@{nl="Alle taken"},today="Due today"@{nl="Vandaag verschuldigd"},overdue="Overdue"@{nl="Te laat"}}} }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
-  view TaskTile(row:Task) "Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site."
+  view TaskTile(row:Task) $"Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site."
    edit
    button action=complete
    button action=reopen
-   style "Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior."
+   style $"Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior."
   # Add tasks quickly and follow location, due date and ownership. @{nl="Voeg taken snel toe en volg locatie, deadline en eigenaarschap."}
   page /tasks title="Tasks"@{nl="Taken"}
    require members
-   style "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /tasks page content; keep page admission and the shared shell unchanged."
+   style TodoWorkspace
     breadcrumbs
     card "Quick task entry"@{nl="Snel een taak toevoegen"}
      form Task.create display=inline
@@ -162,7 +162,7 @@ package todo
   # Keep unavailable source work visible without granting source authority. @{nl="Houd niet-beschikbaar bronwerk zichtbaar zonder bronbevoegdheid te verlenen."}
   page /tasks/my-work title="My work"@{nl="Mijn werk"} poll=5s refresh=refresh
    require members
-   style PageTasksMyWork2Segment1 "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /tasks/my-work page content; keep page admission and the shared shell unchanged."
+   style TodoWorkspace
     breadcrumbs
     card "Refresh source work"@{nl="Werk uit bronsystemen vernieuwen"}
      form refresh display=inline
@@ -190,7 +190,7 @@ package todo
   # Author scoped checklists and generate independent dated tasks. @{nl="Beheer toegestane checklists en genereer zelfstandige gedateerde taken."}
   page /tasks/checklists title="Checklist templates"@{nl="Checklistsjablonen"}
    require task_manager
-   style PageTasksChecklists3Segment1 "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /tasks/checklists page content; keep page admission and the shared shell unchanged."
+   style TodoWorkspace
     breadcrumbs
     card "Template intake"@{nl="Sjabloon aanmaken"}
      form Template.create

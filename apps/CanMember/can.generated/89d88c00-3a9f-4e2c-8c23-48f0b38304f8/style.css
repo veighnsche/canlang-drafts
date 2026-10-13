@@ -1,0 +1,4 @@
+/* Handwritten draft; selectors are relative to this view style instance. */
+:scope { display: grid; gap: 0.5rem; min-width: 0; }
+:scope [data-can-part="identity"], :scope [data-can-part="outcomes"] { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+:scope [data-can-part="details"] { overflow-wrap: anywhere; }

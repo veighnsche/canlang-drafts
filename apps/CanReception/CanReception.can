@@ -362,11 +362,12 @@ package reception
      send Mail.send {to=event.visit.guest.email,subject=format(notice_visitor_invitation,locale=null),body=event.visit.location.arrival} when=event.visit.state==expected and event.visit.from>now and current_access(event.visit) as notice
      set event.visit {notice_delivery=notice}
  Then
+  style ReceptionWorkspace $"Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, queue:enum(all,expected,today,on_site,overdue)=all label={text="Visitor queue"@{nl="Bezoekerswachtrij"},values={all="All visitors"@{nl="Alle bezoekers"},expected=label_preferences_queue_expected,today="Today"@{nl="Vandaag"},on_site="On site"@{nl="Aanwezig"},overdue="Overdue"@{nl="Te laat"}}} }
   # Discover safe owner review without mounting private reception work in Customer.
   page /reception/access-review title="Reception access review"@{nl="Beoordeling receptietoegang"}
    require receptionist or access_staff or any(Customer as customer,has_role(actor,customer,administrator))
-   style "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception/access-review page content; keep page admission and the shared shell unchanged."
+   style ReceptionWorkspace
     breadcrumbs
     card "Current admission and credential outcomes"@{nl="Huidige toelatings- en sleutelresultaten"}
      form access_review
@@ -375,7 +376,7 @@ package reception
   # Customer administrators inspect only safe owner outcomes; raw visitor and credential work retains staff grants.
   page /companies/{Customer.id}/reception-access title="Company reception access"@{nl="Bedrijfsreceptietoegang"}
    require has_role(actor,row,administrator) or ((receptionist or access_staff) and any(row.locations as location,can_work(actor,location)))
-   style PageCompaniesCustomerIdReceptionAccess2Segment1 "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /companies/{Customer.id}/reception-access page content; keep page admission and the shared shell unchanged."
+   style ReceptionWorkspace
     breadcrumbs
     card "Current admission and credential outcomes"@{nl="Huidige toelatings- en sleutelresultaten"}
      form access_review
@@ -385,7 +386,7 @@ package reception
   # Record expected guests, on-site evidence and unresolved departures. @{nl="Registreer verwachte gasten, aanwezigheidsbewijs en onopgeloste vertrekken."}
   page /reception title="Reception"@{nl="Receptie"}
    require receptionist
-   style PageReception3Segment1 "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception page content; keep page admission and the shared shell unchanged."
+   style ReceptionWorkspace
     breadcrumbs
     card "Host presence"@{nl="Aanwezigheid gastheer"}
      form host_arrived
@@ -431,7 +432,7 @@ package reception
   # Track physical issue, return, loss and device uncertainty separately. @{nl="Volg fysieke uitgifte, teruggave, verlies en apparaatonzekerheid afzonderlijk."}
   page /reception/credentials title="Keys and cards"@{nl="Sleutels en kaarten"}
    require access_staff
-   style PageReceptionCredentials4Segment1 "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception/credentials page content; keep page admission and the shared shell unchanged."
+   style ReceptionWorkspace
     breadcrumbs
     card "Visitor rules"@{nl="Bezoekersregels"}
      form GuestPolicy.create
@@ -484,7 +485,7 @@ package reception
   # See only your invitations and current arrival instructions. @{nl="Bekijk uitsluitend je eigen uitnodigingen en huidige aankomstinstructies."}
   page /reception/mine title="My visitors"@{nl="Mijn bezoekers"}
    require authenticated
-   style PageReceptionMine5Segment1 "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception/mine page content; keep page admission and the shared shell unchanged."
+   style ReceptionWorkspace
     breadcrumbs
     card "Own visitor invitations"@{nl="Eigen bezoekersuitnodigingen"}
      form invite

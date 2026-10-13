@@ -8,7 +8,6 @@ package grant
  use std {DeliveryResult}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   message heading_program_budget = "Program budget"@{nl="Programmabudget"}
   message label_reviewer = "Reviewer"@{nl="Beoordelaar"}
   message label_Application_received = "Received at"@{nl="Ontvangen op"}
@@ -21,10 +20,10 @@ package grant
   contract AwardBatch { items:AwardItem[]! }
   derive complete_answers(questions:Question[],answers:Answer[]):bool = count(questions)==count(answers) and all(questions as question,count(answers as answer where answer.question==question.key)==1)
   Grant { location:Location, name:text, terms:text label="Terms"@{nl="Voorwaarden"}, questions:Question[]! label="Questions"@{nl="Vragen"}, criteria:text label="Selection criteria"@{nl="Selectiecriteria"}, budget:money label="Budget"@{nl="Budget"}, closes:datetime label="Closing deadline"@{nl="Sluitingsdatum"}, timezone:timezone, published:bool=false label="Published"@{nl="Gepubliceerd"} } label="Funded program"@{nl="Financieringsprogramma"}
-  Application in Grant { account:user label="Account"@{nl="Account"}, email:email, title:text nonempty, description:text nonempty, terms:text label="Frozen terms"@{nl="Vastgelegde voorwaarden"}, criteria:text label="Frozen criteria"@{nl="Vastgelegde criteria"}, questions:Question[]! label="Frozen questions"@{nl="Vastgelegde vragen"}, correction:Application? label="Corrects application"@{nl="Corrigeert aanvraag"}, answers:Answer[] label="Answers"@{nl="Antwoorden"}, amount:money, reviewer:user label=label_reviewer, received:datetime? label=label_Application_received, receipt_evidence:text? label="Receipt evidence"@{nl="Ontvangstbewijs"}, override_reason:text? label=label_Application_override_reason, state:enum(draft,submitted,approved,rejected,withdrawn,superseded)=draft label={text="State"@{nl="Status"},values={draft="Draft"@{nl="Concept"},submitted="Submitted"@{nl="Ingediend"},approved="Approved"@{nl="Goedgekeurd"},rejected="Rejected"@{nl="Afgewezen"},withdrawn="Withdrawn"@{nl="Ingetrokken"},superseded="Superseded"@{nl="Vervangen"}}}, decision:text? label="Decision"@{nl="Besluit"}, decided_by:user? label="Decided by"@{nl="Besloten door"}, decided_at:datetime? label="Decided at"@{nl="Besloten op"}, notice:delivery(Mail.send)? } label="Application"@{nl="Aanvraag"}
-  Comment in Application { body:text nonempty, author:user server=actor, recorded:datetime server=now } label="Private reviewer comment"@{nl="Privéopmerking beoordelaar"}
-  Withdrawal in Application { reason:text nonempty, author:user server=actor, recorded:datetime server=now } label="Award withdrawal"@{nl="Intrekking toezegging"}
-  Recovery in Application { previous:user label="Previous reviewer"@{nl="Vorige beoordelaar"}, reviewer:user label=label_reviewer, reason:text nonempty, author:user server=actor, recorded:datetime server=now } label="Reviewer recovery"@{nl="Herstel beoordelaar"}
+  Application in Grant { account:user label="Account"@{nl="Account"}, email:email, title:text trim min=1, description:text trim min=1, terms:text label="Frozen terms"@{nl="Vastgelegde voorwaarden"}, criteria:text label="Frozen criteria"@{nl="Vastgelegde criteria"}, questions:Question[]! label="Frozen questions"@{nl="Vastgelegde vragen"}, correction:Application? label="Corrects application"@{nl="Corrigeert aanvraag"}, answers:Answer[] label="Answers"@{nl="Antwoorden"}, amount:money, reviewer:user label=label_reviewer, received:datetime? label=label_Application_received, receipt_evidence:text? label="Receipt evidence"@{nl="Ontvangstbewijs"}, override_reason:text? label=label_Application_override_reason, state:enum(draft,submitted,approved,rejected,withdrawn,superseded)=draft label={text="State"@{nl="Status"},values={draft="Draft"@{nl="Concept"},submitted="Submitted"@{nl="Ingediend"},approved="Approved"@{nl="Goedgekeurd"},rejected="Rejected"@{nl="Afgewezen"},withdrawn="Withdrawn"@{nl="Ingetrokken"},superseded="Superseded"@{nl="Vervangen"}}}, decision:text? label="Decision"@{nl="Besluit"}, decided_by:user? label="Decided by"@{nl="Besloten door"}, decided_at:datetime? label="Decided at"@{nl="Besloten op"}, notice:delivery(Mail.send)? } label="Application"@{nl="Aanvraag"}
+  Comment in Application { body:text trim min=1, author:user server=actor, recorded:datetime server=now } label="Private reviewer comment"@{nl="Privéopmerking beoordelaar"}
+  Withdrawal in Application { reason:text trim min=1, author:user server=actor, recorded:datetime server=now } label="Award withdrawal"@{nl="Intrekking toezegging"}
+  Recovery in Application { previous:user label="Previous reviewer"@{nl="Vorige beoordelaar"}, reviewer:user label=label_reviewer, reason:text trim min=1, author:user server=actor, recorded:datetime server=now } label="Reviewer recovery"@{nl="Herstel beoordelaar"}
   derive Application.notice_state:DeliveryResult.status? = row.notice?.status label="Decision notice delivery"@{nl="Bezorging besluitbericht"}
   derive Grant.requested:money = sum(row.Application as application where application.state in [submitted,approved,rejected,withdrawn] select application.amount,row.budget.currency) label="Requested amount"@{nl="Aangevraagd bedrag"}
   derive Grant.withdrawn:money = sum(row.Application as application where application.state==withdrawn select application.amount,row.budget.currency) label="Withdrawn amount"@{nl="Ingetrokken bedrag"}
@@ -340,10 +339,11 @@ package grant
     coordinator_user,submitted,null,null,null,attempt,skipped,null,null -> skipped,submitted,null,null,null,money(60,"EUR"),0,money(100,"EUR")
     coordinator_user,submitted,null,null,null,attempt,pending,null,null -> pending,submitted,null,null,null,money(60,"EUR"),0,money(100,"EUR")
  Then
+  style GrantWorkspace $"Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, application_state:Application.state? label="Application state"@{nl="Aanvraagstatus"} }
   # Discover the published cash-award terms and use private applicant intake. @{nl="Bekijk de gepubliceerde subsidievoorwaarden en gebruik de private aanvraagprocedure."}
   page /awards title="Funded programs"@{nl="Financieringsprogramma's"}
-   style "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /awards page content; keep page admission and the shared shell unchanged."
+   style GrantWorkspace
     breadcrumbs
     ## In-context saved default for the application-state filter below.
     filter preferences.application_state
@@ -375,7 +375,7 @@ package grant
   page /awards/review title="Award review"@{nl="Aanvragen beoordelen"}
    breadcrumbs
    require reviewer or coordinator
-   style PageAwardsReview2Segment1 "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /awards/review page content; keep page admission and the shared shell unchanged."
+   style GrantWorkspace
     ## In-context saved default for the application-state filter below.
     filter preferences.application_state
     card heading_program_budget

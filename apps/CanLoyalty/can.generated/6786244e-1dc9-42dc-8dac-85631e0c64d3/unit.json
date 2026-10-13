@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanLoyalty/CanLoyalty.can",
   "owner": "loyalty",
-  "page": "/loyalty",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /loyalty page content; keep page admission and the shared shell unchanged.",
+  "label": "LoyaltyWorkspace",
+  "prompt": "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 221,
-  "draft_source_key": "[\"loyalty\",\"page\",\"/loyalty\",null]",
+  "source_line": 217,
+  "draft_source_key": "[\"loyalty\",\"style\",\"LoyaltyWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

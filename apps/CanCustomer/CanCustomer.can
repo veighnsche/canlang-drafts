@@ -11,12 +11,11 @@ package customer
  use invoice {finance}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role customer_manager label="Customer manager"@{nl="Klantbeheerder"}
   role customer_reader label="Customer directory reader"@{nl="Lezer klantendirectory"}
   role billing_reader label="Billing reader"@{nl="Lezer factuurgegevens"}
-  export Customer { name:text nonempty, kind:enum(individual,company) label={text="Customer kind"@{nl="Klantsoort"},values={individual="Individual"@{nl="Particulier"},company=label_Customer_kind_company}}, locations:Location[] label=label_Customer_locations, active:bool=true } label="Customer"@{nl="Klant"}
-  export Contact in Customer { name:text nonempty, email:email, account:user? label=label_Contact_account, verified:bool=false label="Verified"@{nl="Geverifieerd"}, phone:text?, external_id:text? label="External identity"@{nl="Externe identiteit"} } label=label_Contact
+  export Customer { name:text trim min=1, kind:enum(individual,company) label={text="Customer kind"@{nl="Klantsoort"},values={individual="Individual"@{nl="Particulier"},company=label_Customer_kind_company}}, locations:Location[] label=label_Customer_locations, active:bool=true } label="Customer"@{nl="Klant"}
+  export Contact in Customer { name:text trim min=1, email:email, account:user? label=label_Contact_account, verified:bool=false label="Verified"@{nl="Geverifieerd"}, phone:text?, external_id:text? label="External identity"@{nl="Externe identiteit"} } label=label_Contact
   export BillingProfile in Customer { contact:Contact label=label_Contact, address:text, tax_reference:text? label="Tax reference"@{nl="Belastingreferentie"}, on_account:bool=false label="Approved on-account billing"@{nl="Facturatie op rekening goedgekeurd"}, approved_locations:Location[]=[] label="Approved locations"@{nl="Goedgekeurde locaties"}, approval_reason:text? label="Approval decision"@{nl="Goedkeuringsbesluit"}, approved_by:user? label="Finance decision by"@{nl="Financieel besluit door"}, approved_at:datetime? label="Finance decision at"@{nl="Financieel besluit op"} } label="Billing profile"@{nl="Factuurprofiel"}
   export CompanyRole in Customer { account:user label=label_Contact_account, role:enum(administrator,booker,billing) label={text=label_CompanyRole_role,values={administrator="Administrator"@{nl="Beheerder"},booker="Booker"@{nl="Boeker"},billing="Billing"@{nl="Facturatie"}}}, locations:Location[] label=label_Customer_locations, active:bool=true } label="Company role"@{nl="Bedrijfsrol"}
   export Invitation in Customer { invited_by:user server=actor label="Invited by"@{nl="Uitgenodigd door"}, email:email, role:CompanyRole.role, locations:Location[] label=label_Customer_locations, expires:datetime label="Expires at"@{nl="Verloopt op"}, status:enum(open,accepted,expired,revoked)=open label={text="Status"@{nl="Status"},values={open="Open"@{nl="Open"},accepted="Accepted"@{nl="Geaccepteerd"},expired="Expired"@{nl="Verlopen"},revoked="Revoked"@{nl="Ingetrokken"}}}, accepted_by:user? label="Accepted by"@{nl="Geaccepteerd door"} } label=notice_company_invitation
@@ -225,12 +224,13 @@ package customer
      set event.invitation {status=expired}
 
  Then
+  style CustomerWorkspace $"Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { kind:Customer.kind?, active:bool? }
   # Maintain customers and review duplicates under location scope. @{nl="Beheer klanten en beoordeel dubbelen binnen locatiebevoegdheden."}
   page /customers title="Customers"@{nl="Klanten"}
    breadcrumbs
    require customer_manager
-   style "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customers page content; keep page admission and the shared shell unchanged."
+   style CustomerWorkspace
     card "Customer intake"@{nl="Klant aanmaken"}
      form Customer.create import=csv review=duplicate_customers
       input name
@@ -273,7 +273,7 @@ package customer
   page /customers/billing-approvals title="Billing approvals"@{nl="Facturatiegoedkeuringen"}
    breadcrumbs
    require finance
-   style PageCustomersBillingApprovals2Segment1 "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customers/billing-approvals page content; keep page admission and the shared shell unchanged."
+   style CustomerWorkspace
     table BillingProfile columns=parent,contact,on_account,approved_locations,approval_reason,approved_by,approved_at
      pagination
      status row.on_account
@@ -285,7 +285,7 @@ package customer
   page /companies/{Customer.id} title="Company people"@{nl="Bedrijfsleden"}
    breadcrumbs
    require authenticated and has_role(actor,row,administrator)
-   style PageCompaniesCustomerId3Segment1 "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /companies/{Customer.id} page content; keep page admission and the shared shell unchanged."
+   style CustomerWorkspace
     card "Company role invitation"@{nl="Uitnodiging bedrijfsrol"}
      text row.name
      ## Fieldset caption reuses the zero-parameter message directly; literal
@@ -314,7 +314,7 @@ package customer
   page /company-invitations title="Invitations"@{nl="Uitnodigingen"}
    breadcrumbs
    require authenticated
-   style PageCompanyInvitations4Segment1 "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /company-invitations page content; keep page admission and the shared shell unchanged."
+   style CustomerWorkspace
     card "Own contact claim"@{nl="Eigen contact koppelen"}
      list Contact
       pagination

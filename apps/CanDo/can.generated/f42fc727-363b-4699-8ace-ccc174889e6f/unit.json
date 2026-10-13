@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanDo/CanDo.can",
   "owner": "todo",
-  "page": "/tasks",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /tasks page content; keep page admission and the shared shell unchanged.",
+  "label": "TodoWorkspace",
+  "prompt": "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 131,
-  "draft_source_key": "[\"todo\",\"page\",\"/tasks\",null]",
+  "source_line": 120,
+  "draft_source_key": "[\"todo\",\"style\",\"TodoWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

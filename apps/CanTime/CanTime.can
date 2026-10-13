@@ -248,11 +248,12 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
      if event.value.revision>correction.revision
       set correction {absent=false,revision=event.value.revision,collected=event.value.collected,refunded=event.value.refunded,collection_pending=event.value.collection_pending,refund_pending=event.value.refund_pending}
  Then
+  style TimeWorkspace $"Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { project:Project? label=label_Project, location:Location?, week:date?, billable_filter:bool? label="Initial billable filter"@{nl="Eerste facturatiefilter"} }
   # Start, stop and submit your own time with separate observed and entered evidence. @{nl="Start, stop en dien je eigen tijd in met afzonderlijk gemeten en ingevoerd bewijs."}
   page /time/mine title="My time"@{nl="Mijn tijd"}
    require members
-   style "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /time/mine page content; keep page admission and the shared shell unchanged."
+   style TimeWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     card "Timer and manual time intake"@{nl="Timer- en handmatige tijdinvoer"} layout=columns
@@ -297,7 +298,7 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
   # Review fixed periods and preserve correction financial uncertainty until the invoice owner resolves it. @{nl="Beoordeel vastgelegde periodes en bewaar financiële correctieonzekerheid totdat de factuureigenaar deze oplost."}
   page /time/review title="Time review"@{nl="Tijdbeoordeling"}
    require project_manager
-   style PageTimeReview2Segment1 "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /time/review page content; keep page admission and the shared shell unchanged."
+   style TimeWorkspace
     breadcrumbs
     card "Project rates"@{nl="Projecttarieven"}
      form Project.create

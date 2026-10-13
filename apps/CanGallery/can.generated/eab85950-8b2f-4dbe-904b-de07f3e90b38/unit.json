@@ -1,0 +1,21 @@
+{
+  "unit_id": "eab85950-8b2f-4dbe-904b-de07f3e90b38",
+  "abi_version": 1,
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "source": "apps/CanGallery/CanGallery.can",
+  "owner": "gallery",
+  "page": null,
+  "view": "SubmissionIdentity",
+  "label": null,
+  "prompt": "Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.",
+  "profile": "frontend",
+  "source_line": 92,
+  "draft_source_key": "[\"gallery\",\"view\",\"SubmissionIdentity\",null]",
+  "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
+  "style_scope": "inline"
+}

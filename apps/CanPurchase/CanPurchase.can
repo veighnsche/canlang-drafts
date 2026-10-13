@@ -375,12 +375,13 @@ package purchase label=page_purchasing_title
       else
        set payable {posting=unknown}
  Then
+  style PurchaseWorkspace $"Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, supplier:Supplier?, state:Request.state? }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Submit and follow your own purchase authorization. @{nl="Dien je eigen inkoopautorisatie in en volg deze."}
   page /purchasing/mine title="My requests"@{nl="Mijn aanvragen"}
    require members
-   style "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /purchasing/mine page content; keep page admission and the shared shell unchanged."
+   style PurchaseWorkspace
     breadcrumbs
     card "Own requests"@{nl="Eigen aanvragen"}
      form Request.create
@@ -399,7 +400,7 @@ package purchase label=page_purchasing_title
   # Maintain supplier records and view affordable commitments and actual spending. @{nl="Beheer leveranciers en bekijk betaalbare toezeggingen en werkelijke uitgaven."}
   page /purchasing title=page_purchasing_title
    require buyer or budget_manager or approver
-   style PagePurchasing2Segment1 "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /purchasing page content; keep page admission and the shared shell unchanged."
+   style PurchaseWorkspace
     breadcrumbs
     card "Supplier directory"@{nl="Leveranciersregister"}
      form Supplier.create

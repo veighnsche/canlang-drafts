@@ -212,11 +212,12 @@ package affiliate
      set settlement {reconcile_delivery=delivery.id}
      schedule format("commission-{id}",{id=settlement.id}) at=now+5m event=SettlementCheck {settlement}
  Then
+  style AffiliateWorkspace $"Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { reversed:bool? label=label_CommissionResult_allocation_reversed }
   # Maintain agreement rates and inspect source sales without repricing previous commission. @{nl="Beheer overeenkomsttarieven en bekijk bronverkopen zonder eerdere commissies te herberekenen."}
   page /partners title="Partners"@{nl="Partners"}
    require partner_manager or finance
-   style "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /partners page content; keep page admission and the shared shell unchanged."
+   style AffiliateWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     ## Explicit controls restyle declared create inputs only; unmentioned eligible inputs keep generated controls.
@@ -276,7 +277,7 @@ package affiliate
   # Trace only your broker terms and distinguish connected-account allocation from bank receipt. @{nl="Bekijk uitsluitend je makelaarsvoorwaarden en onderscheid toewijzing aan het gekoppelde account van bankontvangst."}
   page /partners/mine title="My commissions"@{nl="Mijn commissies"}
    require authenticated and actor.email_verified
-   style PagePartnersMine2Segment1 "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /partners/mine page content; keep page admission and the shared shell unchanged."
+   style AffiliateWorkspace
     breadcrumbs
     list Partner as partner where partner.account==actor display=split
      pagination
@@ -313,7 +314,7 @@ package affiliate
   # A partner link records a verified customer attribution without exposing broker terms or banking data. @{nl="Een partnerlink legt geverifieerde klanttoewijzing vast zonder makelaarsvoorwaarden of bankgegevens te tonen."}
   page /partners/share/{Partner.id} title="Partner introduction"@{nl="Partnerintroductie"} nav=none
    require row.active
-   style PagePartnersSharePartnerId3Segment1 "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /partners/share/{Partner.id} page content; keep page admission and the shared shell unchanged."
+   style AffiliateWorkspace
     breadcrumbs
     ## Captionless hero avoids duplicating the page title (hero: optional caption).
     hero

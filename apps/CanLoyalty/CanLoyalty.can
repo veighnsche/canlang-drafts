@@ -214,11 +214,12 @@ package loyalty label=heading_rewards
     event.value.revision,event.value.product -> wallet.available
     2,"office" -> error(rule_failed)
  Then
+  style LoyaltyWorkspace $"Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { view:enum(rewards,history)=rewards label={text="Reward view"@{nl="Beloningsweergave"},values={rewards=heading_rewards,history="History"@{nl="Geschiedenis"}}}, location:Location? label="Reward location"@{nl="Beloningslocatie"}, redemption_state:Redemption.state? label="Reward state"@{nl="Beloningsstatus"} }
   # View your point history and reserve an available manually fulfillable perk. @{nl="Bekijk je puntengeschiedenis en reserveer een beschikbaar handmatig uitvoerbaar voordeel."}
   page /loyalty title="My rewards"@{nl="Mijn beloningen"}
    require authenticated
-   style "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /loyalty page content; keep page admission and the shared shell unchanged."
+   style LoyaltyWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     hero
@@ -255,7 +256,7 @@ package loyalty label=heading_rewards
   # Fulfill or cancel reserved perks with evidence. @{nl="Voer gereserveerde voordelen uit of annuleer ze met bewijs."}
   page /loyalty/fulfillment title=page_loyalty_fulfillment_title
    require reward_staff
-   style PageLoyaltyFulfillment2Segment1 "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /loyalty/fulfillment page content; keep page admission and the shared shell unchanged."
+   style LoyaltyWorkspace
     breadcrumbs
     card page_loyalty_fulfillment_title
      form Account.create
@@ -299,7 +300,7 @@ package loyalty label=heading_rewards
   # Set published program terms under the separate program-owner grant. @{nl="Stel gepubliceerde programmavoorwaarden vast onder het afzonderlijke programma-eigenaarsrecht."}
   page /loyalty/catalog title=page_loyalty_catalog_title
    require program_owner
-   style PageLoyaltyCatalog3Segment1 "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /loyalty/catalog page content; keep page admission and the shared shell unchanged."
+   style LoyaltyWorkspace
     breadcrumbs
     card "Program terms"@{nl="Programmavoorwaarden"}
      form Program.create

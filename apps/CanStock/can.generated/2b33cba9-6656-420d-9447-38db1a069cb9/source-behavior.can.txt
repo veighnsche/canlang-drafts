@@ -1,0 +1,2 @@
+  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int=0 min=0 label=label_Item_reorder, active:bool=true } label="Stock item"@{nl="Voorraadartikel"}
+  Threshold in Item { location:Location, reorder:int=0 min=0 label=label_Item_reorder } label="Location reorder threshold"@{nl="Besteldrempel per locatie"}

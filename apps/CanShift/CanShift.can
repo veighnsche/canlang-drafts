@@ -321,11 +321,12 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
      set commitment {active=false,revision=event.revision}
     emit ReservationOutcome {value={source=event.source,revision=event.revision,state=released,reference=event.source}}
  Then
+  style ShiftWorkspace $"Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location? }
   # Plan drafts, publish coverage and resolve current commitments. @{nl="Plan concepten, publiceer bezetting en los huidige inzetverplichtingen op."}
   page /roster title=title_roster
    require scheduler
-   style "Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /roster page content; keep page admission and the shared shell unchanged."
+   style ShiftWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     form Roster.create
@@ -369,7 +370,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
   # Maintain your availability separately from hidden roster drafts. @{nl="Beheer je beschikbaarheid afzonderlijk van verborgen conceptroosters."}
   page /roster/mine title="My shifts"@{nl="Mijn diensten"}
    require members
-   style PageRosterMine2Segment1 "Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /roster/mine page content; keep page admission and the shared shell unchanged."
+   style ShiftWorkspace
     breadcrumbs
     card "Your availability"@{nl="Jouw beschikbaarheid"}
      form Availability.create

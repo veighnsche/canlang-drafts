@@ -1,0 +1,8 @@
+/* Handwritten draft for SubmittedVersionStatus; instance hooks are provisional. */
+:scope { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .85rem; padding-block: .4rem; }
+:scope [data-can-part="state"] { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+:scope [data-can-part="overdue"] { flex: 0 1 auto; min-width: 0; padding-inline-start: .85rem; border-inline-start: 1px solid color-mix(in srgb, currentColor 22%, transparent); }
+@media (max-width: 30rem) {
+  :scope { align-items: flex-start; }
+  :scope [data-can-part="overdue"] { padding-inline-start: .5rem; }
+}

@@ -165,7 +165,7 @@ package check
   # Read configured checks and perform only authorized pause and resume. @{nl="Lees geconfigureerde controles en voer uitsluitend toegestane pauze- en hervatacties uit."}
   page /job-health title="Job health"@{nl="Taakgezondheid"}
    require operations
-   style "Create a focused health-monitoring list with clearly labeled recorded states, last receipts, deadlines, and grace periods. Keep transition and notification histories readable; avoid visual treatment that equates heartbeat health with completed business work. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /job-health page content; keep page admission and the shared shell unchanged."
+   style $"Create a focused health-monitoring list with clearly labeled recorded states, last receipts, deadlines, and grace periods. Keep transition and notification histories readable; avoid visual treatment that equates heartbeat health with completed business work. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /job-health page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     table Check columns=name,application,location,owner,state,enabled,last_ping,due,period,grace order=name search=name filter=application,location,state defaults={application=preferences.application,location=preferences.location} display=split empty="No checks found"@{nl="Geen controles gevonden"}
      card "Current recorded health"@{nl="Huidige vastgelegde gezondheid"}

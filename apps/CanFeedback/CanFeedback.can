@@ -7,10 +7,10 @@ package feedback
  use employee {can_work}
  use desk {open_request}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
+  trait pending_review $"Default a submitted suggestion to hidden, preserving the existing product-owner review before public publication. Keep the contributor-edit hook, moderation operations and policies unchanged. Preserve the boolean type and localized label; add no fields or grants."
   role product_owner label="Product owner"@{nl="Productverantwoordelijke"}
   Product { name:text, location:Location?, owner:user label="Responsible person"@{nl="Verantwoordelijke"}, published:bool=true label="Published"@{nl="Gepubliceerd"} } label="Product"@{nl="Product"}
-  Suggestion in Product { title:text nonempty max=300, description:text nonempty max=5000, category:text nonempty max=100 label="Category"@{nl="Categorie"}, author:user server=actor label="Author"@{nl="Auteur"}, status:enum(proposed,planned,shipped,declined)=proposed label={text=label_Suggestion_status,values={proposed="Proposed"@{nl="Voorgesteld"},planned="Planned"@{nl="Gepland"},shipped="Shipped"@{nl="Opgeleverd"},declined="Declined"@{nl="Afgewezen"}}}, hidden:bool=true label=label_Suggestion_hidden, moderation_reason:text? label="Moderation reason"@{nl="Moderatiegrond"}, response:text? label=label_Suggestion_response, duplicate:Suggestion? label=label_Suggestion_duplicate, current_decision:Decision? label="Current operator decision"@{nl="Huidig exploitantbesluit"} } label=label_Suggestion
+  Suggestion in Product { title:text trim min=1 max=300, description:text trim min=1 max=5000, category:text trim min=1 max=100 label="Category"@{nl="Categorie"}, author:user server=actor label="Author"@{nl="Auteur"}, status:enum(proposed,planned,shipped,declined)=proposed label={text=label_Suggestion_status,values={proposed="Proposed"@{nl="Voorgesteld"},planned="Planned"@{nl="Gepland"},shipped="Shipped"@{nl="Opgeleverd"},declined="Declined"@{nl="Afgewezen"}}}, hidden:bool pending_review label=label_Suggestion_hidden, moderation_reason:text? label="Moderation reason"@{nl="Moderatiegrond"}, response:text? label=label_Suggestion_response, duplicate:Suggestion? label=label_Suggestion_duplicate, current_decision:Decision? label="Current operator decision"@{nl="Huidig exploitantbesluit"} } label=label_Suggestion
   Vote in Suggestion { account:user server=actor label="Account"@{nl="Account"}, active:bool=true, cast_at:datetime server=now label="Last vote time"@{nl="Laatste stemtijd"} } label="Own vote"@{nl="Eigen stem"}
   Decision in Suggestion { status:Suggestion.status, response:text label=label_Suggestion_response, published_at:datetime? label="Released at"@{nl="Vrijgegeven op"}, withdrawn:bool=false label="Withdrawn"@{nl="Ingetrokken"}, withdrawal_reason:text? label="Withdrawal reason"@{nl="Reden van intrekking"} } label="Operator decision"@{nl="Exploitantbesluit"}
   contract Card { suggestion:Suggestion label=label_Suggestion, title:text, category:Suggestion.category, status:Suggestion.status, response:text? label=label_Suggestion_response, duplicate:Suggestion? label=label_Suggestion_duplicate, votes:int label="Votes"@{nl="Stemmen"} } label="Published suggestion"@{nl="Gepubliceerde suggestie"}
@@ -259,10 +259,11 @@ package feedback
     as,suggestion.duplicate,root.hidden -> first(result.items)?.duplicate
     public,root,true -> null
  Then
+  style FeedbackWorkspace $"Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { product:Product? label="Product"@{nl="Product"}, location:Location?, category:Suggestion.category?, status:Suggestion.status? }
   # Browse a public roadmap with counts that expose no voter records. @{nl="Bekijk een openbare roadmap met aantallen die geen stemmerrecords blootgeven."}
   page /feedback title="Suggestions"@{nl="Suggesties"}
-   style "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /feedback page content; keep page admission and the shared shell unchanged."
+   style FeedbackWorkspace
     breadcrumbs
     hero "Improve your workspace"@{nl="Verbeter je werkplek"}
      text "Published ideas welcome your vote. New suggestions await owner review."@{nl="Gepubliceerde ideeën kun je steunen met je stem. Nieuwe suggesties wachten op beoordeling."}
@@ -327,7 +328,7 @@ package feedback
   page /feedback/moderation title="Moderation and roadmap"@{nl="Moderatie en roadmap"}
    breadcrumbs
    require product_owner
-   style PageFeedbackModeration2Segment1 "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /feedback/moderation page content; keep page admission and the shared shell unchanged."
+   style FeedbackWorkspace
     ## In-context saved default for the moderation status filter below.
     filter preferences.status
     card "Product intake"@{nl="Product aanmaken"}

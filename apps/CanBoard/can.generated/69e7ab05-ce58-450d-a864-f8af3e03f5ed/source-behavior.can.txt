@@ -1,0 +1,2 @@
+          text row.completed_by,row.completed_at
+      text row.completed_by,row.completed_at

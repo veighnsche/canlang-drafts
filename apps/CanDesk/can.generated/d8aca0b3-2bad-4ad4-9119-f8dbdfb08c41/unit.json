@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanDesk/CanDesk.can",
   "owner": "desk",
-  "page": "/support",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /support page content; keep page admission and the shared shell unchanged.",
+  "label": "DeskWorkspace",
+  "prompt": "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 187,
-  "draft_source_key": "[\"desk\",\"page\",\"/support\",null]",
+  "source_line": 182,
+  "draft_source_key": "[\"desk\",\"style\",\"DeskWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

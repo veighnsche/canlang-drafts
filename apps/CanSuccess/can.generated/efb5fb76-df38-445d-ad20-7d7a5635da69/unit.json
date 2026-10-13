@@ -10,10 +10,11 @@
   "label": null,
   "prompt": "Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 152,
+  "source_line": 151,
   "draft_source_key": "[\"success\",\"page\",\"/customer-success\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "inline"
 }

@@ -377,11 +377,12 @@ package propose
    require can_work(actor,revision.parent.location) and revision.hold_state==releasing
    do set revision {hold_release=null}
  Then
+  style ProposeWorkspace $"Use a polished but restrained offer layout with readable customer context and aligned itemized currency amounts. Distinguish editable drafts, frozen revisions, recipient decisions, and booking follow-up outcomes; keep exact revision details prominent during review. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, state:Revision.state?, items_open:bool=true label="Expand itemized quote"@{nl="Offerteregels uitklappen"} }
   # Author offers and resolve accepted quotations still awaiting inventory. @{nl="Maak offertes en los geaccepteerde offertes op die nog op voorraad wachten."}
   page /offers title="Offers"@{nl="Offertes"}
    require salesperson
-   style "Use a polished but restrained offer layout with readable customer context and aligned itemized currency amounts. Distinguish editable drafts, frozen revisions, recipient decisions, and booking follow-up outcomes; keep exact revision details prominent during review. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /offers page content; keep page admission and the shared shell unchanged."
+   style ProposeWorkspace
     breadcrumbs
     card "Customer selection"@{nl="Klantselectie"}
      list Customer empty="No customers in scope."@{nl="Geen klanten binnen scope."}
@@ -449,7 +450,7 @@ package propose
   # Review the exact addressed offer and its separate booking outcome. @{nl="Bekijk de exact geadresseerde offerte en het afzonderlijke boekingsresultaat."}
   page /offers/respond/{Revision.id} title="Your offer"@{nl="Jouw offerte"}
    require authenticated
-   style PageOffersRespondRevisionId2Segment1 "Use a polished but restrained offer layout with readable customer context and aligned itemized currency amounts. Distinguish editable drafts, frozen revisions, recipient decisions, and booking follow-up outcomes; keep exact revision details prominent during review. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /offers/respond/{Revision.id} page content; keep page admission and the shared shell unchanged."
+   style ProposeWorkspace
     breadcrumbs
     card "Frozen offer facts"@{nl="Vastgelegde offertegegevens"}
      badge row.state

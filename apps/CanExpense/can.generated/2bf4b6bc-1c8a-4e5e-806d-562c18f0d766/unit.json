@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "expense",
+  "source": "apps/CanExpense/CanExpense.can",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "2bf4b6bc-1c8a-4e5e-806d-562c18f0d766",
+  "kind": "style",
+  "page": null,
+  "view": "ReceiptEvidence",
+  "label": null,
+  "prompt": "Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions.",
+  "profile": "frontend",
+  "source_line": 359,
+  "draft_source_key": "[\"expense\",\"view\",\"ReceiptEvidence\",null]",
+  "target": "browser-css",
+  "style_scope": "inline"
+}

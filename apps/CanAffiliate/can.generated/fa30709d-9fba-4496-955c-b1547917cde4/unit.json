@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanAffiliate/CanAffiliate.can",
   "owner": "affiliate",
-  "page": "/partners",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /partners page content; keep page admission and the shared shell unchanged.",
+  "label": "AffiliateWorkspace",
+  "prompt": "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 219,
-  "draft_source_key": "[\"affiliate\",\"page\",\"/partners\",null]",
+  "source_line": 215,
+  "draft_source_key": "[\"affiliate\",\"style\",\"AffiliateWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

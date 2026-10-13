@@ -179,12 +179,13 @@ package desk
     support,"" -> error(rule_failed)
     members,"Router is not responding" -> error(forbidden)
  Then
+  style DeskWorkspace $"Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { state:Ticket.state?, priority:Ticket.priority? }
   # Triage location queues and distinguish internal notes from customer replies. @{nl="Beoordeel locatiewachtrijen en onderscheid interne notities van klantantwoorden."}
   page /support title="Support"@{nl="Support"}
    breadcrumbs
    require support
-   style "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /support page content; keep page admission and the shared shell unchanged."
+   style DeskWorkspace
     card "Ticket intake"@{nl="Supportverzoek aanmaken"}
      ## due is a nullable datetime: no date-only calendar control applies.
      form Ticket.create
@@ -268,7 +269,7 @@ package desk
   page /support/mine title="My support requests"@{nl="Mijn supportverzoeken"}
    breadcrumbs
    require authenticated and actor.email_verified
-   style PageSupportMine2Segment1 "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /support/mine page content; keep page admission and the shared shell unchanged."
+   style DeskWorkspace
     card "Private support intake"@{nl="Privésupportverzoek"}
      form open_request
       input subject

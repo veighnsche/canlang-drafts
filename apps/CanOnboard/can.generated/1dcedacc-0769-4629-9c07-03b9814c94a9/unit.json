@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanOnboard/CanOnboard.can",
   "owner": "onboard",
-  "page": "/people/my-readiness",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use a discreet readiness checklist with readable assigned steps, version context, and attachments. Make each recorded completion and remaining requirement easy to scan; keep employee identity and private onboarding information within their existing authorized views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /people/my-readiness page content; keep page admission and the shared shell unchanged.",
+  "label": "OnboardWorkspace",
+  "prompt": "Use a discreet readiness checklist with readable assigned steps, version context, and attachments. Make each recorded completion and remaining requirement easy to scan; keep employee identity and private onboarding information within their existing authorized views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 143,
-  "draft_source_key": "[\"onboard\",\"page\",\"/people/my-readiness\",null]",
+  "source_line": 138,
+  "draft_source_key": "[\"onboard\",\"style\",\"OnboardWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

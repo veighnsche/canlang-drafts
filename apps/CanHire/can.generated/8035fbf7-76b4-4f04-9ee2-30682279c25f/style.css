@@ -1,0 +1,6 @@
+/* Handwritten draft for CandidateApplication; instance hooks are provisional. */
+:scope { display: grid; gap: .85rem; min-width: 0; padding-block: .5rem; }
+:scope [data-can-part="application"] { max-inline-size: 68ch; line-height: 1.6; overflow-wrap: anywhere; }
+:scope [data-can-part="attachment"] { padding-block-start: .65rem; border-block-start: 1px solid color-mix(in srgb, currentColor 16%, transparent); overflow-wrap: anywhere; }
+:scope :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (max-width: 36rem) { :scope { gap: .65rem; } }

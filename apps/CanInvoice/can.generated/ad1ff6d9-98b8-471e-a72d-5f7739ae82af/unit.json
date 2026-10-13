@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanInvoice/CanInvoice.can",
   "owner": "invoice",
-  "page": "/finance/invoice-history",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /finance/invoice-history page content; keep page admission and the shared shell unchanged.",
+  "label": "InvoiceWorkspace",
+  "prompt": "Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 826,
-  "draft_source_key": "[\"invoice\",\"page\",\"/finance/invoice-history\",null]",
+  "source_line": 821,
+  "draft_source_key": "[\"invoice\",\"style\",\"InvoiceWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

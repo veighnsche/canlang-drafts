@@ -10,7 +10,6 @@ package field label="Service visits"@{nl="Servicebezoeken"}
  use std {EmailV1 as Mail} from=deployment.mail
  use shift {ScheduleV1 as StaffSchedule} from=deployment.staff_schedule
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   message label_preferences_skill = "Required skill"@{nl="Vereiste vaardigheid"}
   message label_Job_from = "Start"@{nl="Begin"}
   message label_Job_until = "End"@{nl="Einde"}
@@ -24,7 +23,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
   role technician label="Technician"@{nl="Technicus"}
   export Job { schedule_source:text?, schedule_revision:int=1 min=1, release_delivery:text?, released:bool=false, customer:Customer, location:Location, repair:Repair?, inspection:Inspection?, employee:Employee, from:datetime label=label_Job_from, until:datetime label=label_Job_until, before:duration=0m label=label_Job_before, after:duration=0m label=label_Job_after, skill:text label=label_preferences_skill, address:text, instructions:text, contact:email label=label_Job_contact, source:text unique label="Source reference"@{nl="Bronreferentie"}, state:enum(pending,planned,in_progress,blocked,done,cancelled)=pending label={text=label_Job_state,values={pending=label_Job_state_pending,planned="Planned"@{nl="Gepland"},in_progress="In progress"@{nl="In uitvoering"},blocked="Blocked"@{nl="Geblokkeerd"},done="Done"@{nl="Gereed"},cancelled="Cancelled"@{nl="Geannuleerd"}}}, schedule_delivery:text? label="Schedule request"@{nl="Planningsaanvraag"}, schedule_reference:text? label="Schedule reference"@{nl="Planningsreferentie"}, blocked_reason:text? label="Blocking reason"@{nl="Blokkeerreden"} } label="Service visit"@{nl="Servicebezoek"}
   Replacement in Job { source:text unique, previous_source:text, previous_revision:int, employee:Employee, from:datetime, until:datetime, delivery:text unique, requested_version:int, state:enum(pending,applied,failed,unknown,discarded)=pending label={text="Replacement state"@{nl="Vervangingsstatus"},values={pending="Pending"@{nl="In afwachting"},applied="Applied"@{nl="Toegepast"},failed="Failed"@{nl="Mislukt"},unknown="Unknown"@{nl="Onbekend"},discarded="Discarded"@{nl="Verworpen"}}}, release_delivery:text?, released:bool=false label="Released"@{nl="Vrijgegeven"} } label="Replacement request"@{nl="Vervangingsaanvraag"}
-  export Report in Job { correction:Report? label="Corrects report"@{nl="Corrigeert verslag"}, author:user server=actor label="Author"@{nl="Auteur"}, notes:text nonempty, photo:file? label=label_Report_photo, completed:datetime server=now label="Completed at"@{nl="Afgerond op"} } label="Visit report"@{nl="Bezoekrapport"}
+  export Report in Job { correction:Report? label="Corrects report"@{nl="Corrigeert verslag"}, author:user server=actor label="Author"@{nl="Auteur"}, notes:text trim min=1, photo:file? label=label_Report_photo, completed:datetime server=now label="Completed at"@{nl="Afgerond op"} } label="Visit report"@{nl="Bezoekrapport"}
   export event ReportSubmitted { report:Report }
   lock Report fields=correction,author,notes,photo,completed
   lock Job fields=customer,location,repair,inspection,source,address,instructions,contact,before,after,skill
@@ -194,13 +193,14 @@ package field label="Service visits"@{nl="Servicebezoeken"}
     for replacement in job.Replacement as row where row.state in [applied,failed,discarded] and not row.released limit=100
      set replacement {release_delivery=null}
  Then
+  style FieldWorkspace $"Use a legible dated service agenda and compact visit details that prioritize location, staff, skill, and status. Keep replacement requests and attributed reports readable; distinguish planned visits from completed work and source verification evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, state:Job.state?, skill:text? label=label_preferences_skill }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Dispatch by skill and location and resolve blocked work. @{nl="Plan op vaardigheid en locatie en los geblokkeerd werk op."}
   page /dispatch title="Service dispatch"@{nl="Serviceplanning"}
    breadcrumbs
    require dispatcher
-   style "Use a legible dated service agenda and compact visit details that prioritize location, staff, skill, and status. Keep replacement requests and attributed reports readable; distinguish planned visits from completed work and source verification evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /dispatch page content; keep page admission and the shared shell unchanged."
+   style FieldWorkspace
     card "Dispatch intake"@{nl="Bezoeken inplannen"}
      form dispatch display=inline
       fieldset "Visit"@{nl="Bezoek"}
@@ -257,7 +257,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
   page /dispatch/mine title="My visits"@{nl="Mijn bezoeken"}
    breadcrumbs
    require technician
-   style PageDispatchMine2Segment1 "Use a legible dated service agenda and compact visit details that prioritize location, staff, skill, and status. Keep replacement requests and attributed reports readable; distinguish planned visits from completed work and source verification evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /dispatch/mine page content; keep page admission and the shared shell unchanged."
+   style FieldWorkspace
     ## In-context saved default for the state filter below.
     filter preferences.state
     card "Assigned visits"@{nl="Toegewezen bezoeken"}

@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanFeedback/CanFeedback.can",
   "owner": "feedback",
-  "page": "/feedback",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /feedback page content; keep page admission and the shared shell unchanged.",
+  "label": "FeedbackWorkspace",
+  "prompt": "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 265,
-  "draft_source_key": "[\"feedback\",\"page\",\"/feedback\",null]",
+  "source_line": 262,
+  "draft_source_key": "[\"feedback\",\"style\",\"FeedbackWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

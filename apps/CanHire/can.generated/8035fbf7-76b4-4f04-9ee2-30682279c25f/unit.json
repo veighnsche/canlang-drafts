@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "hire",
+  "source": "apps/CanHire/CanHire.can",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "8035fbf7-76b4-4f04-9ee2-30682279c25f",
+  "kind": "style",
+  "page": null,
+  "view": "CandidateApplication",
+  "label": null,
+  "prompt": "Give the application readable line length and wrapping, with a compact separated CV summary below it. Inherit the hiring page typography and theme and stack naturally at narrow widths. Preserve localized file and missing-file presentation and withheld-field omission.",
+  "profile": "frontend",
+  "source_line": 287,
+  "draft_source_key": "[\"hire\",\"view\",\"CandidateApplication\",null]",
+  "target": "browser-css",
+  "style_scope": "inline"
+}

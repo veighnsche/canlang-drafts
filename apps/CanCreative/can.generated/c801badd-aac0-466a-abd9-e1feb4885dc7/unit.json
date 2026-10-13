@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanCreative/CanCreative.can",
   "owner": "creative",
-  "page": "/creative",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative page content; keep page admission and the shared shell unchanged.",
+  "label": "CreativeWorkspace",
+  "prompt": "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 193,
-  "draft_source_key": "[\"creative\",\"page\",\"/creative\",null]",
+  "source_line": 191,
+  "draft_source_key": "[\"creative\",\"style\",\"CreativeWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

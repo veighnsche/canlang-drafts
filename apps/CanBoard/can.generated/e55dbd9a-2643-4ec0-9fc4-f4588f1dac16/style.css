@@ -1,0 +1,6 @@
+/* Handwritten ActionEvidence draft, relative to its instance root. */
+:scope { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .8rem; min-width: 0; font-size: .875em; line-height: 1.5; overflow-wrap: anywhere; }
+:scope time { font-variant-numeric: tabular-nums; }
+@media (max-width: 36rem) {
+  :scope { flex-direction: column; gap: .2rem; }
+}

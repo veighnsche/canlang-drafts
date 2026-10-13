@@ -1,4 +1,0 @@
-## Handwritten field-contribution draft; attach only to the listed existing fields.
-## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
-Plan { name:text trim min=1 }
-Review { title:text trim min=1, deadline_note:text trim min=1 }

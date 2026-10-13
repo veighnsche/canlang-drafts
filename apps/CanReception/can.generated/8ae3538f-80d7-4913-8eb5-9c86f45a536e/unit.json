@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanReception/CanReception.can",
   "owner": "reception",
-  "page": "/reception/access-review",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception/access-review page content; keep page admission and the shared shell unchanged.",
+  "label": "ReceptionWorkspace",
+  "prompt": "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 369,
-  "draft_source_key": "[\"reception\",\"page\",\"/reception/access-review\",null]",
+  "source_line": 365,
+  "draft_source_key": "[\"reception\",\"style\",\"ReceptionWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

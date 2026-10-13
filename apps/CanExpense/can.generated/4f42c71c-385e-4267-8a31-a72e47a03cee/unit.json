@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanExpense/CanExpense.can",
   "owner": "expense",
-  "page": "/expenses/mine",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /expenses/mine page content; keep page admission and the shared shell unchanged.",
+  "label": "ExpenseWorkspace",
+  "prompt": "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 363,
-  "draft_source_key": "[\"expense\",\"page\",\"/expenses/mine\",null]",
+  "source_line": 357,
+  "draft_source_key": "[\"expense\",\"style\",\"ExpenseWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

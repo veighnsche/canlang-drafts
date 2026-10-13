@@ -8,6 +8,7 @@ package stock
  use stock {StockIngressV1 as Receipts} from=deployment.stock_receipts
  use std {OperationOutcome}
  Given
+  trait reorder_threshold $"For an existing integer reorder threshold, preserve the exact native-integer default zero and minimum zero. Apply the same rule to item-wide and location-specific thresholds. Keep the existing caption, balance/low derivations, policies and movement history; do not reserve, purchase or adjust stock."
   message label_StockReceipt_source = "Source reference"@{nl="Bronreferentie"}
   message label_StockReceipt_order = "Purchase order reference"@{nl="Inkoopreferentie"}
   message label_StockReceipt_sku = "SKU"@{nl="Artikelcode"}
@@ -28,8 +29,8 @@ package stock
   event ApplyProjection { projection:Projection }
   ## StockV1.changed maps committed ProjectionOutcome with verified source/revision; it does not complete unrelated deliveries.
   role stock_staff label="Stock staff"@{nl="Voorraadmedewerker"}
-  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int=0 min=0 label=label_Item_reorder, active:bool=true } label="Stock item"@{nl="Voorraadartikel"}
-  Threshold in Item { location:Location, reorder:int=0 min=0 label=label_Item_reorder } label="Location reorder threshold"@{nl="Besteldrempel per locatie"}
+  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int reorder_threshold label=label_Item_reorder, active:bool=true } label="Stock item"@{nl="Voorraadartikel"}
+  Threshold in Item { location:Location, reorder:int reorder_threshold label=label_Item_reorder } label="Location reorder threshold"@{nl="Besteldrempel per locatie"}
   Movement in Item { location:Location, quantity:int, reason:text, source:text unique label=label_StockReceipt_source, transfer:text? label="Transfer reference"@{nl="Overboekingsreferentie"}, reversal:Movement? label=label_StockReceipt_reversal, order:text? label=label_StockReceipt_order, actor:user?, revision:int?, unit:text? } label="Stock movement"@{nl="Voorraadmutatie"}
   Projection { source:text unique, value:StockReceipt, location:Location, state:enum(pending,confirmed,failed)=pending, movement:Movement?, detail:text? } label="Purchase stock projection"@{nl="Inkoopvoorraadboeking"}
   policy Projection read=stock_staff and can_work(actor,row.location)
@@ -169,7 +170,7 @@ package stock
   # Inspect location balances and enter deliberate ledger movements. @{nl="Bekijk locatiesaldi en voer bewuste voorraadmutaties in."}
   page /stock title="Consumables"@{nl="Verbruiksartikelen"}
    require stock_staff
-   style "Use compact consumable rows with fixed units and clear location context. Make reorder thresholds, purchase posting queues, and ledger movements easy to scan; distinguish receipts, transfers, and corrections with readable source and actor evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /stock page content; keep page admission and the shared shell unchanged."
+   style $"Use compact consumable rows with fixed units and clear location context. Make reorder thresholds, purchase posting queues, and ledger movements easy to scan; distinguish receipts, transfers, and corrections with readable source and actor evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /stock page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     ## Queue and ledger are separate tabs: triage work first, then item maintenance.
     tabs

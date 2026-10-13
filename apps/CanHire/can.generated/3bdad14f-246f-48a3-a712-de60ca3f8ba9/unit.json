@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanHire/CanHire.can",
   "owner": "hire",
-  "page": "/careers",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /careers page content; keep page admission and the shared shell unchanged.",
+  "label": "HireWorkspace",
+  "prompt": "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 289,
-  "draft_source_key": "[\"hire\",\"page\",\"/careers\",null]",
+  "source_line": 285,
+  "draft_source_key": "[\"hire\",\"style\",\"HireWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

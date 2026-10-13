@@ -141,11 +141,12 @@ package learn label="Learning"@{nl="Opleidingen"}
    require all(enrollment.parent.locations as location,can_work(actor,location))
    do set enrollment {active=false}
  Then
+  style LearnWorkspace $"Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { view:enum(all,required,optional,overdue)=all label={text="Course view"@{nl="Cursusweergave"},values={all="All courses"@{nl="Alle cursussen"},required="Required courses"@{nl="Verplichte cursussen"},optional="Optional courses"@{nl="Optionele cursussen"},overdue="Overdue courses"@{nl="Achterstallige cursussen"}}}, location:Location?, audience:Course.audience?, order:enum(due,title)=due label={text="Course order"@{nl="Cursusvolgorde"},values={due="Due date"@{nl="Vervaldatum"},title="Course title"@{nl="Cursustitel"}}} }
   # Read the exact enrolled content and acknowledge it without a separate testing DSL. @{nl="Lees de exacte ingeschreven inhoud en bevestig die zonder afzonderlijke testtaal."}
   page /learning/mine title="My learning"@{nl="Mijn opleidingen"}
    require authenticated
-   style "Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /learning/mine page content; keep page admission and the shared shell unchanged."
+   style LearnWorkspace
     breadcrumbs
     tabs preferences.view
     list Enrollment as enrollment where enrollment.account==actor and (preferences.view==all or (preferences.view==required and enrollment.parent.required) or (preferences.view==optional and not enrollment.parent.required) or (preferences.view==overdue and enrollment.due!=null and enrollment.due<local_date(now,team.timezone) and enrollment.active and enrollment.progress<100)) and (preferences.location==null or preferences.location in enrollment.parent.locations) and (preferences.audience==null or enrollment.parent.audience==preferences.audience) order={by=preferences.order,default=[due,parent.title],cases={title=[parent.title,due]}} display=split empty="No enrolled courses"@{nl="Geen ingeschreven cursussen"}
@@ -172,7 +173,7 @@ package learn label="Learning"@{nl="Opleidingen"}
   # Author and publish course versions and inspect attributed completion. @{nl="Maak en publiceer cursusversies en bekijk herleidbare afronding."}
   page /learning/courses title=page_learning_courses_title
    require instructor
-   style PageLearningCourses2Segment1 "Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /learning/courses page content; keep page admission and the shared shell unchanged."
+   style LearnWorkspace
     breadcrumbs
     card page_learning_courses_title
      form Course.create

@@ -12,7 +12,6 @@ package catch
  use catch {AlertsV1 as Alerts} from=deployment.alerts
  use catch {IntakeV1 as ErrorIntake} from=deployment.error_intake
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   export contract Alert { source:text label="Source reference"@{nl="Bronreferentie"}, destination:url label="Destination"@{nl="Bestemming"}, message:text label=label_Alert_message } label="Human alert"@{nl="Melding"}
   export contract AlertAccepted { reference:text } label="Alert acceptance"@{nl="Melding geaccepteerd"}
   export capability AlertsV1 version=1
@@ -22,7 +21,7 @@ package catch
   Issue in Project { task:Task? label="Repair task"@{nl="Hersteltaak"}, fingerprint:text label=label_Issue_fingerprint, fingerprint_version:int label="Fingerprint version"@{nl="Versie foutvingerafdruk"}, message:text label=label_Alert_message, environment:text? label=label_Issue_environment, owner:user? label=label_Issue_owner, state:enum(open,resolved)=open label={text="State"@{nl="Status"},values={open="Open"@{nl="Open"},resolved="Resolved"@{nl="Opgelost"}}}, resolved_at:datetime? label="Resolved at"@{nl="Opgelost op"}, last_activity:datetime label="Last activity"@{nl="Laatste activiteit"}, count:int=0 } label="Application issue"@{nl="Applicatieprobleem"}
   Occurrence in Issue { environment:text? label=label_Issue_environment, release:text? label=label_Issue_release, event_id:text unique label=label_Occurrence_event_id, occurred:datetime, received:datetime server=now label="Received at"@{nl="Ontvangen op"}, message:text label=label_Alert_message, stack:text? label=label_Occurrence_stack } label="Error occurrence"@{nl="Foutgebeurtenis"}
   RawPayload in Occurrence { payload:file label=label_RawPayload_payload } label=retained_raw_evidence_caption
-  Note in Issue { author:user server=actor label="Author"@{nl="Auteur"}, body:text nonempty } label="Triage note"@{nl="Triagenotitie"}
+  Note in Issue { author:user server=actor label="Author"@{nl="Auteur"}, body:text trim min=1 } label="Triage note"@{nl="Triagenotitie"}
   export contract ErrorWork { project:Project label="Project"@{nl="Project"}, event_id:text label=label_Occurrence_event_id, fingerprint:text label=label_Issue_fingerprint, grouping_version:int min=1 label=label_Project_grouping_version, occurred:datetime, message:text max=4096 label=label_Alert_message, stack:text? max=32000 label=label_Occurrence_stack, environment:text? label=label_Issue_environment, release:text? label=label_Issue_release, payload:file? label=label_RawPayload_payload } label="Queued error work"@{nl="Foutverwerking in wachtrij"}
   export contract IntakeHealth { project:Project, revision:int min=1, observed:datetime, accepted:int min=0, rejected:int min=0, dropped:int min=0, processing_failed:int min=0 }
   Health in Project { revision:int, observed:datetime, accepted:int, rejected:int, dropped:int, processing_failed:int } label="Capture health"@{nl="Gezondheid foutregistratie"}
@@ -172,7 +171,7 @@ package catch
   # Triage configured projects without SDK-key, quota or retention settings tools. @{nl="Beoordeel geconfigureerde projecten zonder instellingen voor SDK-sleutels, quota of bewaartermijnen."}
   page /errors title="Application errors"@{nl="Applicatiefouten"}
    require developer
-   style "Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged."
+   style $"Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged."
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     ## View-settings drawer: inline presentation of the same catch preferences available in the shared dialog.

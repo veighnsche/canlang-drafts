@@ -6,7 +6,6 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
  use decide {SynthesizerV1 as Writer} from=deployment.decision_writer
  use decide {ChangeReview as Judge} from=deployment.decision_judgment
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role analyst label="Process analyst"@{nl="Procesanalist"}
   role reviewer label="Decision reviewer"@{nl="Beslisbeoordelaar"}
   export judgment ChangeReview version=1
@@ -19,7 +18,7 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
    draft(input:Brief) -> Synthesis
   Case {title:Brief.title,objective:Brief.objective,evidence:Brief.evidence,owner:user server=actor,active:bool=true,generations:int=0 min=0 max=4,evaluations:int=0 min=0 max=8} label="Process decision"@{nl="Procesbeslissing"}
   Draft in Case {ordinal:int min=1 max=4,input:Brief,request:delivery(Writer.draft)?,stopped:bool=false} label="Generated brief"@{nl="Gegenereerde notitie"}
-  Review in Case {ordinal:int min=1 max=8,draft:Draft,generated:Synthesis,state:Synthesis.state,choices:Synthesis.choices,note:text nonempty max=2000,reviewed_by:user server=actor,specification:JudgmentSpec,request:delivery(Judge.evaluate)?,judgment:ChangeReview?,decision:ChangeReview.pick.choice?,reason:text?,decided_by:user?,decided_at:datetime?} label="Reviewed alternatives"@{nl="Beoordeelde alternatieven"}
+  Review in Case {ordinal:int min=1 max=8,draft:Draft,generated:Synthesis,state:Synthesis.state,choices:Synthesis.choices,note:text trim min=1 max=2000,reviewed_by:user server=actor,specification:JudgmentSpec,request:delivery(Judge.evaluate)?,judgment:ChangeReview?,decision:ChangeReview.pick.choice?,reason:text?,decided_by:user?,decided_at:datetime?} label="Reviewed alternatives"@{nl="Beoordeelde alternatieven"}
   derive can_read(person:user?,case:Case):bool = person!=null and active_member(person,team) and (case.owner==person or reviewer(person))
   derive Case.current:Draft? = first(row.Draft as draft order=-draft.ordinal)
   derive Case.review:Review? = first(row.Review as review order=-review.ordinal)
@@ -151,7 +150,7 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
  Then
   page /decisions title="Process decisions"@{nl="Procesbeslissingen"} poll=2s
    require analyst or reviewer
-   style "Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged."
+   style $"Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     form Case.create
      input title

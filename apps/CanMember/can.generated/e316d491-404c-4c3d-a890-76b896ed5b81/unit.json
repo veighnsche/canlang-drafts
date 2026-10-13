@@ -1,0 +1,48 @@
+{
+  "unit_id": "e316d491-404c-4c3d-a890-76b896ed5b81",
+  "abi_version": 1,
+  "kind": "then_view",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "member_terms",
+  "label": "TermOutcome",
+  "profile": "frontend",
+  "source": "apps/CanMember/CanMember.can",
+  "declaration_selector": "member_terms.TermOutcome",
+  "target": "view TermOutcome(row:Term)",
+  "prompt": "Present admitted paid-term collection and cancellation states, paid flag, frozen start/end interval, price and source reference. Keep collection observation separate from entitlement: the paid flag remains its canonical declared value. Use canonical localized field and exact money formatting. Leave refund-access policy, mail benefit, invoice reference, seat count, eligibility guards and all forms/actions at each caller.",
+  "export_roles": [
+    "render"
+  ],
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "row_model": "Term",
+  "checked_controls": [],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "badgeField",
+    "textFields",
+    "metricsFields",
+    "copyField"
+  ],
+  "definition_style_prompt": "Use distinct readable outcome badges, a compact term interval and exact price, with a wrapping source reference; inherit the current theme.",
+  "source_inverse": {
+    "added_declaration": "  view TermOutcome(row:Term) $\"Present admitted paid-term collection and cancellation states, paid flag, frozen start/end interval, price and source reference. Keep collection observation separate from entitlement: the paid flag remains its canonical declared value. Use canonical localized field and exact money formatting. Leave refund-access policy, mail benefit, invoice reference, seat count, eligibility guards and all forms/actions at each caller.\"\n   style $\"Use distinct readable outcome badges, a compact term interval and exact price, with a wrapping source reference; inherit the current theme.\"\n",
+    "replacements": [
+      {
+        "original": "       badge term.collection\n       badge term.cancellation\n       text term.paid,term.from,term.until,term.price\n       copy term.source\n",
+        "replacement": "       show TermOutcome {row=term}\n"
+      },
+      {
+        "original": "       badge term.collection\n       badge term.cancellation\n       badge term.refund_access\n       text term.paid,term.mail,term.from,term.until,term.invoice\n       stat term.price,term.seats\n       copy term.source\n",
+        "replacement": "       show TermOutcome {row=term}\n       badge term.refund_access\n       text term.mail,term.invoice\n       stat term.seats\n"
+      },
+      {
+        "original": "       badge term.collection\n       badge term.cancellation\n       badge term.refund_access\n       text term.paid,term.from,term.until,term.invoice\n       stat term.price,term.seats\n       copy term.source\n",
+        "replacement": "       show TermOutcome {row=term}\n       badge term.refund_access\n       text term.invoice\n       stat term.seats\n"
+      }
+    ]
+  }
+}

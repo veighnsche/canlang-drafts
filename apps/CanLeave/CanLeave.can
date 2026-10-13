@@ -237,12 +237,13 @@ package leave label="Leave"@{nl="Verlof"}
     cancelled,"leave-source",2,"release-current",released,"release-current",{source="different-source",revision=2,state=released,reference=null,detail=null},succeeded,null -> released
     cancelled,"leave-source",2,"release-current",pending,"release-current",null,failed,{code="provider",message="Release rejected"} -> failed
  Then
+  style LeaveWorkspace $"Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { year:int? label=label_preferences_year, bucket:text? label=label_preferences_bucket }
   # Preview recorded calendar and allowance data before requesting whole working days. @{nl="Bekijk vastgelegde kalender- en tegoedgegevens voordat je hele werkdagen aanvraagt."}
   page /leave/mine title="My leave"@{nl="Mijn verlof"}
    breadcrumbs
    require members
-   style "Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /leave/mine page content; keep page admission and the shared shell unchanged."
+   style LeaveWorkspace
     card "View defaults"@{nl="Weergavevoorkeuren"}
      ## Inline presentation of the owning year/bucket extension through the existing save path; the shared dialog keeps the same settings.
      preferences
@@ -283,7 +284,7 @@ package leave label="Leave"@{nl="Verlof"}
   page /leave/review title="Leave review"@{nl="Verlof beoordelen"}
    breadcrumbs
    require hr or leave_reviewer
-   style PageLeaveReview2Segment1 "Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /leave/review page content; keep page admission and the shared shell unchanged."
+   style LeaveWorkspace
     card "Assigned review"@{nl="Toegewezen beoordeling"}
      table Request columns=from,until,reason,state,decision,sync,release_state order=from filter=bucket,state defaults={bucket=preferences.bucket} display=split empty="No assigned leave."@{nl="Geen toegewezen verlof."}
       pagination
@@ -337,7 +338,7 @@ package leave label="Leave"@{nl="Verlof"}
   page /leave/absence title="Absence dates"@{nl="Afwezigheidsdatums"}
    breadcrumbs
    require members
-   style PageLeaveAbsence3Segment1 "Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /leave/absence page content; keep page admission and the shared shell unchanged."
+   style LeaveWorkspace
     card "Scoped absence dates"@{nl="Afwezigheid binnen scope"}
      calendar Request as request where request.state==approved start=from end=until columns=location,state filter=location,from,until empty="No absence dates."@{nl="Geen afwezigheidsdatums."}
       pagination

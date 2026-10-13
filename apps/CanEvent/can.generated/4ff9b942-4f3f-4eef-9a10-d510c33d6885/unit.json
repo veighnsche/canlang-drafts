@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanEvent/CanEvent.can",
   "owner": "events",
-  "page": "/events",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /events page content; keep page admission and the shared shell unchanged.",
+  "label": "EventsWorkspace",
+  "prompt": "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 531,
-  "draft_source_key": "[\"events\",\"page\",\"/events\",null]",
+  "source_line": 528,
+  "draft_source_key": "[\"events\",\"style\",\"EventsWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

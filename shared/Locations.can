@@ -2,9 +2,8 @@
 package rent_catalog label="Workspace locations"@{nl="Werkpleklocaties"}
  use employee {can_work}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   export role catalog_owner label="Catalog owner"@{nl="Catalogusbeheerder"}
-  export Location { name:text nonempty, address:text, timezone:timezone, currency:currency, hours:text label="Opening hours summary"@{nl="Samenvatting openingsuren"}, arrival:text label="Arrival instructions"@{nl="Aankomstinstructies"}, active:bool=true } label="Location"@{nl="Locatie"}
+  export Location { name:text trim min=1, address:text, timezone:timezone, currency:currency, hours:text label="Opening hours summary"@{nl="Samenvatting openingsuren"}, arrival:text label="Arrival instructions"@{nl="Aankomstinstructies"}, active:bool=true } label="Location"@{nl="Locatie"}
   export WeeklyHours in Location { weekday:int min=1 max=7, opens:text="09:00", closes:text="18:00", close_after:int=0 min=0 max=1 label="Closing day offset"@{nl="Dagverschuiving sluiting"}, fold:enum(earlier,later)=earlier label={text="Repeated local time"@{nl="Herhaalde lokale tijd"},values={earlier="Earlier occurrence"@{nl="Eerdere tijd"},later="Later occurrence"@{nl="Latere tijd"}}} } label="Weekly opening interval"@{nl="Wekelijks openingstijdvak"}
   export ClosedDate in Location { day:date unique, reason:text } label="Closed date"@{nl="Gesloten datum"}
   export DateHours in Location { day:date unique, opens:text="09:00", closes:text="18:00", close_after:int=0 min=0 max=1, closed:bool=false, fold:enum(earlier,later)=earlier label={text="Repeated local time"@{nl="Herhaalde lokale tijd"},values={earlier="Earlier occurrence"@{nl="Eerdere tijd"},later="Later occurrence"@{nl="Latere tijd"}}} } label="Dated opening exception"@{nl="Gedateerde openingsuitzondering"}

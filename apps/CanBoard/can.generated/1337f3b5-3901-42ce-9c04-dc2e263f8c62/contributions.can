@@ -1,0 +1,2 @@
+## Handwritten owner-attached model contribution; not a model redeclaration.
+Meeting { finalized:bool=false label=label_Meeting_finalized, finalized_by:user? label="Finalized by"@{nl="Definitief gemaakt door"}, finalized_at:datetime? label="Finalization time"@{nl="Definitief gemaakt op"} }

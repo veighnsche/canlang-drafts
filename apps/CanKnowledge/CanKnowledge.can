@@ -6,18 +6,17 @@ context
 package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
  use std {KnowledgeRequest,IndexState,TextRun,DeliveryResult}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role knowledge_manager label="Knowledge administrator"@{nl="Kennisbeheerder"}
   role knowledge_author label="Procedure author"@{nl="Procedureauteur"}
   role knowledge_reviewer label="Publication reviewer"@{nl="Publicatiebeoordelaar"}
-  Topic { name:text nonempty max=100, expert:user label="Accountable expert"@{nl="Verantwoordelijke expert"}, active:bool=true, profile:text min=1 max=200, policy_revision:text min=1 max=200, input_tokens:int=8192 min=1 max=32768, output_tokens:int=2048 min=1 max=4096, duration:duration=120s, daily_limit:int=20 min=1 max=100 } label="Knowledge topic"@{nl="Kennisonderwerp"}
+  Topic { name:text trim min=1 max=100, expert:user label="Accountable expert"@{nl="Verantwoordelijke expert"}, active:bool=true, profile:text min=1 max=200, policy_revision:text min=1 max=200, input_tokens:int=8192 min=1 max=32768, output_tokens:int=2048 min=1 max=4096, duration:duration=120s, daily_limit:int=20 min=1 max=100 } label="Knowledge topic"@{nl="Kennisonderwerp"}
   Audience in Topic { account:user, active:bool=true } label="Topic readership"@{nl="Lezers van onderwerp"}
-  Document in Topic { name:text nonempty max=200, owner:user server=actor, active:bool=true } label="Procedure"@{nl="Procedure"}
-  Revision in Document { number:int min=1 max=100, title:text nonempty max=200, body:text max=20000, attachments:file[] max=4, author:user server=actor, authored:datetime server=now } label="Immutable revision"@{nl="Onveranderlijke revisie"}
-  Publication in Document { revision:Revision, reason:text nonempty max=2000, reviewer:user server=actor, reviewed:datetime server=now, active:bool=true, withdrawal:text?, withdrawn_by:user?, withdrawn_at:datetime? } label="Publication decision"@{nl="Publicatiebesluit"}
+  Document in Topic { name:text trim min=1 max=200, owner:user server=actor, active:bool=true } label="Procedure"@{nl="Procedure"}
+  Revision in Document { number:int min=1 max=100, title:text trim min=1 max=200, body:text max=20000, attachments:file[] max=4, author:user server=actor, authored:datetime server=now } label="Immutable revision"@{nl="Onveranderlijke revisie"}
+  Publication in Document { revision:Revision, reason:text trim min=1 max=2000, reviewer:user server=actor, reviewed:datetime server=now, active:bool=true, withdrawal:text?, withdrawn_by:user?, withdrawn_at:datetime? } label="Publication decision"@{nl="Publicatiebesluit"}
   DailyUsage in Topic { account:user, day:date, requests:int min=0 } label="Question budget usage"@{nl="Verbruik vragenbudget"}
   Question in Topic { account:user server=actor, request_value:KnowledgeRequest, request:delivery(Handbook.answer)?, cancellation:delivery(Handbook.cancel)?, reconciliation:delivery(Handbook.reconcile)?, checks:int=0 min=0 max=3, stop_requested:bool=false, unfinished:bool=true } label="Private question"@{nl="Privévraag"}
-  Escalation in Question { reason:text nonempty max=2000, state:enum(open,resolved,dismissed)=open label={text="Expert review"@{nl="Expertbeoordeling"},values={open="Awaiting expert"@{nl="Wacht op expert"},resolved="Published guidance supplied"@{nl="Gepubliceerde uitleg verstrekt"},dismissed="Closed with explanation"@{nl="Gesloten met uitleg"}}}, resolution:Revision?, note:text?, resolved_by:user?, resolved_at:datetime? } label="Unresolved question"@{nl="Onopgeloste vraag"}
+  Escalation in Question { reason:text trim min=1 max=2000, state:enum(open,resolved,dismissed)=open label={text="Expert review"@{nl="Expertbeoordeling"},values={open="Awaiting expert"@{nl="Wacht op expert"},resolved="Published guidance supplied"@{nl="Gepubliceerde uitleg verstrekt"},dismissed="Closed with explanation"@{nl="Gesloten met uitleg"}}}, resolution:Revision?, note:text?, resolved_by:user?, resolved_at:datetime? } label="Unresolved question"@{nl="Onopgeloste vraag"}
   derive readership(person:user,topic:Topic):bool = active_member(person,team) and (topic.expert==person or any(topic.Audience as grant,grant.account==person and grant.active))
   derive editorial(person:user,document:Document):bool = knowledge_reviewer(person) or document.owner==person or document.parent.expert==person
   derive Document.current:Revision? = first(row.Publication as publication where publication.active)?.revision
@@ -266,9 +265,10 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
     expert,null -> dismissed,null
     self,revision -> error(rule_failed)
  Then
+  style KnowledgeWorkspace $"Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   page /knowledge title="Company knowledge"@{nl="Bedrijfskennis"} poll=5s
    require members
-   style "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge page content; keep page admission and the shared shell unchanged."
+   style KnowledgeWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     table Topic as topic columns=name,expert filter=active defaults={active=true} display=split empty="No topics available"@{nl="Geen onderwerpen beschikbaar"}
@@ -312,7 +312,7 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
          text guidance.attachments
   page /knowledge/editor title="Procedure editing"@{nl="Procedures bewerken"}
    require knowledge_author or knowledge_reviewer
-   style PageKnowledgeEditor2Segment1 "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge/editor page content; keep page admission and the shared shell unchanged."
+   style KnowledgeWorkspace
     breadcrumbs
     form create_document
      select topic
@@ -350,7 +350,7 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
       history
   page /knowledge/expert title="Expert questions"@{nl="Expertvragen"}
    require members
-   style PageKnowledgeExpert3Segment1 "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge/expert page content; keep page admission and the shared shell unchanged."
+   style KnowledgeWorkspace
     breadcrumbs
     table Escalation as issue where issue.parent.parent.expert==actor columns=parent,state,created filter=state display=split empty="No questions for you"@{nl="Geen vragen voor jou"}
      pagination
@@ -362,7 +362,7 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
      text row.resolution,row.note,row.resolved_by,row.resolved_at
   page /knowledge/settings title="Knowledge settings"@{nl="Kennisinstellingen"}
    require knowledge_manager
-   style PageKnowledgeSettings4Segment1 "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge/settings page content; keep page admission and the shared shell unchanged."
+   style KnowledgeWorkspace
     breadcrumbs
     form Topic.create
      fieldset "Topic"@{nl="Onderwerp"}

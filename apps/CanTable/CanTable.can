@@ -135,7 +135,7 @@ package cafe
   # Run a host floor view with separate waiting, upcoming and actual occupancy evidence. @{nl="Bedien het café met afzonderlijk bewijs van wachten, toekomstige reserveringen en werkelijk gebruik."}
   page /cafe title="Café host"@{nl="Cafébediening"}
    require host
-   style "Use fast-scanning café rows with party size, priority, table, and timing prominent. Distinguish waiting guests, reserved intervals, and actual occupancy; give overdue estimates and uncleared-table conflicts clear notices beside seating and clearing actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /cafe page content; keep page admission and the shared shell unchanged."
+   style $"Use fast-scanning café rows with party size, priority, table, and timing prominent. Distinguish waiting guests, reserved intervals, and actual occupancy; give overdue estimates and uncleared-table conflicts clear notices beside seating and clearing actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /cafe page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     form Cafe.create
      input name

@@ -5,7 +5,6 @@ package enrich label="Company enrichment"@{nl="Bedrijfsverrijking"}
  use customer {Customer,test_company}
  use enrich {SourcesV1 as Sources} from=deployment.company_sources
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role researcher label="Company researcher"@{nl="Bedrijfsonderzoeker"}
   role reviewer label="Fact reviewer"@{nl="Gegevensbeoordelaar"}
   export contract Fact {value:text trim min=1 max=2000,source:url,observed:datetime?,detail:text? max=2000}
@@ -15,7 +14,7 @@ package enrich label="Company enrichment"@{nl="Bedrijfsverrijking"}
   export Company {customer:Customer,number:Report.number,enabled:bool=true,current:Run?} label="Linked legal company"@{nl="Gekoppelde rechtspersoon"}
   Lookup in Company {provider:Report.provider,request:delivery(Sources.lookup)?} label="Provider evidence"@{nl="Extern bronbewijs"}
   Run in Company {requested_by:user server=actor,primary:Lookup?,fallback:Lookup?,allow_fallback:bool,stopped:bool=false} label="Enrichment review"@{nl="Verrijkingsbeoordeling"}
-  export AcceptedFact in Company {field:enum(legal_name,registered_office,registry_status),ordinal:int min=1,lookup:Lookup,value:Fact,prior:AcceptedFact?,reason:text nonempty max=2000,reviewer:user server=actor} label="Accepted company fact"@{nl="Geaccepteerd bedrijfsgegeven"}
+  export AcceptedFact in Company {field:enum(legal_name,registered_office,registry_status),ordinal:int min=1,lookup:Lookup,value:Fact,prior:AcceptedFact?,reason:text trim min=1 max=2000,reviewer:user server=actor} label="Accepted company fact"@{nl="Geaccepteerd bedrijfsgegeven"}
   event Assess {run:Run}
   policy Company read=researcher or reviewer
   policy Lookup read=researcher or reviewer
@@ -169,7 +168,7 @@ package enrich label="Company enrichment"@{nl="Bedrijfsverrijking"}
   # Compare evidence, usage and prior decisions before accepting individual facts. @{nl="Vergelijk bewijs, gebruik en eerdere beslissingen voordat u afzonderlijke gegevens accepteert."}
   page /enrichment title="Company enrichment"@{nl="Bedrijfsverrijking"} poll=5s
    require researcher or reviewer
-   style "Use a restrained company-review table with clear provider evidence and balanced before-and-after comparisons. Distinguish proposed registry facts, accepted facts, prior values, reviewer reasons, and failed lookups; preserve the chronology of retained evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /enrichment page content; keep page admission and the shared shell unchanged."
+   style $"Use a restrained company-review table with clear provider evidence and balanced before-and-after comparisons. Distinguish proposed registry facts, accepted facts, prior values, reviewer reasons, and failed lookups; preserve the chronology of retained evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /enrichment page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     ## Inline view of the same shared-dialog extension; the company filter reads it.
     preferences

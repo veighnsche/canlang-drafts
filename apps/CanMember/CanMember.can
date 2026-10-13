@@ -6,11 +6,10 @@ package member_plans
  use rent_catalog {Location}
  use employee {can_work}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role plan_owner label="Plan owner"@{nl="Abonnementseigenaar"}
   export contract MemberHours { location:text, timezone:timezone, weekdays:int[]!, opens:text, closes:text, close_after:AccessHours.close_after, fold:AccessHours.fold }
   export AccessHours in Plan { location:Location, weekdays:int[]! label="Days of week"@{nl="Weekdagen"}, opens:text="09:00" label="Opens"@{nl="Opent"}, closes:text="18:00" label="Closes"@{nl="Sluit"}, close_after:int=0 min=0 max=1 label="Closing day offset"@{nl="Dagverschuiving sluiting"}, fold:enum(earlier,later)=earlier label={text="Clock-change choice"@{nl="Keuze bij klokwijziging"},values={earlier="Earlier occurrence"@{nl="Eerder tijdstip"},later="Later occurrence"@{nl="Later tijdstip"}}} } label="Purchased access hours"@{nl="Gekochte toegangsuren"}
-  export Plan { name:text nonempty, price:money, months:int=1 min=1 label="Months"@{nl="Maanden"}, locations:Location[] label="Locations"@{nl="Locaties"}, products:text[] label="Products"@{nl="Producten"}, access_hours:text label="Access hours"@{nl="Toegangsuren"}, mail:bool=false label="Mail benefit"@{nl="Postvoordeel"}, guest_limit:int=0 min=0 label="Concurrent guests per host"@{nl="Gelijktijdige gasten per gastheer"}, seats:int=1 min=1 label="Seats"@{nl="Plaatsen"}, active:bool=true } label="Membership plan"@{nl="Lidmaatschapsabonnement"}
+  export Plan { name:text trim min=1, price:money, months:int=1 min=1 label="Months"@{nl="Maanden"}, locations:Location[] label="Locations"@{nl="Locaties"}, products:text[] label="Products"@{nl="Producten"}, access_hours:text label="Access hours"@{nl="Toegangsuren"}, mail:bool=false label="Mail benefit"@{nl="Postvoordeel"}, guest_limit:int=0 min=0 label="Concurrent guests per host"@{nl="Gelijktijdige gasten per gastheer"}, seats:int=1 min=1 label="Seats"@{nl="Plaatsen"}, active:bool=true } label="Membership plan"@{nl="Lidmaatschapsabonnement"}
   export Benefit in Plan { product:text label="Product"@{nl="Product"}, unit:enum(hour,day,visit) label={text="Unit"@{nl="Eenheid"},values={hour="Hour"@{nl="Uur"},day="Day"@{nl="Dag"},visit="Visit"@{nl="Bezoek"}}}, quantity:decimal min=0, duration:duration, overage:money label="Overage per unit"@{nl="Meerprijs per eenheid"} } label="Plan benefit"@{nl="Abonnementsvoordeel"}
   policy Plan read=public fields=name,price,months,locations,products,access_hours,mail,guest_limit,seats,active
   policy AccessHours read=public
@@ -28,7 +27,7 @@ package member_plans
   # Author the sellable plan catalog under a distinct plan-owner grant. @{nl="Beheer het verkoopbare abonnementscatalogus onder een afzonderlijk eigenaarsrecht."}
   page /membership/plans title="Membership plans"@{nl="Lidmaatschapsabonnementen"} order=4
    require plan_owner
-   style "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/plans page content; keep page admission and the shared shell unchanged."
+   style $"Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/plans page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     card "Plan catalog"@{nl="Abonnementscatalogus"}
      form Plan.create
@@ -718,11 +717,14 @@ package member_terms label=label_package
      emit WatchAccessStep {customer=event.customer,location=event.location,after=watch.id}
 
  Then
+  style MemberTermsWorkspace $"Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  view TermOutcome(row:Term) $"Present admitted paid-term collection and cancellation states, paid flag, frozen start/end interval, price and source reference. Keep collection observation separate from entitlement: the paid flag remains its canonical declared value. Use canonical localized field and exact money formatting. Leave refund-access policy, mail benefit, invoice reference, seat count, eligibility guards and all forms/actions at each caller."
+   style $"Use distinct readable outcome badges, a compact term interval and exact price, with a wrapping source reference; inherit the current theme."
   preferences { current_only:bool=false label="Current terms only"@{nl="Alleen huidige termijnen"} }
   # Discover the owner review independently of any customer application's selected pages.
   page /membership/access-review title="Membership access review"@{nl="Beoordeling lidmaatschapstoegang"}
    require actor!=null and (member_manager or any(Customer as customer,has_role(actor,customer,administrator)))
-   style "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/access-review page content; keep page admission and the shared shell unchanged."
+   style MemberTermsWorkspace
     breadcrumbs
     card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
      form access_review
@@ -731,7 +733,7 @@ package member_terms label=label_package
   # Keep company access review in the membership owner, without disclosing visitor/device records.
   page /companies/{Customer.id}/membership-access title="Company membership access"@{nl="Bedrijfslidmaatschapstoegang"}
    require actor!=null and (has_role(actor,row,administrator) or (member_manager and any(row.locations as location,can_work(actor,location))))
-   style PageCompaniesCustomerIdMembershipAccess2Segment1 "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /companies/{Customer.id}/membership-access page content; keep page admission and the shared shell unchanged."
+   style MemberTermsWorkspace
     breadcrumbs
     card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
      form access_review
@@ -741,10 +743,7 @@ package member_terms label=label_package
      list Membership as membership where membership.parent==row empty="No memberships for this company"@{nl="Geen lidmaatschappen voor dit bedrijf"}
       text row.paused,row.revoked
       list row.Term as term empty="No paid terms for this membership"@{nl="Geen betaalde termijnen voor dit lidmaatschap"}
-       badge term.collection
-       badge term.cancellation
-       text term.paid,term.from,term.until,term.price
-       copy term.source
+       show TermOutcome {row=term}
        form assign
        table term.Seat columns=account,active,removed_reason empty="No seats assigned for this term"@{nl="Geen plaatsen toegewezen voor deze termijn"}
         button opens=seat_remove_company
@@ -761,7 +760,7 @@ package member_terms label=label_package
   # View your current benefits and keep your billing portal available after expiry. @{nl="Bekijk je huidige voordelen en houd je facturatieportaal bereikbaar na afloop."}
   page /membership/mine title="My membership"@{nl="Mijn lidmaatschap"} order=1
    require authenticated
-   style PageMembershipMine3Segment1 "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/mine page content; keep page admission and the shared shell unchanged."
+   style MemberTermsWorkspace
     breadcrumbs
     preferences
      toggle current_only
@@ -785,12 +784,10 @@ package member_terms label=label_package
         action retry_renewal
        pagination
       list row.Term as term where not preferences.current_only or (term.from<=now and now<term.until) empty="No terms in this view"@{nl="Geen termijnen in deze weergave"}
-       badge term.collection
-       badge term.cancellation
+       show TermOutcome {row=term}
        badge term.refund_access
-       text term.paid,term.mail,term.from,term.until,term.invoice
-       stat term.price,term.seats
-       copy term.source
+       text term.mail,term.invoice
+       stat term.seats
        actions retry_collection
        button opens=term_refund_mine
        modal "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} id=term_refund_mine
@@ -827,7 +824,7 @@ package member_terms label=label_package
   # Resolve paid terms, allowances and company seat allocations. @{nl="Beheer betaalde termijnen, tegoeden en bedrijfsplaatsen."}
   page /membership/register title=page_membership_register_title order=3
    require member_manager
-   style PageMembershipRegister4Segment1 "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/register page content; keep page admission and the shared shell unchanged."
+   style MemberTermsWorkspace
     breadcrumbs
     alert "Allowances reconcile per period"@{nl="Tegoeden worden per periode afgestemd"}
     preferences
@@ -857,12 +854,10 @@ package member_terms label=label_package
       table row.parent.BenefitRequest columns=source,units,covered_units,overage,state,review_reason empty="No benefit requests for this customer"@{nl="Geen voordeelaanvragen voor deze klant"}
        pagination
       list row.Term as term where not preferences.current_only or (term.from<=now and now<term.until) empty="No terms in this view"@{nl="Geen termijnen in deze weergave"}
-       badge term.collection
-       badge term.cancellation
+       show TermOutcome {row=term}
        badge term.refund_access
-       text term.paid,term.from,term.until,term.invoice
-       stat term.price,term.seats
-       copy term.source
+       text term.invoice
+       stat term.seats
        actions retry_collection
        button opens=term_refund_register
        modal "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} id=term_refund_register
@@ -894,10 +889,11 @@ package member_content
  Given
  When
  Then
+  style MemberContentWorkspace $"Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   # Publish site guides under the content editor grant. @{nl="Publiceer locatiegidsen onder het recht van de inhoudsredacteur."}
   page /membership/content/edit title="Edit member information"@{nl="Ledeninformatie bewerken"}
    require content_editor
-   style "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/content/edit page content; keep page admission and the shared shell unchanged."
+   style MemberContentWorkspace
     breadcrumbs
     form Content.create
      fieldset
@@ -914,7 +910,7 @@ package member_content
   # Open only member content currently granted by paid, nonrevoked terms. @{nl="Open uitsluitend ledeninhoud die momenteel door betaalde, niet-ingetrokken termijnen wordt toegestaan."}
   page /membership/content title="Member information"@{nl="Ledeninformatie"} order=2
    require authenticated
-   style PageMembershipContent2Segment1 "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /membership/content page content; keep page admission and the shared shell unchanged."
+   style MemberContentWorkspace
     breadcrumbs
     card "Authorized member information"@{nl="Geautoriseerde ledeninformatie"}
      list Content empty="No member information available"@{nl="Geen ledeninformatie beschikbaar"}

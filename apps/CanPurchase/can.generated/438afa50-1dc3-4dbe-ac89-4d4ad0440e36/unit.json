@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanPurchase/CanPurchase.can",
   "owner": "purchase",
-  "page": "/purchasing/mine",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /purchasing/mine page content; keep page admission and the shared shell unchanged.",
+  "label": "PurchaseWorkspace",
+  "prompt": "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 383,
-  "draft_source_key": "[\"purchase\",\"page\",\"/purchasing/mine\",null]",
+  "source_line": 378,
+  "draft_source_key": "[\"purchase\",\"style\",\"PurchaseWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

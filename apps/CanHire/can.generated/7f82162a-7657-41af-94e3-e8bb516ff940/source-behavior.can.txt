@@ -1,0 +1,2 @@
+       text row.application,row.cv
+       text row.name,row.application,row.cv

@@ -1,2 +1,0 @@
-   do
-    set employee {active=false,end=ended}

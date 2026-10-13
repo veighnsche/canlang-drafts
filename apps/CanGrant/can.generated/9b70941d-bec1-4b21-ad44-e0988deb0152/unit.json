@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanGrant/CanGrant.can",
   "owner": "grant",
-  "page": "/awards",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /awards page content; keep page admission and the shared shell unchanged.",
+  "label": "GrantWorkspace",
+  "prompt": "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 346,
-  "draft_source_key": "[\"grant\",\"page\",\"/awards\",null]",
+  "source_line": 342,
+  "draft_source_key": "[\"grant\",\"style\",\"GrantWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

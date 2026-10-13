@@ -1,0 +1,5 @@
+       title row.title
+       text row.author,row.rights,row.decided_at
+     title row.title
+     content row.statement
+     text row.author,row.rights

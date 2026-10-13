@@ -155,7 +155,7 @@ package agreements
   # Retrieve executed terms, amendments and current obligation queues. @{nl="Haal ondertekende voorwaarden, aanvullingen en huidige verplichtingswachtrijen op."}
   page /agreements title="Agreements"@{nl="Overeenkomsten"}
    require legal or sales or property_manager or finance
-   style "Use orderly agreement rows and readable recorded terms, prioritizing notice deadlines and open obligations. Distinguish executed terms, amendments, and reminder outcomes; give document comparisons and evidence enough space without crowding date controls. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /agreements page content; keep page admission and the shared shell unchanged."
+   style $"Use orderly agreement rows and readable recorded terms, prioritizing notice deadlines and open obligations. Distinguish executed terms, amendments, and reminder outcomes; give document comparisons and evidence enough space without crowding date controls. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /agreements page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     ## Time-critical queues precede the registry so reviewers act before deadlines.
     card "Upcoming notice deadlines"@{nl="Aankomende opzegdeadlines"}

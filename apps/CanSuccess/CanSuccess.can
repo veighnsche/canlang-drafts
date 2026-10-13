@@ -11,7 +11,6 @@ package success
  use std {DeliveryResult}
  use std {EmailV1 as Mail} from=deployment.mail
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   export contract WorkItem { reference:text, revision:int, location:text?, title:text, detail:text?, due:datetime?, action:action(complete) } label="Authorized work item"@{nl="Toegestaan werkitem"}
   export contract WorkBatch { items:WorkItem[]! max=500 } label="Authorized work batch"@{nl="Toegestane werkverzameling"}
   message label_account_manager = "Account manager"@{nl="Klantbeheerder"}
@@ -20,7 +19,7 @@ package success
   message label_FollowUp = "Follow-up"@{nl="Opvolgtaak"}
   role account_manager label=label_account_manager
   Account in Customer { location:Location, manager:user label=label_account_manager, email:email, renewal:date? label="Renewal date"@{nl="Verlengingsdatum"}, risk:enum(low,medium,high)=low label={text="Assessed renewal risk"@{nl="Beoordeeld verlengingsrisico"},values={low="Low"@{nl="Laag"},medium="Medium"@{nl="Gemiddeld"},high="High"@{nl="Hoog"}}}, reviewed_at:datetime? label="Last review"@{nl="Laatste beoordeling"}, reviewed_by:user? label="Reviewed by"@{nl="Beoordeeld door"}, risk_reason:text? label="Risk assessment reason"@{nl="Reden voor risicobeoordeling"}, notes:text?, agreement:AgreementTerm? label="Agreement reference"@{nl="Overeenkomstreferentie"}, membership:Membership? label="Membership reference"@{nl="Lidmaatschapsreferentie"}, active:bool=true } label="Customer account"@{nl="Klantdossier"}
-  Milestone in Account { title:text nonempty, due:date, done:bool=false, completed_by:user? label=label_Milestone_completed_by, completed_at:datetime? label=label_Milestone_completed_at } label="Account milestone"@{nl="Klantmijlpaal"}
+  Milestone in Account { title:text trim min=1, due:date, done:bool=false, completed_by:user? label=label_Milestone_completed_by, completed_at:datetime? label=label_Milestone_completed_at } label="Account milestone"@{nl="Klantmijlpaal"}
   export FollowUp in Account { title:text, due:datetime, assignee:user label="Assignee"@{nl="Toegewezen aan"}, email:email, done:bool=false, completed_by:user? label=label_Milestone_completed_by, completed_at:datetime? label=label_Milestone_completed_at } label=label_FollowUp
   Notice in Account { followup:FollowUp?, revision:int, account_revision:int, recipient:email, subject:text, body:text, delivery:delivery(Mail.send)? } label="Reminder outcome"@{nl="Herinneringsresultaat"}
   ## Notice state observes the Mail receipt; the existing Delivered caption renders succeeded.
@@ -149,7 +148,7 @@ package success
   # Review renewal risk, dated milestones and source agreement references. @{nl="Beoordeel verlengingsrisico, gedateerde mijlpalen en bronreferenties naar overeenkomsten."}
   page /customer-success title="Customer success"@{nl="Klantopvolging"}
    require account_manager
-   style "Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged."
+   style $"Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     card "Customer selection"@{nl="Klantselectie"}
      list Customer empty="No customers found"@{nl="Geen klanten gevonden"}

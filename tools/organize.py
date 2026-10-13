@@ -53,50 +53,177 @@ def moves(root):
     return result
 
 
-def styles(source):
+NAME = r"[A-Za-z_]\w*"
+PROMPT = re.compile(r'\$("(?:[^"\\]|\\.)*")(?:\s+agent=([A-Za-z_][\w.-]*))?\s*')
+
+
+def prompt_value(text, source, number):
+    """Read only a declaration's prompt position, never search ordinary strings."""
+    match = PROMPT.fullmatch(text)
+    if not match:
+        raise ValueError(f"expected $\"prompt\" and optional agent=profile at {source}:{number}")
+    return json.loads(match[1]), match[2]
+
+
+def view_tail(text, source, number):
+    """Skip a view's name/signature to locate its optional prompt."""
+    match = re.match(rf"view\s+({NAME})", text)
+    if not match:
+        raise ValueError(f"unsupported view declaration at {source}:{number}")
+    tail = text[match.end():].lstrip()
+    if tail.startswith("("):
+        depth = 0
+        quoted = escaped = False
+        for position, char in enumerate(tail):
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == '"':
+                    quoted = False
+            elif char == '"':
+                quoted = True
+            elif char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth == 0:
+                    tail = tail[position + 1:].strip()
+                    break
+        else:
+            raise ValueError(f"unclosed view signature at {source}:{number}")
+    return match[1], tail
+
+
+def parse_styles(source):
+    """Inspect draft indentation and style declarations; this is not a Can parser."""
     owner = source.stem
-    context = None
-    seen = set()
+    section_indent = 0
+    nodes, stack = [], []
     for number, line in enumerate(source.read_text().splitlines(), 1):
         stripped = line.lstrip()
-        indent = len(line) - len(stripped)
         if not stripped or stripped.startswith("#"):
             continue
-        match = re.match(r"(?:package|app)\s+(\w+)", stripped)
+        indent = len(line) - len(stripped)
+        while stack and indent <= stack[-1]["indent"]:
+            stack.pop()
+        match = re.match(rf"(?:package|app)\s+({NAME})\b", stripped)
         if indent == 0 and match:
             owner = match[1]
-        match = re.match(r"(page|view)\s+(\S+)", stripped)
-        if match:
-            context = (indent, match[1], match[2].split("(")[0])
-        elif context and indent <= context[0]:
-            context = None
-        if not stripped.startswith("style "):
+            section_indent = 1
+        elif indent == 0 and stripped in ("Given", "When", "Then"):
+            section_indent = 0
+        parent = stack[-1] if stack else None
+        node = dict(text=stripped, indent=indent, line=number, owner=owner,
+                    parent=parent, children=[], prompted=False,
+                    section_indent=section_indent)
+        if parent:
+            parent["children"].append(node)
+        nodes.append(node)
+        stack.append(node)
+        if stripped.startswith("do "):
+            tail = stripped[3:].strip()
+            if tail.startswith(('"', "$", "agent=")):
+                raise ValueError(f"When bodies must use ordinary Can code, not a generation prompt at {source}:{number}")
+        if stripped.startswith("view "):
+            name, tail = view_tail(stripped, source, number)
+            node["context"] = ("view", name)
+            if tail:
+                prompt_value(tail, source, number)
+                node["prompted"] = True
+        elif stripped.startswith("page "):
+            node["context"] = ("page", stripped.split()[1])
+
+    units, uses = [], []
+    for node in nodes:
+        text, number, owner = node["text"], node["line"], node["owner"]
+        if not re.match(r"style(?:\s|$)", text):
             continue
-        if not context or indent != context[0] + 1:
+        parent = node["parent"]
+        if not parent or node["indent"] != parent["indent"] + 1:
             raise ValueError(f"unsupported style owner at {source}:{number}")
-        match = re.fullmatch(r'style(?:\s+([A-Za-z_]\w*))?\s+("(?:[^"\\]|\\.)*")(?:\s+agent=([\w.-]+))?\s*', stripped)
-        if not match:
-            raise ValueError(f"unsupported style declaration at {source}:{number}")
-        label, prompt, profile = match.groups()
-        key = json.dumps([owner, context[1], context[2], label], separators=(",", ":"))
-        if key in seen:
-            raise ValueError(f"ambiguous duplicate style key at {source}:{number}: {key}")
-        seen.add(key)
-        yield dict(owner=owner, page=context[2] if context[1] == "page" else None,
-                   view=context[2] if context[1] == "view" else None, label=label,
-                   prompt=json.loads(prompt), profile=profile or "frontend",
-                   source_line=number, draft_source_key=key)
+        definition = (parent["text"] == "Then" and
+                      parent["indent"] == node["section_indent"])
+        context_owner = parent
+        while context_owner and "context" not in context_owner:
+            context_owner = context_owner["parent"]
+        context = context_owner.get("context") if context_owner else None
+        prompted_root = parent is context_owner and parent["prompted"]
+        if not definition and not context:
+            raise ValueError(f"unsupported style owner at {source}:{number}")
+        tail = text[5:].strip()
+        label = None
+        if definition:
+            match = re.match(rf"({NAME})\s+(.+)", tail)
+            if not match:
+                raise ValueError(f"expected named style definition at {source}:{number}")
+            label, tail = match.groups()
+            if node["children"]:
+                raise ValueError(f"style definition cannot have a body at {source}:{number}")
+        elif re.fullmatch(NAME, tail):
+            if not node["children"] and not prompted_root:
+                raise ValueError(f"style use requires presentation body at {source}:{number}")
+            uses.append(dict(owner=owner, name=tail, source=str(source), source_line=number,
+                             page=context[1] if context[0] == "page" else None,
+                             view=context[1] if context[0] == "view" else None))
+            continue
+        prompt, profile = prompt_value(tail, source, number)
+        if not definition and not node["children"] and not prompted_root:
+            raise ValueError(f"inline style requires presentation body at {source}:{number}")
+        key = [owner, "style", label, None] if definition else [owner, *context, None]
+        units.append(dict(owner=owner,
+                          page=context[1] if context and context[0] == "page" else None,
+                          view=context[1] if context and context[0] == "view" else None,
+                          label=label, style_scope="definition" if definition else "inline",
+                          prompt=prompt, profile=profile or "frontend", source_line=number,
+                          draft_source_key=json.dumps(key, separators=(",", ":"))))
+    return units, uses
+
+
+def style_inventory(sources):
+    """Precollect definitions so forward and same-owner cross-file uses resolve."""
+    inventory = {source: parse_styles(source) for source in sources}
+    definitions, keys = {}, set()
+    for source, (units, _) in inventory.items():
+        for unit in units:
+            key = unit["draft_source_key"]
+            if key in keys:
+                raise ValueError(f"ambiguous duplicate style key at {source}:{unit['source_line']}: {key}")
+            keys.add(key)
+            if unit["style_scope"] == "definition":
+                definitions[unit["owner"], unit["label"]] = (source, unit["source_line"])
+    for source, (_, uses) in inventory.items():
+        for use in uses:
+            definition = definitions.get((use["owner"], use["name"]))
+            if definition is None:
+                raise ValueError(f"unknown style {use['name']} in owner {use['owner']} at {source}:{use['source_line']}")
+            use.update(definition_source=str(definition[0]), definition_line=definition[1])
+    return inventory
+
+
+def styles(source, sources=None):
+    """Yield output-owning styles; named uses never create separate units.
+
+    Pass all participating sources to resolve a namespace spanning files.
+    """
+    yield from style_inventory(sources if sources is not None else [source])[source][0]
+
+
+def style_uses(source, sources=None):
+    """Yield resolved use locations, separately from output-owning styles."""
+    yield from style_inventory(sources if sources is not None else [source])[source][1]
 
 
 def scaffolds(root, planned_moves):
     destinations = {target: source for source, target in planned_moves if source.suffix == ".can"}
-    for source in sorted(root.glob("apps/*/*.can")):
+    for source in sorted([*root.glob("apps/*/*.can"), *root.glob("shared/*.can")]):
         safe(source, root)
         if source in destinations:
             raise ValueError(f"duplicate source destination: {source}")
         destinations[source] = source
+    inventory = style_inventory(destinations.values())
     result = []
-    seen_keys = set()
     for destination, source in sorted(destinations.items()):
         generated = destination.parent / "can.generated"
         safe(generated, root)
@@ -117,11 +244,8 @@ def scaffolds(root, planned_moves):
                         if key in existing:
                             raise ValueError(f"duplicate existing style key: {key}")
                         existing[key] = unit
-        for style in styles(source):
+        for style in inventory[source][0]:
             key = style["draft_source_key"]
-            if key in seen_keys:
-                raise ValueError(f"ambiguous style key across sources: {key}")
-            seen_keys.add(key)
             unit = existing.get(style["draft_source_key"])
             if unit is None:
                 identifier = str(uuid.uuid4())

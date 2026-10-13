@@ -6,16 +6,15 @@ package expense label="Expenses"@{nl="Onkosten"}
  use rent_catalog {Location,test_site}
  use employee {Employee,can_work,test_worker,hr,deactivate}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role reviewer label=label_reviewer
   role finance label="Finance"@{nl="Financiën"}
-  Expense in Employee { location:Location, corrects:Expense? label="Corrected claim"@{nl="Gecorrigeerde declaratie"}, authorization:text? label="Job or purchase authorization reference"@{nl="Werk- of inkoopautorisatiereferentie"}, purpose:text nonempty label="Purpose"@{nl="Doel"}, category:text label="Category"@{nl="Categorie"}, amount:money, business_date:date label="Business date"@{nl="Kostendatum"}, receipt:file label=label_Expense_receipt, reviewer:user label=label_reviewer, status:enum(draft,submitted,approved,rejected,withdrawn,reimbursed)=draft label={text="Status"@{nl="Status"},values={draft="Draft"@{nl="Concept"},submitted="Submitted"@{nl="Ingediend"},approved=label_Expense_status_approved,rejected="Rejected"@{nl="Afgewezen"},withdrawn="Withdrawn"@{nl="Ingetrokken"},reimbursed="Reimbursed"@{nl="Vergoed"}}}, submission:int=0 label=label_Expense_submission, withdrawal:text? label="Withdrawal reason"@{nl="Reden voor intrekking"}, decision:text? label="Decision"@{nl="Besluit"}, decided_by:user? label="Decision maker"@{nl="Beslist door"}, decided_at:datetime? label=label_Expense_decided_at } label="Expense claim"@{nl="Onkostendeclaratie"}
+  Expense in Employee { location:Location, corrects:Expense? label="Corrected claim"@{nl="Gecorrigeerde declaratie"}, authorization:text? label="Job or purchase authorization reference"@{nl="Werk- of inkoopautorisatiereferentie"}, purpose:text trim min=1 label="Purpose"@{nl="Doel"}, category:text label="Category"@{nl="Categorie"}, amount:money, business_date:date label="Business date"@{nl="Kostendatum"}, receipt:file label=label_Expense_receipt, reviewer:user label=label_reviewer, status:enum(draft,submitted,approved,rejected,withdrawn,reimbursed)=draft label={text="Status"@{nl="Status"},values={draft="Draft"@{nl="Concept"},submitted="Submitted"@{nl="Ingediend"},approved=label_Expense_status_approved,rejected="Rejected"@{nl="Afgewezen"},withdrawn="Withdrawn"@{nl="Ingetrokken"},reimbursed="Reimbursed"@{nl="Vergoed"}}}, submission:int=0 label=label_Expense_submission, withdrawal:text? label="Withdrawal reason"@{nl="Reden voor intrekking"}, decision:text? label="Decision"@{nl="Besluit"}, decided_by:user? label="Decision maker"@{nl="Beslist door"}, decided_at:datetime? label=label_Expense_decided_at } label="Expense claim"@{nl="Onkostendeclaratie"}
   Decision in Expense { submission:int label=label_Expense_submission, amount:money, receipt:file label=label_Expense_receipt, reviewer:user label=label_reviewer, approved:bool label=label_Expense_status_approved, reason:text, decided_at:datetime label=label_Expense_decided_at } label="Expense decision"@{nl="Onkostenbesluit"}
-  Reimbursement in Expense { amount:money, reference:text nonempty, paid:date label=label_Reimbursement_paid, reason:text, recorded_by:user server=actor label="Recorded by"@{nl="Vastgelegd door"} } label=evidenced_reimbursement_caption
+  Reimbursement in Expense { amount:money, reference:text trim min=1, paid:date label=label_Reimbursement_paid, reason:text, recorded_by:user server=actor label="Recorded by"@{nl="Vastgelegd door"} } label=evidenced_reimbursement_caption
   ReceiptExtract in Expense { source:text unique label="Extraction source"@{nl="Extractiebron"}, amount:money, spent_on:date label="Receipt date"@{nl="Bondatum"}, merchant:text label="Merchant"@{nl="Verkoper"} } label="Receipt transcription"@{nl="Bontranscriptie"}
   contract LegacyClaim { actor:text?, reviewer:text?, decision_time_original:text?, decided_at:datetime?, paid:date?, status:text?, purpose:text?, amount:money?, receipt:file?, receipt_issue:text? }
   ## Imported source claims are immutable evidence, not live approvals or payments.
-  LegacyExpense { source:text nonempty, external_id:text min=1, location:Location, claim:LegacyClaim, source_evidence:file, attestation:text nonempty, claimant:user?, access_reason:text?, imported_by:user server=actor, imported_at:datetime server=now }
+  LegacyExpense { source:text trim min=1, external_id:text min=1, location:Location, claim:LegacyClaim, source_evidence:file, attestation:text trim min=1, claimant:user?, access_reason:text?, imported_by:user server=actor, imported_at:datetime server=now }
   unique LegacyExpense fields=source,external_id
   lock LegacyExpense fields=source,external_id,location,claim,source_evidence,attestation,imported_by,imported_at
   policy LegacyExpense read=finance and can_work(actor,row.location)
@@ -355,12 +354,15 @@ package expense label="Expenses"@{nl="Onkosten"}
     finance,null,self,"Verified match",2 -> error(conflict)
     members,null,self,"Verified match",1 -> error(forbidden)
  Then
+  style ExpenseWorkspace $"Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  view ReceiptEvidence(row:ReceiptExtract) $"Present the admitted receipt transcription source, merchant, amount and receipt date in their original order using canonical localized captions and exact text, money and date formatting. Make the source traceable and the amount easy to scan. Preserve safe omission of withheld fields and null handling. Keep the owning claim, receipt-extract query and pagination, decision and reimbursement controls, comparisons and history at the use site."
+   style $"Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions."
   preferences { status:Expense.status? }
   # Submit your receipts and see their private decision history. @{nl="Dien je bonnen in en bekijk hun privébesluithistorie."}
   page /expenses/mine title="My expenses"@{nl="Mijn onkosten"}
    breadcrumbs
    require members
-   style "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /expenses/mine page content; keep page admission and the shared shell unchanged."
+   style ExpenseWorkspace
     card "Claim intake"@{nl="Declaratie aanmaken"}
      list Employee as claimant where claimant.user==actor and claimant.active
       pagination
@@ -402,7 +404,7 @@ package expense label="Expenses"@{nl="Onkosten"}
        input merchant
       list row.ReceiptExtract
        pagination
-       text row.source,row.merchant,row.amount,row.spent_on
+       show ReceiptEvidence {row=row}
      card "Correction comparison"@{nl="Vergelijking correctie"}
       require row.corrects!=null
       diff
@@ -427,7 +429,7 @@ package expense label="Expenses"@{nl="Onkosten"}
   page /expenses/review title="Expense review"@{nl="Onkostenbeoordeling"}
    breadcrumbs
    require reviewer or finance
-   style PageExpensesReview2Segment1 "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /expenses/review page content; keep page admission and the shared shell unchanged."
+   style ExpenseWorkspace
     ## In-context saved default for the review-queue status filter below.
     filter preferences.status
     board Expense by=status columns=parent,location,purpose,business_date,amount,receipt order=business_date search=purpose filter=status,location,category,business_date defaults={status=preferences.status} empty="No assigned submissions."@{nl="Geen toegewezen declaraties."}
@@ -454,7 +456,7 @@ package expense label="Expenses"@{nl="Onkosten"}
          validator reference
       list row.ReceiptExtract
        pagination
-       text row.source,row.merchant,row.amount,row.spent_on
+       show ReceiptEvidence {row=row}
      tabs
       tab "Recorded decisions"@{nl="Vastgelegde besluiten"}
        list row.Decision
@@ -483,7 +485,7 @@ package expense label="Expenses"@{nl="Onkosten"}
   page /expenses/history title="Historical expense evidence"@{nl="Historisch onkostenbewijs"}
    breadcrumbs
    require authenticated
-   style PageExpensesHistory3Segment1 "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /expenses/history page content; keep page admission and the shared shell unchanged."
+   style ExpenseWorkspace
     card "Retain source records"@{nl="Bronrecords bewaren"}
      require finance
      form retain_legacy import=csv review=legacy_matches

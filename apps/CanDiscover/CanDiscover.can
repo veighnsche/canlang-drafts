@@ -10,7 +10,6 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
  use discover {DiscoverySourceV1 as Sources} from=deployment.discovery_sources
  use discover {DiscoveryAnalysisV1 as Analysis} from=deployment.discovery_analysis
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   role researcher label="Researcher"@{nl="Onderzoeker"}
   role reviewer label="Research reviewer"@{nl="Onderzoeksbeoordelaar"}
   export contract Document {key:text min=1,revision:text min=1,url:url,title:text,body:text max=60000,deadline_original:text?,deadline_zone:timezone?,retrieved:datetime}
@@ -26,14 +25,14 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
   export capability DiscoveryAnalysisV1 version=1
    extract(document:Document,criteria:text,output_tokens:AnalysisLimit.output_tokens) -> Claims
   contract Settings {ted_query:text,grants_query:text,from:date,until:date,criteria:text,max_pages:int,max_documents:int,max_analysis:int,output_tokens:int}
-  Plan {name:text nonempty,location:Location,owner:user server=actor,active:bool=true,revision:int=1,period:duration=7d,lookback_days:int=7,ted_query:text,grants_query:text,criteria:text,max_pages:int=3,max_documents:int=100,max_analysis:int=20,output_tokens:int=2000,current:Run?}
+  Plan {name:text trim min=1,location:Location,owner:user server=actor,active:bool=true,revision:int=1,period:duration=7d,lookback_days:int=7,ted_query:text,grants_query:text,criteria:text,max_pages:int=3,max_documents:int=100,max_analysis:int=20,output_tokens:int=2000,current:Run?}
   Run in Plan {settings:Settings,initiator:user,plan_revision:int,started:datetime server=now,stopped:bool=false,document_slots:int=0,analysis_slots:int=0}
   SourcePass in Run {source:Query.source,query:text,cursor:text?,requests:int=0,state:enum(ready,fetching,exhausted,capped,attention,cancelled)=ready,current:PageAttempt?,detail:text?}
   PageAttempt in SourcePass {cursor:text?,take:int,request:delivery(Sources.page)?,applied:bool=false,late:bool=false,next_cursor:text?,terminal:bool=false,traversal:SourcePage.traversal?,observed:datetime?,source_as_of:datetime?,detail:text?}
   Opportunity in Plan {source:SourcePass.source,key:text,canonical_url:url,identity_conflict:bool=false,duplicate_of:Opportunity?,identity_note:text?,deal:Deal?}
   Evidence in Opportunity {ordinal:int min=1,document:Document,run:Run,page:PageAttempt,analysis:delivery(Analysis.extract)?,claims:Claims?,analysis_issue:text?}
   Conflict in Opportunity {document:Document,run:Run,page:PageAttempt,observed:datetime server=now}
-  Review in Opportunity {evidence:Evidence,title:text nonempty,summary:text,deadline:datetime?,deadline_zone:timezone?,deadline_note:text nonempty,quotes:text[] min=1 max=20,reviewed_by:user server=actor,reviewed_at:datetime server=now}
+  Review in Opportunity {evidence:Evidence,title:text trim min=1,summary:text,deadline:datetime?,deadline_zone:timezone?,deadline_note:text trim min=1,quotes:text[] min=1 max=20,reviewed_by:user server=actor,reviewed_at:datetime server=now}
   event PlanDue {plan:Plan,revision:int}
   event PageDue {pass:SourcePass}
   policy Plan read=(researcher or reviewer) and can_work(actor,row.location)
@@ -320,7 +319,7 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
   # Research plans and source coverage with reviewable evidence. @{nl="Onderzoeksplannen en brondekking met beoordeelbaar bewijs."}
   page /discover title="Opportunity research"@{nl="Kansenonderzoek"}
    require researcher or reviewer
-   style "Prioritize opportunity evidence and staff review over decorative metrics. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged."
+   style $"Prioritize opportunity evidence and staff review over decorative metrics. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     tabs
      tab "Plans"@{nl="Plannen"}

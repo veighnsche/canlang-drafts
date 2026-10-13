@@ -202,10 +202,11 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
    require record.parent.account==actor and record.parent.state==confirmed and not record.parent.parent.cancelled and (record.parent.parent.venue==null or record.parent.parent.venue_confirmed) and not record.done
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.parent.location.id,title=record.title,detail=record.parent.parent.title,due=record.parent.parent.from,action=action(complete,{task=record})}
  Then
+  style VolunteerWorkspace $"Make activity dates, requirements, and remaining places easy to scan. Keep own assignments, cancellation, reconfirmation, and attributed task completion readable; separate organizer attendance evidence and venue outcomes from participant signup status. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, view:enum(discovery,assignments)=discovery label={text="Initial view"@{nl="Beginweergave"},values={discovery="Discover activities"@{nl="Activiteiten ontdekken"},assignments="My assignments"@{nl="Mijn opdrachten"}}} }
   # Discover activities and follow only your own assignments. @{nl="Ontdek activiteiten en volg alleen je eigen opdrachten."}
   page /volunteering title="Volunteer activities"@{nl="Vrijwilligersactiviteiten"}
-   style "Make activity dates, requirements, and remaining places easy to scan. Keep own assignments, cancellation, reconfirmation, and attributed task completion readable; separate organizer attendance evidence and venue outcomes from participant signup status. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /volunteering page content; keep page admission and the shared shell unchanged."
+   style VolunteerWorkspace
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     tabs preferences.view
@@ -236,7 +237,7 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
   # Coordinate confirmed participants and entered attendance. @{nl="Coördineer bevestigde deelnemers en ingevoerde aanwezigheid."}
   page /volunteering/work title="Volunteer coordination"@{nl="Vrijwilligerscoördinatie"}
    require organizer
-   style PageVolunteeringWork2Segment1 "Make activity dates, requirements, and remaining places easy to scan. Keep own assignments, cancellation, reconfirmation, and attributed task completion readable; separate organizer attendance evidence and venue outcomes from participant signup status. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /volunteering/work page content; keep page admission and the shared shell unchanged."
+   style VolunteerWorkspace
     breadcrumbs
     card "Opportunity authoring"@{nl="Activiteiten opstellen"}
      form Community.create

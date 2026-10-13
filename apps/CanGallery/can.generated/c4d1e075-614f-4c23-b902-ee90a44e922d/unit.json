@@ -1,0 +1,42 @@
+{
+  "unit_id": "c4d1e075-614f-4c23-b902-ee90a44e922d",
+  "abi_version": 1,
+  "kind": "then_view",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "gallery",
+  "label": "SubmissionIdentity",
+  "profile": "frontend",
+  "source": "apps/CanGallery/CanGallery.can",
+  "declaration_selector": "gallery.SubmissionIdentity",
+  "target": "view SubmissionIdentity(row:Submission)",
+  "prompt": "Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller.",
+  "export_roles": [
+    "render"
+  ],
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "row_model": "Submission",
+  "checked_controls": [],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "titleField",
+    "textFields"
+  ],
+  "definition_style_prompt": "Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.",
+  "source_inverse": {
+    "added_declaration": "  view SubmissionIdentity(row:Submission) $\"Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller.\"\n   style $\"Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.\"\n",
+    "replacements": [
+      {
+        "original": "       title row.title\n       text row.author,row.rights,row.decided_at\n",
+        "replacement": "       show SubmissionIdentity {row=row}\n       text row.decided_at\n"
+      },
+      {
+        "original": "     title row.title\n     content row.statement\n     text row.author,row.rights\n",
+        "replacement": "     show SubmissionIdentity {row=row}\n     content row.statement\n"
+      }
+    ]
+  }
+}

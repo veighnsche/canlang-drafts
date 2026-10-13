@@ -1,0 +1,33 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "profile": "shared",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "0defde68-0415-4786-a33b-3ee5ce9892df",
+  "kind": "given_trait",
+  "owner": "trade",
+  "label": "member_audience",
+  "source": "apps/CanTrade/CanTrade.can",
+  "declaration_selector": "trade.member_audience",
+  "prompt": "Default a community listing to the existing members-only audience. Keep public publication an explicit choice governed by the current audience record and membership guards. Preserve enum cases, labels and every existing permission and operation; add no fields or grants.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Post",
+      "field": "visibility",
+      "type": "enum(member,public)"
+    }
+  ],
+  "export_roles": [
+    "defaultValue"
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
+  "source_replacement": {
+    "original": "visibility:enum(member,public)=member",
+    "replacement": "visibility:enum(member,public) member_audience"
+  },
+  "source_behavior_scope": "original full owning model declaration"
+}

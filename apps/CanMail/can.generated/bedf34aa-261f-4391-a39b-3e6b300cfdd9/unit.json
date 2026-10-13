@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanMail/CanMail.can",
   "owner": "mailroom",
-  "page": "/mailroom",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Use practical mailroom rows with prominent recipient, storage, kind, and handling state. Distinguish collection, forwarding, notices, and incidents; keep recipient and delegate authority context readable without exposing private instructions in broad list summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /mailroom page content; keep page admission and the shared shell unchanged.",
+  "label": "MailroomWorkspace",
+  "prompt": "Use practical mailroom rows with prominent recipient, storage, kind, and handling state. Distinguish collection, forwarding, notices, and incidents; keep recipient and delegate authority context readable without exposing private instructions in broad list summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 353,
-  "draft_source_key": "[\"mailroom\",\"page\",\"/mailroom\",null]",
+  "source_line": 349,
+  "draft_source_key": "[\"mailroom\",\"style\",\"MailroomWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

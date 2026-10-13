@@ -1,0 +1,34 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "profile": "shared",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "17a4aadd-c628-4ee6-9385-7b3385353862",
+  "kind": "given_trait",
+  "owner": "crm",
+  "label": "sales_seats",
+  "source": "apps/CanCRM/CanCRM.can",
+  "declaration_selector": "crm.sales_seats",
+  "prompt": "Supply the existing sales-seat default of one and require at least one seat. Preserve the integer type, labels, remaining field constraints and every existing permission and operation. Add no other contribution.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Deal",
+      "field": "seats",
+      "type": "int"
+    }
+  ],
+  "export_roles": [
+    "defaultValue",
+    "check"
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
+  "source_replacement": {
+    "original": "seats:int=1 min=1",
+    "replacement": "seats:int sales_seats"
+  },
+  "source_behavior_scope": "original full owning model declaration"
+}

@@ -188,9 +188,10 @@ package creative
     observed_request.result,pending_run.unfinished,held_budget.running -> pending_run.used,held_budget.held,held_budget.spent,held_budget.running
     ImageRun {source="creative-pending",revision=1,sequence=3,state=cancelled,outputs=[],charged_jobs=1,detail=null},false,0 -> 1,0,1,0
  Then
+  style CreativeWorkspace $"Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   page /creative title="Image studio"@{nl="Beeldstudio"} poll=1s
    require members
-   style "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative page content; keep page admission and the shared shell unchanged."
+   style CreativeWorkspace
     breadcrumbs
     form generate display=inline
      fieldset "Image prompt"@{nl="Beeldprompt"}
@@ -251,7 +252,7 @@ package creative
      pagination
   page /creative/from-chat title="Chat to image"@{nl="Van gesprek naar beeld"} poll=1s
    require members
-   style PageCreativeFromChat2Segment1 "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative/from-chat page content; keep page admission and the shared shell unchanged."
+   style CreativeWorkspace
     breadcrumbs
     list Conversation as conversation where conversation.active empty="No conversations"@{nl="Geen gesprekken"}
      pagination
@@ -275,7 +276,7 @@ package creative
          input height
   page /creative/recovery title="Unresolved image jobs"@{nl="Onopgeloste beeldtaken"} poll=1s
    require members
-   style PageCreativeRecovery3Segment1 "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative/recovery page content; keep page admission and the shared shell unchanged."
+   style CreativeWorkspace
     breadcrumbs
     table Run as run where run.unfinished or run.used==null columns=state,delivery_state,stop_delivery,reconcile_delivery,used,detail empty="No unresolved image jobs"@{nl="Geen onopgeloste beeldtaken"}
      pagination
@@ -319,7 +320,7 @@ package creative
      actions stop,reconcile,release_skipped
   page /creative/workflows title="Workflow templates"@{nl="Workflowsjablonen"} poll=1s
    require creative_manager
-   style PageCreativeWorkflows4Segment1 "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative/workflows page content; keep page admission and the shared shell unchanged."
+   style CreativeWorkspace
     breadcrumbs
     alert
      text "Upload an allowed API-format graph. Inspect its inputs, map the four fields, validate a snapshot, then publish it."@{nl="Upload een toegestane API-graaf. Inspecteer de invoer, koppel vier velden, valideer een momentopname en publiceer deze."}

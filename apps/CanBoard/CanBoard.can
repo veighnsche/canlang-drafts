@@ -5,17 +5,18 @@ app CanBoard uses=[board]
 package board label="Governance"@{nl="Bestuur"}
  use rent_catalog {Location,test_site}
  Given
+  trait completion_evidence $"Supply the existing Action completion evidence: done defaults to false, completed_by is an optional user and completed_at an optional datetime, with their existing English/Dutch captions. Add no completion operation, permission, automatic actor/time or new invariant; complete remains the only declared transition here."
   contract ActionOrigin { resolution:text, meeting:text } label="Action origin"@{nl="Herkomst actie"}
   export contract WorkItem { reference:text, revision:int, location:text?, title:text, detail:text?, due:datetime?, action:action(complete) } label="Authorized work item"@{nl="Toegestaan werkitem"}
   export contract WorkBatch { items:WorkItem[]! max=500 } label="Authorized work batch"@{nl="Toegestane werkverzameling"}
   role board_member label="Board member"@{nl="Bestuurslid"}
   role coordinator label="Coordinator"@{nl="Coördinator"}
   role secretary label="Board recorder"@{nl="Bestuurssecretaris"}
-  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label="Attendance"@{nl="Aanwezigheid"}, minutes:text? label="Minutes"@{nl="Notulen"}, finalized:bool=false label=label_Meeting_finalized, finalized_by:user? label="Finalized by"@{nl="Definitief gemaakt door"}, finalized_at:datetime? label="Finalization time"@{nl="Definitief gemaakt op"} } label="Meeting"@{nl="Vergadering"}
+  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label="Attendance"@{nl="Aanwezigheid"}, minutes:text? label="Minutes"@{nl="Notulen"} } trait $"Give this Meeting its existing finalization evidence: finalized defaults to false; finalized_by and finalized_at remain nullable. Preserve the original localized field labels. Do not finalize automatically, add invariants, relax the lock or grant permission; the existing finalize scenario owns the transition." label="Meeting"@{nl="Vergadering"}
   Agenda in Meeting { title:text, position:int min=1 label="Position"@{nl="Volgorde"}, paper:file? label=label_Agenda_paper, discussion:text? label="Discussion"@{nl="Bespreking"} } label="Agenda item"@{nl="Agendapunt"}
   Resolution in Meeting { title:text, outcome:enum(proposed,accepted,rejected)=proposed label={text="Outcome"@{nl="Uitkomst"},values={proposed="Proposed"@{nl="Voorgesteld"},accepted="Accepted"@{nl="Geaccepteerd"},rejected="Rejected"@{nl="Afgewezen"}}}, evidence:text?, decided_by:user? label="Decision maker"@{nl="Beslist door"}, decided_at:datetime? label="Decision time"@{nl="Beslist op"} } label="Resolution"@{nl="Besluit"}
   Amendment in Meeting { text:text label="Text"@{nl="Tekst"}, paper:file? label=label_Agenda_paper, author:user server=actor label="Author"@{nl="Auteur"} } label="Amendment"@{nl="Aanvulling"}
-  export Action in Resolution { title:text, owner:user label="Responsible person"@{nl="Verantwoordelijke"}, due:date, done:bool=false, completed_by:user? label="Completed by"@{nl="Afgerond door"}, completed_at:datetime? label="Completion time"@{nl="Afgerond op"} } label="Board action"@{nl="Bestuursactie"}
+  export Action in Resolution { title:text, owner:user label="Responsible person"@{nl="Verantwoordelijke"}, due:date } completion_evidence label="Board action"@{nl="Bestuursactie"}
   policy Meeting read=board_member or coordinator or secretary
   policy Agenda read=board_member or coordinator or secretary
   policy Resolution read=board_member or coordinator or secretary
@@ -121,11 +122,14 @@ package board label="Governance"@{nl="Bestuur"}
    require (record.owner==actor or secretary) and not record.done and record.parent.outcome==accepted
    do return WorkItem {reference=record.id,revision=record.version,location=record.parent.parent.location.id,title=record.title,detail=record.parent.title,due=local_instant(record.due,"00:00",record.parent.parent.timezone,fold=earlier),action=action(complete,{action=record})}
  Then
+  style BoardWorkspace $"Use a readable meeting-record layout with ordered agenda rows, generous paper and minutes typography, and distinct resolutions and action lists. Clearly mark finalized records and attributed amendments without implying that completed actions change decisions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  view ActionEvidence(row:Action) $"Render the existing admitted Action completion author and time with canonical localized field captions, exact datetime formatting and safe omission of withheld fields. This is evidence only: it cannot complete the action or display parent board papers. Preserve the caller-owned collapse captions, origin read, controls and collection scope."
+   style $"A compact attributed completion stamp: wrap author and time on narrow screens, use existing theme typography, and preserve caller-owned collapse and control behavior."
   preferences { finalized:bool? label=label_Meeting_finalized, amendments_open:bool=false label="Expand meeting amendments"@{nl="Vergaderaanvullingen uitklappen"} }
   # Read ordered papers and retain the finalized minutes with amendments. @{nl="Lees stukken op volgorde en bewaar de definitieve notulen met aanvullingen."}
   page /board title="Board records"@{nl="Bestuursverslagen"}
    require board_member or coordinator or secretary
-   style "Use a readable meeting-record layout with ordered agenda rows, generous paper and minutes typography, and distinct resolutions and action lists. Clearly mark finalized records and attributed amendments without implying that completed actions change decisions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /board page content; keep page admission and the shared shell unchanged."
+   style BoardWorkspace
     breadcrumbs
     card "Meeting intake"@{nl="Vergadering aanmaken"}
      form Meeting.create
@@ -177,7 +181,7 @@ package board label="Governance"@{nl="Bestuur"}
          tooltip "Complete this action"@{nl="Deze actie afronden"}
           button action=complete
          collapse "Completion evidence"@{nl="Bewijs afronding"}
-          text row.completed_by,row.completed_at
+          show ActionEvidence {row=row}
       tab "Final minutes and amendments"@{nl="Definitieve notulen en aanvullingen"}
        form finalized_record
         text result.title,result.at,result.timezone,result.location,result.attendance,result.minutes,result.finalized_by,result.finalized_at
@@ -199,7 +203,7 @@ package board label="Governance"@{nl="Bestuur"}
   # Follow assigned outstanding actions under their own operation. @{nl="Volg toegewezen openstaande acties via hun eigen operatie."}
   page /board/actions title="Board actions"@{nl="Bestuursacties"}
    require members
-   style PageBoardActions2Segment1 "Use a readable meeting-record layout with ordered agenda rows, generous paper and minutes typography, and distinct resolutions and action lists. Clearly mark finalized records and attributed amendments without implying that completed actions change decisions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /board/actions page content; keep page admission and the shared shell unchanged."
+   style BoardWorkspace
     breadcrumbs
     table Action columns=title,owner,due,done order=due filter=done display=split empty="No outstanding actions."@{nl="Geen openstaande acties."}
      pagination
@@ -209,4 +213,4 @@ package board label="Governance"@{nl="Bestuur"}
      tooltip "Complete this action"@{nl="Deze actie afronden"}
       button action=complete
      collapse "Action evidence"@{nl="Actiebewijs"}
-      text row.completed_by,row.completed_at
+      show ActionEvidence {row=row}

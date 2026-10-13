@@ -1,6 +1,0 @@
-## Handwritten field-contribution draft; attach only to the listed existing fields.
-## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
-Application { title:text trim min=1, description:text trim min=1 }
-Comment { body:text trim min=1 }
-Withdrawal { reason:text trim min=1 }
-Recovery { reason:text trim min=1 }

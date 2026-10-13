@@ -1,0 +1,1 @@
+  export Action in Resolution { title:text, owner:user label="Responsible person"@{nl="Verantwoordelijke"}, due:date, done:bool=false, completed_by:user? label="Completed by"@{nl="Afgerond door"}, completed_at:datetime? label="Completion time"@{nl="Afgerond op"} } label="Board action"@{nl="Bestuursactie"}

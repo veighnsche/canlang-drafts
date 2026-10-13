@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "approve",
+  "source": "apps/CanApprove/CanApprove.can",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "cbc5aab0-946c-4fe5-b500-8666af26aa2f",
+  "kind": "style",
+  "page": null,
+  "view": "SubmittedVersionStatus",
+  "label": null,
+  "prompt": "Align the version state badge and overdue status as a compact labeled status group with clear spacing. Wrap at narrow widths, inherit theme and typography, and retain canonical status words and accessible indicator semantics without relying on color alone.",
+  "profile": "frontend",
+  "source_line": 273,
+  "draft_source_key": "[\"approve\",\"view\",\"SubmittedVersionStatus\",null]",
+  "target": "browser-css",
+  "style_scope": "inline"
+}

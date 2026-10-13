@@ -1,0 +1,3 @@
+## Handwritten field-contribution draft; attach only to the listed existing field.
+## This partial envelope preserves the source-owned default/constraint; it is not a model redeclaration.
+Suggestion { hidden:bool=true }

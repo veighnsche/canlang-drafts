@@ -187,10 +187,11 @@ package chat
     observed_request.result,pending_run.unfinished,held_tokens.running -> pending_run.used,held_tokens.held,held_tokens.spent,held_tokens.running,count(branch.Turn)
     TextRun {source="chat-fixture",revision=1,sequence=2,state=cancelled,content="",used_tokens=42,detail=null},false,0 -> 42,0,42,0,1
  Then
+  style ChatWorkspace $"Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   # Read current authorized snapshots; reconnecting never resubmits a message. @{nl="Lees actuele toegestane momentopnamen; opnieuw verbinden verstuurt nooit opnieuw een bericht."}
   page /chat title="Conversations"@{nl="Gesprekken"} poll=1s
    require members
-   style "Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /chat page content; keep page admission and the shared shell unchanged."
+   style ChatWorkspace
     breadcrumbs
     form open
      input title
@@ -289,7 +290,7 @@ package chat
      pagination
   page /chat/recovery title="Unresolved usage"@{nl="Onopgelost gebruik"} poll=1s
    require members
-   style PageChatRecovery2Segment1 "Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /chat/recovery page content; keep page admission and the shared shell unchanged."
+   style ChatWorkspace
     breadcrumbs
     alert
      text "Stopping is a request. Unknown usage stays reserved until the provider confirms it."@{nl="Stoppen is een verzoek. Onbekend gebruik blijft gereserveerd totdat de aanbieder het bevestigt."}
@@ -335,7 +336,7 @@ package chat
      actions stop,reconcile,release_skipped
   page /chat/admin title="AI access and limits"@{nl="AI-toegang en limieten"}
    require ai_manager
-   style PageChatAdmin3Segment1 "Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /chat/admin page content; keep page admission and the shared shell unchanged."
+   style ChatWorkspace
     breadcrumbs
     form Profile.create
      fieldset "Model"@{nl="Model"}

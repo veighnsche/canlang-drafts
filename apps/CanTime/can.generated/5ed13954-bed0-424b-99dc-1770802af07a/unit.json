@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanTime/CanTime.can",
   "owner": "time",
-  "page": "/time/mine",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /time/mine page content; keep page admission and the shared shell unchanged.",
+  "label": "TimeWorkspace",
+  "prompt": "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 255,
-  "draft_source_key": "[\"time\",\"page\",\"/time/mine\",null]",
+  "source_line": 251,
+  "draft_source_key": "[\"time\",\"style\",\"TimeWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

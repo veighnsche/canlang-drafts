@@ -1,3 +1,0 @@
-## Handwritten field-contribution draft; attach only to the listed existing fields.
-## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
-AcceptedFact { reason:text trim min=1 }

@@ -155,7 +155,7 @@ package stats
   # Inspect configured sites and clearly labeled tracker-observed goals. @{nl="Bekijk ingestelde websites en duidelijk gelabelde doelen die de tracker heeft waargenomen."}
   page /traffic title="Website traffic"@{nl="Websiteverkeer"} poll=5s
    require analyst
-   style "Use restrained traffic-report rows with readable ranges, observed events, and identifier coverage. Clearly label weighted estimates and goals; keep intake health and accepted event evidence accessible without making observed inquiries resemble confirmed sales. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /traffic page content; keep page admission and the shared shell unchanged."
+   style $"Use restrained traffic-report rows with readable ranges, observed events, and identifier coverage. Clearly label weighted estimates and goals; keep intake health and accepted event evidence accessible without making observed inquiries resemble confirmed sales. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /traffic page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     card "Configured site and reporting range"@{nl="Ingestelde website en rapportagebereik"}
      list Site as site where preferences.site==null or site==preferences.site empty="No configured sites"@{nl="Geen ingestelde websites"}

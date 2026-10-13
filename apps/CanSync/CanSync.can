@@ -172,7 +172,7 @@ package sync label="CRM synchronization"@{nl="CRM-synchronisatie"}
   # Inspect observations, approve exact corrections and retain unresolved provider outcomes. @{nl="Bekijk waarnemingen, keur exacte correcties goed en bewaar onopgeloste externe uitkomsten."}
   page /sync title="CRM synchronization"@{nl="CRM-synchronisatie"} poll=5s
    require operator or reviewer
-   style "Use compact linked-account rows and balanced correction comparisons. Clearly separate observed remote values, desired changes, review decisions, and write outcomes; keep failed or uncertain attempts legible alongside baseline revisions and recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sync page content; keep page admission and the shared shell unchanged."
+   style $"Use compact linked-account rows and balanced correction comparisons. Clearly separate observed remote values, desired changes, review decisions, and write outcomes; keep failed or uncertain attempts legible alongside baseline revisions and recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sync page content; keep page admission and the shared shell unchanged."
     ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
     breadcrumbs
     tabs preferences.view

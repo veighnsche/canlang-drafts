@@ -1,0 +1,20 @@
+{
+  "unit_id": "e55dbd9a-2643-4ec0-9fc4-f4588f1dac16",
+  "abi_version": 1,
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "source": "apps/CanBoard/CanBoard.can",
+  "owner": "board",
+  "page": null,
+  "view": "ActionEvidence",
+  "label": null,
+  "prompt": "A compact attributed completion stamp: wrap author and time on narrow screens, use existing theme typography, and preserve caller-owned collapse and control behavior.",
+  "profile": "frontend",
+  "source_line": 127,
+  "draft_source_key": "[\"board\",\"view\",\"ActionEvidence\",null]",
+  "style_scope": "inline"
+}

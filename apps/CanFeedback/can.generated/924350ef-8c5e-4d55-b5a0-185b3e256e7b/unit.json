@@ -1,0 +1,33 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "profile": "shared",
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "unit_id": "924350ef-8c5e-4d55-b5a0-185b3e256e7b",
+  "kind": "given_trait",
+  "owner": "feedback",
+  "label": "pending_review",
+  "source": "apps/CanFeedback/CanFeedback.can",
+  "declaration_selector": "feedback.pending_review",
+  "prompt": "Default a submitted suggestion to hidden, preserving the existing product-owner review before public publication. Keep the contributor-edit hook, moderation operations and policies unchanged. Preserve the boolean type and localized label; add no fields or grants.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Suggestion",
+      "field": "hidden",
+      "type": "bool"
+    }
+  ],
+  "export_roles": [
+    "defaultValue"
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
+  "source_replacement": {
+    "original": "hidden:bool=true",
+    "replacement": "hidden:bool pending_review"
+  },
+  "source_behavior_scope": "original full owning model declaration"
+}

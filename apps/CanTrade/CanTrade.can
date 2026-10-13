@@ -7,13 +7,13 @@ package trade
  use member_terms {eligible_term,Term,paid_term as paid,allocated}
  use customer {test_admin,test_contact}
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
+  trait member_audience $"Default a community listing to the existing members-only audience. Keep public publication an explicit choice governed by the current audience record and membership guards. Preserve enum cases, labels and every existing permission and operation; add no fields or grants."
   message label_Post_author = "Recorded by"@{nl="Vastgelegd door"}
   message label_Post_category = "Category"@{nl="Categorie"}
   role moderator label="Moderator"@{nl="Moderator"}
   Audience { key:text="community" unique, allow_public:bool=false label="Allow public listings"@{nl="Openbare advertenties toestaan"} } label="Marketplace audience"@{nl="Marktplaatsdoelgroep"}
-  Post { author:user server=actor label=label_Post_author, location:Location?, kind:enum(wanted,offered) label={text="Kind"@{nl="Soort"},values={wanted="Wanted"@{nl="Gezocht"},offered="Offered"@{nl="Aangeboden"}}}, category:text label=label_Post_category, title:text nonempty, description:text, amount:money?, contact:text label="Published contact"@{nl="Gepubliceerd contact"}, visibility:enum(member,public)=member label={text="Published audience"@{nl="Publicatiedoelgroep"},values={member="Members only"@{nl="Alleen leden"},public="Public"@{nl="Openbaar"}}}, state:enum(active,closed,removed)=active label={text="State"@{nl="Status"},values={active="Active"@{nl="Actief"},closed="Closed"@{nl="Gesloten"},removed="Removed"@{nl="Verwijderd"}}}, moderation_reason:text? label="Moderation reason"@{nl="Moderatiereden"} } label="Community listing"@{nl="Communityadvertentie"}
-  Report in Post { author:user server=actor label=label_Post_author, reason:text nonempty, dismissed:bool=false label="Dismissed"@{nl="Afgewezen"}, decision:text? label="Decision"@{nl="Besluit"} } label="Listing report"@{nl="Advertentiemelding"}
+  Post { author:user server=actor label=label_Post_author, location:Location?, kind:enum(wanted,offered) label={text="Kind"@{nl="Soort"},values={wanted="Wanted"@{nl="Gezocht"},offered="Offered"@{nl="Aangeboden"}}}, category:text label=label_Post_category, title:text trim min=1, description:text, amount:money?, contact:text label="Published contact"@{nl="Gepubliceerd contact"}, visibility:enum(member,public) member_audience label={text="Published audience"@{nl="Publicatiedoelgroep"},values={member="Members only"@{nl="Alleen leden"},public="Public"@{nl="Openbaar"}}}, state:enum(active,closed,removed)=active label={text="State"@{nl="Status"},values={active="Active"@{nl="Actief"},closed="Closed"@{nl="Gesloten"},removed="Removed"@{nl="Verwijderd"}}}, moderation_reason:text? label="Moderation reason"@{nl="Moderatiereden"} } label="Community listing"@{nl="Communityadvertentie"}
+  Report in Post { author:user server=actor label=label_Post_author, reason:text trim min=1, dismissed:bool=false label="Dismissed"@{nl="Afgewezen"}, decision:text? label="Decision"@{nl="Besluit"} } label="Listing report"@{nl="Advertentiemelding"}
   derive eligible(account:user,location:Location?):bool = any(Term as term,eligible_term(account,term,now) and (location==null or (location.active and location in term.locations)))
   derive Report.resolved:bool = row.dismissed or row.parent.state==removed label="Resolved"@{nl="Afgehandeld"}
   policy Audience read=owner
@@ -78,10 +78,11 @@ package trade
     moderator,"No abuse found",true -> error(rule_failed)
     members,"No abuse found",false -> error(forbidden)
  Then
+  style TradeWorkspace $"Use approachable community listing rows with readable descriptions and clear wanted or offered labels. Keep deliberate contact visibility prominent in authoring; distinguish published listings, own drafts or closed entries, and moderation reasons within their existing views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, category:text? label=label_Post_category, kind:Post.kind?, view:enum(community,mine)=community label={text="Initial view"@{nl="Beginweergave"},values={community="Community listings"@{nl="Communityadvertenties"},mine="My listings"@{nl="Mijn advertenties"}}} }
   # Find active community listings and publish only contact details you deliberately choose. @{nl="Vind actieve communityadvertenties en publiceer alleen contactgegevens die je bewust kiest."}
   page /marketplace title="Community marketplace"@{nl="Communitymarktplaats"}
-   style "Use approachable community listing rows with readable descriptions and clear wanted or offered labels. Keep deliberate contact visibility prominent in authoring; distinguish published listings, own drafts or closed entries, and moderation reasons within their existing views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /marketplace page content; keep page admission and the shared shell unchanged."
+   style TradeWorkspace
     breadcrumbs
     card "Publish a listing"@{nl="Een advertentie publiceren"}
      require authenticated and actor.email_verified and eligible(actor,null)
@@ -130,7 +131,7 @@ package trade
   # Resolve reported listings under a separate moderation grant. @{nl="Behandel gemelde advertenties onder een afzonderlijke moderatiebevoegdheid."}
   page /marketplace/reports title="Listing reports"@{nl="Advertentiemeldingen"}
    require moderator or owner
-   style PageMarketplaceReports2Segment1 "Use approachable community listing rows with readable descriptions and clear wanted or offered labels. Keep deliberate contact visibility prominent in authoring; distinguish published listings, own drafts or closed entries, and moderation reasons within their existing views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /marketplace/reports page content; keep page admission and the shared shell unchanged."
+   style TradeWorkspace
     breadcrumbs
     card "Publication audience"@{nl="Publicatiedoelgroep"}
      require owner

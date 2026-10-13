@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanApprove/CanApprove.can",
   "owner": "approve",
-  "page": "/documents",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Style document submissions as a calm review workspace with version-first rows, clear due dates, and labeled pending or decided states. Give exact files and decision reasons prominence; keep review history secondary but accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /documents page content; keep page admission and the shared shell unchanged.",
+  "label": "ApproveWorkspace",
+  "prompt": "Style document submissions as a calm review workspace with version-first rows, clear due dates, and labeled pending or decided states. Give exact files and decision reasons prominence; keep review history secondary but accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 275,
-  "draft_source_key": "[\"approve\",\"page\",\"/documents\",null]",
+  "source_line": 271,
+  "draft_source_key": "[\"approve\",\"style\",\"ApproveWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }

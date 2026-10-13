@@ -119,7 +119,7 @@ package report
   # Compare booked and recorded occupancy, cash receipts, balances and service backlog. @{nl="Vergelijk gereserveerde en vastgelegde bezetting, ontvangen betalingen, saldi en serviceachterstand."}
   page /reports title="Operational reports"@{nl="Operationele rapporten"}
    require manager
-   style "Use precise report rows with clear source, revision, unit, currency, and provisional labels. Give run checkpoints and completeness prominent context; align numeric measures while keeping missing or uncertain coverage visible beside the authorized results. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reports page content; keep page admission and the shared shell unchanged."
+   style $"Use precise report rows with clear source, revision, unit, currency, and provisional labels. Give run checkpoints and completeness prominent context; align numeric measures while keeping missing or uncertain coverage visible beside the authorized results. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reports page content; keep page admission and the shared shell unchanged."
     breadcrumbs
     card "Existing report definitions"@{nl="Bestaande rapportdefinities"}
      list Definition as definition where preferences.definition==null or definition==preferences.definition empty="No report definitions available."@{nl="Geen rapportdefinities beschikbaar."}

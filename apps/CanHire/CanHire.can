@@ -13,7 +13,6 @@ package hire label="Recruitment"@{nl="Werving"}
  use std {DeliveryResult}
  use shift {ScheduleV1 as StaffSchedule} from=deployment.staff_schedule
  Given
-  trait nonempty "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults."
   message heading_own_application_outcomes = "Own application outcomes"@{nl="Eigen sollicitatieresultaten"}
   message label_interviewer = "Interviewer"@{nl="Interviewer"}
   message label_Candidate_application = "Application text"@{nl="Sollicitatietekst"}
@@ -25,7 +24,7 @@ package hire label="Recruitment"@{nl="Werving"}
   message label_Interview_feedback = "Interview feedback"@{nl="Gespreksfeedback"}
   role recruiter label="Recruiter"@{nl="Recruiter"}
   role interviewer label=label_interviewer
-  Vacancy { location:Location, title:text nonempty, description:text, employment:text label="Employment type"@{nl="Dienstverband"}, skills:text[] label="Skills"@{nl="Vaardigheden"}, owner:user server=actor label="Owner"@{nl="Eigenaar"}, published:bool=false label="Published"@{nl="Gepubliceerd"}, open:bool=true label="Open"@{nl="Open"}, retention_days:int=180 min=1 label="Candidate retention days"@{nl="Bewaartermijn kandidaten in dagen"}, retention_until:datetime? label="Candidate expiry"@{nl="Vervaldatum kandidaten"}, closed_at:datetime? label="Closed at"@{nl="Gesloten op"} } label="Vacancy"@{nl="Vacature"}
+  Vacancy { location:Location, title:text trim min=1, description:text, employment:text label="Employment type"@{nl="Dienstverband"}, skills:text[] label="Skills"@{nl="Vaardigheden"}, owner:user server=actor label="Owner"@{nl="Eigenaar"}, published:bool=false label="Published"@{nl="Gepubliceerd"}, open:bool=true label="Open"@{nl="Open"}, retention_days:int=180 min=1 label="Candidate retention days"@{nl="Bewaartermijn kandidaten in dagen"}, retention_until:datetime? label="Candidate expiry"@{nl="Vervaldatum kandidaten"}, closed_at:datetime? label="Closed at"@{nl="Gesloten op"} } label="Vacancy"@{nl="Vacature"}
   Candidate in Vacancy { account:user? label="Account"@{nl="Account"}, name:text, email:email, application:text label=label_Candidate_application, cv:file? label=label_Candidate_cv, source:text label=label_Candidate_source, stage:enum(applied,interview,offer,hired,rejected,withdrawn)=applied label={text="Hiring stage"@{nl="Sollicitatiefase"},values={applied="Applied"@{nl="Gesolliciteerd"},interview=label_Candidate_stage_interview,offer="Offer"@{nl="Aanbod"},hired="Hired"@{nl="Aangenomen"},rejected="Rejected"@{nl="Afgewezen"},withdrawn="Withdrawn"@{nl="Ingetrokken"}}}, reason:text?, previous_stage:Candidate.stage? label="Previous active stage"@{nl="Vorige actieve fase"}, onboarding_reference:text? label="Onboarding reference"@{nl="Inwerkreferentie"}, identity_review:text? label="Reviewed account evidence"@{nl="Bewijs beoordeeld account"} } label="Candidate"@{nl="Kandidaat"}
   Interview in Candidate { interviewer:Employee label=label_interviewer, from:datetime label=label_Interview_from, until:datetime label=label_Interview_until, timezone:timezone, notes:text?, feedback:text? label=label_Interview_feedback, state:enum(pending,confirmed,cancelled,unavailable,failed)=pending label={text="State"@{nl="Status"},values={pending="Pending"@{nl="In afwachting"},confirmed="Confirmed"@{nl="Bevestigd"},cancelled="Cancelled"@{nl="Geannuleerd"},unavailable="Unavailable"@{nl="Niet beschikbaar"},failed="Failed"@{nl="Mislukt"}}}, previous:Interview? label="Retained interview"@{nl="Behouden gesprek"}, source:text unique label=label_Candidate_source, release_delivery:text? label="Release reference"@{nl="Vrijgavereferentie"}, release_state:enum(none,pending,released,failed,unknown)=none label={text="Reservation release"@{nl="Reservering vrijgeven"},values={none="Not requested"@{nl="Niet aangevraagd"},pending="Pending"@{nl="In afwachting"},released="Released"@{nl="Vrijgegeven"},failed="Failed"@{nl="Mislukt"},unknown="Unknown"@{nl="Onbekend"}}}, delivery:text? label="Delivery reference"@{nl="Verzendingsreferentie"}, notice_delivery:delivery(Mail.send)? label="Reminder reference"@{nl="Herinneringsreferentie"} } label=label_Candidate_stage_interview
   ## Reminder state observes the Mail receipt; null renders the standard not-requested state.
@@ -283,10 +282,13 @@ package hire label="Recruitment"@{nl="Werving"}
     send Mail.send {to=event.interview.parent.email,subject=format("Interview reminder"@{nl="Herinnering sollicitatiegesprek"},locale=null),body=event.interview.parent.parent.title} when=event.interview.state==confirmed and event.interview.parent.stage in [applied,interview,offer] and event.interview.interviewer.active and can_work(event.interview.interviewer.user,event.interview.parent.parent.location) as notice
     set event.interview {notice_delivery=notice}
  Then
+  style HireWorkspace $"Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  view CandidateApplication(row:Candidate) $"Present only the admitted candidate application and optional CV in their original order with canonical localized field captions, exact text and file formatting, null handling and safe omission of withheld fields. Keep the candidate name, stage, canonical Download CV link, recruiter-only reason, interview evidence, forms and all permissions at the use site. Do not reveal email, account, source or interview feedback."
+   style $"Give the application readable line length and wrapping, with a compact separated CV summary below it. Inherit the hiring page typography and theme and stack naturally at narrow widths. Preserve localized file and missing-file presentation and withheld-field omission."
   preferences { location:Location?, stage:Candidate.stage? }
   # Find published vacancies and submit your own application. @{nl="Vind gepubliceerde vacatures en dien je eigen sollicitatie in."}
   page /careers title="Careers"@{nl="Vacatures"}
-   style "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /careers page content; keep page admission and the shared shell unchanged."
+   style HireWorkspace
     breadcrumbs
     hero "Join our team"@{nl="Kom bij ons werken"}
      text "Published openings welcome your application."@{nl="Gepubliceerde vacatures staan open voor je sollicitatie."}
@@ -307,7 +309,7 @@ package hire label="Recruitment"@{nl="Werving"}
   page /careers/mine title="My applications"@{nl="Mijn sollicitaties"}
    breadcrumbs
    require authenticated
-   style PageCareersMine2Segment1 "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /careers/mine page content; keep page admission and the shared shell unchanged."
+   style HireWorkspace
     ## In-context saved default for the stage filter below.
     filter preferences.stage
     card heading_own_application_outcomes
@@ -315,7 +317,7 @@ package hire label="Recruitment"@{nl="Werving"}
       pagination
       details heading_own_application_outcomes display=drawer
        badge row.stage
-       text row.application,row.cv
+       show CandidateApplication {row=row}
        ## Nullable file target: lane-05 handoff — shared unavailable presentation when no CV was supplied.
        link target=row.cv caption="Download CV"@{nl="CV downloaden"}
        tooltip "Withdraws your application and cancels interviews"@{nl="Trekt je sollicitatie in en annuleert gesprekken"}
@@ -325,7 +327,7 @@ package hire label="Recruitment"@{nl="Werving"}
   page /hiring title="Hiring"@{nl="Werving"}
    breadcrumbs
    require recruiter
-   style PageHiring3Segment1 "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /hiring page content; keep page admission and the shared shell unchanged."
+   style HireWorkspace
     ## In-context saved default for the stage filter below.
     filter preferences.stage
     card "Vacancy authoring"@{nl="Vacatures beheren"}
@@ -363,7 +365,8 @@ package hire label="Recruitment"@{nl="Werving"}
       list row.Candidate filter=stage defaults={stage=preferences.stage} empty="No candidates."@{nl="Geen kandidaten."}
        pagination
        badge row.stage
-       text row.name,row.application,row.cv
+       text row.name
+       show CandidateApplication {row=row}
        ## Nullable file target: same lane-05 handoff as the applicant drawer above.
        link target=row.cv caption="Download CV"@{nl="CV downloaden"}
        card "Recruiter decision"@{nl="Besluit van de recruiter"}
@@ -416,7 +419,7 @@ package hire label="Recruitment"@{nl="Werving"}
   page /hiring/handoff title="Hiring handoff"@{nl="Wervingsoverdracht"}
    breadcrumbs
    require hr
-   style PageHiringHandoff4Segment1 "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /hiring/handoff page content; keep page admission and the shared shell unchanged."
+   style HireWorkspace
     card "Reviewed employee identity"@{nl="Beoordeelde medewerkeridentiteit"}
      form Employee.create
      list Candidate as candidate where candidate.stage==hired and candidate.onboarding_reference==null empty="No pending handoffs."@{nl="Geen openstaande overdrachten."}
@@ -428,7 +431,7 @@ package hire label="Recruitment"@{nl="Werving"}
   page /hiring/interviews title="My interviews"@{nl="Mijn gesprekken"}
    breadcrumbs
    require interviewer
-   style PageHiringInterviews5Segment1 "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /hiring/interviews page content; keep page admission and the shared shell unchanged."
+   style HireWorkspace
     list Interview as interview where interview.interviewer.user==actor and interview.interviewer.active and can_work(actor,interview.parent.parent.location) and interview.state==confirmed order=from empty="No assigned interviews."@{nl="Geen toegewezen gesprekken."}
      pagination
      text row.parent.name,row.parent.application,row.parent.cv,row.from,row.until,row.timezone,row.feedback

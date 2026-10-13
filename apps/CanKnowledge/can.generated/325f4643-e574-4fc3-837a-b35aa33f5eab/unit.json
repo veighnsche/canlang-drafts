@@ -5,15 +5,16 @@
   "origin": "handwritten-script",
   "source": "apps/CanKnowledge/CanKnowledge.can",
   "owner": "knowledge",
-  "page": "/knowledge",
+  "page": null,
   "view": null,
-  "label": null,
-  "prompt": "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge page content; keep page admission and the shared shell unchanged.",
+  "label": "KnowledgeWorkspace",
+  "prompt": "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 271,
-  "draft_source_key": "[\"knowledge\",\"page\",\"/knowledge\",null]",
+  "source_line": 268,
+  "draft_source_key": "[\"knowledge\",\"style\",\"KnowledgeWorkspace\",null]",
   "abi_version": 1,
   "provider": null,
   "model": null,
-  "target": "browser-css"
+  "target": "browser-css",
+  "style_scope": "definition"
 }
