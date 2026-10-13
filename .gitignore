@@ -5,3 +5,4 @@ __pycache__/
 
 # Actual Playwright captures and reports; references and approved baselines stay tracked.
 apps/*/playwright/results/
+apps/*/.can/
