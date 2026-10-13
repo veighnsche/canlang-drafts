@@ -217,7 +217,7 @@ package affiliate
   # Maintain agreement rates and inspect source sales without repricing previous commission. @{nl="Beheer overeenkomsttarieven en bekijk bronverkopen zonder eerdere commissies te herberekenen."}
   page /partners title="Partners"@{nl="Partners"} $AffiliateWorkspace
    require partner_manager or finance
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    ## Explicit controls restyle declared create inputs only; unmentioned eligible inputs keep generated controls.
    ## `active` is not in create_fields, so it has no control here.

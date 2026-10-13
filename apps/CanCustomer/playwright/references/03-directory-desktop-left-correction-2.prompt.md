@@ -1,0 +1,1 @@
+Edit one label ONLY: inside ADD CONTACT creation form, change its fourth input label Account to External identity and placeholder to External identity. This field is external_id, never a verified account assignment. Leave CONTACT LIST TABLE column Account and verified account-user sample unchanged. Do not change anything else, especially canonical left sidebar.

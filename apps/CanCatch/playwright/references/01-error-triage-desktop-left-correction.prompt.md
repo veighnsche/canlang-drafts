@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Delete ONLY Tasks navigation row. LEFT sidebar has exactly Application errors below CanCatch, Developer bottom-left. All content unchanged. Preserve entire LEFT shell and desktop page. No frame/collage.

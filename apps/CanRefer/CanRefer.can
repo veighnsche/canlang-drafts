@@ -161,7 +161,7 @@ package refer
   # Share your configured referral destination and trace earned, paid and owed balances. @{nl="Deel de ingestelde verwijzingsbestemming en volg verdiende, betaalde en verschuldigde saldi."}
   page /referrals title="Referrals"@{nl="Verwijzingen"} $ReferWorkspace
    require authenticated and actor.email_verified
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Programs and your referral code"@{nl="Programma's en je verwijzingscode"}
     list Program

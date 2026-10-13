@@ -167,7 +167,7 @@ package crm label="Sales"@{nl="Verkoop"}
   # Review prospects, location needs and dated follow-up. @{nl="Bekijk prospects, locatiebehoeften en gedateerde vervolgacties."}
   page /sales title="Sales pipeline"@{nl="Verkoopkansen"} $"Favor scannable sales opportunity rows, customer context, and dated next actions. Emphasize stage and overdue follow-up without hiding details; align the selected-currency pipeline values and keep duplicate review comparisons readable. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sales page content; keep page admission and the shared shell unchanged."
    require salesperson
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Customer opportunity intake"@{nl="Klantverkoopkans aanmaken"}
     form Customer.create import=csv review=duplicate_customers

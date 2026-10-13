@@ -321,12 +321,12 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
      set commitment {active=false,revision=event.revision}
     emit ReservationOutcome {value={source=event.source,revision=event.revision,state=released,reference=event.source}}
  Then
-  style ShiftWorkspace $"Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  style ShiftWorkspace $"Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged. Present dated commitments as an agenda with nested duty and notice rows; keep assignment fields in a compact grid and per-window coverage rows below the agenda. On narrow screens retain interval, location, skill, publication revision and notice status in labeled cards."
   preferences { location:Location? }
   # Plan drafts, publish coverage and resolve current commitments. @{nl="Plan concepten, publiceer bezetting en los huidige inzetverplichtingen op."}
   page /roster title=title_roster $ShiftWorkspace
    require scheduler
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    form Roster.create
    list Roster

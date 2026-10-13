@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Change ONLY old executed Recorded term pricing below modal to EUR 1,000 monthly. Keep renewal modal pricing EUR1,100 monthly. Old and renewal are different snapshots. All else unchanged. Preserve entire LEFT shell and desktop page. No frame/collage.

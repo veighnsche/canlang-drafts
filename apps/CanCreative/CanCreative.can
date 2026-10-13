@@ -188,7 +188,7 @@ package creative
     observed_request.result,pending_run.unfinished,held_budget.running -> pending_run.used,held_budget.held,held_budget.spent,held_budget.running
     ImageRun {source="creative-pending",revision=1,sequence=3,state=cancelled,outputs=[],charged_jobs=1,detail=null},false,0 -> 1,0,1,0
  Then
-  style CreativeWorkspace $"Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  style CreativeWorkspace $"Use balanced prompt and negative-prompt columns on desktop, with size and context on one compact row; keep run receipt labels beside each preview and arrange workflow mapping inputs in aligned node/key pairs. Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   page /creative title="Image studio"@{nl="Beeldstudio"} poll=1s $CreativeWorkspace
    require members
    breadcrumbs

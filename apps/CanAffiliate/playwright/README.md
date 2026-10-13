@@ -1,0 +1,23 @@
+# CanAffiliate browser acceptance
+
+[Source](../CanAffiliate.can) and [requirements](../CanAffiliate.md) own this app's behavior. The local entry uses the shared suite to derive current selection, routes and inline examples; it starts the real dev preview and refuses unsupported runtime coverage. No parallel app manifest is authoritative.
+
+```sh
+bun run test:draft -- CanAffiliate/playwright/app.spec.ts
+bun run test:draft:coverage -- CanAffiliate
+```
+
+Declared routes: `/partners`, `/partners/mine`, `/partners/share/{Partner.id}`. Selected-app compilation must establish which routes belong to each declared composition.
+
+Browser setup requires verified team identities with `partner_manager`, `finance` grants. The default Ava/Ben preview memberships have no custom role grants; team ownership is insufficient. Authored fixtures available to the example runner: `sale`, `payout`, `attributed`. These isolated example fixtures do not seed the serving browser. Resolve genuine imported declarations: `rent_catalog {Location,test_site}`; `employee {can_work,test_worker}`; `invoice {SalesV1 as Sales,Qualification} from=deployment.qualified_sales`; `affiliate {CommissionV1 as Commissions} from=deployment.commissions`; `sales_attribution {capture}`. Provision owning records and declared file/provider resources under their actual authority before populated journeys; record an unavailable binding with its owner and release condition.
+
+Required app journeys:
+
+- Finance opens a qualifying sale, checks its frozen rate and later refund adjustment, requests settlement, and can distinguish reserved commission, provider allocation and confirmed bank delivery through a timeout.
+- A verified partner downloads their statement and follows its settlement references while another partner's sales and customer details remain inaccessible.
+
+Required browser states include the permitted empty and populated route, in-flight canonical submission, validation error with corrected retry, failure with retained input, denied route/control/direct request, and reload of committed data. Exercise only states meaningful for the declared operation; provider uncertainty must retain its app-defined state rather than becoming success. Check desktop and narrow-screen navigation, focus, labels, dialogs/drawers, filtering/paging and personal settings where authored.
+
+Semantic browser journey bodies for the workflows above remain unimplemented until the real role/data/resource setup is available. Passing source examples and route checks do not establish all functionality or every UI state. Coverage must keep this gap visible and must not convert it into skipped, placeholder or passing semantic tests.
+
+`references/` holds design concepts; these are not screenshots of a running app. Actual captures and comparison results belong in results, and accepted runtime baselines remain separate. Tolerant visual checks should compare composition, spacing, readability and responsive structure while allowing small rendering/font differences; reference similarity alone cannot establish functional correctness. Missing references, baselines, captures or semantic states remain explicit coverage gaps.

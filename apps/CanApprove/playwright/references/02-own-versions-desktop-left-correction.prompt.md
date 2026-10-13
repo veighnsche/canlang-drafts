@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Delete ONLY invented Documents, Approvals, Reports and Settings rows from LEFT sidebar. It must have exactly My submissions. Do not add any rows. Keep top-left CanApprove and bottom-left Submitter; all content unchanged. Preserve entire LEFT shell and desktop page. No frame/collage.

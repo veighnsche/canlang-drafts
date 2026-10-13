@@ -171,7 +171,7 @@ package catch
   # Triage configured projects without SDK-key, quota or retention settings tools. @{nl="Beoordeel geconfigureerde projecten zonder instellingen voor SDK-sleutels, quota of bewaartermijnen."}
   page /errors title="Application errors"@{nl="Applicatiefouten"} $"Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged."
    require developer
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    ## View-settings drawer: inline presentation of the same catch preferences available in the shared dialog.
    drawer "Triage view settings"@{nl="Weergave-instellingen triage"}

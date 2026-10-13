@@ -1,0 +1,25 @@
+# CanInvoice browser acceptance
+
+[Source](../CanInvoice.can) and [requirements](../CanInvoice.md) own this app's behavior. The local entry uses the shared suite to derive current selection, routes and inline examples; it starts the real dev preview and refuses unsupported runtime coverage. No parallel app manifest is authoritative.
+
+```sh
+bun run test:draft -- CanInvoice/playwright/app.spec.ts
+bun run test:draft:coverage -- CanInvoice
+```
+
+Declared routes: `/finance/invoice-history`, `/finance/my-invoices`, `/finance/invoices`, `/finance/invoice/{Invoice.id}`. Selected-app compilation must establish which routes belong to each declared composition.
+
+Browser setup requires verified team identities with the current source-defined member and account grants. The default Ava/Ben preview memberships have no custom role grants; team ownership is insufficient. Authored fixtures available to the example runner: `legacy_document`, `legacy_invoice`, `legacy_edge`, `test_invoice`, `test_payment`, `test_refund`, `reconciliation_attempt`, `pending_reconciliation`, `outside_site`, `test_credit`, `test_defaults`, `test_profile`, `test_external`, `customer_history`, `commercial_sale`. These isolated example fixtures do not seed the serving browser. Resolve genuine imported declarations: `customer {Customer,BillingProfile,owns,has_role,test_company,test_contact,test_billing}`; `rent_catalog {Location,test_site}`; `rent_reservations {LegacyBooking,retain_legacy as retain_booking,history_user,history_worker,legacy_source,legacy_booking}`; `employee {can_work,test_worker}`; `std {PaymentState,OperationOutcome,DeliveryResult}`; `std {EmailV1 as Mail} from=deployment.mail`; `std {PaymentsV1 as Payments} from=deployment.payments`; `invoice {BillingIngressV1 as BillingRequests} from=deployment.billing_ingress`; `invoice {DocumentsV1 as Documents} from=deployment.documents`; `invoice {SalesIngressV1 as SalesRequests} from=deployment.sales_ingress`. Provision owning records and declared file/provider resources under their actual authority before populated journeys; record an unavailable binding with its owner and release condition.
+
+Required app journeys:
+
+- after membership expiry, a verified billing contact opens their invoice, prints its frozen identities/lines and pays the full current balance; provider return shows pending until confirmed settlement, then a separate receipt.
+- finance credits an issued invoice during uncertain collection; obsolete checkout disables and the queue retains reconciliation/refund obligations. A stale draft edit preserves input, while later customer/address changes leave the issued document unchanged.
+
+Required browser states include the permitted empty and populated route, in-flight canonical submission, validation error with corrected retry, failure with retained input, denied route/control/direct request, and reload of committed data. Exercise only states meaningful for the declared operation; provider uncertainty must retain its app-defined state rather than becoming success. Check desktop and narrow-screen navigation, focus, labels, dialogs/drawers, filtering/paging and personal settings where authored.
+
+Exact authored empty captions: “No historical invoices match this lookup”; “No historical invoices retained yet”; “No booking links retained for this invoice”; “No own invoices match these filters”; “No documents generated yet”; “No document requests yet”; “No lines on this invoice”; “No payment attempts yet”; “No customers available”; “No invoices match these filters”; “No attempts recorded yet”; “No observation requests yet”; “No external payments recorded”; “No external refunds recorded”; “No credits recorded”; “No commercial history reviewed yet”.
+
+Semantic browser journey bodies for the workflows above remain unimplemented until the real role/data/resource setup is available. Passing source examples and route checks do not establish all functionality or every UI state. Coverage must keep this gap visible and must not convert it into skipped, placeholder or passing semantic tests.
+
+`references/` holds design concepts; these are not screenshots of a running app. Actual captures and comparison results belong in results, and accepted runtime baselines remain separate. Tolerant visual checks should compare composition, spacing, readability and responsive structure while allowing small rendering/font differences; reference similarity alone cannot establish functional correctness. Missing references, baselines, captures or semantic states remain explicit coverage gaps.

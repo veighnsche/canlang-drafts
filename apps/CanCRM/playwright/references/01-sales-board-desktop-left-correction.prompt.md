@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Delete ONLY the invented Record reviewed link and external icon at TOP RIGHT of drawer. Leave empty space after creation time. All else unchanged; do not add replacement control. Preserve entire LEFT shell and desktop page. No frame/collage.

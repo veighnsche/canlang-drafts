@@ -351,7 +351,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
   # Receive, locate and resolve mail while restricting physical storage information. @{nl="Ontvang, lokaliseer en handel post af terwijl fysieke opslaginformatie afgeschermd blijft."}
   page /mailroom title="Mail and parcels"@{nl="Post en pakketten"} order=2 $MailroomWorkspace
    require mail_staff
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Service entitlement"@{nl="Dienstrecht"}
     form configure

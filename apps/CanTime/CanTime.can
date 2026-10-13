@@ -248,12 +248,12 @@ package time label="Time tracking"@{nl="Tijdregistratie"}
      if event.value.revision>correction.revision
       set correction {absent=false,revision=event.value.revision,collected=event.value.collected,refunded=event.value.refunded,collection_pending=event.value.collection_pending,refund_pending=event.value.refund_pending}
  Then
-  style TimeWorkspace $"Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  style TimeWorkspace $"Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged. Group start, manual entry and period submission into distinct intake regions above running timers and entry rows. Give origin and frozen rate labels the same readable emphasis as durations; stack the intake regions on narrow screens."
   preferences { project:Project? label=label_Project, location:Location?, week:date?, billable_filter:bool? label="Initial billable filter"@{nl="Eerste facturatiefilter"} }
   # Start, stop and submit your own time with separate observed and entered evidence. @{nl="Start, stop en dien je eigen tijd in met afzonderlijk gemeten en ingevoerd bewijs."}
   page /time/mine title="My time"@{nl="Mijn tijd"} $TimeWorkspace
    require members
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Timer and manual time intake"@{nl="Timer- en handmatige tijdinvoer"} layout=columns
     form start display=inline

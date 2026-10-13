@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Delete bottom duplicate Publish workflow and graph to members button; keep Publish only on immutable revision row. Budget last Active cell must be Yes (boolean) instead of9. No other changes. Preserve entire LEFT shell and desktop page. No frame/collage.

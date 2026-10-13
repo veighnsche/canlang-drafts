@@ -433,7 +433,7 @@ package maintain
   # Keep assets, overdue inspections and repair verification connected. @{nl="Houd bedrijfsmiddelen, achterstallige inspecties en reparatieverificatie met elkaar verbonden."}
   page /facilities title="Facilities"@{nl="Faciliteiten"} $MaintainWorkspace
    require maintenance_manager or technician
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Asset directory"@{nl="Bedrijfsmiddelenregister"}
     form Asset.create

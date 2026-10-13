@@ -167,9 +167,9 @@ package workbench label="AI workbench"@{nl="AI-werkbank"}
      session.stopped,proposed.state,task.priority -> true,stopped,normal
  Then
   # Review exact suggestions and resume durable sessions without repeating provider work. @{nl="Beoordeel exacte suggesties en hervat duurzame sessies zonder providerwerk te herhalen."}
-  page /workbench title="AI workbench"@{nl="AI-werkbank"} poll=2s $"Use a focused session-and-step layout with readable goals and complete proposed arguments. Clearly distinguish authorized context, suggestions, explicit approvals, and actual delivery outcomes; keep stopped sessions, expiry, and durable history visible beside recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workbench page content; keep page admission and the shared shell unchanged."
+  page /workbench title="AI workbench"@{nl="AI-werkbank"} poll=2s $"Use a focused session-and-step layout with readable goals and complete proposed arguments. Clearly distinguish authorized context, suggestions, explicit approvals, and actual delivery outcomes; keep stopped sessions, expiry, and durable history visible beside recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workbench page content; keep page admission and the shared shell unchanged. Keep session intake compact above selected-task and step evidence; give the complete typed invocation preview a readable labeled field layout beside explicit approval and rejection controls, retaining record versions and omitted-versus-null distinctions."
    require members
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    form start
     radio purpose

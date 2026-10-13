@@ -1,0 +1,1 @@
+Edit ONLY the named small source discrepancy in the referenced full-page desktop image. Merge only Allocation and Bank delivery tabs into ONE tab caption Allocation and bank delivery. Sales and adjustments remains separate selected tab. No other change. Preserve entire LEFT shell and desktop page. No frame/collage.

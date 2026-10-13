@@ -148,7 +148,7 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
    require draft.parent.owner==actor or reviewer
    do set draft {stopped=true}
  Then
-  page /decisions title="Process decisions"@{nl="Procesbeslissingen"} poll=2s $"Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged."
+  page /decisions title="Process decisions"@{nl="Procesbeslissingen"} poll=2s $"Use balanced desktop columns for generated and reviewed text, and keep advisory distributions visually separate from the human-choice form. Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged."
    require analyst or reviewer
    breadcrumbs
    form Case.create

@@ -219,7 +219,7 @@ package loyalty label=heading_rewards
   # View your point history and reserve an available manually fulfillable perk. @{nl="Bekijk je puntengeschiedenis en reserveer een beschikbaar handmatig uitvoerbaar voordeel."}
   page /loyalty title="My rewards"@{nl="Mijn beloningen"} $LoyaltyWorkspace
    require authenticated
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    hero
     list Account as account where account.contact.account==actor and account.contact.verified display=split empty="No reward account yet"@{nl="Nog geen beloningsaccount"}

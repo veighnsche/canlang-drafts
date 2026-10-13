@@ -318,7 +318,7 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
   # Work only with messages granted to your current queue; review preserves every earlier decision. @{nl="Werk alleen met berichten waarvoor je huidige wachtrij toegang geeft; elke eerdere beslissing blijft bewaard."}
   page /inbox title="Departmental inbox"@{nl="Afdelingspostvak"} poll=5s $InboxWorkspace
    require mail_staff or inbox_admin
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    table Message as mail columns=envelope.received,envelope.sender,envelope.subject,queue,state filter=queue,state defaults={queue=preferences.queue,state=preferences.state} search=envelope.subject display=split empty="No messages in this queue"@{nl="Geen berichten in deze wachtrij"}
     pagination

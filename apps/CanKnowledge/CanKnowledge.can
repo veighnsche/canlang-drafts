@@ -268,7 +268,7 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
   style KnowledgeWorkspace $"Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   page /knowledge title="Company knowledge"@{nl="Bedrijfskennis"} poll=5s $KnowledgeWorkspace
    require members
-   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    table Topic as topic columns=name,expert filter=active defaults={active=true} display=split empty="No topics available"@{nl="Geen onderwerpen beschikbaar"}
     pagination

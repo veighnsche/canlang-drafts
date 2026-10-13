@@ -317,7 +317,7 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
      call promote {review=checked,customer=test_company,contact=test_contact,value=money(100,"EUR")} by=other -> error(forbidden)
  Then
   # Research plans and source coverage with reviewable evidence. @{nl="Onderzoeksplannen en brondekking met beoordeelbaar bewijs."}
-  page /discover title="Opportunity research"@{nl="Kansenonderzoek"} $"Prioritize opportunity evidence and staff review over decorative metrics. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged."
+  page /discover title="Opportunity research"@{nl="Kansenonderzoek"} $"Prioritize opportunity evidence and staff review over decorative metrics. On wide screens, place retained source evidence beside the review form in balanced columns, with CRM handoff below the recorded review; on narrow screens preserve source-before-decision reading order. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged."
    require researcher or reviewer
    breadcrumbs
    tabs
