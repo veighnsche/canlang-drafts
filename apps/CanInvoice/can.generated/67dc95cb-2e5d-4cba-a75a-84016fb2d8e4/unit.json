@@ -14,7 +14,7 @@
   "label": null,
   "prompt": "Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.",
   "profile": "frontend",
-  "source_line": 823,
+  "source_line": 822,
   "draft_source_key": "[\"invoice\",\"view\",\"InvoiceBalance\",null]",
   "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
   "style_scope": "inline"

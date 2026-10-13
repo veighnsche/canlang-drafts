@@ -7,7 +7,7 @@
 export function render({ row, bindings, ui }) {
   return ui.element("section", ui.hooks("root"), [
     ui.element("div", ui.hooks("details"), [
-      ui.textFields(row, ["name", "description", "rank", "archived", "archived_by", "archived_at"]),
+      ui.textFields(row, ["name", "description", "rank", "archived", "archived_by", "archive_recorded_at"]),
     ]),
     ui.element("div", ui.hooks("actions"), [
       ui.control(bindings.edit),

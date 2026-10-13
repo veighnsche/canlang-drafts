@@ -14,7 +14,7 @@
   "label": null,
   "prompt": "A compact attributed completion stamp: wrap author and time on narrow screens, use existing theme typography, and preserve caller-owned collapse and control behavior.",
   "profile": "frontend",
-  "source_line": 127,
+  "source_line": 126,
   "draft_source_key": "[\"board\",\"view\",\"ActionEvidence\",null]",
   "style_scope": "inline"
 }

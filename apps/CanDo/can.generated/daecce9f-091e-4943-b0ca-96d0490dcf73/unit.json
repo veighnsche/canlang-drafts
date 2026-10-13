@@ -10,7 +10,7 @@
   "label": null,
   "prompt": "Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior.",
   "profile": "frontend",
-  "source_line": 129,
+  "source_line": 125,
   "draft_source_key": "[\"todo\",\"view\",\"TaskTile\",null]",
   "abi_version": 1,
   "provider": null,

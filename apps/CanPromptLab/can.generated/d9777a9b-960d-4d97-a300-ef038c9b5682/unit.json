@@ -12,7 +12,7 @@
   "label": "archive_evidence",
   "source_line": 7,
   "profile": "shared",
-  "prompt": "Contribute archived:bool=false, archived_by:user? and archived_at:datetime? with clear field labels to the attached model. Keep its existing policy, locks, invariant and CRUD declarations. Never archive automatically or grant permission; the explicitly authored archive and restore scenarios own every transition.",
+  "prompt": "Contribute archived:bool=false, archived_by:user? and archive_recorded_at:datetime? with clear field labels to the attached model. Keep its existing policy, locks, invariant and CRUD declarations. Never archive automatically or grant permission; the explicitly authored archive and restore scenarios own every transition.",
   "target_kind": "model",
   "target": "Entry and Tag owner-attached model contribution",
   "applications": [

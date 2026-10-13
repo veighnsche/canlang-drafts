@@ -14,7 +14,7 @@
   "label": null,
   "prompt": "Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions.",
   "profile": "frontend",
-  "source_line": 359,
+  "source_line": 358,
   "draft_source_key": "[\"expense\",\"view\",\"ReceiptEvidence\",null]",
   "target": "browser-css",
   "style_scope": "inline"

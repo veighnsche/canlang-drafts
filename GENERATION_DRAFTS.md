@@ -36,7 +36,7 @@ One folder contains each Can* companion group. Existing app/package/uses/use dec
 | Named component style | `style FieldSurface $"..."` and `$FieldSurface` suffixes; named page/card/form/button/show styling also demonstrated |
 | Inline component style | `$"..."` suffixes on page, card, form, input, textarea, canonical button/delete and custom show host |
 | Generated row view | `view EntryTile(row:Entry) $"..."` and `show EntryTile {row=row}` |
-| Generated view root style | EntryTile's `style $"..."` leaf and TagTile's `style Workspace` leaf |
+| Generated view root style | EntryTile's view-header `$"..."` style suffix and TagTile's `$Workspace` header suffix |
 | Optional generation profile | `agent=careful` on the keyword definition; the illustrative root config supplies its recipe |
 
 Traits attach behavior to a model/field. Custom keywords define new standalone Given statements; a named trait is not a keyword. There are **no inline keyword prompts** or prompted keyword applications. Built-in policy/unique/invariant/lock declarations remain ordinary Can, as do all When/scenario/handler bodies; `$"..."` is invalid as a do body.
@@ -45,14 +45,13 @@ CanPromptLab's computed-key keyword supplies genuinely new implicit behavior: NF
 
 ## Named reuse and component attachments
 
-Top-level named style declarations define reusable intent. Ordinary rendered components carry a single `$Name` or `$"..."` suffix, including page/card/form/input, canonical controls and custom show instances. Named uses share the saved definition and create no extra generation unit. Keep one-off styles inline; names express reuse rather than retry targeting. Nonvisual guards/data declarations have no style suffix. A view header's prompt generates rendering, while its bounded child style leaf styles the renderer root.
+The `style` keyword only names a reusable prompt: a top-level `style Name $"..."` declaration, with no body and no other `style` statement anywhere. Every rendered component instead carries its own style directly as a single `$Name` or `$"..."` suffix, including page/card/form/input, canonical controls and custom show instances. Named uses share the saved definition and create no extra generation unit. Keep one-off styles on their component; names express reuse rather than retry targeting. Nonvisual guards/data declarations have no style suffix. A view is a component too: its header's first `$"..."` generates rendering, and an optional second suffix on that same header (`$"..."` or `$Name`) styles the renderer root; a prompted view's children are only its canonical controls, each with its own suffix.
 
 ```can
 Then
  style TaskField $"Comfortable labeled fields with clear validation and focus."
  style Workspace $"Readable task content; stack on narrow screens."
- view TaskTile(row:Task) $"Arrange admitted fields and declared controls."
-  style $"Compact readable task details with visible keyboard focus."
+ view TaskTile(row:Task) $"Arrange admitted fields and declared controls." $"Compact readable task details with visible keyboard focus."
   edit
   button action=complete $"Make completion easy to find; preserve canonical states."
  page /tasks title="Tasks" $Workspace
@@ -85,13 +84,13 @@ python3tools/organize.py --apply
 python3tools/organize.py --apply --scaffold-styles
 ```
 
-Dry run is default. Flat Can* companions move into `apps/<stem>/` through exclusive destination creation; conflicts and symlinks refuse. Style discovery handles named definitions, component suffixes, generated-view root leaves and same-owner cross-file reuse. It creates only missing CSS/records and never overwrites edited files. Named uses create no files. Unknown names, malformed/nonvisual carriers, obsolete ordinary style wrappers and ambiguous structural keys refuse before writes.
+Dry run is default. Flat Can* companions move into `apps/<stem>/` through exclusive destination creation; conflicts and symlinks refuse. Style discovery handles named definitions, component suffixes (including a view header's root-style suffix) and same-owner cross-file reuse. It creates only missing CSS/records and never overwrites edited files. Named uses create no files. Unknown names, malformed/nonvisual carriers, any non-definition `style` statement (inline leaf or wrapper) and ambiguous structural keys refuse before writes.
 
 Root/definition keys retain their earlier identity. Nested style witnesses use an internal structural component path, without adding source names or ordinal numbering. These helper keys are authoring associations, not the compiler's implemented ABI or full structural matching algorithm. The organizer does not call a coding CLI or implement generation/refinement controls. `can.gen.toml` contains a placeholder model and an optional careful profile; it is an example, not a provider receipt.
 
 ## Verification and limits
 
-The page migration's exact comparison preserves all 49 prior sources apart from style relocation/dedenting. The final comparison also accounts for CanDo's explicit four prompt additions and three named uses, preserving every other byte. All 62 prior CSS witnesses and 41 legacy `.mjs` files remain byte-identical. Current JSON/source associations, resolved named uses, local index links, recipe structure and no-op scaffolding are checked after integration. The helper's 42 finite fixture checks cover supported attachments, refusal, key preservation and exclusive output behavior.
+The page migration's exact comparison preserves all 49 prior sources apart from style relocation/dedenting. The final comparison also accounts for CanDo's explicit four prompt additions and three named uses, preserving every other byte. All 62 prior CSS witnesses and 41 legacy `.mjs` files remain byte-identical. Current JSON/source associations, resolved named uses, local index links, recipe structure and no-op scaffolding are checked after integration. The helper's 42 finite fixture checks cover supported attachments, refusal, key preservation and exclusive output behavior. `tools/test_organize.py` pins the style-form rule: named definitions only, view-header style suffixes, and refusal of inline or wrapper `style` statements.
 
 CanPromptLab's five handwritten JS files have syntax checks. Direct finite pure-function checks cover nine NFKC/ASCII-key cases, nine EAN-13 cases and seven UTF-8 boundary cases. Unchanged renderer/trait checks are reused. Source scenarios, State claim lifecycle, schema activation, renderer helpers, CSS lowering, browser layout, CLI/model recipes and MCP intake remain unexecuted draft expectations. Exact schema-validation descriptors for the two pure field checks are provisional owner integration; these files cannot self-register authority. Neither source migration nor draft inventory counts establish implementation acceptance.
 

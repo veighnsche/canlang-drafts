@@ -14,7 +14,7 @@
   "label": null,
   "prompt": "Give the application readable line length and wrapping, with a compact separated CV summary below it. Inherit the hiring page typography and theme and stack naturally at narrow widths. Preserve localized file and missing-file presentation and withheld-field omission.",
   "profile": "frontend",
-  "source_line": 287,
+  "source_line": 286,
   "draft_source_key": "[\"hire\",\"view\",\"CandidateApplication\",null]",
   "target": "browser-css",
   "style_scope": "inline"

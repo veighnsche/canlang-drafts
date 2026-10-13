@@ -99,6 +99,39 @@ def surface(text):
     return text.rstrip(), "".join(mask)
 
 
+def view_attachment(text, source, number):
+    """Split a view header: renderer prompt, then its own optional style suffix."""
+    clean, mask = surface(text)
+    markers = [position for position, char in enumerate(mask) if char == "$"]
+    if not markers:
+        return clean, None, None, None, None, None
+    if len(markers) > 2:
+        raise ValueError(f"expected renderer prompt and one style suffix at {source}:{number}")
+    first = markers[0]
+    if first and not clean[first - 1].isspace():
+        raise ValueError(f"prompt must follow its view at {source}:{number}")
+    prefix = clean[:first].rstrip()
+    profiles = list(re.finditer(r"(?<!\S)agent=([A-Za-z_][\w.-]*)(?!\S)", mask[:first]))
+    if len(profiles) > 1:
+        raise ValueError(f"duplicate agent profile at {source}:{number}")
+    profile = None
+    if profiles:
+        profile = profiles[0][1]
+        prefix = (prefix[:profiles[0].start()] + prefix[profiles[0].end():]).strip()
+    end = markers[1] if len(markers) == 2 else len(clean)
+    prompt, trailing = prompt_value(clean[first:end].strip(), source, number)
+    if profile and trailing:
+        raise ValueError(f"duplicate agent profile at {source}:{number}")
+    style_prompt = style_name = style_profile = None
+    if len(markers) == 2:
+        tail = clean[markers[1]:].strip()
+        if re.fullmatch(rf"\${NAME}", tail):
+            style_name = tail[1:]
+        else:
+            style_prompt, style_profile = prompt_value(tail, source, number)
+    return prefix, prompt, profile or trailing, style_prompt, style_name, style_profile
+
+
 def attachment(text, source, number):
     """Split a single attached carrier and definition-owned profile."""
     clean, mask = surface(text)
@@ -138,7 +171,7 @@ NONVISUAL = frozenset("""require guard allow deny let do if else for each when o
 
 
 def parse_styles(source):
-    """Inspect Then attachments and bounded generated-view root leaves."""
+    """Inspect Then named style definitions and component-attached style suffixes."""
     owner = source.stem
     nodes, stack = [], []
     for number, line in enumerate(source.read_text().splitlines(), 1):
@@ -177,14 +210,26 @@ def parse_styles(source):
         if head == "view":
             if not in_then:
                 continue
-            base, prompt, name_use, profile = attachment(text, source, number)
+            base, prompt, _profile, style_prompt, style_name, style_profile = \
+                view_attachment(text, source, number)
             match = re.match(rf"view\s+({NAME})(?:\s*\(.*\))?$", base)
-            if not match or name_use:
+            if not match:
                 raise ValueError(f"unsupported view declaration at {source}:{number}")
             node["base"] = base
             node["context"] = ("view", match[1])
             node["prompted"] = prompt is not None
-            continue  # Renderer prompt never owns CSS.
+            if style_name is not None:
+                uses.append(dict(owner=owner, source_line=number, page=None,
+                                 view=match[1], name=style_name, source=str(source)))
+            elif style_prompt is not None:
+                # The view component's own style suffix owns its root CSS;
+                # the renderer prompt in front of it never owns CSS.
+                key = [owner, "view", match[1], None]
+                units.append(dict(owner=owner, source_line=number, page=None,
+                                  view=match[1], label=None, style_scope="inline",
+                                  prompt=style_prompt, profile=style_profile or "frontend",
+                                  draft_source_key=json.dumps(key, separators=(",", ":"))))
+            continue
         if not in_then:
             continue
         base, prompt, name_use, profile = attachment(text, source, number)
@@ -202,17 +247,12 @@ def parse_styles(source):
             if definition:
                 match = re.fullmatch(rf"style\s+({NAME})", base)
                 if not match or prompt is None or node["children"]:
-                    raise ValueError(f"expected leaf named style definition at {source}:{number}")
+                    raise ValueError(f"expected named style definition at {source}:{number}")
                 label = match[1]
             else:
-                # Only a prompted view's direct, definition-owned leaf survives.
-                if not (parent is context_owner and context and context[0] == "view"
-                        and parent["prompted"] and not node["children"]):
-                    raise ValueError(f"ordinary style wrappers are superseded by component attachments at {source}:{number}")
-                if re.fullmatch(rf"style\s+{NAME}", base) and prompt is None and name_use is None:
-                    name_use = base.split()[1]
-                elif base != "style" or prompt is None:
-                    raise ValueError(f"expected generated view root style prompt or name at {source}:{number}")
+                # `style` only names a reusable prompt in a top-level definition.
+                # A component carries its own one-off or named style as a suffix.
+                raise ValueError(f"style only names a reusable prompt; attach $\"...\" or $Name to the component itself at {source}:{number}")
         elif prompt is None and name_use is None:
             continue
         elif (head in NONVISUAL or not re.fullmatch(NAME, head)

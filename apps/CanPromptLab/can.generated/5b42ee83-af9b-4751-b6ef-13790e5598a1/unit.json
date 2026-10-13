@@ -8,7 +8,7 @@
   "source": "apps/CanPromptLab/CanPromptLab.can",
   "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
   "unit_id": "5b42ee83-af9b-4751-b6ef-13790e5598a1",
-  "source_line": 116,
+  "source_line": 115,
   "page": null,
   "view": "EntryTile",
   "component_path": [

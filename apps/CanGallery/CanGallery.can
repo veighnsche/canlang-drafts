@@ -88,8 +88,7 @@ package gallery
    do return collection.Submission as row where row.state==approved order=-row.decided_at
  Then
   style GalleryWorkspace $"Let approved images lead with consistent preview proportions and restrained collection captions. Keep own submissions, pending review, and approved collections visually distinct; show review actions and collection-access rows without exposing private conversation context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
-  view SubmissionIdentity(row:Submission) $"Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller."
-   style $"Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts."
+  view SubmissionIdentity(row:Submission) $"Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller." $"Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts."
   page /gallery title="Approved collections"@{nl="Goedgekeurde collecties"} poll=1s $GalleryWorkspace
    require members
    ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.

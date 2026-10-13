@@ -249,7 +249,7 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
     let evidence=event.after
     if eligible(evidence.run) and not evidence.parent.identity_conflict and evidence.run.analysis_slots<evidence.run.settings.max_analysis
      send Analysis.extract {document=evidence.document,criteria=evidence.run.settings.criteria,output_tokens=evidence.run.settings.output_tokens} when=eligible(evidence.run) and evidence.parent.latest==evidence and not evidence.parent.identity_conflict as request
-     set evidence {analysis=request}
+     set event.after {analysis=request}
      set evidence.run {analysis_slots=evidence.run.analysis_slots+1}
   scenario analysis_result on=Analysis.extract.completed
    do
