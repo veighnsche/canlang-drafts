@@ -1,0 +1,4 @@
+/* Handwritten editable starter CSS; :scope is the admitted current-instance
+   root. Compiler-owned ownership lowering remains provisional; no global theme. */
+:scope { max-inline-size: 100%; font-family: monospace; letter-spacing: .04em; }
+:scope:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }

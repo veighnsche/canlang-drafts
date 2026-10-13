@@ -1,0 +1,4 @@
+/* Handwritten draft: :scope denotes this admitted root/host.
+   Compiler ownership lowering and canonical parts remain provisional. */
+:scope { display: grid; gap: .75rem; padding: 1rem; }
+@media (max-width: 40rem) { :scope { padding: .75rem; } }

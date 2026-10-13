@@ -1,0 +1,33 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "968b443f-b0b0-4e52-b82b-4e9cdb7d1608",
+  "kind": "given_trait",
+  "label": "key_text_budget",
+  "source_line": 8,
+  "profile": "shared",
+  "prompt": "Validate that the attached text field's UTF-8 encoded value occupies at most 128 bytes using a pure field check. Preserve stored spelling, existing native trim and character-length constraints, labels, permissions and canonical validation feedback. Do not truncate, normalize, repair or mutate the value; supply no operation, storage owner or authority.",
+  "target_kind": "field",
+  "target": "Entry.code and Tag.name",
+  "applications": [
+    "Entry.code",
+    "Tag.name"
+  ],
+  "export_roles": [
+    "check"
+  ],
+  "provisional_binding": {
+    "owner": "canonical schema validation",
+    "role": "pure field check",
+    "input_schema": "text",
+    "result_schema": "bool",
+    "export": "check",
+    "admission": "Existing field validation authority; exact owner descriptor remains implementation work"
+  }
+}

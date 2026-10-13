@@ -58,125 +58,198 @@ PROMPT = re.compile(r'\$("(?:[^"\\]|\\.)*")(?:\s+agent=([A-Za-z_][\w.-]*))?\s*')
 
 
 def prompt_value(text, source, number):
-    """Read only a declaration's prompt position, never search ordinary strings."""
+    """Static JSON only; the legacy trailing profile remains accepted."""
     match = PROMPT.fullmatch(text)
     if not match:
-        raise ValueError(f"expected $\"prompt\" and optional agent=profile at {source}:{number}")
+        raise ValueError(f'expected $"prompt" and optional agent=profile at {source}:{number}')
     return json.loads(match[1]), match[2]
 
 
-def view_tail(text, source, number):
-    """Skip a view's name/signature to locate its optional prompt."""
-    match = re.match(rf"view\s+({NAME})", text)
-    if not match:
-        raise ValueError(f"unsupported view declaration at {source}:{number}")
-    tail = text[match.end():].lstrip()
-    if tail.startswith("("):
-        depth = 0
-        quoted = escaped = False
-        for position, char in enumerate(tail):
-            if quoted:
-                if escaped:
-                    escaped = False
-                elif char == "\\":
-                    escaped = True
-                elif char == '"':
-                    quoted = False
+def surface(text):
+    """Expose only top-level tokens, preserving offsets and ordinary string bytes.
+
+    This deliberately small scanner is for authoring inventory, not Can parsing.
+    Dollars inside strings, signatures and object/localization bodies are inert.
+    """
+    mask, groups = [], []
+    quoted = escaped = False
+    for position, char in enumerate(text):
+        if quoted:
+            mask.append(" ")
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
             elif char == '"':
-                quoted = True
-            elif char == "(":
-                depth += 1
-            elif char == ")":
-                depth -= 1
-                if depth == 0:
-                    tail = tail[position + 1:].strip()
-                    break
+                quoted = False
+        elif text.startswith("##", position):
+            return text[:position].rstrip(), "".join(mask)
+        elif char == '"':
+            quoted = True
+            mask.append(" ")
+        elif char in "({[":
+            groups.append(char)
+            mask.append(" ")
+        elif char in ")}]":
+            if groups:
+                groups.pop()
+            mask.append(" ")
         else:
-            raise ValueError(f"unclosed view signature at {source}:{number}")
-    return match[1], tail
+            mask.append(char if not groups else " ")
+    return text.rstrip(), "".join(mask)
+
+
+def attachment(text, source, number):
+    """Split a single attached carrier and definition-owned profile."""
+    clean, mask = surface(text)
+    markers = [position for position, char in enumerate(mask) if char == "$" ]
+    if not markers:
+        return clean, None, None, None
+    if len(markers) != 1:
+        raise ValueError(f"expected one style suffix at {source}:{number}")
+    position = markers[0]
+    if position and not clean[position - 1].isspace():
+        raise ValueError(f"style suffix must follow its component at {source}:{number}")
+    prefix, tail = clean[:position].rstrip(), clean[position:]
+    profiles = list(re.finditer(r"(?<!\S)agent=([A-Za-z_][\w.-]*)(?!\S)", mask[:position]))
+    if len(profiles) > 1:
+        raise ValueError(f"duplicate agent profile at {source}:{number}")
+    profile = None
+    if profiles:
+        match = profiles[0]
+        profile = match[1]
+        prefix = (prefix[:match.start()] + prefix[match.end():]).strip()
+    if re.fullmatch(rf"\${NAME}", tail):
+        if profile:
+            raise ValueError(f"named style use cannot select agent at {source}:{number}")
+        return prefix, None, tail[1:], None
+    prompt, trailing = prompt_value(tail, source, number)
+    if profile and trailing:
+        raise ValueError(f"duplicate agent profile at {source}:{number}")
+    return prefix, prompt, None, profile or trailing
+
+
+# These statements carry data, control or declarations rather than a rendered
+# component. Other Then component names, including custom instances, are open.
+NONVISUAL = frozenset("""require guard allow deny let do if else for each when on
+    data schema model field trait keyword route use import export package app
+    theme locale messages policy invariant unique check assert set return
+    create update effect derive bind watch""".split())
 
 
 def parse_styles(source):
-    """Inspect draft indentation and style declarations; this is not a Can parser."""
+    """Inspect Then attachments and bounded generated-view root leaves."""
     owner = source.stem
-    section_indent = 0
     nodes, stack = [], []
     for number, line in enumerate(source.read_text().splitlines(), 1):
         stripped = line.lstrip()
-        if not stripped or stripped.startswith("#"):
+        clean, _ = surface(stripped)
+        if not clean or clean.startswith("#"):
             continue
         indent = len(line) - len(stripped)
         while stack and indent <= stack[-1]["indent"]:
             stack.pop()
-        match = re.match(rf"(?:package|app)\s+({NAME})\b", stripped)
+        match = re.match(rf"(?:package|app)\s+({NAME})\b", clean)
         if indent == 0 and match:
             owner = match[1]
-            section_indent = 1
-        elif indent == 0 and stripped in ("Given", "When", "Then"):
-            section_indent = 0
         parent = stack[-1] if stack else None
-        node = dict(text=stripped, indent=indent, line=number, owner=owner,
-                    parent=parent, children=[], prompted=False,
-                    section_indent=section_indent)
+        node = dict(text=clean, indent=indent, line=number, owner=owner,
+                    parent=parent, children=[], prompted=False)
         if parent:
             parent["children"].append(node)
         nodes.append(node)
         stack.append(node)
-        if stripped.startswith("do "):
-            tail = stripped[3:].strip()
-            if tail.startswith(('"', "$", "agent=")):
-                raise ValueError(f"When bodies must use ordinary Can code, not a generation prompt at {source}:{number}")
-        if stripped.startswith("view "):
-            name, tail = view_tail(stripped, source, number)
-            node["context"] = ("view", name)
-            if tail:
-                prompt_value(tail, source, number)
-                node["prompted"] = True
-        elif stripped.startswith("page "):
-            node["context"] = ("page", stripped.split()[1])
+        if clean.startswith("do ") and clean[3:].lstrip().startswith(('"', "$", "agent=")):
+            raise ValueError(f"When bodies must use ordinary Can code, not a generation prompt at {source}:{number}")
 
     units, uses = [], []
     for node in nodes:
         text, number, owner = node["text"], node["line"], node["owner"]
-        if not re.match(r"style(?:\s|$)", text):
-            continue
         parent = node["parent"]
-        if not parent or node["indent"] != parent["indent"] + 1:
-            raise ValueError(f"unsupported style owner at {source}:{number}")
-        definition = (parent["text"] == "Then" and
-                      parent["indent"] == node["section_indent"])
-        context_owner = parent
-        while context_owner and "context" not in context_owner:
-            context_owner = context_owner["parent"]
-        context = context_owner.get("context") if context_owner else None
-        prompted_root = parent is context_owner and parent["prompted"]
-        if not definition and not context:
-            raise ValueError(f"unsupported style owner at {source}:{number}")
-        tail = text[5:].strip()
-        label = None
-        if definition:
-            match = re.match(rf"({NAME})\s+(.+)", tail)
-            if not match:
-                raise ValueError(f"expected named style definition at {source}:{number}")
-            label, tail = match.groups()
-            if node["children"]:
-                raise ValueError(f"style definition cannot have a body at {source}:{number}")
-        elif re.fullmatch(NAME, tail):
-            if not node["children"] and not prompted_root:
-                raise ValueError(f"style use requires presentation body at {source}:{number}")
-            uses.append(dict(owner=owner, name=tail, source=str(source), source_line=number,
-                             page=context[1] if context[0] == "page" else None,
-                             view=context[1] if context[0] == "view" else None))
+        ancestors = []
+        current = parent
+        while current:
+            ancestors.append(current)
+            current = current["parent"]
+        section = next((item for item in ancestors if item["text"] in ("Given", "When", "Then")), None)
+        in_then = section is not None and section["text"] == "Then"
+        head = text.split()[0]
+        if head == "view":
+            if not in_then:
+                continue
+            base, prompt, name_use, profile = attachment(text, source, number)
+            match = re.match(rf"view\s+({NAME})(?:\s*\(.*\))?$", base)
+            if not match or name_use:
+                raise ValueError(f"unsupported view declaration at {source}:{number}")
+            node["base"] = base
+            node["context"] = ("view", match[1])
+            node["prompted"] = prompt is not None
+            continue  # Renderer prompt never owns CSS.
+        if not in_then:
             continue
-        prompt, profile = prompt_value(tail, source, number)
-        if not definition and not node["children"] and not prompted_root:
-            raise ValueError(f"inline style requires presentation body at {source}:{number}")
-        key = [owner, "style", label, None] if definition else [owner, *context, None]
-        units.append(dict(owner=owner,
-                          page=context[1] if context and context[0] == "page" else None,
-                          view=context[1] if context and context[0] == "view" else None,
-                          label=label, style_scope="definition" if definition else "inline",
-                          prompt=prompt, profile=profile or "frontend", source_line=number,
+        base, prompt, name_use, profile = attachment(text, source, number)
+        node["base"] = base
+        if head == "page":
+            parts = base.split()
+            if len(parts) < 2:
+                raise ValueError(f"missing page route at {source}:{number}")
+            node["context"] = ("page", parts[1])
+        context_owner = next((item for item in [node, *ancestors] if "context" in item), None)
+        context = context_owner.get("context") if context_owner else None
+        label = None
+        definition = head == "style" and parent is section
+        if head == "style":
+            if definition:
+                match = re.fullmatch(rf"style\s+({NAME})", base)
+                if not match or prompt is None or node["children"]:
+                    raise ValueError(f"expected leaf named style definition at {source}:{number}")
+                label = match[1]
+            else:
+                # Only a prompted view's direct, definition-owned leaf survives.
+                if not (parent is context_owner and context and context[0] == "view"
+                        and parent["prompted"] and not node["children"]):
+                    raise ValueError(f"ordinary style wrappers are superseded by component attachments at {source}:{number}")
+                if re.fullmatch(rf"style\s+{NAME}", base) and prompt is None and name_use is None:
+                    name_use = base.split()[1]
+                elif base != "style" or prompt is None:
+                    raise ValueError(f"expected generated view root style prompt or name at {source}:{number}")
+        elif prompt is None and name_use is None:
+            continue
+        elif (head in NONVISUAL or not re.fullmatch(NAME, head)
+              or re.match(r"preferences\s*\{", base)
+              or len(base.split()) < 2 and head in {"page", "form", "input", "show"}):
+            raise ValueError(f"unsupported style attachment target at {source}:{number}")
+        if prompt is None and name_use is None:
+            raise ValueError(f"missing style carrier at {source}:{number}")
+        location = dict(owner=owner, source_line=number,
+                        page=context[1] if context and context[0] == "page" else None,
+                        view=context[1] if context and context[0] == "view" else None)
+        # Structural machine identity uses authored component paths, never prompt
+        # text, comments, line numbers or sibling ordinals. Equal paths diagnose.
+        path = []
+        for item in reversed([node, *ancestors]):
+            if item is section or item is context_owner or item["text"] in ("Given", "When", "Then"):
+                continue
+            if item["indent"] > section["indent"]:
+                path.append(item.get("base", item["text"]))
+        if head == "style":
+            path = []
+        if path:
+            location["component_path"] = path
+        if name_use:
+            uses.append(dict(**location, name=name_use, source=str(source)))
+            continue
+        if definition:
+            key = [owner, "style", label, None]
+        elif context and (node is context_owner or head == "style"):
+            key = [owner, *context, None]  # Retain existing page/view CSS associations.
+        elif context:
+            key = [owner, *context, path]
+        else:
+            key = [owner, "component", path, None]
+        units.append(dict(**location, label=label,
+                          style_scope="definition" if definition else "inline",
+                          prompt=prompt, profile=profile or "frontend",
                           draft_source_key=json.dumps(key, separators=(",", ":"))))
     return units, uses
 

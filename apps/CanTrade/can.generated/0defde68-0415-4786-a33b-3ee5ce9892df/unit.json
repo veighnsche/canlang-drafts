@@ -29,5 +29,6 @@
     "original": "visibility:enum(member,public)=member",
     "replacement": "visibility:enum(member,public) member_audience"
   },
-  "source_behavior_scope": "original full owning model declaration"
+  "source_behavior_scope": "original full owning model declaration",
+  "source_line": 10
 }

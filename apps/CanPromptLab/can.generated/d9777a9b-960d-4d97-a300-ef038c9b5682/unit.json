@@ -1,0 +1,26 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "d9777a9b-960d-4d97-a300-ef038c9b5682",
+  "kind": "given_trait",
+  "label": "archive_evidence",
+  "source_line": 7,
+  "profile": "shared",
+  "prompt": "Contribute archived:bool=false, archived_by:user? and archived_at:datetime? with clear field labels to the attached model. Keep its existing policy, locks, invariant and CRUD declarations. Never archive automatically or grant permission; the explicitly authored archive and restore scenarios own every transition.",
+  "target_kind": "model",
+  "target": "Entry and Tag owner-attached model contribution",
+  "applications": [
+    "Entry",
+    "Tag"
+  ],
+  "export_roles": [
+    "contributions"
+  ],
+  "binding_status": "Partial native declarations only; canonical operations stay in source"
+}

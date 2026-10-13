@@ -1,0 +1,20 @@
+{
+  "unit_id": "95adf04d-f675-4e6b-be57-0a865fe8b6c0",
+  "abi_version": 1,
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "source": "apps/CanDo/CanDo.can",
+  "owner": "todo",
+  "source_line": 121,
+  "page": null,
+  "view": null,
+  "label": "TaskField",
+  "style_scope": "definition",
+  "prompt": "Comfortable task-entry fields with clear labels, error text and visible keyboard focus. Use the existing theme, keep each field at full available width, and preserve canonical values and validation.",
+  "profile": "frontend",
+  "draft_source_key": "[\"todo\",\"style\",\"TaskField\",null]"
+}

@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "ce6cb0e3-40bb-43e1-a5af-b4577d5fb73c",
+  "source_line": 109,
+  "page": null,
+  "view": null,
+  "label": "FieldSurface",
+  "style_scope": "definition",
+  "prompt": "Give the attached canonical text input or textarea a clear boundary, comfortable spacing and visible keyboard focus. Preserve labels, required/disabled states, native and generated validation feedback, exact field identity and submission behavior. Inherit the theme.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"style\",\"FieldSurface\",null]",
+  "kind": "style",
+  "target": "browser-css"
+}

@@ -1,0 +1,23 @@
+{
+  "unit_id": "6fcf67fa-3142-456b-820e-4bb6984c4f9a",
+  "abi_version": 1,
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "source": "apps/CanDo/CanDo.can",
+  "owner": "todo",
+  "source_line": 127,
+  "page": null,
+  "view": "TaskTile",
+  "component_path": [
+    "button action=complete"
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Make completion an easy-to-find, comfortably sized button with a clear focus ring and canonical pending state. Keep its action and permission visibility unchanged.",
+  "profile": "frontend",
+  "draft_source_key": "[\"todo\",\"view\",\"TaskTile\",[\"button action=complete\"]]"
+}

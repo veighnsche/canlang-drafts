@@ -1,0 +1,12 @@
+  scenario add_entry(catalog:Catalog,code:text,title:text,barcode:text,summary:text) by=curator -> Entry label="Add checked entry"
+   do
+    create Entry {parent=catalog,code,title,barcode,summary} as entry
+    return entry
+   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
+    as,code,barcode -> result.code
+    editor,"Alice","4006381333931" -> error(unique)
+    editor,"ALICE","4006381333931" -> error(unique)
+    editor,"Carol","4006381333931" -> "Carol"
+    editor,"Carol","4006381333932" -> error(validation)
+    editor,"Carol","４006381333931" -> error(validation)
+    members,"Carol","4006381333931" -> error(forbidden)

@@ -1,0 +1,44 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "19a9e8eb-2e04-411b-9ad4-3c546f346c6b",
+  "kind": "given_keyword",
+  "label": "canonical_identity",
+  "source_line": 9,
+  "profile": "careful",
+  "prompt": "Use the selected text field's NFKC-normalized, ASCII-lowercased value as a canonical unique key in its existing model ownership scope. Preserve stored spelling, ordinary read/write permissions and native text constraints. Select the canonical State unique-key producer: State owns old/final claims, atomic swaps, deletion release, rollback, version fencing, replay and collision-checked schema activation. Add no helper field, raw claim API or authority.",
+  "target": "canonical_identity(target:model, field:field(target,text))",
+  "applications": [
+    {
+      "target": "Entry",
+      "field": "Entry.code"
+    },
+    {
+      "target": "Tag",
+      "field": "Tag.name"
+    }
+  ],
+  "export_roles": [
+    "canonicalKey"
+  ],
+  "provisional_binding": {
+    "owner": "State",
+    "producer": "state.unique-key@1",
+    "export": "canonicalKey",
+    "input_schema": "text",
+    "result_schema": "text",
+    "reads": [
+      "selected field value"
+    ],
+    "effects": [],
+    "authority": "Canonical owner admission only; no generated grant or raw claim access",
+    "target_resolution": "Compiler-owned model/field references; owner supplies scope and claims"
+  },
+  "schema_evolution_note": "Compiler derives saved implementation/import fingerprint; canonical activation checks installed rows and collisions before activation"
+}

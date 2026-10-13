@@ -1,0 +1,3 @@
+/* Handwritten draft: :scope denotes this admitted root/host.
+   Compiler ownership lowering and canonical parts remain provisional. */
+:scope { display: block; inline-size: 100%; margin-block: .75rem; }

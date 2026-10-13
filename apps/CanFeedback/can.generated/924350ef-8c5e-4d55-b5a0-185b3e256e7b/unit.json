@@ -29,5 +29,6 @@
     "original": "hidden:bool=true",
     "replacement": "hidden:bool pending_review"
   },
-  "source_behavior_scope": "original full owning model declaration"
+  "source_behavior_scope": "original full owning model declaration",
+  "source_line": 10
 }

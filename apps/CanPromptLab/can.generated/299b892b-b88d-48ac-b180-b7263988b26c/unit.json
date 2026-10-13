@@ -1,0 +1,40 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "299b892b-b88d-48ac-b180-b7263988b26c",
+  "kind": "then_view",
+  "label": "TagTile",
+  "source_line": 117,
+  "profile": "frontend",
+  "prompt": "Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation.",
+  "target": "view TagTile(row:Tag)",
+  "row_model": "Tag",
+  "export_roles": [
+    "render"
+  ],
+  "checked_controls": [
+    "edit",
+    "button action=archive_tag",
+    "button action=restore_tag",
+    "delete"
+  ],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "textFields",
+    "control"
+  ],
+  "provisional_binding": {
+    "export": "render",
+    "input": "admitted row and checked declared canonical controls",
+    "result": "canonical presentation nodes"
+  },
+  "definition_style_prompt": null,
+  "definition_style_name": "Workspace"
+}

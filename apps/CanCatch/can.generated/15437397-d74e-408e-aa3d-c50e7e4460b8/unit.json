@@ -10,7 +10,7 @@
   "label": null,
   "prompt": "Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 174,
+  "source_line": 172,
   "draft_source_key": "[\"catch\",\"page\",\"/errors\",null]",
   "abi_version": 1,
   "provider": null,

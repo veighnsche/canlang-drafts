@@ -1,0 +1,3 @@
+## Handwritten partial declaration envelope only; no new owner or validator registration.
+Entry { barcode:text min=13 max=13 }
+## EAN-13 pure check is in server.js; its canonical owner admission is provisional.

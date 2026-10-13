@@ -10,7 +10,7 @@
   "label": null,
   "prompt": "Use restrained traffic-report rows with readable ranges, observed events, and identifier coverage. Clearly label weighted estimates and goals; keep intake health and accepted event evidence accessible without making observed inquiries resemble confirmed sales. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /traffic page content; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 158,
+  "source_line": 156,
   "draft_source_key": "[\"stats\",\"page\",\"/traffic\",null]",
   "abi_version": 1,
   "provider": null,

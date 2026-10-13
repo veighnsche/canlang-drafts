@@ -118,94 +118,93 @@ package todo
    do send Catch.report {event=event} as delivery
  Then
   style TodoWorkspace $"Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
+  style TaskField $"Comfortable task-entry fields with clear labels, error text and visible keyboard focus. Use the existing theme, keep each field at full available width, and preserve canonical values and validation."
+  style TaskTileHost $"Give each task tile a little vertical separation and let it fill its card. Style only the caller host placement, size and inherited typography; keep the tile renderer and its private parts owned by the view."
   preferences { location:Location?, done:bool?, view:enum(all,today,overdue)=all label={text="Task view"@{nl="Taakweergave"},values={all="All tasks"@{nl="Alle taken"},today="Due today"@{nl="Vandaag verschuldigd"},overdue="Overdue"@{nl="Te laat"}}} }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   view TaskTile(row:Task) $"Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site."
    edit
-   button action=complete
+   button action=complete $"Make completion an easy-to-find, comfortably sized button with a clear focus ring and canonical pending state. Keep its action and permission visibility unchanged."
    button action=reopen
    style $"Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior."
   # Add tasks quickly and follow location, due date and ownership. @{nl="Voeg taken snel toe en volg locatie, deadline en eigenaarschap."}
-  page /tasks title="Tasks"@{nl="Taken"}
+  page /tasks title="Tasks"@{nl="Taken"} $TodoWorkspace
    require members
-   style TodoWorkspace
-    breadcrumbs
-    card "Quick task entry"@{nl="Snel een taak toevoegen"}
-     form Task.create display=inline
-      ## assignee:user keeps its generated entry: no user-picker vocabulary.
-      fieldset "Task details"@{nl="Taakgegevens"}
-       input title
-       radio priority
-       select location
-       textarea description
-       input due
-    tabs preferences.view
-    table Task as task where preferences.view==all or (task.due!=null and ((preferences.view==today and local_date(task.due,team.timezone)==local_date(now,team.timezone)) or (preferences.view==overdue and task.due<now and not task.done))) columns=title,assignee,due,priority,done order={by=preferences.view,default=[due],cases={all=[-created]}} filter=location,assignee,priority,done defaults={location=preferences.location,done=preferences.done} search=title display=split empty="No tasks match these filters."@{nl="Geen taken voor deze filters."}
-     pagination
-     text row.done
-     badge row.priority
-     card "Current task"@{nl="Huidige taak"}
-      show TaskTile {row=row}
-     card "Attributed comments"@{nl="Toegeschreven reacties"}
-      form Comment.create
-       textarea body
-      list row.Comment empty="No comments yet."@{nl="Nog geen reacties."}
-       pagination
-       ## Comments are read-only messages; the bubble presents body and author without messaging behavior.
-       chat_bubble
-        slot content
-         content row.body
-        slot header
-         text row.author
-     history
+   breadcrumbs
+   card "Quick task entry"@{nl="Snel een taak toevoegen"} $"Keep quick task entry compact and welcoming, with readable spacing and controls that stack on narrow screens. Keep field and child-view interiors within their own style ownership."
+    form Task.create display=inline
+     ## assignee:user keeps its generated entry: no user-picker vocabulary.
+     fieldset "Task details"@{nl="Taakgegevens"}
+      input title $TaskField
+      radio priority
+      select location
+      textarea description
+      input due $TaskField
+   tabs preferences.view
+   table Task as task where preferences.view==all or (task.due!=null and ((preferences.view==today and local_date(task.due,team.timezone)==local_date(now,team.timezone)) or (preferences.view==overdue and task.due<now and not task.done))) columns=title,assignee,due,priority,done order={by=preferences.view,default=[due],cases={all=[-created]}} filter=location,assignee,priority,done defaults={location=preferences.location,done=preferences.done} search=title display=split empty="No tasks match these filters."@{nl="Geen taken voor deze filters."}
+    pagination
+    text row.done
+    badge row.priority
+    card "Current task"@{nl="Huidige taak"}
+     show TaskTile {row=row} $TaskTileHost
+    card "Attributed comments"@{nl="Toegeschreven reacties"}
+     form Comment.create
+      textarea body
+     list row.Comment empty="No comments yet."@{nl="Nog geen reacties."}
+      pagination
+      ## Comments are read-only messages; the bubble presents body and author without messaging behavior.
+      chat_bubble
+       slot content
+        content row.body
+       slot header
+        text row.author
+    history
 
   # Keep unavailable source work visible without granting source authority. @{nl="Houd niet-beschikbaar bronwerk zichtbaar zonder bronbevoegdheid te verlenen."}
-  page /tasks/my-work title="My work"@{nl="Mijn werk"} poll=5s refresh=refresh
+  page /tasks/my-work title="My work"@{nl="Mijn werk"} poll=5s refresh=refresh $TodoWorkspace
    require members
-   style TodoWorkspace
-    breadcrumbs
-    card "Refresh source work"@{nl="Werk uit bronsystemen vernieuwen"}
-     form refresh display=inline
-    divider "Current projection"@{nl="Actuele projectie"}
-    list WorkView as view where view.account==actor and view.current order=-view.requested empty="No work projection yet."@{nl="Nog geen werkprojectie."}
-     pagination
-     text row.requested
-     badge row.state
-     ## Partial or unavailable coverage keeps its own notice; task completion never implies source freshness.
-     alert
-      require row.state==partial or row.state==unavailable
-      text "Some sources are stale or unavailable; affected actions stay withheld."@{nl="Sommige bronnen zijn verouderd of niet beschikbaar; getroffen acties blijven achtergehouden."}
-     card source_freshness_caption
-      table row.sources columns=source,state,detail empty="No sources reported."@{nl="Geen bronnen gemeld."}
-       pagination
-       badge row.state
-     card "Authorized work and actions"@{nl="Toegestaan werk en acties"}
-      table row.items columns=title,source,location,due,state filter=source,location,due,state empty="No authorized work items."@{nl="Geen toegestaan werk."}
-       pagination
-       badge row.state
-       content row.detail
-       form row.action
-     text "Submit refresh once to enable automatic source refresh while this page remains open."@{nl="Vernieuw één keer om automatisch bronwerk te vernieuwen zolang deze pagina geopend blijft."}
+   breadcrumbs
+   card "Refresh source work"@{nl="Werk uit bronsystemen vernieuwen"}
+    form refresh display=inline
+   divider "Current projection"@{nl="Actuele projectie"}
+   list WorkView as view where view.account==actor and view.current order=-view.requested empty="No work projection yet."@{nl="Nog geen werkprojectie."}
+    pagination
+    text row.requested
+    badge row.state
+    ## Partial or unavailable coverage keeps its own notice; task completion never implies source freshness.
+    alert
+     require row.state==partial or row.state==unavailable
+     text "Some sources are stale or unavailable; affected actions stay withheld."@{nl="Sommige bronnen zijn verouderd of niet beschikbaar; getroffen acties blijven achtergehouden."}
+    card source_freshness_caption
+     table row.sources columns=source,state,detail empty="No sources reported."@{nl="Geen bronnen gemeld."}
+      pagination
+      badge row.state
+    card "Authorized work and actions"@{nl="Toegestaan werk en acties"}
+     table row.items columns=title,source,location,due,state filter=source,location,due,state empty="No authorized work items."@{nl="Geen toegestaan werk."}
+      pagination
+      badge row.state
+      content row.detail
+      form row.action
+    text "Submit refresh once to enable automatic source refresh while this page remains open."@{nl="Vernieuw één keer om automatisch bronwerk te vernieuwen zolang deze pagina geopend blijft."}
 
   # Author scoped checklists and generate independent dated tasks. @{nl="Beheer toegestane checklists en genereer zelfstandige gedateerde taken."}
-  page /tasks/checklists title="Checklist templates"@{nl="Checklistsjablonen"}
+  page /tasks/checklists title="Checklist templates"@{nl="Checklistsjablonen"} $TodoWorkspace
    require task_manager
-   style TodoWorkspace
-    breadcrumbs
-    card "Template intake"@{nl="Sjabloon aanmaken"}
-     form Template.create
-      input name
-      select location
-    list Template columns=name,location search=name display=split empty="No templates yet."@{nl="Nog geen sjablonen."}
-     pagination
-     card "Template and generation"@{nl="Sjabloon en generatie"}
-      text row.name,row.location
+   breadcrumbs
+   card "Template intake"@{nl="Sjabloon aanmaken"}
+    form Template.create
+     input name
+     select location
+   list Template columns=name,location search=name display=split empty="No templates yet."@{nl="Nog geen sjablonen."}
+    pagination
+    card "Template and generation"@{nl="Sjabloon en generatie"}
+     text row.name,row.location
+     edit
+     delete
+     form generate
+    card "Template items"@{nl="Sjabloonitems"}
+     form TemplateTask.create
+     table row.TemplateTask columns=title,offset,priority order=offset empty="No template items yet."@{nl="Nog geen sjabloonitems."}
+      pagination
       edit
       delete
-      form generate
-     card "Template items"@{nl="Sjabloonitems"}
-      form TemplateTask.create
-      table row.TemplateTask columns=title,offset,priority order=offset empty="No template items yet."@{nl="Nog geen sjabloonitems."}
-       pagination
-       edit
-       delete

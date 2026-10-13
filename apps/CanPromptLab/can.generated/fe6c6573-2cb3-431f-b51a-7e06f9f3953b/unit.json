@@ -1,0 +1,32 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "fe6c6573-2cb3-431f-b51a-7e06f9f3953b",
+  "kind": "given_trait",
+  "label": null,
+  "source_line": 11,
+  "profile": "shared",
+  "prompt": "Validate a required EAN-13 barcode as exactly thirteen ASCII digits whose final digit equals the standard alternating one/three weighted check digit of the preceding twelve. Preserve the stored text, native length constraints, field label, permissions and canonical validation feedback. Supply only a pure field-validation contribution; do not repair or coerce an invalid barcode.",
+  "target_kind": "field",
+  "target": "Entry.barcode",
+  "applications": [
+    "Entry.barcode"
+  ],
+  "export_roles": [
+    "check"
+  ],
+  "provisional_binding": {
+    "owner": "canonical schema validation",
+    "role": "pure field check",
+    "input_schema": "text",
+    "result_schema": "bool",
+    "export": "check",
+    "admission": "Existing field validation authority; exact owner descriptor remains implementation work"
+  }
+}

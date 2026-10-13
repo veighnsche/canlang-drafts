@@ -146,80 +146,79 @@ package success
  Then
   preferences { location:Location?, risk_filter:Account.risk? label="Initial risk filter"@{nl="Eerste risicofilter"} }
   # Review renewal risk, dated milestones and source agreement references. @{nl="Beoordeel verlengingsrisico, gedateerde mijlpalen en bronreferenties naar overeenkomsten."}
-  page /customer-success title="Customer success"@{nl="Klantopvolging"}
+  page /customer-success title="Customer success"@{nl="Klantopvolging"} $"Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged."
    require account_manager
-   style $"Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged."
-    breadcrumbs
-    card "Customer selection"@{nl="Klantselectie"}
-     list Customer empty="No customers found"@{nl="Geen klanten gevonden"}
-      form Account.create
-       select location
-       input email
-       calendar renewal
-       radio risk
-       textarea risk_reason
-       textarea notes
-       ## parent binds the enclosing customer row.
-       ## manager, agreement and membership keep their generated authorized pickers.
-      pagination
-    card "Overdue follow-ups"@{nl="Achterstallige opvolgtaken"}
-     table FollowUp as followup where not followup.done and followup.parent.active and followup.due<=now columns=parent,title,due,assignee order=due empty="No overdue follow-ups"@{nl="Geen achterstallige opvolgtaken"}
-      action complete
-      pagination
-    card "Renewal portfolio"@{nl="Verlengingsportefeuille"}
-     list Account filter=location,manager,risk,active defaults={location=preferences.location,risk=preferences.risk_filter} order=renewal display=split empty="No accounts found"@{nl="Geen dossiers gevonden"}
-      badge row.risk
-      text row.renewal,row.active,row.risk_reason,row.agreement,row.membership
-      edit
-      radial_progress row.progress max=100
-      stat row.completed,row.total
-      text row.reviewed_at,row.reviewed_by
-      tooltip "Record that you reviewed this account"@{nl="Vastleggen dat je dit dossier hebt beoordeeld"}
-       action review
-      button opens=reassign
-      modal "Reassign account"@{nl="Klantdossier opnieuw toewijzen"} id=reassign
-       slot content
-        form reassign arguments={account=row} display=inline
-         input email
-         ## account binds the enclosing row; manager keeps its authorized picker.
-      alert
-       require row.risk==high
-       text row.risk_reason
-      collapse "Risk assessment and source references"@{nl="Risicobeoordeling en bronreferenties"}
-       text row.notes
-      tabs
-       tab "Source agreement"@{nl="Bronovereenkomst"}
-        require row.agreement!=null
-        text row.agreement
-        form renew arguments={term=row.agreement}
-       tab "Source membership"@{nl="Bronlidmaatschap"}
-        require row.membership!=null
-        text row.membership
-        form term arguments={membership=row.membership}
-        table row.membership.Term columns=from,until,paid,collection,cancellation order=-from empty="No terms found"@{nl="Geen voorwaarden gevonden"}
-         pagination
-       tab "Reminder delivery"@{nl="Herinneringsbezorging"}
-        table row.Notice columns=followup,recipient,state,created order=-created empty="No reminders sent"@{nl="Geen herinneringen verzonden"}
-         status row.state
-         pagination
-       tab "Account milestones"@{nl="Klantmijlpalen"}
-        form Milestone.create
-         input title
-         calendar due
-         ## parent binds the enclosing account row.
-        table row.Milestone columns=title,due,done order=due filter=done empty="No milestones yet"@{nl="Nog geen mijlpalen"}
-         edit
-         action milestone
-         pagination
-       tab "Dated follow-ups"@{nl="Gedateerde opvolgtaken"}
-        form FollowUp.create
-         input title
-         input email
-         input due
-         ## parent binds the enclosing row; assignee keeps its authorized picker.
-        table row.FollowUp columns=title,due,assignee,done order=due filter=done empty="No follow-ups yet"@{nl="Nog geen opvolgtaken"}
-         edit
-         action complete
-         pagination
-      history
-      pagination
+   breadcrumbs
+   card "Customer selection"@{nl="Klantselectie"}
+    list Customer empty="No customers found"@{nl="Geen klanten gevonden"}
+     form Account.create
+      select location
+      input email
+      calendar renewal
+      radio risk
+      textarea risk_reason
+      textarea notes
+      ## parent binds the enclosing customer row.
+      ## manager, agreement and membership keep their generated authorized pickers.
+     pagination
+   card "Overdue follow-ups"@{nl="Achterstallige opvolgtaken"}
+    table FollowUp as followup where not followup.done and followup.parent.active and followup.due<=now columns=parent,title,due,assignee order=due empty="No overdue follow-ups"@{nl="Geen achterstallige opvolgtaken"}
+     action complete
+     pagination
+   card "Renewal portfolio"@{nl="Verlengingsportefeuille"}
+    list Account filter=location,manager,risk,active defaults={location=preferences.location,risk=preferences.risk_filter} order=renewal display=split empty="No accounts found"@{nl="Geen dossiers gevonden"}
+     badge row.risk
+     text row.renewal,row.active,row.risk_reason,row.agreement,row.membership
+     edit
+     radial_progress row.progress max=100
+     stat row.completed,row.total
+     text row.reviewed_at,row.reviewed_by
+     tooltip "Record that you reviewed this account"@{nl="Vastleggen dat je dit dossier hebt beoordeeld"}
+      action review
+     button opens=reassign
+     modal "Reassign account"@{nl="Klantdossier opnieuw toewijzen"} id=reassign
+      slot content
+       form reassign arguments={account=row} display=inline
+        input email
+        ## account binds the enclosing row; manager keeps its authorized picker.
+     alert
+      require row.risk==high
+      text row.risk_reason
+     collapse "Risk assessment and source references"@{nl="Risicobeoordeling en bronreferenties"}
+      text row.notes
+     tabs
+      tab "Source agreement"@{nl="Bronovereenkomst"}
+       require row.agreement!=null
+       text row.agreement
+       form renew arguments={term=row.agreement}
+      tab "Source membership"@{nl="Bronlidmaatschap"}
+       require row.membership!=null
+       text row.membership
+       form term arguments={membership=row.membership}
+       table row.membership.Term columns=from,until,paid,collection,cancellation order=-from empty="No terms found"@{nl="Geen voorwaarden gevonden"}
+        pagination
+      tab "Reminder delivery"@{nl="Herinneringsbezorging"}
+       table row.Notice columns=followup,recipient,state,created order=-created empty="No reminders sent"@{nl="Geen herinneringen verzonden"}
+        status row.state
+        pagination
+      tab "Account milestones"@{nl="Klantmijlpalen"}
+       form Milestone.create
+        input title
+        calendar due
+        ## parent binds the enclosing account row.
+       table row.Milestone columns=title,due,done order=due filter=done empty="No milestones yet"@{nl="Nog geen mijlpalen"}
+        edit
+        action milestone
+        pagination
+      tab "Dated follow-ups"@{nl="Gedateerde opvolgtaken"}
+       form FollowUp.create
+        input title
+        input email
+        input due
+        ## parent binds the enclosing row; assignee keeps its authorized picker.
+       table row.FollowUp columns=title,due,assignee,done order=due filter=done empty="No follow-ups yet"@{nl="Nog geen opvolgtaken"}
+        edit
+        action complete
+        pagination
+     history
+     pagination

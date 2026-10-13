@@ -30,5 +30,6 @@
     "original": "seats:int=1 min=1",
     "replacement": "seats:int sales_seats"
   },
-  "source_behavior_scope": "original full owning model declaration"
+  "source_behavior_scope": "original full owning model declaration",
+  "source_line": 15
 }

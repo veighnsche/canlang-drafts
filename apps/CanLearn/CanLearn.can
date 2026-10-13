@@ -144,71 +144,69 @@ package learn label="Learning"@{nl="Opleidingen"}
   style LearnWorkspace $"Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { view:enum(all,required,optional,overdue)=all label={text="Course view"@{nl="Cursusweergave"},values={all="All courses"@{nl="Alle cursussen"},required="Required courses"@{nl="Verplichte cursussen"},optional="Optional courses"@{nl="Optionele cursussen"},overdue="Overdue courses"@{nl="Achterstallige cursussen"}}}, location:Location?, audience:Course.audience?, order:enum(due,title)=due label={text="Course order"@{nl="Cursusvolgorde"},values={due="Due date"@{nl="Vervaldatum"},title="Course title"@{nl="Cursustitel"}}} }
   # Read the exact enrolled content and acknowledge it without a separate testing DSL. @{nl="Lees de exacte ingeschreven inhoud en bevestig die zonder afzonderlijke testtaal."}
-  page /learning/mine title="My learning"@{nl="Mijn opleidingen"}
+  page /learning/mine title="My learning"@{nl="Mijn opleidingen"} $LearnWorkspace
    require authenticated
-   style LearnWorkspace
-    breadcrumbs
-    tabs preferences.view
-    list Enrollment as enrollment where enrollment.account==actor and (preferences.view==all or (preferences.view==required and enrollment.parent.required) or (preferences.view==optional and not enrollment.parent.required) or (preferences.view==overdue and enrollment.due!=null and enrollment.due<local_date(now,team.timezone) and enrollment.active and enrollment.progress<100)) and (preferences.location==null or preferences.location in enrollment.parent.locations) and (preferences.audience==null or enrollment.parent.audience==preferences.audience) order={by=preferences.order,default=[due,parent.title],cases={title=[parent.title,due]}} display=split empty="No enrolled courses"@{nl="Geen ingeschreven cursussen"}
-     badge row.parent.audience
-     text row.parent.title,row.due
-     text row.active,row.parent.required
-     progress row.progress max=100
-     text row.total
-     alert
-      require not row.active or not actor.email_verified or not eligible(actor,row.parent)
-      text "Lesson access unavailable; your acknowledgments remain in history."@{nl="Lesinhoud niet beschikbaar; je bevestigingen blijven in de historiek."}
-     card "Acknowledgment history"@{nl="Bevestigingshistoriek"}
-      require not row.active or not actor.email_verified or not eligible(actor,row.parent)
-      table row.Completion columns=author,completed order=completed empty="No acknowledgments yet"@{nl="Nog geen bevestigingen"}
-       pagination
-     steps row.parent.Lesson
-      slot item
-       title row.title
-       content row.content
-       text any(enrollment.Completion as acknowledgment,acknowledgment.lesson==row)
-       form complete arguments={enrollment=enrollment,lesson=row}
-     pagination
+   breadcrumbs
+   tabs preferences.view
+   list Enrollment as enrollment where enrollment.account==actor and (preferences.view==all or (preferences.view==required and enrollment.parent.required) or (preferences.view==optional and not enrollment.parent.required) or (preferences.view==overdue and enrollment.due!=null and enrollment.due<local_date(now,team.timezone) and enrollment.active and enrollment.progress<100)) and (preferences.location==null or preferences.location in enrollment.parent.locations) and (preferences.audience==null or enrollment.parent.audience==preferences.audience) order={by=preferences.order,default=[due,parent.title],cases={title=[parent.title,due]}} display=split empty="No enrolled courses"@{nl="Geen ingeschreven cursussen"}
+    badge row.parent.audience
+    text row.parent.title,row.due
+    text row.active,row.parent.required
+    progress row.progress max=100
+    text row.total
+    alert
+     require not row.active or not actor.email_verified or not eligible(actor,row.parent)
+     text "Lesson access unavailable; your acknowledgments remain in history."@{nl="Lesinhoud niet beschikbaar; je bevestigingen blijven in de historiek."}
+    card "Acknowledgment history"@{nl="Bevestigingshistoriek"}
+     require not row.active or not actor.email_verified or not eligible(actor,row.parent)
+     table row.Completion columns=author,completed order=completed empty="No acknowledgments yet"@{nl="Nog geen bevestigingen"}
+      pagination
+    steps row.parent.Lesson
+     slot item
+      title row.title
+      content row.content
+      text any(enrollment.Completion as acknowledgment,acknowledgment.lesson==row)
+      form complete arguments={enrollment=enrollment,lesson=row}
+    pagination
 
   # Author and publish course versions and inspect attributed completion. @{nl="Maak en publiceer cursusversies en bekijk herleidbare afronding."}
-  page /learning/courses title=page_learning_courses_title
+  page /learning/courses title=page_learning_courses_title $LearnWorkspace
    require instructor
-   style LearnWorkspace
-    breadcrumbs
-    card page_learning_courses_title
-     form Course.create
-      input title
-      radio audience
-      checkbox required
-      ## locations keeps its generated control (array input has no catalog control).
-     list Course as course where preferences.location==null or preferences.location in course.locations filter=audience,required defaults={audience=preferences.audience} search=title display=split empty="No courses yet"@{nl="Nog geen cursussen"}
-      badge row.audience
-      edit
-      tabs
-       tab "Ordered draft lessons"@{nl="Geordende conceptlessen"}
-        form DraftLesson.create
-         input title
-         textarea content
-         input position
-        list row.DraftLesson order=position empty="No draft lessons yet"@{nl="Nog geen conceptlessen"}
-         edit
-         delete
-         pagination
-        action publish
-       tab "Published versions and enrollments"@{nl="Gepubliceerde versies en inschrijvingen"}
-        list row.Version empty="No published versions yet"@{nl="Nog geen gepubliceerde versies"}
-         badge row.audience
-         button opens=enroll
-         modal "Enroll learner"@{nl="Deelnemer inschrijven"} id=enroll
-          slot content
-           form enroll arguments={version=row} display=inline
-            ## account:user stays generated: no user-picker vocabulary.
-            calendar due
-         table row.Enrollment columns=account,due,active,total,progress empty="No enrollments yet"@{nl="Nog geen inschrijvingen"}
-          progress row.progress max=100
-          action withdraw
-          table row.Completion columns=lesson,author,completed order=completed empty="No acknowledgments yet"@{nl="Nog geen bevestigingen"}
-           pagination
+   breadcrumbs
+   card page_learning_courses_title
+    form Course.create
+     input title
+     radio audience
+     checkbox required
+     ## locations keeps its generated control (array input has no catalog control).
+    list Course as course where preferences.location==null or preferences.location in course.locations filter=audience,required defaults={audience=preferences.audience} search=title display=split empty="No courses yet"@{nl="Nog geen cursussen"}
+     badge row.audience
+     edit
+     tabs
+      tab "Ordered draft lessons"@{nl="Geordende conceptlessen"}
+       form DraftLesson.create
+        input title
+        textarea content
+        input position
+       list row.DraftLesson order=position empty="No draft lessons yet"@{nl="Nog geen conceptlessen"}
+        edit
+        delete
+        pagination
+       action publish
+      tab "Published versions and enrollments"@{nl="Gepubliceerde versies en inschrijvingen"}
+       list row.Version empty="No published versions yet"@{nl="Nog geen gepubliceerde versies"}
+        badge row.audience
+        button opens=enroll
+        modal "Enroll learner"@{nl="Deelnemer inschrijven"} id=enroll
+         slot content
+          form enroll arguments={version=row} display=inline
+           ## account:user stays generated: no user-picker vocabulary.
+           calendar due
+        table row.Enrollment columns=account,due,active,total,progress empty="No enrollments yet"@{nl="Nog geen inschrijvingen"}
+         progress row.progress max=100
+         action withdraw
+         table row.Completion columns=lesson,author,completed order=completed empty="No acknowledgments yet"@{nl="Nog geen bevestigingen"}
           pagination
          pagination
-      pagination
+        pagination
+     pagination

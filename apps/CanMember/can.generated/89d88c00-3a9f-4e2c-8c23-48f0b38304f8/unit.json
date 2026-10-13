@@ -14,7 +14,7 @@
   "label": null,
   "prompt": "Use distinct readable outcome badges, a compact term interval and exact price, with a wrapping source reference; inherit the current theme.",
   "profile": "frontend",
-  "source_line": 722,
+  "source_line": 721,
   "draft_source_key": "[\"member_terms\",\"view\",\"TermOutcome\",null]",
   "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
   "style_scope": "inline"

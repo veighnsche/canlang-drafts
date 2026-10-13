@@ -163,30 +163,29 @@ package check
   preferences { application:text? label=label_Check_application, location:Location? }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
   # Read configured checks and perform only authorized pause and resume. @{nl="Lees geconfigureerde controles en voer uitsluitend toegestane pauze- en hervatacties uit."}
-  page /job-health title="Job health"@{nl="Taakgezondheid"}
+  page /job-health title="Job health"@{nl="Taakgezondheid"} $"Create a focused health-monitoring list with clearly labeled recorded states, last receipts, deadlines, and grace periods. Keep transition and notification histories readable; avoid visual treatment that equates heartbeat health with completed business work. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /job-health page content; keep page admission and the shared shell unchanged."
    require operations
-   style $"Create a focused health-monitoring list with clearly labeled recorded states, last receipts, deadlines, and grace periods. Keep transition and notification histories readable; avoid visual treatment that equates heartbeat health with completed business work. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /job-health page content; keep page admission and the shared shell unchanged."
-    breadcrumbs
-    table Check columns=name,application,location,owner,state,enabled,last_ping,due,period,grace order=name search=name filter=application,location,state defaults={application=preferences.application,location=preferences.location} display=split empty="No checks found"@{nl="Geen controles gevonden"}
-     card "Current recorded health"@{nl="Huidige vastgelegde gezondheid"}
-      badge row.state
-      text row.purpose,row.application,row.location,row.owner
-      text row.enabled,row.armed,row.revision
-      text row.last_ping,row.due
-      stat row.period,row.grace
-      alert
-       require row.last_ping==null
-       text "No heartbeat received yet. The first missed deadline marks this check down."@{nl="Nog geen heartbeat ontvangen. De eerste gemiste deadline markeert deze controle als uitgevallen."}
-      actions pause,resume
-     divider "Recorded history"@{nl="Vastgelegde historiek"}
-     tabs
-      tab "Transitions"@{nl="Overgangen"}
-       timeline row.Transition
-        slot item
-         text row.from,row.to,row.occurred
-      tab "Notifications"@{nl="Meldingen"}
-       table row.Notice columns=kind,outcome,detail,occurred order=-occurred empty="No notifications yet"@{nl="Nog geen meldingen"}
-        status row.outcome
-        pagination
-     history
-     pagination
+   breadcrumbs
+   table Check columns=name,application,location,owner,state,enabled,last_ping,due,period,grace order=name search=name filter=application,location,state defaults={application=preferences.application,location=preferences.location} display=split empty="No checks found"@{nl="Geen controles gevonden"}
+    card "Current recorded health"@{nl="Huidige vastgelegde gezondheid"}
+     badge row.state
+     text row.purpose,row.application,row.location,row.owner
+     text row.enabled,row.armed,row.revision
+     text row.last_ping,row.due
+     stat row.period,row.grace
+     alert
+      require row.last_ping==null
+      text "No heartbeat received yet. The first missed deadline marks this check down."@{nl="Nog geen heartbeat ontvangen. De eerste gemiste deadline markeert deze controle als uitgevallen."}
+     actions pause,resume
+    divider "Recorded history"@{nl="Vastgelegde historiek"}
+    tabs
+     tab "Transitions"@{nl="Overgangen"}
+      timeline row.Transition
+       slot item
+        text row.from,row.to,row.occurred
+     tab "Notifications"@{nl="Meldingen"}
+      table row.Notice columns=kind,outcome,detail,occurred order=-occurred empty="No notifications yet"@{nl="Nog geen meldingen"}
+       status row.outcome
+       pagination
+    history
+    pagination

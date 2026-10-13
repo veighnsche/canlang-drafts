@@ -1,0 +1,25 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "8a094704-26cd-4595-a3ac-6aec9050c339",
+  "kind": "given_trait",
+  "label": null,
+  "source_line": 13,
+  "profile": "shared",
+  "prompt": "Contribute pinned:bool=false with the label Pinned to this Note only. Preserve the author, parent, body constraints and current read/write authority; pinning happens only through the declared canonical Note update. Add no automatic transition or permission.",
+  "target_kind": "model",
+  "target": "Note",
+  "applications": [
+    "Note"
+  ],
+  "export_roles": [
+    "contributions"
+  ],
+  "binding_status": "Partial native declaration contribution"
+}

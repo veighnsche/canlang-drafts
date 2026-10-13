@@ -10,7 +10,7 @@
   "label": null,
   "prompt": "Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 153,
+  "source_line": 151,
   "draft_source_key": "[\"decide\",\"page\",\"/decisions\",null]",
   "abi_version": 1,
   "provider": null,

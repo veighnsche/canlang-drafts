@@ -1,0 +1,20 @@
+{
+  "unit_id": "e60d6725-ade8-4b08-85ab-fb77b6c12d6e",
+  "abi_version": 1,
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "source": "apps/CanDo/CanDo.can",
+  "owner": "todo",
+  "source_line": 122,
+  "page": null,
+  "view": null,
+  "label": "TaskTileHost",
+  "style_scope": "definition",
+  "prompt": "Give each task tile a little vertical separation and let it fill its card. Style only the caller host placement, size and inherited typography; keep the tile renderer and its private parts owned by the view.",
+  "profile": "frontend",
+  "draft_source_key": "[\"todo\",\"style\",\"TaskTileHost\",null]"
+}

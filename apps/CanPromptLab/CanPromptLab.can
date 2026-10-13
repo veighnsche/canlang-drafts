@@ -1,0 +1,167 @@
+# Explore reusable and inline prompt authoring in a small private catalog.
+app CanPromptLab uses=[prompt_lab]
+
+package prompt_lab
+ Given
+  role curator label="Catalog curator"
+  trait archive_evidence $"Contribute archived:bool=false, archived_by:user? and archived_at:datetime? with clear field labels to the attached model. Keep its existing policy, locks, invariant and CRUD declarations. Never archive automatically or grant permission; the explicitly authored archive and restore scenarios own every transition."
+  trait key_text_budget $"Validate that the attached text field's UTF-8 encoded value occupies at most 128 bytes using a pure field check. Preserve stored spelling, existing native trim and character-length constraints, labels, permissions and canonical validation feedback. Do not truncate, normalize, repair or mutate the value; supply no operation, storage owner or authority."
+  keyword canonical_identity(target:model, field:field(target,text)) agent=careful $"Use the selected text field's NFKC-normalized, ASCII-lowercased value as a canonical unique key in its existing model ownership scope. Preserve stored spelling, ordinary read/write permissions and native text constraints. Select the canonical State unique-key producer: State owns old/final claims, atomic swaps, deletion release, rollback, version fencing, replay and collision-checked schema activation. Add no helper field, raw claim API or authority."
+  Catalog { name:text trim min=1 max=120 } label="Catalog"
+  Entry in Catalog { code:text trim min=1 max=100 key_text_budget label="Catalog code", title:text trim min=1 max=200, barcode:text min=13 max=13 trait $"Validate a required EAN-13 barcode as exactly thirteen ASCII digits whose final digit equals the standard alternating one/three weighted check digit of the preceding twelve. Preserve the stored text, native length constraints, field label, permissions and canonical validation feedback. Supply only a pure field-validation contribution; do not repair or coerce an invalid barcode." label="EAN-13 barcode", summary:text trim min=1 max=4000, rank:int=0 min=0 max=999 label="Display rank" } archive_evidence label="Catalog entry"
+  Tag { name:text trim min=1 max=100 key_text_budget, description:text trim min=1 max=1000, rank:int=0 min=0 max=999 label="Display rank" } archive_evidence label="Catalog tag"
+  Note in Entry { body:text trim min=1 max=4000, author:user server=actor } trait $"Contribute pinned:bool=false with the label Pinned to this Note only. Preserve the author, parent, body constraints and current read/write authority; pinning happens only through the declared canonical Note update. Add no automatic transition or permission." label="Entry note"
+  canonical_identity target=Entry field=Entry.code
+  canonical_identity target=Tag field=Tag.name
+  policy Catalog read=members
+  policy Entry read=members
+  policy Tag read=members
+  policy Note read=members
+  lock Entry fields=archived,archived_by,archived_at
+  lock Tag fields=archived,archived_by,archived_at
+  lock Note fields=author
+  invariant Entry: (not row.archived and row.archived_by==null and row.archived_at==null) or (row.archived and row.archived_by!=null and row.archived_at!=null)
+  invariant Tag: (not row.archived and row.archived_by==null and row.archived_at==null) or (row.archived and row.archived_by!=null and row.archived_at!=null)
+  fixture editor=user {roles=[curator]}
+  fixture catalog=Catalog {name="Reading room"}
+  fixture alice=Entry {parent=catalog,code="Ａlice",title="Desk lamp",barcode="4006381333931",summary="Warm reading light",rank=1}
+  fixture bob=Entry {parent=catalog,code="Bob",title="Notebook",barcode="9780306406157",summary="Reference notes",rank=2}
+  fixture tag=Tag {name="Reference",description="Useful background material"}
+  fixture note=Note {parent=alice,body="Keep the original barcode label",author=editor}
+ When
+  crud Catalog by=curator fields=name delete=none
+  crud Entry by=curator fields=code,title,barcode,summary,rank when=not row.archived delete=remove
+  crud Tag by=curator fields=name,description,rank when=not row.archived delete=remove
+  crud Note by=members fields=body,pinned when=row.author==actor and not row.parent.archived delete=remove
+  scenario archive_entry(entry:Entry) by=curator label="Archive entry"
+   require not entry.archived
+   do set entry {archived=true,archived_by=actor,archived_at=now}
+   examples entry=alice
+    as,entry.archived -> entry.archived,entry.archived_by,entry.archived_at
+    editor,false -> true,self,now
+    editor,true -> error(rule_failed)
+    members,false -> error(forbidden)
+  scenario restore_entry(entry:Entry) by=curator label="Restore entry"
+   require entry.archived
+   do set entry {archived=false,archived_by=null,archived_at=null}
+   examples entry=alice
+    as,entry.archived,entry.archived_by,entry.archived_at -> entry.archived,entry.archived_by,entry.archived_at
+    editor,true,editor,now -> false,null,null
+    editor,false,null,null -> error(rule_failed)
+  scenario archive_tag(tag:Tag) by=curator label="Archive tag"
+   require not tag.archived
+   do set tag {archived=true,archived_by=actor,archived_at=now}
+   examples tag=tag
+    as,tag.archived -> tag.archived,tag.archived_by
+    editor,false -> true,self
+    members,false -> error(forbidden)
+  scenario restore_tag(tag:Tag) by=curator label="Restore tag"
+   require tag.archived
+   do set tag {archived=false,archived_by=null,archived_at=null}
+  ## Both sets are one owner transaction; uniqueness checks the final state.
+  scenario swap_codes(first:Entry,second:Entry) by=curator label="Swap catalog codes"
+   require first!=second and first.parent==second.parent and not first.archived and not second.archived
+   do
+    let previous=first.code
+    set first {code=second.code}
+    set second {code=previous}
+   examples first=alice second=bob
+    as,first.archived,second.archived -> first.code,second.code
+    editor,false,false -> "Bob","Ａlice"
+    editor,false,true -> error(rule_failed)
+    members,false,false -> error(forbidden)
+  ## Independent authored cases for the novel computed-key and checksum behavior.
+  scenario add_entry(catalog:Catalog,code:text,title:text,barcode:text,summary:text) by=curator -> Entry label="Add checked entry"
+   do
+    create Entry {parent=catalog,code,title,barcode,summary} as entry
+    return entry
+   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
+    as,code,barcode -> result.code
+    editor,"Alice","4006381333931" -> error(unique)
+    editor,"ALICE","4006381333931" -> error(unique)
+    editor,"Carol","4006381333931" -> "Carol"
+    editor,"Carol","4006381333932" -> error(validation)
+    editor,"Carol","４006381333931" -> error(validation)
+    members,"Carol","4006381333931" -> error(forbidden)
+  scenario add_tag(name:text,description:text) by=curator -> Tag label="Add tag"
+   do
+    create Tag {name,description} as tag
+    return tag
+   examples seed=[tag] description="A useful category"
+    as,name -> result.name
+    editor,"Ｒeference" -> error(unique)
+    editor,"REFERENCE" -> error(unique)
+    editor,"New" -> "New"
+    members,"New" -> error(forbidden)
+  ## A post-write guard failure rolls back both the value and computed key.
+  scenario change_code_if(entry:Entry,code:text,accept:bool) by=curator label="Change code with final approval"
+   require not entry.archived
+   do
+    set entry {code}
+    require accept
+   examples entry=alice
+    as,code,accept -> entry.code
+    editor,"Carol",true -> "Carol"
+    editor,"Carol",false -> error(rule_failed)
+    members,"Carol",true -> error(forbidden)
+ Then
+  style Workspace $"Give the attached page, card, form, generated-view root or custom view host a readable catalog surface with modest spacing and responsive stacking. Respect each target's actual root/part contract and nearest ownership. Inherit the theme and canonical shell, retain all fields, controls, validation feedback, localized captions and keyboard focus; caller host styling cannot style a child renderer's interior."
+  style FieldSurface $"Give the attached canonical text input or textarea a clear boundary, comfortable spacing and visible keyboard focus. Preserve labels, required/disabled states, native and generated validation feedback, exact field identity and submission behavior. Inherit the theme."
+  style ControlSurface $"Make the attached canonical button or control easy to identify with visible focus and compact spacing. Retain its permission admission, caption, loading/error states, version and CSRF data, confirmation and operation binding. Inherit the theme."
+  view EntryTile(row:Entry) $"Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup."
+   style $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
+   edit $ControlSurface
+   button action=archive_entry $ControlSurface
+   button action=restore_entry $"Show this canonical restore control clearly beside the archive evidence, retaining every admission, confirmation, feedback and focus state."
+   delete $"Keep the canonical delete control distinct and legible without changing its confirmation, permission, version or submission behavior."
+  view TagTile(row:Tag) $"Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation."
+   style Workspace
+   edit
+   button action=archive_tag
+   button action=restore_tag
+   delete
+  page /catalogs title="Catalogs" $Workspace
+   require members
+   breadcrumbs
+   card "New catalog" $Workspace
+    form Catalog.create $Workspace
+     input name $FieldSurface
+   list Catalog columns=name order=name empty="No catalogs yet."
+    pagination
+    card "Catalog entries" $"Keep the selected catalog heading, entry intake and collection easy to scan; stack on narrow screens and preserve canonical controls and feedback."
+     title row.name
+     edit
+     form Entry.create $"Group every canonical entry field without changing parent binding, submit behavior, labels or validation."
+      input code $FieldSurface
+      input title $FieldSurface
+      input barcode $"Make the canonical EAN-13 input readable with a monospaced value and visible validation feedback; do not normalize or repair entered digits."
+      textarea summary $"Use readable line length and visible focus for the canonical summary textarea; preserve exact text and validation behavior."
+      input rank
+     list row.Entry columns=code,title,archived order=rank empty="No entries in this catalog."
+      pagination
+      show EntryTile {row=row} $Workspace
+      form Note.create
+       textarea body
+      list row.Note columns=body,author,pinned order=-created empty="No notes yet."
+       pagination
+       edit
+       delete
+      history
+  page /tags title="Catalog tags" $"Use a compact tag workspace with readable descriptions and a clear intake area; preserve the shared shell, canonical admission and feedback."
+   require members
+   breadcrumbs
+   card "New tag" $"Separate tag intake from existing tags with modest theme-based spacing and responsive wrapping."
+    form Tag.create
+     input name $FieldSurface
+     textarea description $FieldSurface
+     input rank
+   list Tag columns=name,archived order=rank empty="No tags yet."
+    pagination
+    show TagTile {row=row} $Workspace
+    history
+  page /catalogs/archived title="Archived entries" $Workspace
+   require members
+   breadcrumbs
+   list Entry as row where row.archived columns=code,title,archived order=rank empty="No archived entries."
+    pagination
+    show EntryTile {row=row} $"Give this custom view host enough space for archive evidence and restoration; retain child-owned renderer roots and all canonical control behavior."

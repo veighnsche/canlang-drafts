@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "e68621ed-c8cc-4659-9372-f4fe65e6fe6f",
+  "source_line": 150,
+  "page": "/tags",
+  "view": null,
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Use a compact tag workspace with readable descriptions and a clear intake area; preserve the shared shell, canonical admission and feedback.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"page\",\"/tags\",null]",
+  "kind": "style",
+  "target": "browser-css"
+}

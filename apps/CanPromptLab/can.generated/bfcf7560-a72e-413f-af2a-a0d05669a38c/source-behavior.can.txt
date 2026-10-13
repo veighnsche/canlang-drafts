@@ -1,0 +1,6 @@
+  view EntryTile(row:Entry) $"Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup."
+   style $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
+   edit $ControlSurface
+   button action=archive_entry $ControlSurface
+   button action=restore_entry $"Show this canonical restore control clearly beside the archive evidence, retaining every admission, confirmation, feedback and focus state."
+   delete $"Keep the canonical delete control distinct and legible without changing its confirmation, permission, version or submission behavior."

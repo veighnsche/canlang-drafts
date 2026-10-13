@@ -1,0 +1,48 @@
+  keyword canonical_identity(target:model, field:field(target,text)) agent=careful $"Use the selected text field's NFKC-normalized, ASCII-lowercased value as a canonical unique key in its existing model ownership scope. Preserve stored spelling, ordinary read/write permissions and native text constraints. Select the canonical State unique-key producer: State owns old/final claims, atomic swaps, deletion release, rollback, version fencing, replay and collision-checked schema activation. Add no helper field, raw claim API or authority."
+  canonical_identity target=Entry field=Entry.code
+  canonical_identity target=Tag field=Tag.name
+  scenario swap_codes(first:Entry,second:Entry) by=curator label="Swap catalog codes"
+   require first!=second and first.parent==second.parent and not first.archived and not second.archived
+   do
+    let previous=first.code
+    set first {code=second.code}
+    set second {code=previous}
+   examples first=alice second=bob
+    as,first.archived,second.archived -> first.code,second.code
+    editor,false,false -> "Bob","Ａlice"
+    editor,false,true -> error(rule_failed)
+    members,false,false -> error(forbidden)
+  ## Independent authored cases for the novel computed-key and checksum behavior.
+  scenario add_entry(catalog:Catalog,code:text,title:text,barcode:text,summary:text) by=curator -> Entry label="Add checked entry"
+   do
+    create Entry {parent=catalog,code,title,barcode,summary} as entry
+    return entry
+   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
+    as,code,barcode -> result.code
+    editor,"Alice","4006381333931" -> error(unique)
+    editor,"ALICE","4006381333931" -> error(unique)
+    editor,"Carol","4006381333931" -> "Carol"
+    editor,"Carol","4006381333932" -> error(validation)
+    editor,"Carol","４006381333931" -> error(validation)
+    members,"Carol","4006381333931" -> error(forbidden)
+  scenario add_tag(name:text,description:text) by=curator -> Tag label="Add tag"
+   do
+    create Tag {name,description} as tag
+    return tag
+   examples seed=[tag] description="A useful category"
+    as,name -> result.name
+    editor,"Ｒeference" -> error(unique)
+    editor,"REFERENCE" -> error(unique)
+    editor,"New" -> "New"
+    members,"New" -> error(forbidden)
+  ## A post-write guard failure rolls back both the value and computed key.
+  scenario change_code_if(entry:Entry,code:text,accept:bool) by=curator label="Change code with final approval"
+   require not entry.archived
+   do
+    set entry {code}
+    require accept
+   examples entry=alice
+    as,code,accept -> entry.code
+    editor,"Carol",true -> "Carol"
+    editor,"Carol",false -> error(rule_failed)
+    members,"Carol",true -> error(forbidden)

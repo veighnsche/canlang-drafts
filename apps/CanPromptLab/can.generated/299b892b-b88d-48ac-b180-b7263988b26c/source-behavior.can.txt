@@ -1,0 +1,6 @@
+  view TagTile(row:Tag) $"Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation."
+   style Workspace
+   edit
+   button action=archive_tag
+   button action=restore_tag
+   delete

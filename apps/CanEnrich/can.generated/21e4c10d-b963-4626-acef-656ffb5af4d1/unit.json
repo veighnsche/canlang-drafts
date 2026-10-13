@@ -10,7 +10,7 @@
   "label": null,
   "prompt": "Use a restrained company-review table with clear provider evidence and balanced before-and-after comparisons. Distinguish proposed registry facts, accepted facts, prior values, reviewer reasons, and failed lookups; preserve the chronology of retained evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /enrichment page content; keep page admission and the shared shell unchanged.",
   "profile": "frontend",
-  "source_line": 171,
+  "source_line": 169,
   "draft_source_key": "[\"enrich\",\"page\",\"/enrichment\",null]",
   "abi_version": 1,
   "provider": null,

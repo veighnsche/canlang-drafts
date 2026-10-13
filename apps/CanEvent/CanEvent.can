@@ -528,102 +528,100 @@ package events
   style EventsWorkspace $"Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, ticket_state:Registration.state? label="Initial ticket state filter"@{nl="Eerste filter toegangsbewijsstatus"} }
   # Discover published events and retrieve only your own tickets. @{nl="Ontdek gepubliceerde evenementen en haal uitsluitend je eigen toegangsbewijzen op."}
-  page /events title="Events"@{nl="Evenementen"}
-   style EventsWorkspace
-    breadcrumbs
-    hero "Published event discovery"@{nl="Gepubliceerde evenementen ontdekken"}
-     list (Event as offering where offering.published and not offering.cancelled) columns=name,location,from,until,price,available filter=location defaults={location=preferences.location} search=name order=from display=split
+  page /events title="Events"@{nl="Evenementen"} $EventsWorkspace
+   breadcrumbs
+   hero "Published event discovery"@{nl="Gepubliceerde evenementen ontdekken"}
+    list (Event as offering where offering.published and not offering.cancelled) columns=name,location,from,until,price,available filter=location defaults={location=preferences.location} search=name order=from display=split
+     pagination
+     ## terms stay in the browse row (visitors review terms before registering)
+     ## and repeat once inside the register dialog at decision time.
+     text row.description,row.timezone,row.from,row.until,row.price,row.sales_until,row.refund_before,row.terms,row.venue_name
+     ## Seats progress: readable numerics with compatible count units and a finite
+     ## positive maximum (UI-COMPONENTS Navigation-and-shared-state; profile table).
+     ## Owner gap: available is not in the public Event fields and counts rows a
+     ## public caller cannot read; the seats display assumes an owner grant ruling.
+     progress row.available max=row.capacity
+     button opens=register_dialog
+     modal "Register for event"@{nl="Registreren voor evenement"} id=register_dialog
+      slot content
+       alert
+        content row.terms
+       form register arguments={event=row} display=inline
+        input name
+        input email
+   card "Own tickets and admission"@{nl="Eigen toegangsbewijzen en toelating"}
+    require authenticated
+    list (Registration as ticket where ticket.account==actor) filter=state defaults={state=preferences.ticket_state} display=split
+     pagination
+     badge row.state
+     badge row.payment
+     badge row.charge_status
+     badge row.refund_state
+     status row.parent.cancelled
+     text row.ticket,row.expires,row.checked_in,row.terms,row.refund_before,row.parent.name,row.parent.location,row.parent.from,row.parent.until,row.parent.timezone,row.parent.cancellation_reason
+     copy row.ticket
+     table row.Notice columns=kind,revision,state
       pagination
-      ## terms stay in the browse row (visitors review terms before registering)
-      ## and repeat once inside the register dialog at decision time.
-      text row.description,row.timezone,row.from,row.until,row.price,row.sales_until,row.refund_before,row.terms,row.venue_name
-      ## Seats progress: readable numerics with compatible count units and a finite
-      ## positive maximum (UI-COMPONENTS Navigation-and-shared-state; profile table).
-      ## Owner gap: available is not in the public Event fields and counts rows a
-      ## public caller cannot read; the seats display assumes an owner grant ruling.
-      progress row.available max=row.capacity
-      button opens=register_dialog
-      modal "Register for event"@{nl="Registreren voor evenement"} id=register_dialog
-       slot content
-        alert
-         content row.terms
-        form register arguments={event=row} display=inline
-         input name
-         input email
-    card "Own tickets and admission"@{nl="Eigen toegangsbewijzen en toelating"}
-     require authenticated
-     list (Registration as ticket where ticket.account==actor) filter=state defaults={state=preferences.ticket_state} display=split
-      pagination
-      badge row.state
-      badge row.payment
-      badge row.charge_status
-      badge row.refund_state
-      status row.parent.cancelled
-      text row.ticket,row.expires,row.checked_in,row.terms,row.refund_before,row.parent.name,row.parent.location,row.parent.from,row.parent.until,row.parent.timezone,row.parent.cancellation_reason
-      copy row.ticket
-      table row.Notice columns=kind,revision,state
-       pagination
-      form cancel arguments={registration=row}
-       textarea reason
-      button action=reconcile arguments={registration=row}
+     form cancel arguments={registration=row}
+      textarea reason
+     button action=reconcile arguments={registration=row}
   # Author events and perform scoped reception admission. @{nl="Beheer evenementen en voer beperkte receptietoelating uit."}
-  page /events/work title="Event operations"@{nl="Evenementuitvoering"}
+  page /events/work title="Event operations"@{nl="Evenementuitvoering"} $EventsWorkspace
    breadcrumbs
    require organizer or check_in or finance
-   style EventsWorkspace
-    card "Event intake"@{nl="Evenement aanmaken"}
-     require organizer
-     form Program.create
-      input name
-     list Program columns=name
-      pagination
-      ## from/until/sales_until/refund_before are datetimes: no date-only
-      ## calendar control applies; they keep generated controls.
-      form Event.create
-       input name
-       textarea description
-       textarea terms
-    list Event columns=name,location,from filter=location defaults={location=preferences.location} display=split
+   card "Event intake"@{nl="Evenement aanmaken"}
+    require organizer
+    form Program.create
+     input name
+    list Program columns=name
      pagination
-     card "Event and venue outcome"@{nl="Evenement en locatie-uitkomst"}
-      status row.published
-      status row.cancelled
-      text row.timezone,row.capacity,row.sales_until,row.refund_before,row.terms
-      edit
-       input name
-       textarea description
-       textarea terms
-      button action=publish arguments={event=row}
-      form change_schedule
+     ## from/until/sales_until/refund_before are datetimes: no date-only
+     ## calendar control applies; they keep generated controls.
+     form Event.create
+      input name
+      textarea description
+      textarea terms
+   list Event columns=name,location,from filter=location defaults={location=preferences.location} display=split
+    pagination
+    card "Event and venue outcome"@{nl="Evenement en locatie-uitkomst"}
+     status row.published
+     status row.cancelled
+     text row.timezone,row.capacity,row.sales_until,row.refund_before,row.terms
+     edit
+      input name
+      textarea description
+      textarea terms
+     button action=publish arguments={event=row}
+     form change_schedule
+      textarea reason
+     form cancel_event
+      textarea reason
+     form register arguments={event=row}
+      input name
+      input email
+    table row.Change columns=location,from,until,state,venue_state,venue_revision,hold_status,confirm_status,release_status
+     pagination
+     badge row.state
+     ## abandon keeps its generated reason form (reason is required).
+     action abandon
+     button action=retry_release arguments={change=row}
+     history
+    table row.Registration columns=name,email,state,payment,ticket,checked_in filter=state,payment search=name display=split
+     pagination
+     badge row.state
+     badge row.payment
+     button action=admit arguments={registration=row}
+     collapse "Ticket finance and history"@{nl="Financiën en historie toegangsbewijs"}
+      require organizer or finance
+      badge row.refund_state
+      badge row.charge_status
+      text row.expires,row.price,row.checked_by,row.terms,row.refund_before,row.invoice,row.delivery?.id,row.collected,row.refunded,row.cancel_status,row.refund_status,row.reconcile_status
+      form cancel arguments={registration=row}
        textarea reason
-      form cancel_event
+      form refund arguments={registration=row}
        textarea reason
-      form register arguments={event=row}
-       input name
-       input email
-     table row.Change columns=location,from,until,state,venue_state,venue_revision,hold_status,confirm_status,release_status
-      pagination
-      badge row.state
-      ## abandon keeps its generated reason form (reason is required).
-      action abandon
-      button action=retry_release arguments={change=row}
+      button action=reconcile arguments={registration=row}
+      table row.Notice columns=kind,revision,state
+       pagination
+       button action=resend_notice arguments={notice=row}
       history
-     table row.Registration columns=name,email,state,payment,ticket,checked_in filter=state,payment search=name display=split
-      pagination
-      badge row.state
-      badge row.payment
-      button action=admit arguments={registration=row}
-      collapse "Ticket finance and history"@{nl="Financiën en historie toegangsbewijs"}
-       require organizer or finance
-       badge row.refund_state
-       badge row.charge_status
-       text row.expires,row.price,row.checked_by,row.terms,row.refund_before,row.invoice,row.delivery?.id,row.collected,row.refunded,row.cancel_status,row.refund_status,row.reconcile_status
-       form cancel arguments={registration=row}
-        textarea reason
-       form refund arguments={registration=row}
-        textarea reason
-       button action=reconcile arguments={registration=row}
-       table row.Notice columns=kind,revision,state
-        pagination
-        button action=resend_notice arguments={notice=row}
-       history

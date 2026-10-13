@@ -1,0 +1,2 @@
+  Note in Entry { body:text trim min=1 max=4000, author:user server=actor } trait $"Contribute pinned:bool=false with the label Pinned to this Note only. Preserve the author, parent, body constraints and current read/write authority; pinning happens only through the declared canonical Note update. Add no automatic transition or permission." label="Entry note"
+  crud Note by=members fields=body,pinned when=row.author==actor and not row.parent.archived delete=remove

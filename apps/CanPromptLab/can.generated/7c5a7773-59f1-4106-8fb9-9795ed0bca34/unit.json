@@ -1,0 +1,26 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "7c5a7773-59f1-4106-8fb9-9795ed0bca34",
+  "source_line": 134,
+  "page": "/catalogs",
+  "view": null,
+  "component_path": [
+    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
+    "card \"Catalog entries\"",
+    "form Entry.create"
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Group every canonical entry field without changing parent binding, submit behavior, labels or validation.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\",\"form Entry.create\"]]",
+  "kind": "style",
+  "target": "browser-css"
+}

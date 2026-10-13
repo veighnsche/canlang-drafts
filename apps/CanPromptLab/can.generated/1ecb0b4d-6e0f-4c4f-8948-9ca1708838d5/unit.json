@@ -1,0 +1,27 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "1ecb0b4d-6e0f-4c4f-8948-9ca1708838d5",
+  "source_line": 138,
+  "page": "/catalogs",
+  "view": null,
+  "component_path": [
+    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
+    "card \"Catalog entries\"",
+    "form Entry.create",
+    "textarea summary"
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Use readable line length and visible focus for the canonical summary textarea; preserve exact text and validation behavior.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\",\"form Entry.create\",\"textarea summary\"]]",
+  "kind": "style",
+  "target": "browser-css"
+}

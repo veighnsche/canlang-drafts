@@ -1,0 +1,40 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "bfcf7560-a72e-413f-af2a-a0d05669a38c",
+  "kind": "then_view",
+  "label": "EntryTile",
+  "source_line": 111,
+  "profile": "frontend",
+  "prompt": "Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup.",
+  "target": "view EntryTile(row:Entry)",
+  "row_model": "Entry",
+  "export_roles": [
+    "render"
+  ],
+  "checked_controls": [
+    "edit",
+    "button action=archive_entry",
+    "button action=restore_entry",
+    "delete"
+  ],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "textFields",
+    "control"
+  ],
+  "provisional_binding": {
+    "export": "render",
+    "input": "admitted row and checked declared canonical controls",
+    "result": "canonical presentation nodes"
+  },
+  "definition_style_prompt": "Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus.",
+  "definition_style_name": null
+}

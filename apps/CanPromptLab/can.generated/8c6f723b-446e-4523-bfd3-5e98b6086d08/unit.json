@@ -1,0 +1,25 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "8c6f723b-446e-4523-bfd3-5e98b6086d08",
+  "source_line": 167,
+  "page": "/catalogs/archived",
+  "view": null,
+  "component_path": [
+    "list Entry as row where row.archived columns=code,title,archived order=rank empty=\"No archived entries.\"",
+    "show EntryTile {row=row}"
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Give this custom view host enough space for archive evidence and restoration; retain child-owned renderer roots and all canonical control behavior.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs/archived\",[\"list Entry as row where row.archived columns=code,title,archived order=rank empty=\\\"No archived entries.\\\"\",\"show EntryTile {row=row}\"]]",
+  "kind": "style",
+  "target": "browser-css"
+}

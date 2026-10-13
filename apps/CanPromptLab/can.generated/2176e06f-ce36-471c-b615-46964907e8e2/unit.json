@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "2176e06f-ce36-471c-b615-46964907e8e2",
+  "source_line": 112,
+  "page": null,
+  "view": "EntryTile",
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"view\",\"EntryTile\",null]",
+  "kind": "style",
+  "target": "browser-css"
+}

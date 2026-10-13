@@ -1,0 +1,4 @@
+/* Handwritten draft: :scope denotes this admitted root/host.
+   Compiler ownership lowering and canonical parts remain provisional. */
+:scope { inline-size: 100%; max-inline-size: 100%; margin-block: .25rem; }
+:scope:focus-within { outline: 2px solid currentColor; outline-offset: 3px; }

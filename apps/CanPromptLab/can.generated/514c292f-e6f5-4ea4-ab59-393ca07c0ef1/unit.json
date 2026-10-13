@@ -1,0 +1,25 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "514c292f-e6f5-4ea4-ab59-393ca07c0ef1",
+  "source_line": 131,
+  "page": "/catalogs",
+  "view": null,
+  "component_path": [
+    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
+    "card \"Catalog entries\""
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Keep the selected catalog heading, entry intake and collection easy to scan; stack on narrow screens and preserve canonical controls and feedback.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\"]]",
+  "kind": "style",
+  "target": "browser-css"
+}

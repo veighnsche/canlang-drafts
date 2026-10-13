@@ -1,0 +1,21 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "2c01f326-d9de-4799-9fd2-df9acaa13192",
+  "source_line": 108,
+  "page": null,
+  "view": null,
+  "label": "Workspace",
+  "style_scope": "definition",
+  "prompt": "Give the attached page, card, form, generated-view root or custom view host a readable catalog surface with modest spacing and responsive stacking. Respect each target's actual root/part contract and nearest ownership. Inherit the theme and canonical shell, retain all fields, controls, validation feedback, localized captions and keyboard focus; caller host styling cannot style a child renderer's interior.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"style\",\"Workspace\",null]",
+  "kind": "style",
+  "target": "browser-css"
+}

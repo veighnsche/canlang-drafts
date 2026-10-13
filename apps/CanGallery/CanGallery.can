@@ -90,66 +90,62 @@ package gallery
   style GalleryWorkspace $"Let approved images lead with consistent preview proportions and restrained collection captions. Keep own submissions, pending review, and approved collections visually distinct; show review actions and collection-access rows without exposing private conversation context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   view SubmissionIdentity(row:Submission) $"Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller."
    style $"Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts."
-  page /gallery title="Approved collections"@{nl="Goedgekeurde collecties"} poll=1s
+  page /gallery title="Approved collections"@{nl="Goedgekeurde collecties"} poll=1s $GalleryWorkspace
    require members
-   style GalleryWorkspace
-    ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
-    breadcrumbs
-    list Collection as collection where can_read(actor,collection) empty="No collections available"@{nl="Geen collecties beschikbaar"}
-     pagination
-     title row.name
-     form approved arguments={collection=row}
-      gallery result image=image empty="No approved images yet"@{nl="Nog geen goedgekeurde beelden"}
-       pagination
-       show SubmissionIdentity {row=row}
-       text row.decided_at
-  page /gallery/submit title="My images and submissions"@{nl="Mijn beelden en inzendingen"} poll=1s
-   require members
-   style GalleryWorkspace
-    breadcrumbs
-    gallery Output as output where output.parent.state==succeeded image=image empty="No successful images to submit"@{nl="Geen geslaagde beelden om in te dienen"}
-     pagination
-     form submit arguments={output=row}
-      select collection
-      input title
-      textarea statement
-      textarea rights
-    gallery Submission as submission where submission.author==actor image=image empty="No submissions yet"@{nl="Nog geen inzendingen"}
-     pagination
-     title row.title
-     badge row.state
-     text row.reason,row.withdraw_reason
-     button opens=withdraw_image
-     modal "Withdraw image"@{nl="Beeld intrekken"} id=withdraw_image
-      slot content
-       form withdraw arguments={submission=row} display=inline
-        textarea reason
-  page /gallery/review title="Image review"@{nl="Beeldbeoordeling"} poll=1s
-   require reviewer
-   style GalleryWorkspace
-    breadcrumbs
-    gallery Submission as submission where submission.state==pending and can_review(actor,submission.parent) image=image empty="No images awaiting review"@{nl="Geen beelden ter beoordeling"}
-     pagination
-     show SubmissionIdentity {row=row}
-     content row.statement
-     button opens=review_image
-     modal "Review image"@{nl="Beeld beoordelen"} id=review_image
-      slot content
-       form review arguments={submission=row} display=inline
-        checkbox approve
-        textarea reason
-  page /gallery/access title="Collection access"@{nl="Collectietoegang"}
-   require curator
-   style GalleryWorkspace
-    breadcrumbs
-    form Collection.create
-     input name
-    list Collection as collection where collection.owner==actor empty="No collections yet"@{nl="Nog geen collecties"}
-     pagination
-     title row.name
-     edit fields=name,active
-     ## account:user stays generated: no user-picker vocabulary.
-     form Access.create arguments={parent=row}
-     table row.Access columns=account,active empty="No granted accounts"@{nl="Geen accounts met toegang"}
+   ## Breadcrumbs show current declared ancestry; the shared right-sidebar shell supplies navigation, no per-app menu.
+   breadcrumbs
+   list Collection as collection where can_read(actor,collection) empty="No collections available"@{nl="Geen collecties beschikbaar"}
+    pagination
+    title row.name
+    form approved arguments={collection=row}
+     gallery result image=image empty="No approved images yet"@{nl="Nog geen goedgekeurde beelden"}
       pagination
-      edit fields=active
+      show SubmissionIdentity {row=row}
+      text row.decided_at
+  page /gallery/submit title="My images and submissions"@{nl="Mijn beelden en inzendingen"} poll=1s $GalleryWorkspace
+   require members
+   breadcrumbs
+   gallery Output as output where output.parent.state==succeeded image=image empty="No successful images to submit"@{nl="Geen geslaagde beelden om in te dienen"}
+    pagination
+    form submit arguments={output=row}
+     select collection
+     input title
+     textarea statement
+     textarea rights
+   gallery Submission as submission where submission.author==actor image=image empty="No submissions yet"@{nl="Nog geen inzendingen"}
+    pagination
+    title row.title
+    badge row.state
+    text row.reason,row.withdraw_reason
+    button opens=withdraw_image
+    modal "Withdraw image"@{nl="Beeld intrekken"} id=withdraw_image
+     slot content
+      form withdraw arguments={submission=row} display=inline
+       textarea reason
+  page /gallery/review title="Image review"@{nl="Beeldbeoordeling"} poll=1s $GalleryWorkspace
+   require reviewer
+   breadcrumbs
+   gallery Submission as submission where submission.state==pending and can_review(actor,submission.parent) image=image empty="No images awaiting review"@{nl="Geen beelden ter beoordeling"}
+    pagination
+    show SubmissionIdentity {row=row}
+    content row.statement
+    button opens=review_image
+    modal "Review image"@{nl="Beeld beoordelen"} id=review_image
+     slot content
+      form review arguments={submission=row} display=inline
+       checkbox approve
+       textarea reason
+  page /gallery/access title="Collection access"@{nl="Collectietoegang"} $GalleryWorkspace
+   require curator
+   breadcrumbs
+   form Collection.create
+    input name
+   list Collection as collection where collection.owner==actor empty="No collections yet"@{nl="Nog geen collecties"}
+    pagination
+    title row.name
+    edit fields=name,active
+    ## account:user stays generated: no user-picker vocabulary.
+    form Access.create arguments={parent=row}
+    table row.Access columns=account,active empty="No granted accounts"@{nl="Geen accounts met toegang"}
+     pagination
+     edit fields=active

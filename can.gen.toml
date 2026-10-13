@@ -9,3 +9,9 @@ max_attempts = 1
 timeout_seconds = 600
 
 # Then uses frontend with shared fallback; no repeated agent=frontend is needed.
+
+# Optional complete recipe used by the prompt showcase; model stays a placeholder.
+[profiles.careful]
+runner = "codex"
+model = "YOUR_SUPPORTED_MODEL_ID"
+timeout_seconds = 900

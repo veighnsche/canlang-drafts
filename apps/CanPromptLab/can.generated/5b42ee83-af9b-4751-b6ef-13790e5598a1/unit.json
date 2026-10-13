@@ -1,0 +1,24 @@
+{
+  "abi_version": 1,
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "prompt_lab",
+  "source": "apps/CanPromptLab/CanPromptLab.can",
+  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
+  "unit_id": "5b42ee83-af9b-4751-b6ef-13790e5598a1",
+  "source_line": 116,
+  "page": null,
+  "view": "EntryTile",
+  "component_path": [
+    "delete"
+  ],
+  "label": null,
+  "style_scope": "inline",
+  "prompt": "Keep the canonical delete control distinct and legible without changing its confirmation, permission, version or submission behavior.",
+  "profile": "frontend",
+  "draft_source_key": "[\"prompt_lab\",\"view\",\"EntryTile\",[\"delete\"]]",
+  "kind": "style",
+  "target": "browser-css"
+}

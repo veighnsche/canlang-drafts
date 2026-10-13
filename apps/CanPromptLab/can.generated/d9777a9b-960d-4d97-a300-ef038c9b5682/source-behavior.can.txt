@@ -1,0 +1,38 @@
+ When
+  crud Catalog by=curator fields=name delete=none
+  crud Entry by=curator fields=code,title,barcode,summary,rank when=not row.archived delete=remove
+  crud Tag by=curator fields=name,description,rank when=not row.archived delete=remove
+  crud Note by=members fields=body,pinned when=row.author==actor and not row.parent.archived delete=remove
+  scenario archive_entry(entry:Entry) by=curator label="Archive entry"
+   require not entry.archived
+   do set entry {archived=true,archived_by=actor,archived_at=now}
+   examples entry=alice
+    as,entry.archived -> entry.archived,entry.archived_by,entry.archived_at
+    editor,false -> true,self,now
+    editor,true -> error(rule_failed)
+    members,false -> error(forbidden)
+  scenario restore_entry(entry:Entry) by=curator label="Restore entry"
+   require entry.archived
+   do set entry {archived=false,archived_by=null,archived_at=null}
+   examples entry=alice
+    as,entry.archived,entry.archived_by,entry.archived_at -> entry.archived,entry.archived_by,entry.archived_at
+    editor,true,editor,now -> false,null,null
+    editor,false,null,null -> error(rule_failed)
+  scenario archive_tag(tag:Tag) by=curator label="Archive tag"
+   require not tag.archived
+   do set tag {archived=true,archived_by=actor,archived_at=now}
+   examples tag=tag
+    as,tag.archived -> tag.archived,tag.archived_by
+    editor,false -> true,self
+    members,false -> error(forbidden)
+  scenario restore_tag(tag:Tag) by=curator label="Restore tag"
+   require tag.archived
+   do set tag {archived=false,archived_by=null,archived_at=null}
+  ## Both sets are one owner transaction; uniqueness checks the final state.
+  scenario swap_codes(first:Entry,second:Entry) by=curator label="Swap catalog codes"
+   require first!=second and first.parent==second.parent and not first.archived and not second.archived
+   do
+    let previous=first.code
+    set first {code=second.code}
+    set second {code=previous}
+   examples first=alice second=bob

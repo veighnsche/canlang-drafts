@@ -240,106 +240,103 @@ package leave label="Leave"@{nl="Verlof"}
   style LeaveWorkspace $"Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { year:int? label=label_preferences_year, bucket:text? label=label_preferences_bucket }
   # Preview recorded calendar and allowance data before requesting whole working days. @{nl="Bekijk vastgelegde kalender- en tegoedgegevens voordat je hele werkdagen aanvraagt."}
-  page /leave/mine title="My leave"@{nl="Mijn verlof"}
+  page /leave/mine title="My leave"@{nl="Mijn verlof"} $LeaveWorkspace
    breadcrumbs
    require members
-   style LeaveWorkspace
-    card "View defaults"@{nl="Weergavevoorkeuren"}
-     ## Inline presentation of the owning year/bucket extension through the existing save path; the shared dialog keeps the same settings.
-     preferences
-      input year
-      input bucket
-    card "Leave dates and allowance"@{nl="Verlofdatums en tegoed"} layout=columns
-     card "Working calendar and request intake"@{nl="Werkkalender en verlofaanvraag"}
-      list Calendar as calendar where calendar.parent.user==actor display=split empty="No working calendar."@{nl="Geen werkkalender."}
-       pagination
-       form preview
-        stat result.days
-        list result.portions empty="No counted days."@{nl="Geen getelde dagen."}
-         pagination
-         text row.year,row.days,row.allowance?.remaining
-       form request display=inline
-        fieldset "Request leave"@{nl="Verlof aanvragen"}
-         calendar from
-         calendar until
-         input bucket
-         textarea reason
-       table row.Day columns=date,working empty="No calendar days configured."@{nl="Geen kalenderdagen ingesteld."}
-        pagination
-       table row.Request columns=from,until,bucket,state,decision,sync order=-from filter=bucket,state defaults={bucket=preferences.bucket} empty="No leave requests."@{nl="Geen verlofaanvragen."}
-        pagination
-        badge row.state
-        ## sync is an enum: badge, not status.
-        badge row.sync
-        tooltip "Withdraws your pending request"@{nl="Trekt je lopende aanvraag in"}
-         action withdraw
-     card "Annual allowance"@{nl="Jaarlijks verloftegoed"}
-      table Allowance as allowance where allowance.parent.user==actor columns=year,bucket,days,remaining filter=year,bucket defaults={year=preferences.year,bucket=preferences.bucket} empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
-       pagination
-       collapse "Balance"@{nl="Saldo"}
-        require row.days>0
-        radial_progress row.remaining max=row.days
-
-  # Decide assigned leave while keeping private reasons out of the shared absence calendar. @{nl="Beoordeel toegewezen verlof en houd private redenen buiten de gedeelde afwezigheidskalender."}
-  page /leave/review title="Leave review"@{nl="Verlof beoordelen"}
-   breadcrumbs
-   require hr or leave_reviewer
-   style LeaveWorkspace
-    card "Assigned review"@{nl="Toegewezen beoordeling"}
-     table Request columns=from,until,reason,state,decision,sync,release_state order=from filter=bucket,state defaults={bucket=preferences.bucket} display=split empty="No assigned leave."@{nl="Geen toegewezen verlof."}
+   card "View defaults"@{nl="Weergavevoorkeuren"}
+    ## Inline presentation of the owning year/bucket extension through the existing save path; the shared dialog keeps the same settings.
+    preferences
+     input year
+     input bucket
+   card "Leave dates and allowance"@{nl="Verlofdatums en tegoed"} layout=columns
+    card "Working calendar and request intake"@{nl="Werkkalender en verlofaanvraag"}
+     list Calendar as calendar where calendar.parent.user==actor display=split empty="No working calendar."@{nl="Geen werkkalender."}
       pagination
-      badge row.state
-      ## sync/release_state are enums: badge, not status.
-      badge row.sync
-      badge row.release_state
-      button opens=decide_request
-      modal "Decide request"@{nl="Aanvraag beoordelen"} id=decide_request
-       slot content
-        form decide arguments={request=row} display=inline
-         fieldset "Decision"@{nl="Besluit"}
-          checkbox approve
-          textarea reason
-      button opens=cancel_request
-      modal "Cancel request"@{nl="Aanvraag annuleren"} id=cancel_request
-       slot content
-        form cancel arguments={request=row} display=inline
-         textarea reason
-      action retry_release
-      collapse "Recorded date portions"@{nl="Vastgelegde datumdelen"}
-       list row.Portion empty="No portions."@{nl="Geen delen."}
+      form preview
+       stat result.days
+       list result.portions empty="No counted days."@{nl="Geen getelde dagen."}
         pagination
-        text row.days,row.dates
-      history
-    card "Allowance and calendar policies"@{nl="Tegoed en kalenderbeleid"}
-     require hr
-     form Allowance.create
-      input year
-      input bucket
-      input days
-     table Allowance columns=year,bucket,days,remaining filter=year,bucket empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
-      pagination
-      edit
-     form Calendar.create
-      input name
-     list Calendar empty="No calendars configured."@{nl="Geen kalenders ingesteld."}
-      pagination
-      edit
-      form Day.create
-       calendar date
-      form Category.create
-      table row.Category columns=name,allowance_bucket empty="No absence categories configured."@{nl="Geen afwezigheidscategorieën ingesteld."}
-       pagination
-       edit
+        text row.year,row.days,row.allowance?.remaining
+      form request display=inline
+       fieldset "Request leave"@{nl="Verlof aanvragen"}
+        calendar from
+        calendar until
+        input bucket
+        textarea reason
       table row.Day columns=date,working empty="No calendar days configured."@{nl="Geen kalenderdagen ingesteld."}
        pagination
-       edit
+      table row.Request columns=from,until,bucket,state,decision,sync order=-from filter=bucket,state defaults={bucket=preferences.bucket} empty="No leave requests."@{nl="Geen verlofaanvragen."}
+       pagination
+       badge row.state
+       ## sync is an enum: badge, not status.
+       badge row.sync
+       tooltip "Withdraws your pending request"@{nl="Trekt je lopende aanvraag in"}
+        action withdraw
+    card "Annual allowance"@{nl="Jaarlijks verloftegoed"}
+     table Allowance as allowance where allowance.parent.user==actor columns=year,bucket,days,remaining filter=year,bucket defaults={year=preferences.year,bucket=preferences.bucket} empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
+      pagination
+      collapse "Balance"@{nl="Saldo"}
+       require row.days>0
+       radial_progress row.remaining max=row.days
+
+  # Decide assigned leave while keeping private reasons out of the shared absence calendar. @{nl="Beoordeel toegewezen verlof en houd private redenen buiten de gedeelde afwezigheidskalender."}
+  page /leave/review title="Leave review"@{nl="Verlof beoordelen"} $LeaveWorkspace
+   breadcrumbs
+   require hr or leave_reviewer
+   card "Assigned review"@{nl="Toegewezen beoordeling"}
+    table Request columns=from,until,reason,state,decision,sync,release_state order=from filter=bucket,state defaults={bucket=preferences.bucket} display=split empty="No assigned leave."@{nl="Geen toegewezen verlof."}
+     pagination
+     badge row.state
+     ## sync/release_state are enums: badge, not status.
+     badge row.sync
+     badge row.release_state
+     button opens=decide_request
+     modal "Decide request"@{nl="Aanvraag beoordelen"} id=decide_request
+      slot content
+       form decide arguments={request=row} display=inline
+        fieldset "Decision"@{nl="Besluit"}
+         checkbox approve
+         textarea reason
+     button opens=cancel_request
+     modal "Cancel request"@{nl="Aanvraag annuleren"} id=cancel_request
+      slot content
+       form cancel arguments={request=row} display=inline
+        textarea reason
+     action retry_release
+     collapse "Recorded date portions"@{nl="Vastgelegde datumdelen"}
+      list row.Portion empty="No portions."@{nl="Geen delen."}
+       pagination
+       text row.days,row.dates
+     history
+   card "Allowance and calendar policies"@{nl="Tegoed en kalenderbeleid"}
+    require hr
+    form Allowance.create
+     input year
+     input bucket
+     input days
+    table Allowance columns=year,bucket,days,remaining filter=year,bucket empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
+     pagination
+     edit
+    form Calendar.create
+     input name
+    list Calendar empty="No calendars configured."@{nl="Geen kalenders ingesteld."}
+     pagination
+     edit
+     form Day.create
+      calendar date
+     form Category.create
+     table row.Category columns=name,allowance_bucket empty="No absence categories configured."@{nl="Geen afwezigheidscategorieën ingesteld."}
+      pagination
+      edit
+     table row.Day columns=date,working empty="No calendar days configured."@{nl="Geen kalenderdagen ingesteld."}
+      pagination
+      edit
 
   # View accepted dates for coverage planning under location grants. @{nl="Bekijk geaccepteerde datums voor bezettingsplanning binnen locatierechten."}
-  page /leave/absence title="Absence dates"@{nl="Afwezigheidsdatums"}
+  page /leave/absence title="Absence dates"@{nl="Afwezigheidsdatums"} $LeaveWorkspace
    breadcrumbs
    require members
-   style LeaveWorkspace
-    card "Scoped absence dates"@{nl="Afwezigheid binnen scope"}
-     calendar Request as request where request.state==approved start=from end=until columns=location,state filter=location,from,until empty="No absence dates."@{nl="Geen afwezigheidsdatums."}
-      pagination
-      badge row.state
+   card "Scoped absence dates"@{nl="Afwezigheid binnen scope"}
+    calendar Request as request where request.state==approved start=from end=until columns=location,state filter=location,from,until empty="No absence dates."@{nl="Geen afwezigheidsdatums."}
+     pagination
+     badge row.state
