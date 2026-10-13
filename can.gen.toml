@@ -1,17 +1,30 @@
-# Draft configuration example. The generation engine is not implemented.
-# No CLI/model was invoked to produce the adjacent handwritten witnesses.
+# Shared draft generation recipe. Select this file explicitly when the
+# request root is an individual apps/<App> directory. Existing historical
+# witnesses are not retroactively claimed as outputs of this recipe.
 version = 1
 
 [generation]
 runner = "codex"
-model = "YOUR_SUPPORTED_MODEL_ID"
+model = "gpt-6.1-sol"
 max_attempts = 1
 timeout_seconds = 600
 
-# Then uses frontend with shared fallback; no repeated agent=frontend is needed.
+[generation.native]
+model_reasoning_effort = "medium"
 
-# Optional complete recipe used by the prompt showcase; model stays a placeholder.
-[profiles.careful]
+# Then uses this complete frontend recipe; no repeated agent=frontend is needed.
+[generation.profiles.frontend]
 runner = "codex"
-model = "YOUR_SUPPORTED_MODEL_ID"
+model = "gpt-6.1-sol"
+
+[generation.profiles.frontend.native]
+model_reasoning_effort = "medium"
+
+# The showcase's explicit careful profile retains the same requested model/effort.
+[generation.profiles.careful]
+runner = "codex"
+model = "gpt-6.1-sol"
 timeout_seconds = 900
+
+[generation.profiles.careful.native]
+model_reasoning_effort = "medium"
