@@ -1,0 +1,7 @@
+      text row.title,row.assignee,row.due,row.priority,row.done,row.completed_by,row.completed_at
+      content row.description
+      edit
+      ## Completion and reopening stay canonical operations presented as quick actions.
+      fab
+       button action=complete
+       button action=reopen

@@ -1,0 +1,11 @@
+# Draft configuration example. The generation engine is not implemented.
+# No CLI/model was invoked to produce the adjacent handwritten witnesses.
+version = 1
+
+[generation]
+runner = "codex"
+model = "YOUR_SUPPORTED_MODEL_ID"
+max_attempts = 1
+timeout_seconds = 600
+
+# Then uses frontend with shared fallback; no repeated agent=frontend is needed.

@@ -1,0 +1,19 @@
+{
+  "unit_id": "2bbea059-18bf-4c9e-bd65-0bcf3e40bc41",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanBook/CanBook.can",
+  "owner": "appointments",
+  "page": "/appointments/hosts",
+  "view": null,
+  "label": "PageAppointmentsHosts2Segment1",
+  "prompt": "Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /appointments/hosts page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 437,
+  "draft_source_key": "[\"appointments\",\"page\",\"/appointments/hosts\",\"PageAppointmentsHosts2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

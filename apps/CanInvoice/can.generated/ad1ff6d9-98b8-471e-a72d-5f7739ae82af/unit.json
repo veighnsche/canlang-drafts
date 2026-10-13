@@ -1,0 +1,19 @@
+{
+  "unit_id": "ad1ff6d9-98b8-471e-a72d-5f7739ae82af",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanInvoice/CanInvoice.can",
+  "owner": "invoice",
+  "page": "/finance/invoice-history",
+  "view": null,
+  "label": null,
+  "prompt": "Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /finance/invoice-history page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 826,
+  "draft_source_key": "[\"invoice\",\"page\",\"/finance/invoice-history\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

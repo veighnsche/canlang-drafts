@@ -1,0 +1,23 @@
+{
+  "unit_id": "bdc583dd-0fb1-40d3-b16a-e52560521cbc",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "supplier",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "shared/Suppliers.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Supplier",
+      "field": "name",
+      "type": "text"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

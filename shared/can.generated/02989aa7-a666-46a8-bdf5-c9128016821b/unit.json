@@ -1,0 +1,23 @@
+{
+  "unit_id": "02989aa7-a666-46a8-bdf5-c9128016821b",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "rent_catalog",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "shared/Locations.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Location",
+      "field": "name",
+      "type": "text"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

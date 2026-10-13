@@ -1,0 +1,19 @@
+{
+  "unit_id": "438afa50-1dc3-4dbe-ac89-4d4ad0440e36",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanPurchase/CanPurchase.can",
+  "owner": "purchase",
+  "page": "/purchasing/mine",
+  "view": null,
+  "label": null,
+  "prompt": "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /purchasing/mine page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 383,
+  "draft_source_key": "[\"purchase\",\"page\",\"/purchasing/mine\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

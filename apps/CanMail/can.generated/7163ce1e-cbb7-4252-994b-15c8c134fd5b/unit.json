@@ -1,0 +1,19 @@
+{
+  "unit_id": "7163ce1e-cbb7-4252-994b-15c8c134fd5b",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanMail/CanMail.can",
+  "owner": "mailroom",
+  "page": "/mailroom/mine",
+  "view": null,
+  "label": "PageMailroomMine2Segment1",
+  "prompt": "Use practical mailroom rows with prominent recipient, storage, kind, and handling state. Distinguish collection, forwarding, notices, and incidents; keep recipient and delegate authority context readable without exposing private instructions in broad list summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /mailroom/mine page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 406,
+  "draft_source_key": "[\"mailroom\",\"page\",\"/mailroom/mine\",\"PageMailroomMine2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

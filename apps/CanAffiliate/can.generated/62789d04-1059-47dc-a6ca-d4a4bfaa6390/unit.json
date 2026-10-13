@@ -1,0 +1,19 @@
+{
+  "unit_id": "62789d04-1059-47dc-a6ca-d4a4bfaa6390",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanAffiliate/CanAffiliate.can",
+  "owner": "affiliate",
+  "page": "/partners/mine",
+  "view": null,
+  "label": "PagePartnersMine2Segment1",
+  "prompt": "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /partners/mine page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 279,
+  "draft_source_key": "[\"affiliate\",\"page\",\"/partners/mine\",\"PagePartnersMine2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

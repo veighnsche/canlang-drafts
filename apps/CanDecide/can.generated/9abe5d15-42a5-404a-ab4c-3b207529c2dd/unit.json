@@ -1,0 +1,19 @@
+{
+  "unit_id": "9abe5d15-42a5-404a-ab4c-3b207529c2dd",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanDecide/CanDecide.can",
+  "owner": "decide",
+  "page": "/decisions",
+  "view": null,
+  "label": null,
+  "prompt": "Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 154,
+  "draft_source_key": "[\"decide\",\"page\",\"/decisions\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

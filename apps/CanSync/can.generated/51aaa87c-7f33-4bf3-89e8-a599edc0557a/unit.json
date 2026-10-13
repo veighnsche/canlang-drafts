@@ -1,0 +1,19 @@
+{
+  "unit_id": "51aaa87c-7f33-4bf3-89e8-a599edc0557a",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanSync/CanSync.can",
+  "owner": "sync",
+  "page": "/sync",
+  "view": null,
+  "label": null,
+  "prompt": "Use compact linked-account rows and balanced correction comparisons. Clearly separate observed remote values, desired changes, review decisions, and write outcomes; keep failed or uncertain attempts legible alongside baseline revisions and recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sync page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 175,
+  "draft_source_key": "[\"sync\",\"page\",\"/sync\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "90f6e49d-d0c0-4f2e-bf04-919e587856a6",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanCreative/CanCreative.can",
+  "owner": "creative",
+  "page": "/creative/workflows",
+  "view": null,
+  "label": "PageCreativeWorkflows4Segment1",
+  "prompt": "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /creative/workflows page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 322,
+  "draft_source_key": "[\"creative\",\"page\",\"/creative/workflows\",\"PageCreativeWorkflows4Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

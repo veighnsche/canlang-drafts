@@ -1,0 +1,19 @@
+{
+  "unit_id": "6f44493e-ac14-4e6a-810b-2a4ea8c48a4e",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanTime/CanTime.can",
+  "owner": "time",
+  "page": "/time/review",
+  "view": null,
+  "label": "PageTimeReview2Segment1",
+  "prompt": "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /time/review page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 300,
+  "draft_source_key": "[\"time\",\"page\",\"/time/review\",\"PageTimeReview2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

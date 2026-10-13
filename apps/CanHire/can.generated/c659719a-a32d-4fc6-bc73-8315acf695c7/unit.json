@@ -1,0 +1,19 @@
+{
+  "unit_id": "c659719a-a32d-4fc6-bc73-8315acf695c7",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanHire/CanHire.can",
+  "owner": "hire",
+  "page": "/hiring/handoff",
+  "view": null,
+  "label": "PageHiringHandoff4Segment1",
+  "prompt": "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /hiring/handoff page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 419,
+  "draft_source_key": "[\"hire\",\"page\",\"/hiring/handoff\",\"PageHiringHandoff4Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

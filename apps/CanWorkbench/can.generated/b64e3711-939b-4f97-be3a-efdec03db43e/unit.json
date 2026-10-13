@@ -1,0 +1,19 @@
+{
+  "unit_id": "b64e3711-939b-4f97-be3a-efdec03db43e",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanWorkbench/CanWorkbench.can",
+  "owner": "workbench",
+  "page": "/workbench",
+  "view": null,
+  "label": null,
+  "prompt": "Use a focused session-and-step layout with readable goals and complete proposed arguments. Clearly distinguish authorized context, suggestions, explicit approvals, and actual delivery outcomes; keep stopped sessions, expiry, and durable history visible beside recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workbench page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 172,
+  "draft_source_key": "[\"workbench\",\"page\",\"/workbench\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

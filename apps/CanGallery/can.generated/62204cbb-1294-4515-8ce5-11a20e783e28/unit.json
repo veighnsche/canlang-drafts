@@ -1,0 +1,19 @@
+{
+  "unit_id": "62204cbb-1294-4515-8ce5-11a20e783e28",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanGallery/CanGallery.can",
+  "owner": "gallery",
+  "page": "/gallery/submit",
+  "view": null,
+  "label": "PageGallerySubmit2Segment1",
+  "prompt": "Let approved images lead with consistent preview proportions and restrained collection captions. Keep own submissions, pending review, and approved collections visually distinct; show review actions and collection-access rows without exposing private conversation context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /gallery/submit page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 105,
+  "draft_source_key": "[\"gallery\",\"page\",\"/gallery/submit\",\"PageGallerySubmit2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "671bf883-ef1b-4034-964a-7600ed3470fe",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanShift/CanShift.can",
+  "owner": "shift",
+  "page": "/roster",
+  "view": null,
+  "label": null,
+  "prompt": "Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /roster page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 328,
+  "draft_source_key": "[\"shift\",\"page\",\"/roster\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

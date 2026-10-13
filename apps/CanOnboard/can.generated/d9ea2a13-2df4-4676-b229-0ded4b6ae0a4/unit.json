@@ -1,0 +1,19 @@
+{
+  "unit_id": "d9ea2a13-2df4-4676-b229-0ded4b6ae0a4",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanOnboard/CanOnboard.can",
+  "owner": "onboard",
+  "page": "/people/onboarding",
+  "view": null,
+  "label": "PagePeopleOnboarding2Segment1",
+  "prompt": "Use a discreet readiness checklist with readable assigned steps, version context, and attachments. Make each recorded completion and remaining requirement easy to scan; keep employee identity and private onboarding information within their existing authorized views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /people/onboarding page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 163,
+  "draft_source_key": "[\"onboard\",\"page\",\"/people/onboarding\",\"PagePeopleOnboarding2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

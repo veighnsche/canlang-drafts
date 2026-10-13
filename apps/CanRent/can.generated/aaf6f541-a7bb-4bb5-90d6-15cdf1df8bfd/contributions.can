@@ -1,0 +1,5 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+LegacyBooking { source:text trim min=1, attestation:text trim min=1 }
+Resource { name:text trim min=1 }
+Desk { name:text trim min=1 }

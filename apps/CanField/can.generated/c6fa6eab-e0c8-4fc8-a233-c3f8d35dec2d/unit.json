@@ -1,0 +1,19 @@
+{
+  "unit_id": "c6fa6eab-e0c8-4fc8-a233-c3f8d35dec2d",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanField/CanField.can",
+  "owner": "field",
+  "page": "/dispatch",
+  "view": null,
+  "label": null,
+  "prompt": "Use a legible dated service agenda and compact visit details that prioritize location, staff, skill, and status. Keep replacement requests and attributed reports readable; distinguish planned visits from completed work and source verification evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /dispatch page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 203,
+  "draft_source_key": "[\"field\",\"page\",\"/dispatch\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

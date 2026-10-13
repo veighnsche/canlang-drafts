@@ -1,0 +1,23 @@
+{
+  "unit_id": "6772f7b6-8618-4690-8bd0-64ab74dfcf66",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "employee",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "shared/Employees.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Employee",
+      "field": "name",
+      "type": "text?"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

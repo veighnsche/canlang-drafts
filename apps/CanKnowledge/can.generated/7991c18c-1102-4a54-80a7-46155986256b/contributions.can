@@ -1,0 +1,7 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+Topic { name:text trim min=1 }
+Document { name:text trim min=1 }
+Revision { title:text trim min=1 }
+Publication { reason:text trim min=1 }
+Escalation { reason:text trim min=1 }

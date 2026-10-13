@@ -1,0 +1,19 @@
+{
+  "unit_id": "8b51b8c2-88f1-4b46-aa61-6e2ca816cbde",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanChat/CanChat.can",
+  "owner": "chat",
+  "page": "/chat/admin",
+  "view": null,
+  "label": "PageChatAdmin3Segment1",
+  "prompt": "Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /chat/admin page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 338,
+  "draft_source_key": "[\"chat\",\"page\",\"/chat/admin\",\"PageChatAdmin3Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

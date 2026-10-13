@@ -1,0 +1,19 @@
+{
+  "unit_id": "21e4c10d-b963-4626-acef-656ffb5af4d1",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanEnrich/CanEnrich.can",
+  "owner": "enrich",
+  "page": "/enrichment",
+  "view": null,
+  "label": null,
+  "prompt": "Use a restrained company-review table with clear provider evidence and balanced before-and-after comparisons. Distinguish proposed registry facts, accepted facts, prior values, reviewer reasons, and failed lookups; preserve the chronology of retained evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /enrichment page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 172,
+  "draft_source_key": "[\"enrich\",\"page\",\"/enrichment\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

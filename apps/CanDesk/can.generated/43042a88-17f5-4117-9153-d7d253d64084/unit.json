@@ -1,0 +1,19 @@
+{
+  "unit_id": "43042a88-17f5-4117-9153-d7d253d64084",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanDesk/CanDesk.can",
+  "owner": "desk",
+  "page": "/support/mine",
+  "view": null,
+  "label": "PageSupportMine2Segment1",
+  "prompt": "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /support/mine page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 271,
+  "draft_source_key": "[\"desk\",\"page\",\"/support/mine\",\"PageSupportMine2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

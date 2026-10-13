@@ -1,0 +1,19 @@
+{
+  "unit_id": "2a49de55-dd63-4d9e-a665-73f48878bde5",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanTable/CanTable.can",
+  "owner": "cafe",
+  "page": "/cafe",
+  "view": null,
+  "label": null,
+  "prompt": "Use fast-scanning café rows with party size, priority, table, and timing prominent. Distinguish waiting guests, reserved intervals, and actual occupancy; give overdue estimates and uncleared-table conflicts clear notices beside seating and clearing actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /cafe page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 138,
+  "draft_source_key": "[\"cafe\",\"page\",\"/cafe\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

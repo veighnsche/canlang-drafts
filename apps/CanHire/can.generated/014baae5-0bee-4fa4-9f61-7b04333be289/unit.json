@@ -1,0 +1,23 @@
+{
+  "unit_id": "014baae5-0bee-4fa4-9f61-7b04333be289",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "hire",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "apps/CanHire/CanHire.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Vacancy",
+      "field": "title",
+      "type": "text"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

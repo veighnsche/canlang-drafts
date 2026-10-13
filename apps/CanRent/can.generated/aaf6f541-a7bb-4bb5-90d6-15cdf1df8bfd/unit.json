@@ -1,0 +1,38 @@
+{
+  "unit_id": "aaf6f541-a7bb-4bb5-90d6-15cdf1df8bfd",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "rent_reservations",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "apps/CanRent/CanRent.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "LegacyBooking",
+      "field": "source",
+      "type": "text"
+    },
+    {
+      "model": "LegacyBooking",
+      "field": "attestation",
+      "type": "text"
+    },
+    {
+      "model": "Resource",
+      "field": "name",
+      "type": "text"
+    },
+    {
+      "model": "Desk",
+      "field": "name",
+      "type": "text"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

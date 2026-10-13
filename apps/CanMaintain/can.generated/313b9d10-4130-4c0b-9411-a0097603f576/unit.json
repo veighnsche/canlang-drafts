@@ -1,0 +1,19 @@
+{
+  "unit_id": "313b9d10-4130-4c0b-9411-a0097603f576",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanMaintain/CanMaintain.can",
+  "owner": "maintain",
+  "page": "/facilities",
+  "view": null,
+  "label": null,
+  "prompt": "Make asset and repair rows easy to scan by severity, due date, and verified state. Keep inspections, affected bookings, contractor outcomes, and manager verification evidence distinct; emphasize return-to-service context without implying unconfirmed restoration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /facilities page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 436,
+  "draft_source_key": "[\"maintain\",\"page\",\"/facilities\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

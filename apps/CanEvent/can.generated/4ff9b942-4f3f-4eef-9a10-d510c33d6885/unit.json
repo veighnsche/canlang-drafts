@@ -1,0 +1,19 @@
+{
+  "unit_id": "4ff9b942-4f3f-4eef-9a10-d510c33d6885",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanEvent/CanEvent.can",
+  "owner": "events",
+  "page": "/events",
+  "view": null,
+  "label": null,
+  "prompt": "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /events page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 531,
+  "draft_source_key": "[\"events\",\"page\",\"/events\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

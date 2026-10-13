@@ -1,0 +1,38 @@
+{
+  "unit_id": "cb665802-28cf-47df-8a56-7ef07da301af",
+  "abi_version": 1,
+  "kind": "given_trait",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "expense",
+  "label": "nonempty",
+  "profile": "shared",
+  "source": "apps/CanExpense/CanExpense.can",
+  "prompt": "Trim this existing text field and require at least one character after trimming. Preserve nullability and all other constraints, captions, permissions and operations. Add no fields or defaults.",
+  "target_kind": "field",
+  "applications": [
+    {
+      "model": "Expense",
+      "field": "purpose",
+      "type": "text"
+    },
+    {
+      "model": "Reimbursement",
+      "field": "reference",
+      "type": "text"
+    },
+    {
+      "model": "LegacyExpense",
+      "field": "source",
+      "type": "text"
+    },
+    {
+      "model": "LegacyExpense",
+      "field": "attestation",
+      "type": "text"
+    }
+  ],
+  "contribution_format": "draft owner-attached partial model fragments; not standalone app source"
+}

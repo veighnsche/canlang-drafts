@@ -1,0 +1,19 @@
+{
+  "unit_id": "15437397-d74e-408e-aa3d-c50e7e4460b8",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanCatch/CanCatch.can",
+  "owner": "catch",
+  "page": "/errors",
+  "view": null,
+  "label": null,
+  "prompt": "Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 175,
+  "draft_source_key": "[\"catch\",\"page\",\"/errors\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,4 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+Deal { title:text trim min=1 }
+Activity { body:text trim min=1 }

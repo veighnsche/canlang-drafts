@@ -1,0 +1,19 @@
+{
+  "unit_id": "74d22437-dd75-40c9-ab9f-5eb8c183142e",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanKnowledge/CanKnowledge.can",
+  "owner": "knowledge",
+  "page": "/knowledge/expert",
+  "view": null,
+  "label": "PageKnowledgeExpert3Segment1",
+  "prompt": "Prioritize comfortable procedure reading and clear document revisions. Keep private questions, answer coverage, current authorized evidence, and unfinished responses distinct; use compact editorial review rows with readable publication decisions and source context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /knowledge/expert page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 353,
+  "draft_source_key": "[\"knowledge\",\"page\",\"/knowledge/expert\",\"PageKnowledgeExpert3Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

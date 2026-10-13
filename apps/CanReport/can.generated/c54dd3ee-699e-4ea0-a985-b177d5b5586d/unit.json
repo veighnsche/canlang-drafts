@@ -1,0 +1,19 @@
+{
+  "unit_id": "c54dd3ee-699e-4ea0-a985-b177d5b5586d",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanReport/CanReport.can",
+  "owner": "report",
+  "page": "/reports",
+  "view": null,
+  "label": null,
+  "prompt": "Use precise report rows with clear source, revision, unit, currency, and provisional labels. Give run checkpoints and completeness prominent context; align numeric measures while keeping missing or uncertain coverage visible beside the authorized results. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reports page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 122,
+  "draft_source_key": "[\"report\",\"page\",\"/reports\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

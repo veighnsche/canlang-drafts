@@ -1,0 +1,19 @@
+{
+  "unit_id": "6ad3467e-ead7-466f-b3bb-ec339e2971e3",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanCheck/CanCheck.can",
+  "owner": "check",
+  "page": "/job-health",
+  "view": null,
+  "label": null,
+  "prompt": "Create a focused health-monitoring list with clearly labeled recorded states, last receipts, deadlines, and grace periods. Keep transition and notification histories readable; avoid visual treatment that equates heartbeat health with completed business work. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /job-health page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 168,
+  "draft_source_key": "[\"check\",\"page\",\"/job-health\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

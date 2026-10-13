@@ -1,0 +1,19 @@
+{
+  "unit_id": "ffcebbc8-a932-4cfc-a769-dc997687bdb7",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanApprove/CanApprove.can",
+  "owner": "approve",
+  "page": "/documents/review",
+  "view": null,
+  "label": "PageDocumentsReview2Segment1",
+  "prompt": "Style document submissions as a calm review workspace with version-first rows, clear due dates, and labeled pending or decided states. Give exact files and decision reasons prominence; keep review history secondary but accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /documents/review page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 313,
+  "draft_source_key": "[\"approve\",\"page\",\"/documents/review\",\"PageDocumentsReview2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "c83b814c-088f-40e2-9049-a0019799d5be",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanCustomer/CanCustomer.can",
+  "owner": "customer",
+  "page": "/company-invitations",
+  "view": null,
+  "label": "PageCompanyInvitations4Segment1",
+  "prompt": "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /company-invitations page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 317,
+  "draft_source_key": "[\"customer\",\"page\",\"/company-invitations\",\"PageCompanyInvitations4Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

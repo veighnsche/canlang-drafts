@@ -1,0 +1,5 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+Expense { purpose:text trim min=1 }
+Reimbursement { reference:text trim min=1 }
+LegacyExpense { source:text trim min=1, attestation:text trim min=1 }

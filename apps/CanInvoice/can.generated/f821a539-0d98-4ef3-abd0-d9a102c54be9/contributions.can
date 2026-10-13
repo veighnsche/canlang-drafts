@@ -1,0 +1,4 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+LegacyInvoice { source:text trim min=1, attestation:text trim min=1 }
+LegacyInvoiceBooking { attestation:text trim min=1, mapping_reason:text trim min=1 }

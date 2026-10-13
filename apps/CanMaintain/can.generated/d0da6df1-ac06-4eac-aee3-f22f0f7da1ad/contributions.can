@@ -1,0 +1,3 @@
+## Handwritten field-contribution draft; attach only to the listed existing fields.
+## Partial model envelopes illustrate the needed constraints; they do not redeclare models.
+Repair { title:text trim min=1 }

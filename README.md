@@ -4,7 +4,7 @@ This is the independent [canlang-drafts](https://github.com/veighnsche/canlang-d
 
 The repository preserves all 106 draft-history commits reachable from Canlang commit [`52ed896`](https://github.com/veighnsche/canlang/commit/52ed8965b147604f2040158d9b82ad80967f383d), extracted with `git subtree split --prefix=draft`. Authors, committers, dates, messages and draft snapshots are preserved; commit IDs changed because `draft/` contents now live at the repository root. Canlang retains its original history. The extraction ends at `e022bee4743bc9379e498cc2af3038ee3df3c379`; this repository's later commits make the standalone documentation usable.
 
-All 39 `Can*.md` requirement documents have companion `.can` business sources using the [current language design](https://github.com/veighnsche/canlang/blob/main/docs/specification/DESIGN.md). Each source now declares its app name, canonical `#` description and selected packages. [Migration coverage](MIGRATION.md) records unfinished behavior and runtime requirements.
+The 49 app groups under `apps/` each contain their `.can` business source and `.md` requirements; 41 also retain a legacy `.mjs` desired-output witness. Each source declares its app name, canonical `#` description and selected packages. [Migration coverage](MIGRATION.md) records unfinished behavior and runtime requirements. [Generation drafts](GENERATION_DRAFTS.md) illustrate the newly accepted prompt carriers and adjacent handwritten implementation files.
 
 These are source-design drafts. Canlang now has a compiler and runtime with scoped validation; the existence of those implementations does not certify every draft, inline example or acceptance journey. Handwritten JavaScript companions are desired-output witnesses, with any partial scope stated in each file, not compiler-generated or fully qualified implementations. Migrating source does not establish complete requirements coverage.
 
@@ -14,10 +14,13 @@ Built-in i18n keeps descriptions and UI text inline: `# Manage tasks. @{nl="Behe
 
 ## Source layout
 
-- `Can*.can` contain app identity/composition and business packages together. For example, `CanDo.can` declares `app CanDo uses=[todo]` before package `todo`.
+- `apps/<CanApp>/<CanApp>.can` contains app identity/composition and business packages together. For example, [CanDo](apps/CanDo/CanDo.can) declares `app CanDo uses=[todo]` before package `todo`. Its requirements and legacy JavaScript witness stay in the same folder.
 - `shared/` retains the canonical location, employee and supplier packages. CanRent, CanOnboard and CanPurchase select their respective owning packages explicitly; other apps import them as dependencies. Shared-folder organization is deferred.
 - Interfaces and payloads live in their owning packages. `export` marks the owning declaration; consumers use local imports or a bound import such as `use invoice {BillingV1 as Billing} from=deployment.billing`.
 - The app-wrapper directory and authored build manifest are removed. No replacement registry or per-profile source inventory is required.
+- `can.generated/<opaque-unit-id>/` beside each group source holds clearly marked draft CSS, JS or contributions, with a minimal illustrative association record. Shared-package witnesses remain beside `shared/`. These folders are organization, not extra app declarations or permission owners.
+
+`python3 tools/organize.py` reports planned moves without writing. Use `--apply` to organize flat companions, or `--apply --scaffold-styles` to create missing handwritten style scaffolds for declared scopes. Repeating it preserves edited files and IDs. The helper never calls a coding CLI and does not implement `can gen`, source matching, leases or runtime validation.
 
 Select one app for deployment within an explicit project root. The compiler derives a declaration index and follows its `uses` composition plus package `use` dependencies. Multiple apps can be declared in the same business source; choose the app name when the entry file is ambiguous. Finding neighboring files does not include or execute their apps.
 
@@ -35,13 +38,13 @@ The existing compositions are declared alongside their related business app, wit
 
 | App | Source | Selected apps |
 | --- | --- | --- |
-| Workspace | [CanRent.can](CanRent.can) | CanRent, CanMember, CanReport |
-| CustomerSales | [CanCustomer.can](CanCustomer.can) | CanCustomer, CanCRM, CanBook, CanPropose, CanSuccess |
-| Facilities | [CanMaintain.can](CanMaintain.can) | CanMaintain, CanField, CanStock |
-| Finance | [CanInvoice.can](CanInvoice.can) | CanInvoice, CanExpense, CanPurchase, CanReport |
-| PeopleDevelopment | [CanHire.can](CanHire.can) | CanHire, CanOnboard, CanLearn |
-| StaffScheduling | [CanShift.can](CanShift.can) | CanLeave, CanShift |
-| ReferralsPartners | [CanRefer.can](CanRefer.can) | CanRefer, CanAffiliate |
+| Workspace | [CanRent.can](apps/CanRent/CanRent.can) | CanRent, CanMember, CanReport |
+| CustomerSales | [CanCustomer.can](apps/CanCustomer/CanCustomer.can) | CanCustomer, CanCRM, CanBook, CanPropose, CanSuccess |
+| Facilities | [CanMaintain.can](apps/CanMaintain/CanMaintain.can) | CanMaintain, CanField, CanStock |
+| Finance | [CanInvoice.can](apps/CanInvoice/CanInvoice.can) | CanInvoice, CanExpense, CanPurchase, CanReport |
+| PeopleDevelopment | [CanHire.can](apps/CanHire/CanHire.can) | CanHire, CanOnboard, CanLearn |
+| StaffScheduling | [CanShift.can](apps/CanShift/CanShift.can) | CanLeave, CanShift |
+| ReferralsPartners | [CanRefer.can](apps/CanRefer/CanRefer.can) | CanRefer, CanAffiliate |
 
 Composition expands member apps, deduplicates their canonical packages and merges compatible explicit context. Conflicting settings are errors; composition does not silently change business policy or provision separate databases. CanRent retains catalog, reservation, fulfillment and reporting packages. CanMember retains plans, paid terms/seats/allowances and content packages. The extra assistant-created OperatorCore shell was removed.
 

@@ -1,0 +1,19 @@
+{
+  "unit_id": "afe3ebb1-0d23-46cc-afe3-a810968fc8ef",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanInvoice/CanInvoice.can",
+  "owner": "invoice",
+  "page": "/finance/invoice/{Invoice.id}",
+  "view": null,
+  "label": "PageFinanceInvoiceInvoiceId4Segment1",
+  "prompt": "Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /finance/invoice/{Invoice.id} page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 1020,
+  "draft_source_key": "[\"invoice\",\"page\",\"/finance/invoice/{Invoice.id}\",\"PageFinanceInvoiceInvoiceId4Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "a07f2643-7992-4670-ae3f-7425c4878630",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanRent/CanRent.can",
+  "owner": "rent_reporting",
+  "page": "/workspace/occupancy",
+  "view": null,
+  "label": null,
+  "prompt": "Prioritize workspace discovery rows, readable rates, and interval checks. Make reservation, payment, allowance, and physical arrival outcomes distinct; use a legible occupancy agenda and clear capacity evidence while retaining resource windows and recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workspace/occupancy page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 1923,
+  "draft_source_key": "[\"rent_reporting\",\"page\",\"/workspace/occupancy\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

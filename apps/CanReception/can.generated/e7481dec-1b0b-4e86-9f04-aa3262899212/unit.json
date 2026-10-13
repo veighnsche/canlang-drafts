@@ -1,0 +1,19 @@
+{
+  "unit_id": "e7481dec-1b0b-4e86-9f04-aa3262899212",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanReception/CanReception.can",
+  "owner": "reception",
+  "page": "/reception/credentials",
+  "view": null,
+  "label": "PageReceptionCredentials4Segment1",
+  "prompt": "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reception/credentials page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 434,
+  "draft_source_key": "[\"reception\",\"page\",\"/reception/credentials\",\"PageReceptionCredentials4Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

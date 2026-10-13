@@ -1,0 +1,19 @@
+{
+  "unit_id": "e3220085-a11e-45ba-a115-67afec683f39",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanDiscover/CanDiscover.can",
+  "owner": "discover",
+  "page": "/discover",
+  "view": null,
+  "label": null,
+  "prompt": "Prioritize opportunity evidence and staff review over decorative metrics. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 323,
+  "draft_source_key": "[\"discover\",\"page\",\"/discover\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

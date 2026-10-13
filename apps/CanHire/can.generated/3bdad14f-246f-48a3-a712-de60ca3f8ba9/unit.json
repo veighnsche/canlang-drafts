@@ -1,0 +1,19 @@
+{
+  "unit_id": "3bdad14f-246f-48a3-a712-de60ca3f8ba9",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanHire/CanHire.can",
+  "owner": "hire",
+  "page": "/careers",
+  "view": null,
+  "label": null,
+  "prompt": "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /careers page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 289,
+  "draft_source_key": "[\"hire\",\"page\",\"/careers\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

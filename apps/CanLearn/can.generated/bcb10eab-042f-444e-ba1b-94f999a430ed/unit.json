@@ -1,0 +1,19 @@
+{
+  "unit_id": "bcb10eab-042f-444e-ba1b-94f999a430ed",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanLearn/CanLearn.can",
+  "owner": "learn",
+  "page": "/learning/courses",
+  "view": null,
+  "label": "PageLearningCourses2Segment1",
+  "prompt": "Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /learning/courses page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 175,
+  "draft_source_key": "[\"learn\",\"page\",\"/learning/courses\",\"PageLearningCourses2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "cfa8bfdc-1ce7-455b-aa45-1e2401cf7986",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanGrant/CanGrant.can",
+  "owner": "grant",
+  "page": "/awards/review",
+  "view": null,
+  "label": "PageAwardsReview2Segment1",
+  "prompt": "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /awards/review page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 378,
+  "draft_source_key": "[\"grant\",\"page\",\"/awards/review\",\"PageAwardsReview2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

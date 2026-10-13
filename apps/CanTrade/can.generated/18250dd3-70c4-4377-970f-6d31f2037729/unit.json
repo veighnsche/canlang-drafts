@@ -1,0 +1,19 @@
+{
+  "unit_id": "18250dd3-70c4-4377-970f-6d31f2037729",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanTrade/CanTrade.can",
+  "owner": "trade",
+  "page": "/marketplace/reports",
+  "view": null,
+  "label": "PageMarketplaceReports2Segment1",
+  "prompt": "Use approachable community listing rows with readable descriptions and clear wanted or offered labels. Keep deliberate contact visibility prominent in authoring; distinguish published listings, own drafts or closed entries, and moderation reasons within their existing views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /marketplace/reports page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 133,
+  "draft_source_key": "[\"trade\",\"page\",\"/marketplace/reports\",\"PageMarketplaceReports2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

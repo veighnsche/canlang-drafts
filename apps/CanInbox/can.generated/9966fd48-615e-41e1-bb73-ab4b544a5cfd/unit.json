@@ -1,0 +1,19 @@
+{
+  "unit_id": "9966fd48-615e-41e1-bb73-ab4b544a5cfd",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanInbox/CanInbox.can",
+  "owner": "inbox",
+  "page": "/inbox/settings",
+  "view": null,
+  "label": "PageInboxSettings2Segment1",
+  "prompt": "Use a compact departmental email queue with readable subjects and sender context. Distinguish incoming evidence, route probabilities, urgency judgments, and staff decisions; keep private transfers and evidenced replies visible beside the selected message. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /inbox/settings page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 401,
+  "draft_source_key": "[\"inbox\",\"page\",\"/inbox/settings\",\"PageInboxSettings2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "579aa581-ecaf-4167-b2e7-47eb47fc66c4",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanBoard/CanBoard.can",
+  "owner": "board",
+  "page": "/board/actions",
+  "view": null,
+  "label": "PageBoardActions2Segment1",
+  "prompt": "Use a readable meeting-record layout with ordered agenda rows, generous paper and minutes typography, and distinct resolutions and action lists. Clearly mark finalized records and attributed amendments without implying that completed actions change decisions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /board/actions page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 202,
+  "draft_source_key": "[\"board\",\"page\",\"/board/actions\",\"PageBoardActions2Segment1\"]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

@@ -1,0 +1,19 @@
+{
+  "unit_id": "8fdb3119-6264-467d-9b01-09e7b260af1a",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanContract/CanContract.can",
+  "owner": "agreements",
+  "page": "/agreements",
+  "view": null,
+  "label": null,
+  "prompt": "Use orderly agreement rows and readable recorded terms, prioritizing notice deadlines and open obligations. Distinguish executed terms, amendments, and reminder outcomes; give document comparisons and evidence enough space without crowding date controls. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /agreements page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 158,
+  "draft_source_key": "[\"agreements\",\"page\",\"/agreements\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

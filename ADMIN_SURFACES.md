@@ -8,12 +8,12 @@ End-user administration is required in the following six modules. The view belon
 
 | Module | End-user responsibility | Independent business justification |
 | --- | --- | --- |
-| [CanCustomer](CanCustomer.md) | Company access administration | A verified company administrator must invite/remove colleagues and assign company booker/billing roles without granting operator staff access. Ordinary customers cannot manage someone else's organization authority. |
-| [CanMember](CanMember.md) | Membership plans and entitlement administration | An operator membership administrator must maintain shared sellable plans, paid-seat limits and included benefits that apply to member accounts. Members and content editors cannot change the rules of their own paid entitlement. |
-| [CanRent](CanRent.md) | Published workspace catalog and booking-policy administration | The operator must control the prices, capacities, hours and booking policies offered to all customers. A customer or reception booker cannot grant themselves cheaper prices, extra capacity or broader access. |
-| [CanLoyalty](CanLoyalty.md) | Published reward-program administration, only when loyalty is offered | The operator's program owner must set the shared rewards, tier thresholds and earning/redemption terms offered to customers. A participant cannot set the cost or rules of their own reward. |
-| [CanFeedback](CanFeedback.md) | Moderation and operator roadmap authority | Contributors must not moderate other people's suggestions or claim that the operator has committed to a roadmap item. Designated moderators/product owners need that explicitly separate end-user authority. |
-| [CanTrade](CanTrade.md) | Marketplace moderation, only when the marketplace is offered | Authors control their own listings, while designated moderators must handle reports and remove abusive listings belonging to other authors. |
+| [CanCustomer](apps/CanCustomer/CanCustomer.md) | Company access administration | A verified company administrator must invite/remove colleagues and assign company booker/billing roles without granting operator staff access. Ordinary customers cannot manage someone else's organization authority. |
+| [CanMember](apps/CanMember/CanMember.md) | Membership plans and entitlement administration | An operator membership administrator must maintain shared sellable plans, paid-seat limits and included benefits that apply to member accounts. Members and content editors cannot change the rules of their own paid entitlement. |
+| [CanRent](apps/CanRent/CanRent.md) | Published workspace catalog and booking-policy administration | The operator must control the prices, capacities, hours and booking policies offered to all customers. A customer or reception booker cannot grant themselves cheaper prices, extra capacity or broader access. |
+| [CanLoyalty](apps/CanLoyalty/CanLoyalty.md) | Published reward-program administration, only when loyalty is offered | The operator's program owner must set the shared rewards, tier thresholds and earning/redemption terms offered to customers. A participant cannot set the cost or rules of their own reward. |
+| [CanFeedback](apps/CanFeedback/CanFeedback.md) | Moderation and operator roadmap authority | Contributors must not moderate other people's suggestions or claim that the operator has committed to a roadmap item. Designated moderators/product owners need that explicitly separate end-user authority. |
+| [CanTrade](apps/CanTrade/CanTrade.md) | Marketplace moderation, only when the marketplace is offered | Authors control their own listings, while designated moderators must handle reports and remove abusive listings belonging to other authors. |
 
 ## Ordinary workflows needing no added admin side
 
@@ -21,39 +21,39 @@ The following 33 modules have no app-specific admin side in this scope. Their ex
 
 | Module | Why the normal product interface is sufficient |
 | --- | --- |
-| [CanAffiliate](CanAffiliate.md) | Partner agreements, commissions and settlement review are the partner/finance users' core work. |
-| [CanApprove](CanApprove.md) | Assignment and document decisions are coordinator/reviewer workflows. |
-| [CanBoard](CanBoard.md) | Agenda preparation, recording and amendments are the meeting users' core work. |
-| [CanBook](CanBook.md) | Host availability and appointments are ordinary calendar work. |
-| [CanCRM](CanCRM.md) | Sales records, assignments and follow-ups are the sales users' core work. |
-| [CanCatch](CanCatch.md) | Issue triage is the product UI; project provisioning, keys, quotas and retention are developer-maintained. |
-| [CanCheck](CanCheck.md) | Health/history and pause/resume are normal monitoring operations; provisioning and technical settings are developer-maintained. |
-| [CanContract](CanContract.md) | Agreement terms, obligations and amendments are ordinary contract records. |
-| [CanDesk](CanDesk.md) | Ticket triage, replies and assignment are support work. |
-| [CanDo](CanDo.md) | Task and checklist work uses existing member scope. |
-| [CanEvent](CanEvent.md) | Event creation/publication, registration and admission are organizer/reception workflows. |
-| [CanExpense](CanExpense.md) | Claim review and reimbursement are employee/reviewer/finance workflows. |
-| [CanField](CanField.md) | Dispatch and visit reports are dispatcher/technician workflows. |
-| [CanGrant](CanGrant.md) | Program intake, award review and budgets are coordinator/reviewer work. |
-| [CanHire](CanHire.md) | Vacancy publishing, interviews and hiring decisions are recruiter work. |
-| [CanInvoice](CanInvoice.md) | Invoice issuance, credits and collection review are finance work; technical retry/provider policy is developer-maintained. |
-| [CanLearn](CanLearn.md) | Course creation/publication and enrollment are instructor work; learning is the learner workflow. |
-| [CanLeave](CanLeave.md) | Allowances and requests are HR/approver/employee work. |
-| [CanMail](CanMail.md) | Receipt, collection delegates and forwarding are ordinary mail-service work. |
-| [CanMaintain](CanMaintain.md) | Assets, inspections, repairs and verification are facilities work. |
-| [CanOnboard](CanOnboard.md) | Employee records and readiness checklists are HR/employee work. |
-| [CanPropose](CanPropose.md) | Offer creation and acceptance are sales/recipient workflows. |
-| [CanPurchase](CanPurchase.md) | Suppliers, budgets, orders and receipts are procurement/approver work. |
-| [CanReception](CanReception.md) | Guest admission and physical key/card handling are reception/access-staff workflows. |
-| [CanRefer](CanRefer.md) | Referral-program terms and manual settlement are marketing/finance users' core work. |
-| [CanReport](CanReport.md) | Reports and exports are scoped reads; definitions and sources are developer-maintained. |
-| [CanShift](CanShift.md) | Coverage, roster publication and swaps are scheduling/employee work. |
-| [CanStats](CanStats.md) | Traffic/goal reports are the product UI; tracker provisioning, keys and quotas are developer-maintained. |
-| [CanStock](CanStock.md) | SKU/reorder thresholds, receipts and transfers are ordinary stock work. |
-| [CanSuccess](CanSuccess.md) | Account milestones and renewal follow-ups are account-manager work. |
-| [CanTable](CanTable.md) | Table definitions, reservations and seating are café work. |
-| [CanTime](CanTime.md) | Project rates, time review and corrections are project-manager/employee work. |
-| [CanVolunteer](CanVolunteer.md) | Opportunity publication, confirmation and attendance are organizer/volunteer work. |
+| [CanAffiliate](apps/CanAffiliate/CanAffiliate.md) | Partner agreements, commissions and settlement review are the partner/finance users' core work. |
+| [CanApprove](apps/CanApprove/CanApprove.md) | Assignment and document decisions are coordinator/reviewer workflows. |
+| [CanBoard](apps/CanBoard/CanBoard.md) | Agenda preparation, recording and amendments are the meeting users' core work. |
+| [CanBook](apps/CanBook/CanBook.md) | Host availability and appointments are ordinary calendar work. |
+| [CanCRM](apps/CanCRM/CanCRM.md) | Sales records, assignments and follow-ups are the sales users' core work. |
+| [CanCatch](apps/CanCatch/CanCatch.md) | Issue triage is the product UI; project provisioning, keys, quotas and retention are developer-maintained. |
+| [CanCheck](apps/CanCheck/CanCheck.md) | Health/history and pause/resume are normal monitoring operations; provisioning and technical settings are developer-maintained. |
+| [CanContract](apps/CanContract/CanContract.md) | Agreement terms, obligations and amendments are ordinary contract records. |
+| [CanDesk](apps/CanDesk/CanDesk.md) | Ticket triage, replies and assignment are support work. |
+| [CanDo](apps/CanDo/CanDo.md) | Task and checklist work uses existing member scope. |
+| [CanEvent](apps/CanEvent/CanEvent.md) | Event creation/publication, registration and admission are organizer/reception workflows. |
+| [CanExpense](apps/CanExpense/CanExpense.md) | Claim review and reimbursement are employee/reviewer/finance workflows. |
+| [CanField](apps/CanField/CanField.md) | Dispatch and visit reports are dispatcher/technician workflows. |
+| [CanGrant](apps/CanGrant/CanGrant.md) | Program intake, award review and budgets are coordinator/reviewer work. |
+| [CanHire](apps/CanHire/CanHire.md) | Vacancy publishing, interviews and hiring decisions are recruiter work. |
+| [CanInvoice](apps/CanInvoice/CanInvoice.md) | Invoice issuance, credits and collection review are finance work; technical retry/provider policy is developer-maintained. |
+| [CanLearn](apps/CanLearn/CanLearn.md) | Course creation/publication and enrollment are instructor work; learning is the learner workflow. |
+| [CanLeave](apps/CanLeave/CanLeave.md) | Allowances and requests are HR/approver/employee work. |
+| [CanMail](apps/CanMail/CanMail.md) | Receipt, collection delegates and forwarding are ordinary mail-service work. |
+| [CanMaintain](apps/CanMaintain/CanMaintain.md) | Assets, inspections, repairs and verification are facilities work. |
+| [CanOnboard](apps/CanOnboard/CanOnboard.md) | Employee records and readiness checklists are HR/employee work. |
+| [CanPropose](apps/CanPropose/CanPropose.md) | Offer creation and acceptance are sales/recipient workflows. |
+| [CanPurchase](apps/CanPurchase/CanPurchase.md) | Suppliers, budgets, orders and receipts are procurement/approver work. |
+| [CanReception](apps/CanReception/CanReception.md) | Guest admission and physical key/card handling are reception/access-staff workflows. |
+| [CanRefer](apps/CanRefer/CanRefer.md) | Referral-program terms and manual settlement are marketing/finance users' core work. |
+| [CanReport](apps/CanReport/CanReport.md) | Reports and exports are scoped reads; definitions and sources are developer-maintained. |
+| [CanShift](apps/CanShift/CanShift.md) | Coverage, roster publication and swaps are scheduling/employee work. |
+| [CanStats](apps/CanStats/CanStats.md) | Traffic/goal reports are the product UI; tracker provisioning, keys and quotas are developer-maintained. |
+| [CanStock](apps/CanStock/CanStock.md) | SKU/reorder thresholds, receipts and transfers are ordinary stock work. |
+| [CanSuccess](apps/CanSuccess/CanSuccess.md) | Account milestones and renewal follow-ups are account-manager work. |
+| [CanTable](apps/CanTable/CanTable.md) | Table definitions, reservations and seating are café work. |
+| [CanTime](apps/CanTime/CanTime.md) | Project rates, time review and corrections are project-manager/employee work. |
+| [CanVolunteer](apps/CanVolunteer/CanVolunteer.md) | Opportunity publication, confirmation and attendance are organizer/volunteer work. |
 
 ## Developer maintenance stays outside the product UI
 

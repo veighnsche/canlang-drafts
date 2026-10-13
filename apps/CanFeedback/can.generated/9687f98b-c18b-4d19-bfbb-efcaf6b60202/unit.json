@@ -1,0 +1,19 @@
+{
+  "unit_id": "9687f98b-c18b-4d19-bfbb-efcaf6b60202",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanFeedback/CanFeedback.can",
+  "owner": "feedback",
+  "page": "/feedback",
+  "view": null,
+  "label": null,
+  "prompt": "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /feedback page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 265,
+  "draft_source_key": "[\"feedback\",\"page\",\"/feedback\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css"
+}

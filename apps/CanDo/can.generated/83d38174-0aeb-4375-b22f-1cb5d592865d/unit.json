@@ -1,0 +1,33 @@
+{
+  "unit_id": "83d38174-0aeb-4375-b22f-1cb5d592865d",
+  "abi_version": 1,
+  "kind": "then_view",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "todo",
+  "label": "TaskTile",
+  "profile": "frontend",
+  "source": "apps/CanDo/CanDo.can",
+  "declaration_selector": "todo.TaskTile",
+  "target": "view TaskTile(row:Task)",
+  "prompt": "Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site.",
+  "export_roles": [
+    "render"
+  ],
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "row_model": "Task",
+  "checked_controls": [
+    "edit",
+    "button action=complete",
+    "button action=reopen"
+  ],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "textFields",
+    "contentField",
+    "control"
+  ]
+}
