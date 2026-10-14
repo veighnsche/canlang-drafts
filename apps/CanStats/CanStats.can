@@ -175,7 +175,7 @@ package stats
         table result.goal_counts columns=name,events empty="No observed goals"@{nl="Geen gemeten doelen"}
          pagination
      card "Weighted dimension estimates"@{nl="Gewogen dimensieschattingen"}
-      button opens=request_breakdown
+      primary "Request breakdown"@{nl="Uitsplitsing aanvragen"} opens=request_breakdown
       modal "Request breakdown"@{nl="Uitsplitsing aanvragen"} id=request_breakdown
        slot content
         form breakdown arguments={site=row} display=inline

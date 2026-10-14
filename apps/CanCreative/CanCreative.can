@@ -246,7 +246,9 @@ package creative
     loading row.unfinished
     gallery row.Output image=image order=position empty="No images yet"@{nl="Nog geen beelden"}
      pagination
-    actions stop,reconcile,release_skipped
+    secondary "Stop image job"@{nl="Beeldtaak stoppen"} action=stop arguments={run=row}
+    secondary "Check image outcome"@{nl="Beelduitkomst controleren"} action=reconcile arguments={run=row}
+    secondary "Release unsent job"@{nl="Niet-verzonden taak vrijgeven"} action=release_skipped arguments={run=row}
    table Budget columns=cap,spent,held,running,active empty="No image-job allowances"@{nl="Geen budgetten voor beeldtaken"}
     pagination
   page /creative/from-chat title="Chat to image"@{nl="Van gesprek naar beeld"} poll=1s $CreativeWorkspace
@@ -265,7 +267,7 @@ package creative
         text row.role
        slot content
         content row.content
-      form from_turn arguments={turn=row}
+      primary "Create image from this message"@{nl="Maak een beeld van dit bericht"} action=from_turn arguments={turn=row}
        fieldset "Image prompt"@{nl="Beeldprompt"}
         select template
         textarea negative
@@ -314,13 +316,15 @@ package creative
        list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
         alert tone=error
          text failure.code,failure.message
-    actions stop,reconcile,release_skipped
+    secondary "Stop image job"@{nl="Beeldtaak stoppen"} action=stop arguments={run=row}
+    secondary "Check image outcome"@{nl="Beelduitkomst controleren"} action=reconcile arguments={run=row}
+    secondary "Release unsent job"@{nl="Niet-verzonden taak vrijgeven"} action=release_skipped arguments={run=row}
   page /creative/workflows title="Workflow templates"@{nl="Workflowsjablonen"} poll=1s $CreativeWorkspace
    require creative_manager
    breadcrumbs
    alert
     text "Upload an allowed API-format graph. Inspect its inputs, map the four fields, validate a snapshot, then publish it."@{nl="Upload een toegestane API-graaf. Inspecteer de invoer, koppel vier velden, valideer een momentopname en publiceer deze."}
-   form Template.create
+   primary "Create Template"@{nl="Aanmaken"} action=Template.create
     fieldset "Graph"@{nl="Graaf"}
      input name
      file_input graph
@@ -339,24 +343,24 @@ package creative
    list Template as template where template.owner==actor empty="No workflow templates yet"@{nl="Nog geen workflowsjablonen"}
     pagination
     title row.name
-    edit
-    action inspect
+    primary "Edit Template"@{nl="Bewerken"} action=Template.update arguments={record=row}
+    primary "Inspect workflow inputs"@{nl="Workflowinvoer inspecteren"} action=inspect arguments={template=row}
     text row.inspection
     list (row.inspection?.result?.fields ?? []) empty="No input fields found"@{nl="Geen invoervelden gevonden"}
      pagination
      text row.node,row.key,row.kind,row.label
-    action validate
+    primary "Validate new revision"@{nl="Nieuwe versie valideren"} action=validate arguments={template=row}
     list row.Revision order=-number empty="No revisions yet"@{nl="Nog geen versies"}
      pagination
      text row.number,row.published,row.validation,row.digest
-     action publish
-   form Budget.create
+     primary "Publish workflow and graph to members"@{nl="Workflow en graaf met leden delen"} action=publish arguments={revision=row}
+   primary "Create Budget"@{nl="Aanmaken"} action=Budget.create
     ## account keeps its generated entry: user references have no catalog picker.
     input cap
     range parallel
    table Budget columns=account,cap,parallel,spent,held,running,active empty="No image-job allowances"@{nl="Geen budgetten voor beeldtaken"}
     pagination
-    edit fields=cap,parallel,active
+    primary "Edit Budget"@{nl="Bewerken"} action=Budget.update arguments={record=row} fields=cap,parallel,active
      input cap
      range parallel
      checkbox active

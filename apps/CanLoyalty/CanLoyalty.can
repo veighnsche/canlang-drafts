@@ -237,8 +237,8 @@ package loyalty label=heading_rewards
        list account.parent.Reward as reward where reward.active columns=name,cost,locations empty="No active rewards"@{nl="Geen actieve beloningen"}
         pagination
         content reward.instructions
-        tooltip "Reserve this reward"@{nl="Reserveer deze beloning"}
-         form redeem arguments={account,reward}
+        text "Reserve this reward"@{nl="Reserveer deze beloning"}
+        primary "Reserve reward"@{nl="Beloning reserveren"} action=redeem arguments={account,reward}
        table account.Redemption columns=name,cost,location,instructions,state,evidence,notification filter=location,state defaults={location=preferences.location,state=preferences.redemption_state} display=split empty="No reservations yet"@{nl="Nog geen reserveringen"}
         pagination
         badge row.state
@@ -257,14 +257,14 @@ package loyalty label=heading_rewards
    require reward_staff
    breadcrumbs
    card page_loyalty_fulfillment_title
-    form Account.create
+    primary "Create Account"@{nl="Aanmaken"} action=Account.create
    divider
    card "Evidence and history"@{nl="Bewijs en geschiedenis"}
     table Redemption columns=parent,name,cost,location,instructions,state,evidence,fulfilled_by,cancelled_by,notification filter=location,state defaults={location=preferences.location,state=preferences.redemption_state} empty="No reservations match these filters"@{nl="Geen reserveringen voor deze filters"}
      pagination
      badge row.state
      status row.notification
-     button opens=fulfill_detail
+     primary "Fulfill reward"@{nl="Beloning uitvoeren"} opens=fulfill_detail
      modal "Fulfill reward"@{nl="Beloning uitvoeren"} id=fulfill_detail
       slot content
        form fulfill arguments={redemption=row} display=inline
@@ -272,7 +272,7 @@ package loyalty label=heading_rewards
          label evidence
          textarea evidence
          validator evidence
-     button opens=cancel_detail
+     secondary "Cancel reservation"@{nl="Reservering annuleren"} opens=cancel_detail
      modal "Cancel reservation"@{nl="Reservering annuleren"} id=cancel_detail
       slot content
        form cancel arguments={redemption=row} display=inline
@@ -282,14 +282,14 @@ package loyalty label=heading_rewards
     list Account as account display=split empty="No reward accounts"@{nl="Geen beloningsaccounts"}
      pagination
      stat account.available,account.earned
-     form adjust arguments={account}
+     primary "Adjust" action=adjust arguments={account}
       fieldset "Correction"@{nl="Correctie"}
        input points
        checkbox tier
        textarea reason
      table account.Earning columns=points,tier,reason,source,reversal,author,qualification empty="No points entries yet"@{nl="Nog geen puntenboekingen"}
       pagination
-      button opens=reverse_entry
+      secondary "Reverse entry"@{nl="Boeking terugdraaien"} opens=reverse_entry
       modal "Reverse entry"@{nl="Boeking terugdraaien"} id=reverse_entry
        slot content
         form reverse arguments={entry=row} display=inline
@@ -300,7 +300,7 @@ package loyalty label=heading_rewards
    require program_owner
    breadcrumbs
    card "Program terms"@{nl="Programmavoorwaarden"}
-    form Program.create
+    primary "Create Reward program"@{nl="Aanmaken"} action=Program.create
      fieldset "Program terms"@{nl="Programmavoorwaarden"}
       input name
       textarea terms
@@ -308,17 +308,19 @@ package loyalty label=heading_rewards
       toggle active
     list Program display=split empty="No reward programs"@{nl="Geen beloningsprogramma's"}
      pagination
-     edit
+     primary "Edit Reward program"@{nl="Bewerken"} action=Program.update arguments={record=row}
      tabs
       tab "Tiers"@{nl="Niveaus"}
-       form Tier.create
-       list row.Tier empty="No tiers recorded"@{nl="Geen niveaus vastgelegd"}
-        pagination
-        text row.threshold
-        edit
+       card "Tiers"@{nl="Niveaus"}
+        primary "Create Tier"@{nl="Aanmaken"} action=Tier.create
+        list row.Tier empty="No tiers recorded"@{nl="Geen niveaus vastgelegd"}
+         pagination
+         text row.threshold
+         primary "Edit Tier"@{nl="Bewerken"} action=Tier.update arguments={record=row}
       tab heading_rewards
-       form Reward.create
-       list row.Reward empty="No rewards recorded"@{nl="Geen beloningen vastgelegd"}
-        pagination
-        text row.cost,row.active
-        edit
+       card heading_rewards
+        primary "Create Reward"@{nl="Aanmaken"} action=Reward.create
+        list row.Reward empty="No rewards recorded"@{nl="Geen beloningen vastgelegd"}
+         pagination
+         text row.cost,row.active
+         primary "Edit Reward"@{nl="Bewerken"} action=Reward.update arguments={record=row}

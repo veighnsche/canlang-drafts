@@ -192,14 +192,14 @@ package chat
   page /chat title="Conversations"@{nl="Gesprekken"} poll=1s $ChatWorkspace
    require members
    breadcrumbs
-   form open
+   primary "New conversation"@{nl="Nieuw gesprek"} action=open
     input title
     select profile
    list Conversation as conversation where conversation.active order=-updated empty="No conversations yet"@{nl="Nog geen gesprekken"}
     pagination
     title row.title
     details "Open conversation"@{nl="Gesprek openen"} display=drawer
-     form revoke arguments={conversation=row}
+     secondary "Revoke conversation"@{nl="Gesprek intrekken"} action=revoke arguments={conversation=row}
      list row.Branch order=created empty="No branches yet"@{nl="Nog geen vertakkingen"}
       pagination
       title row.title
@@ -222,7 +222,7 @@ package chat
          slot content
           content row.content
           text row.attachments
-        form regenerate arguments={turn=row}
+        primary "Try another branch"@{nl="Andere vertakking proberen"} action=regenerate arguments={turn=row}
          input title
        divider "Reply generations"@{nl="Antwoordgeneraties"}
        list row.Run order=created empty="No reply generations yet"@{nl="Nog geen antwoordgeneraties"}
@@ -280,7 +280,9 @@ package chat
           require row.request?.progress?.content!=null and row.state==succeeded and row.partial==""
           text "The completed response is empty."@{nl="Het voltooide antwoord is leeg."}
          content row.partial
-         actions stop,reconcile,release_skipped
+         secondary "Stop reply"@{nl="Antwoord stoppen"} action=stop arguments={run=row}
+         secondary "Check outcome"@{nl="Uitkomst controleren"} action=reconcile arguments={run=row}
+         secondary "Release unsent request"@{nl="Niet-verzonden verzoek vrijgeven"} action=release_skipped arguments={run=row}
        tooltip "Send message and reserve tokens"@{nl="Bericht sturen en tokens reserveren"}
         form ask arguments={branch=row} display=inline
          textarea prompt
@@ -331,11 +333,13 @@ package chat
        list diagnostic.failures as failure empty="No retained historical callback refusals."@{nl="Geen bewaarde historische weigeringen van callbacks."}
         alert tone=error
          text failure.code,failure.message
-    actions stop,reconcile,release_skipped
+    secondary "Stop reply"@{nl="Antwoord stoppen"} action=stop arguments={run=row}
+    secondary "Check outcome"@{nl="Uitkomst controleren"} action=reconcile arguments={run=row}
+    secondary "Release unsent request"@{nl="Niet-verzonden verzoek vrijgeven"} action=release_skipped arguments={run=row}
   page /chat/admin title="AI access and limits"@{nl="AI-toegang en limieten"} $ChatWorkspace
    require ai_manager
    breadcrumbs
-   form Profile.create
+   primary "Create Profile"@{nl="Aanmaken"} action=Profile.create
     fieldset "Model"@{nl="Model"}
      input name
      input provider_key
@@ -347,15 +351,15 @@ package chat
      input duration
    table Profile columns=name,provider_key,policy_revision,input_tokens,output_tokens,duration,active empty="No model profiles"@{nl="Geen modelprofielen"}
     pagination
-    edit fields=active
+    primary "Edit Profile"@{nl="Bewerken"} action=Profile.update arguments={record=row} fields=active
      checkbox active
-   form Allowance.create
+   primary "Create Allowance"@{nl="Aanmaken"} action=Allowance.create
     ## account keeps its generated entry: user references have no catalog picker.
     input cap
     range parallel
    table Allowance columns=account,cap,parallel,spent,held,running,active empty="No token allowances"@{nl="Geen tokenbudgetten"}
     pagination
-    edit fields=cap,parallel,active
+    primary "Edit Allowance"@{nl="Bewerken"} action=Allowance.update arguments={record=row} fields=cap,parallel,active
      label cap
      input cap
      validator cap

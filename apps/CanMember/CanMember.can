@@ -29,7 +29,7 @@ package member_plans
    require plan_owner
    breadcrumbs
    card "Plan catalog"@{nl="Abonnementscatalogus"}
-    form Plan.create
+    primary "Create Plan"@{nl="Aanmaken"} action=Plan.create
      fieldset
       input name
       input price
@@ -41,8 +41,8 @@ package member_plans
       checkbox active
    card "Benefits and units"@{nl="Voordelen en eenheden"}
     list Plan filter=active defaults={active=preferences.active_filter} empty="No membership plans match this filter"@{nl="Geen lidmaatschapsabonnementen voldoen aan dit filter"} display=split
-     edit
-     form AccessHours.create
+     primary "Edit Plan"@{nl="Bewerken"} action=Plan.update arguments={record=row}
+     primary "Create AccessHours"@{nl="Aanmaken"} action=AccessHours.create
       fieldset
        select location
        input opens
@@ -50,9 +50,9 @@ package member_plans
        input close_after
        radio fold
      table row.AccessHours columns=location,weekdays,opens,closes,close_after,fold empty="No access hours for this plan"@{nl="Geen toegangsuren voor dit abonnement"}
-      edit
+      primary "Edit AccessHours"@{nl="Bewerken"} action=AccessHours.update arguments={record=row}
       pagination
-     form Benefit.create
+     primary "Create Benefit"@{nl="Aanmaken"} action=Benefit.create
       fieldset
        input product
        radio unit
@@ -60,7 +60,7 @@ package member_plans
        input duration
        input overage
      table row.Benefit columns=product,unit,quantity,duration,overage empty="No benefits for this plan"@{nl="Geen voordelen voor dit abonnement"}
-      edit
+      primary "Edit Benefit"@{nl="Bewerken"} action=Benefit.update arguments={record=row}
       pagination
      history
      pagination
@@ -726,7 +726,7 @@ package member_terms label=label_package
    card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
     form access_review
      text result.seats_needing_review,result.requests_needing_review,result.pending_reviews,result.recorded_conflicts
-    form recheck_access
+    secondary "Recheck membership access"@{nl="Controleer lidmaatschapstoegang opnieuw"} action=recheck_access
   # Keep company access review in the membership owner, without disclosing visitor/device records.
   page /companies/{Customer.id}/membership-access title="Company membership access"@{nl="Bedrijfslidmaatschapstoegang"} $MemberTermsWorkspace
    require actor!=null and (has_role(actor,row,administrator) or (member_manager and any(row.locations as location,can_work(actor,location))))
@@ -734,15 +734,15 @@ package member_terms label=label_package
    card "Current seat and allowance review"@{nl="Huidige plaats- en tegoedbeoordeling"}
     form access_review
      text result.seats_needing_review,result.requests_needing_review,result.pending_reviews,result.recorded_conflicts
-    form recheck_access
+    secondary "Recheck membership access"@{nl="Controleer lidmaatschapstoegang opnieuw"} action=recheck_access arguments={customer=row}
    card "Paid terms and explicit seat decisions"@{nl="Betaalde termijnen en expliciete plaatsbesluiten"}
     list Membership as membership where membership.parent==row empty="No memberships for this company"@{nl="Geen lidmaatschappen voor dit bedrijf"}
      text row.paused,row.revoked
      list row.Term as term empty="No paid terms for this membership"@{nl="Geen betaalde termijnen voor dit lidmaatschap"}
       show TermOutcome {row=term}
-      form assign
+      primary "Assign" action=assign arguments={term=row}
       table term.Seat columns=account,active,removed_reason empty="No seats assigned for this term"@{nl="Geen plaatsen toegewezen voor deze termijn"}
-       button opens=seat_remove_company
+       secondary "Remove seat"@{nl="Plaats intrekken"} opens=seat_remove_company
        modal "Remove seat"@{nl="Plaats intrekken"} id=seat_remove_company
         slot content
          form remove arguments={seat=row} display=inline
@@ -762,12 +762,12 @@ package member_terms label=label_package
    card "Own membership and consent"@{nl="Eigen lidmaatschap en toestemming"}
     list Membership empty="No memberships for your account"@{nl="Geen lidmaatschappen voor je account"} display=split
      text row.paused,row.revoked
-     form consent
+     primary "Recurrence consent"@{nl="Toestemming voor herhaling"} action=consent arguments={membership=row}
       fieldset
        checkbox enabled
        input reference
-     form term
-     button opens=membership_cancel
+     primary "Paid term"@{nl="Betaalde termijn"} action=term arguments={membership=row}
+     secondary "Request membership cancellation"@{nl="Annulering lidmaatschap aanvragen"} opens=membership_cancel
      modal "Request membership cancellation"@{nl="Annulering lidmaatschap aanvragen"} id=membership_cancel
       slot content
        form cancel_membership arguments={membership=row} display=inline
@@ -775,16 +775,16 @@ package member_terms label=label_package
          input effective
          textarea reason
      table row.Renewal columns=cycle,state,term empty="No renewal requests for this membership"@{nl="Geen verlengingsaanvragen voor dit lidmaatschap"}
-      tooltip "Retry renewal"@{nl="Verlenging opnieuw proberen"}
-       action retry_renewal
+      text "Retry renewal"@{nl="Verlenging opnieuw proberen"}
+      secondary "Retry renewal generation"@{nl="Verlengingsgeneratie opnieuw proberen"} action=retry_renewal arguments={renewal=row}
       pagination
      list row.Term as term where not preferences.current_only or (term.from<=now and now<term.until) empty="No terms in this view"@{nl="Geen termijnen in deze weergave"}
       show TermOutcome {row=term}
       badge term.refund_access
       text term.mail,term.invoice
       stat term.seats
-      actions retry_collection
-      button opens=term_refund_mine
+      secondary "Retry term invoice"@{nl="Termijnfactuur opnieuw proberen"} action=retry_collection arguments={term=row}
+      secondary "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} opens=term_refund_mine
       modal "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} id=term_refund_mine
        slot content
         form refund_term arguments={term=row} display=inline
@@ -794,15 +794,16 @@ package member_terms label=label_package
           textarea reason
       tabs
        tab "Term seats"@{nl="Termijnplaatsen"}
-        form assign
-        list row.Seat empty="No seats assigned for this term"@{nl="Geen plaatsen toegewezen voor deze termijn"}
-         button opens=seat_remove_mine
-         modal "Remove seat"@{nl="Plaats intrekken"} id=seat_remove_mine
-          slot content
-           form remove arguments={seat=row} display=inline
-            fieldset
-             textarea reason
-         pagination
+        card "Term seats"@{nl="Termijnplaatsen"}
+         primary "Assign" action=assign arguments={term=row}
+         list row.Seat empty="No seats assigned for this term"@{nl="Geen plaatsen toegewezen voor deze termijn"}
+          secondary "Remove seat"@{nl="Plaats intrekken"} opens=seat_remove_mine
+          modal "Remove seat"@{nl="Plaats intrekken"} id=seat_remove_mine
+           slot content
+            form remove arguments={seat=row} display=inline
+             fieldset
+              textarea reason
+          pagination
        tab "Allowance allocations"@{nl="Tegoedtoewijzingen"}
         list row.Allowance empty="No allowances in this term"@{nl="Geen tegoeden in deze termijn"}
          badge row.unit
@@ -826,11 +827,10 @@ package member_terms label=label_package
    card page_membership_register_title
     list Membership empty="No memberships match this view"@{nl="Geen lidmaatschappen in deze weergave"} display=split
      text row.paused,row.revoked
-     form term
-     actions resume
-     join
-      button opens=membership_pause
-      button opens=membership_revoke
+     primary "Paid term"@{nl="Betaalde termijn"} action=term arguments={membership=row}
+     primary "Resume" action=resume arguments={membership=row}
+     secondary "Pause"@{nl="Pauzeren"} opens=membership_pause
+     secondary "Revoke benefits"@{nl="Voordelen intrekken"} opens=membership_revoke
      modal "Pause"@{nl="Pauzeren"} id=membership_pause
       slot content
        form pause arguments={membership=row} display=inline
@@ -842,8 +842,8 @@ package member_terms label=label_package
         fieldset
          textarea reason
      table row.Renewal columns=cycle,state,term empty="No renewal requests for this membership"@{nl="Geen verlengingsaanvragen voor dit lidmaatschap"}
-      tooltip "Retry renewal"@{nl="Verlenging opnieuw proberen"}
-       action retry_renewal
+      text "Retry renewal"@{nl="Verlenging opnieuw proberen"}
+      secondary "Retry renewal generation"@{nl="Verlengingsgeneratie opnieuw proberen"} action=retry_renewal arguments={renewal=row}
       pagination
      table row.parent.BenefitRequest columns=source,units,covered_units,overage,state,review_reason empty="No benefit requests for this customer"@{nl="Geen voordeelaanvragen voor deze klant"}
       pagination
@@ -852,8 +852,8 @@ package member_terms label=label_package
       badge term.refund_access
       text term.invoice
       stat term.seats
-      actions retry_collection
-      button opens=term_refund_register
+      secondary "Retry term invoice"@{nl="Termijnfactuur opnieuw proberen"} action=retry_collection arguments={term=row}
+      secondary "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} opens=term_refund_register
       modal "Apply term refund policy"@{nl="Terugbetalingsbeleid termijn toepassen"} id=term_refund_register
        slot content
         form refund_term arguments={term=row} display=inline
@@ -864,14 +864,14 @@ package member_terms label=label_package
       table term.Allowance columns=product,unit,granted,available,reserved,consumed,expired,overage,from,until empty="No allowances in this term"@{nl="Geen tegoeden in deze termijn"}
        pagination
       table term.Seat columns=account,active,removed_reason empty="No seats assigned for this term"@{nl="Geen plaatsen toegewezen voor deze termijn"}
-       button opens=seat_remove_register
+       secondary "Remove seat"@{nl="Plaats intrekken"} opens=seat_remove_register
        modal "Remove seat"@{nl="Plaats intrekken"} id=seat_remove_register
         slot content
          form remove arguments={seat=row} display=inline
           fieldset
            textarea reason
        pagination
-      form assign
+      primary "Assign" action=assign arguments={term=row}
       history
       pagination
      pagination
@@ -888,7 +888,7 @@ package member_content
   page /membership/content/edit title="Edit member information"@{nl="Ledeninformatie bewerken"} $MemberContentWorkspace
    require content_editor
    breadcrumbs
-   form Content.create
+   primary "Create Content"@{nl="Aanmaken"} action=Content.create
     fieldset
      input title
      input category
@@ -897,7 +897,7 @@ package member_content
      file_input attachment
    list Content empty="No member information yet"@{nl="Nog geen ledeninformatie"} display=split
     text row.published
-    edit
+    primary "Edit Content"@{nl="Bewerken"} action=Content.update arguments={record=row}
     history
     pagination
   # Open only member content currently granted by paid, nonrevoked terms. @{nl="Open uitsluitend ledeninhoud die momenteel door betaalde, niet-ingetrokken termijnen wordt toegestaan."}

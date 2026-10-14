@@ -171,7 +171,7 @@ package workbench label="AI workbench"@{nl="AI-werkbank"}
    require members
    ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
-   form start
+   primary "Start" action=start
     radio purpose
     textarea goal
     select location
@@ -180,7 +180,7 @@ package workbench label="AI workbench"@{nl="AI-werkbank"}
     pagination
     badge row.purpose
     text row.goal,row.steps,row.stopped,row.expires
-    action stop
+    secondary "Stop" action=stop arguments={run=row}
     table row.targets columns=title,priority,done empty="No selected tasks"@{nl="Geen geselecteerde taken"}
      pagination
     table row.Step as step columns=ordinal,state,delivery_state,approved_by,approved_at empty="No steps yet"@{nl="Nog geen stappen"}
@@ -189,11 +189,12 @@ package workbench label="AI workbench"@{nl="AI-werkbank"}
      status row.delivery_state
      text row.ordinal,row.approved_by,row.approved_at
     card "Authorized context and suggestions"@{nl="Bevoegde context en suggesties"}
-     action next
+     primary "Next" action=next arguments={run=row}
      table row.Step as step columns=ordinal,state,input,proposal empty="No proposals yet"@{nl="Nog geen voorstellen"}
       pagination
       badge row.state
       content row.proposal?.summary
       text row.ordinal,row.input,row.proposal?.call
-      actions approve,reject
+      primary "Approve" action=approve arguments={step=row}
+      secondary "Reject" action=reject arguments={step=row}
       history

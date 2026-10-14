@@ -436,67 +436,76 @@ package maintain
    ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Asset directory"@{nl="Bedrijfsmiddelenregister"}
-    form Asset.create
+    primary "Create Asset"@{nl="Aanmaken"} action=Asset.create
     list Asset filter=location,category,retired search=name defaults={location=preferences.location} display=split empty="No assets match these filters"@{nl="Geen bedrijfsmiddelen voor deze filters"}
      pagination
      text row.retired
-     edit
+     primary "Edit Asset"@{nl="Bewerken"} action=Asset.update arguments={record=row}
      collapse "Manual"@{nl="Handleiding"}
       require row.manual!=null
       link target=row.manual caption="Manual"@{nl="Handleiding"}
      tabs
       tab "Inspection plans and checklists"@{nl="Inspectieplannen en checklists"}
-       table row.Cancellation columns=reason,cutoff,author,at,phase empty="No cancellations recorded"@{nl="Geen annuleringen vastgelegd"}
-        pagination
-        action resume_cancellation
-       form Plan.create
-        fieldset "Inspection plan"@{nl="Inspectieplan"}
-         input name
-         input cadence_days
-         calendar next_due
-         toggle active
-       list row.Plan empty="No inspection plans"@{nl="Geen inspectieplannen"}
-        pagination
-        edit
-        table row.Inspection columns=due,inspector,result,cancelled,evidence,repair,reminded_at empty="No inspections recorded"@{nl="Geen inspecties vastgelegd"}
+       card "Inspection plans and checklists"@{nl="Inspectieplannen en checklists"}
+        table row.Cancellation columns=reason,cutoff,author,at,phase empty="No cancellations recorded"@{nl="Geen annuleringen vastgelegd"}
          pagination
-         badge row.result
-         text row.checklist
-         form inspect
-          fieldset "Checklist result"@{nl="Checklistresultaat"}
-           radio result
-           textarea evidence
-         form dispatch_visit arguments={inspection=row,location=row.parent.parent.location}
+         primary "Resume inspection cancellation"@{nl="Inspectieannulering hervatten"} action=resume_cancellation arguments={cancellation=row}
+        primary "Create Plan"@{nl="Aanmaken"} action=Plan.create
+         fieldset "Inspection plan"@{nl="Inspectieplan"}
+          input name
+          input cadence_days
+          calendar next_due
+          toggle active
+        list row.Plan empty="No inspection plans"@{nl="Geen inspectieplannen"}
+         pagination
+         primary "Edit Plan"@{nl="Bewerken"} action=Plan.update arguments={record=row}
+         table row.Inspection columns=due,inspector,result,cancelled,evidence,repair,reminded_at empty="No inspections recorded"@{nl="Geen inspecties vastgelegd"}
+          pagination
+          badge row.result
+          text row.checklist
+          primary "Record inspection"@{nl="Inspectie registreren"} action=inspect arguments={inspection=row}
+           fieldset "Checklist result"@{nl="Checklistresultaat"}
+            radio result
+            textarea evidence
+          primary "Dispatch visit"@{nl="Bezoek inplannen"} action=dispatch_visit arguments={inspection=row,location=row.parent.parent.location}
       tab "Repairs and verification"@{nl="Reparaties en verificatie"}
-       form Repair.create
-       table row.Repair columns=title,severity,due,state,contractor,block_action,block_state,affected_state,visit_review filter=state,severity defaults={severity=preferences.severity} empty="No repairs match these filters"@{nl="Geen reparaties voor deze filters"}
-        pagination
-        badge row.state
-        badge row.severity
-        badge row.block_state
-        edit
-        actions assign,start,block,finish,verify,retry_availability,affected_bookings,reopen
-        form dispatch_visit arguments={repair=row,location=row.parent.location}
-        card "Affected bookings"@{nl="Getroffen boekingen"}
-         require row.affected!=null
-         text row.affected_state,row.affected.checked_at
-         table row.affected.items columns=reference,from,until,quantity,status,conflict empty="No affected bookings"@{nl="Geen getroffen boekingen"}
-          pagination
-        table row.Verification columns=completion,evidence,author,at empty="No verifications recorded"@{nl="Geen verificaties vastgelegd"}
+       card "Repairs and verification"@{nl="Reparaties en verificatie"}
+        primary "Create Repair"@{nl="Aanmaken"} action=Repair.create
+        table row.Repair columns=title,severity,due,state,contractor,block_action,block_state,affected_state,visit_review filter=state,severity defaults={severity=preferences.severity} empty="No repairs match these filters"@{nl="Geen reparaties voor deze filters"}
          pagination
-        list row.Assignment empty="No assignments recorded"@{nl="Geen opdrachten vastgelegd"}
-         pagination
-         text row.reason,row.contact
-         table row.Notice columns=state,delivery empty="No delivery attempts"@{nl="Geen verzendpogingen"}
+         badge row.state
+         badge row.severity
+         badge row.block_state
+         primary "Edit Repair"@{nl="Bewerken"} action=Repair.update arguments={record=row}
+         primary "Assign" action=assign arguments={repair=row}
+         primary "Start repair"@{nl="Reparatie starten"} action=start arguments={repair=row}
+         primary "Record blocker"@{nl="Blokkade registreren"} action=block arguments={repair=row}
+         primary "Submit repair evidence"@{nl="Reparatiebewijs indienen"} action=finish arguments={repair=row}
+         primary "Verify repair"@{nl="Reparatie verifiëren"} action=verify arguments={repair=row}
+         secondary "Retry availability request"@{nl="Beschikbaarheidsaanvraag opnieuw proberen"} action=retry_availability arguments={repair=row}
+         primary "Refresh affected bookings"@{nl="Getroffen boekingen vernieuwen"} action=affected_bookings arguments={repair=row}
+         primary "Reopen" action=reopen arguments={repair=row}
+         primary "Dispatch visit"@{nl="Bezoek inplannen"} action=dispatch_visit arguments={repair=row,location=row.parent.location}
+         card "Affected bookings"@{nl="Getroffen boekingen"}
+          require row.affected!=null
+          text row.affected_state,row.affected.checked_at
+          table row.affected.items columns=reference,from,until,quantity,status,conflict empty="No affected bookings"@{nl="Geen getroffen boekingen"}
+           pagination
+         table row.Verification columns=completion,evidence,author,at empty="No verifications recorded"@{nl="Geen verificaties vastgelegd"}
           pagination
-          action retry_notice
-        history
+         list row.Assignment empty="No assignments recorded"@{nl="Geen opdrachten vastgelegd"}
+          pagination
+          text row.reason,row.contact
+          table row.Notice columns=state,delivery empty="No delivery attempts"@{nl="Geen verzendpogingen"}
+           pagination
+           secondary "Retry assignment notice"@{nl="Opdrachtmelding opnieuw sturen"} action=retry_notice arguments={notice=row}
+         history
   # Submit and follow your own fault report. @{nl="Dien je eigen storingsmelding in en volg deze."}
   page /facilities/my-reports title="My facility reports"@{nl="Mijn storingsmeldingen"} $MaintainWorkspace
    require authenticated
    breadcrumbs
    card "Own fault intake"@{nl="Eigen storing melden"}
-    form report
+    primary "Report fault"@{nl="Storing melden"} action=report
      fieldset "Fault details"@{nl="Storingsdetails"}
       input title
       textarea description

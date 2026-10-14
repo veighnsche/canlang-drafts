@@ -223,19 +223,20 @@ package field label="Service visits"@{nl="Servicebezoeken"}
       collapse "Schedule confirmation"@{nl="Planningsbevestiging"}
        require row.state==pending
        skeleton
-      actions retry,retry_cleanup
-      button opens=reassign_visit
+      secondary "Retry scheduling"@{nl="Planning opnieuw proberen"} action=retry arguments={job=row}
+      secondary "Retry schedule release"@{nl="Planningsvrijgave opnieuw proberen"} action=retry_cleanup arguments={job=row}
+      primary "Reassign"@{nl="Opnieuw toewijzen"} opens=reassign_visit
       modal "Reassign"@{nl="Opnieuw toewijzen"} id=reassign_visit
        slot content
         form reassign arguments={job=row} display=inline
-      button opens=cancel_visit
+      secondary "Cancel"@{nl="Annuleren"} opens=cancel_visit
       modal "Cancel"@{nl="Annuleren"} id=cancel_visit
        slot content
         form cancel arguments={job=row} display=inline
          textarea reason
       table row.Replacement columns=employee,from,until,state,released empty="No replacement requests."@{nl="Geen vervangingsaanvragen."}
        pagination
-       button opens=discard_candidate
+       secondary "Discard reassignment"@{nl="Hertoewijzing verwerpen"} opens=discard_candidate
        modal "Discard reassignment"@{nl="Hertoewijzing verwerpen"} id=discard_candidate
         slot content
          form discard_reassignment arguments={replacement=row} display=inline
@@ -244,7 +245,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
        pagination
        ## correct moves into the report row suite so report binds explicitly
        ## (the former drawer-level form had no report in scope).
-       button opens=correct_report
+       primary "Correct report"@{nl="Verslag corrigeren"} opens=correct_report
        modal "Correct report"@{nl="Verslag corrigeren"} id=correct_report
         slot content
          form correct arguments={report=row} display=inline
@@ -261,31 +262,32 @@ package field label="Service visits"@{nl="Servicebezoeken"}
    card "Assigned visits"@{nl="Toegewezen bezoeken"}
     board Job as job where job.employee.user==actor by=state columns=location,from,until,skill order=job.from filter=location,state,skill defaults={location=preferences.location,state=preferences.state,skill=preferences.skill} empty="No assigned visits."@{nl="Geen toegewezen bezoeken."}
      pagination
-     indicator
-      slot content
-       text row.address
-      slot indicator
-       badge row.state
-     text row.location,row.from,row.until,row.skill,row.instructions,row.blocked_reason,row.repair,row.inspection
-     text row.inspection?.checklist
-     action start
-     button opens=block_visit
-     modal "Record blocker"@{nl="Blokkade registreren"} id=block_visit
-      slot content
-       form block arguments={job=row} display=inline
-        textarea reason
-     button opens=complete_visit
-     modal "Complete"@{nl="Afronden"} id=complete_visit
-      slot content
-       form complete arguments={job=row} display=inline
-        textarea notes
-        file_input photo
-     table row.Report columns=author,notes,photo,completed,correction empty="No reports yet."@{nl="Nog geen verslagen."}
-      pagination
-      button opens=correct_report
-      modal "Correct report"@{nl="Verslag corrigeren"} id=correct_report
+     card "Visit details"@{nl="Bezoekgegevens"}
+      indicator
        slot content
-        form correct arguments={report=row} display=inline
+        text row.address
+       slot indicator
+        badge row.state
+      text row.location,row.from,row.until,row.skill,row.instructions,row.blocked_reason,row.repair,row.inspection
+      text row.inspection?.checklist
+      primary "Start"@{nl="Starten"} action=start arguments={job=row}
+      primary "Record blocker"@{nl="Blokkade registreren"} opens=block_visit
+      modal "Record blocker"@{nl="Blokkade registreren"} id=block_visit
+       slot content
+        form block arguments={job=row} display=inline
+         textarea reason
+      primary "Complete"@{nl="Afronden"} opens=complete_visit
+      modal "Complete"@{nl="Afronden"} id=complete_visit
+       slot content
+        form complete arguments={job=row} display=inline
          textarea notes
          file_input photo
-     history
+      table row.Report columns=author,notes,photo,completed,correction empty="No reports yet."@{nl="Nog geen verslagen."}
+       pagination
+       primary "Correct report"@{nl="Verslag corrigeren"} opens=correct_report
+       modal "Correct report"@{nl="Verslag corrigeren"} id=correct_report
+        slot content
+         form correct arguments={report=row} display=inline
+          textarea notes
+          file_input photo
+      history

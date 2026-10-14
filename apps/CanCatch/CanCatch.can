@@ -229,9 +229,9 @@ package catch
        slot content
         text row.message,row.count,row.last_activity
        slot actions
-        button action=resolve
+        primary "Resolve issue"@{nl="Probleem oplossen"} action=resolve arguments={issue=row}
       ## Resolve confirmation keeps read-only context; the issue auto-binds from the row chain.
-      button opens=assign_owner
+      primary "Assign triage owner"@{nl="Triage toewijzen"} opens=assign_owner
       modal "Assign triage owner"@{nl="Triage toewijzen"} id=assign_owner
        slot content
         form assign arguments={issue=row} display=inline
@@ -239,9 +239,9 @@ package catch
           label owner
           select owner
           validator owner
-          button submit=true
+         primary "Assign" submit=true
       ## Owner picker uses authorized lookup only; staff/developer/viewer guards stay server-side.
-      button opens=link_repair
+      primary "Link repair task"@{nl="Hersteltaak koppelen"} opens=link_repair
       modal "Link repair task"@{nl="Hersteltaak koppelen"} id=link_repair
        slot content
         form link_task arguments={issue=row} display=inline
@@ -249,17 +249,17 @@ package catch
           label task
           select task
           validator task
-          button submit=true
+         primary "Link repair task"@{nl="Hersteltaak koppelen"} submit=true
       card "Repair task"@{nl="Hersteltaak"}
        text row.task
-       form Task.create
+       primary "Create Task"@{nl="Aanmaken"} action=Task.create
       ## Task inputs stay CanDo-owned; the bare form keeps generated controls with no copied schema.
       form Note.create
        fieldset "Triage note"@{nl="Triagenotitie"}
         label body
         textarea body
         validator body
-        button submit=true
+       primary "Create Note"@{nl="Aanmaken"} submit=true
       ## Note parent auto-binds the selected issue; author/occurred stay server-owned.
      tabs
       tab "Occurrence evidence"@{nl="Bewijs foutgebeurtenissen"}

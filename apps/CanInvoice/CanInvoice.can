@@ -851,7 +851,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     table entry.LegacyInvoiceBooking archived=include columns=booking_source,booking_external_id,booking empty="No booking links retained for this invoice"@{nl="Geen reserveringskoppelingen bewaard voor deze factuur"}
      card "Resolve retained booking evidence"@{nl="Bewaard reserveringsbewijs koppelen"}
       require finance
-      button opens=legacy_booking_resolve
+      primary "Resolve invoice booking link"@{nl="Factuur-reserveringskoppeling oplossen"} opens=legacy_booking_resolve
       text row.mapping_reason,row.attestation,row.source_evidence
       modal "Resolve invoice booking link"@{nl="Factuur-reserveringskoppeling oplossen"} id=legacy_booking_resolve
        slot content
@@ -861,9 +861,8 @@ package invoice label="Invoices"@{nl="Facturen"}
      pagination
     card "Current customer mapping and original export"@{nl="Huidige klantkoppeling en oorspronkelijke export"}
      require finance
-     join
-      button opens=legacy_map
-      button opens=legacy_edge_retain
+     primary "Map historical invoice customer"@{nl="Historische factuur aan klant koppelen"} opens=legacy_map
+     primary "Retain invoice booking link"@{nl="Factuur-reserveringskoppeling bewaren"} opens=legacy_edge_retain
      link target=entry.source_evidence caption="Original source artifact"@{nl="Oorspronkelijk bronbestand"}
      text entry.mapping_reason,entry.attestation,entry.imported_by,entry.imported_at
      modal "Map historical invoice customer"@{nl="Historische factuur aan klant koppelen"} id=legacy_map
@@ -893,7 +892,9 @@ package invoice label="Invoices"@{nl="Facturen"}
      text row.number,row.description,row.due,row.currency
      show InvoiceBalance {row=row}
      copy row.number
-     actions collect,document,generate_receipt
+     primary "Collect payment"@{nl="Betaling innen"} action=collect arguments={invoice=row}
+     primary "Generate document"@{nl="Document genereren"} action=document arguments={invoice=row}
+     primary "Generate receipt"@{nl="Betalingsbewijs genereren"} action=generate_receipt arguments={invoice=row}
      tabs
       tab "Documents and lines"@{nl="Documenten en regels"}
        table row.Document columns=kind,revision,file,generated empty="No documents generated yet"@{nl="Nog geen documenten gegenereerd"}
@@ -916,7 +917,7 @@ package invoice label="Invoices"@{nl="Facturen"}
    breadcrumbs
    card "Customer selection"@{nl="Klantselectie"}
     list Customer empty="No customers available"@{nl="Geen klanten beschikbaar"}
-     form Invoice.create
+     primary "Create Invoice"@{nl="Aanmaken"} action=Invoice.create
       fieldset
        select location
        input source
@@ -933,86 +934,91 @@ package invoice label="Invoices"@{nl="Facturen"}
     table Invoice columns=number,location,recipient,total,balance,refund_due,state,settled,collection_pending,refund_pending,next_collection,due,needs_review filter=location,state,currency,due search=recipient empty="No invoices match these filters"@{nl="Geen facturen voldoen aan deze filters"} defaults={location=preferences.location,currency=preferences.currency} display=split
      pagination
      badge row.state
-     edit
+     primary "Edit Invoice"@{nl="Bewerken"} action=Invoice.update arguments={record=row}
      tabs
       tab "Invoice lines"@{nl="Factuurregels"}
-       form Line.create
-        fieldset
-         textarea description
-         input unit
-       table row.Line columns=description,quantity,unit,service_from,service_until,service_location,service_reference,price,tax,discount empty="No lines on this invoice"@{nl="Geen regels op deze factuur"}
-        edit
-        delete
-        pagination
+       card "Invoice lines"@{nl="Factuurregels"}
+        primary "Create Line"@{nl="Aanmaken"} action=Line.create
+         fieldset
+          textarea description
+          input unit
+        table row.Line columns=description,quantity,unit,service_from,service_until,service_location,service_reference,price,tax,discount empty="No lines on this invoice"@{nl="Geen regels op deze factuur"}
+         primary "Edit Line"@{nl="Bewerken"} action=Line.update arguments={record=row}
+         secondary "Delete Line"@{nl="Verwijderen"} action=Line.delete arguments={record=row}
+         pagination
       tab "Collection queue"@{nl="Inningswachtrij"}
-       text row.due,row.balance,row.next_collection,row.collection_pending,row.refund_pending,row.needs_review
-       actions collect
-       table row.Attempt columns=mode,requested,outcome_at,amount,status,failure,checkout,received empty="No attempts recorded yet"@{nl="Nog geen pogingen vastgelegd"}
-        button opens=attempt_review
-        modal "Review payment outcome"@{nl="Betalingsresultaat beoordelen"} id=attempt_review
-         slot content
-          form review_attempt arguments={attempt=row} display=inline
-           fieldset
-            textarea reason
-        table row.PaymentRequest columns=kind,status,review_reason,reviewed_by,reviewed_at empty="No observation requests yet"@{nl="Nog geen waarnemingsaanvragen"}
+       card "Collection queue"@{nl="Inningswachtrij"}
+        text row.due,row.balance,row.next_collection,row.collection_pending,row.refund_pending,row.needs_review
+        primary "Collect payment"@{nl="Betaling innen"} action=collect arguments={invoice=row}
+        table row.Attempt columns=mode,requested,outcome_at,amount,status,failure,checkout,received empty="No attempts recorded yet"@{nl="Nog geen pogingen vastgelegd"}
+         primary "Review payment outcome"@{nl="Betalingsresultaat beoordelen"} opens=attempt_review
+         modal "Review payment outcome"@{nl="Betalingsresultaat beoordelen"} id=attempt_review
+          slot content
+           form review_attempt arguments={attempt=row} display=inline
+            fieldset
+             textarea reason
+         table row.PaymentRequest columns=kind,status,review_reason,reviewed_by,reviewed_at empty="No observation requests yet"@{nl="Nog geen waarnemingsaanvragen"}
+          pagination
          pagination
-        pagination
       tab "Collection and refund evidence"@{nl="Innings- en terugbetalingsbewijs"}
-       actions document,generate_receipt,collect
-       button opens=issue_detail
-       modal "Issue invoice"@{nl="Factuur uitgeven"} id=issue_detail
-        slot content
-         form issue arguments={invoice=row} display=inline
-          input number
-       dropdown
-        slot trigger
-         text "More actions"@{nl="Meer acties"}
-        slot content
-         button opens=payment_detail
-         modal "Record external payment"@{nl="Externe betaling registreren"} id=payment_detail
-          slot content
-           form record_payment arguments={invoice=row} display=inline
-            input amount
-            input reference
-            input received
-            textarea evidence
-         button opens=credit_detail
-         modal "Credit invoice"@{nl="Factuur crediteren"} id=credit_detail
-          slot content
-           form credit arguments={invoice=row} display=inline
-            input amount
-            textarea reason
-         button opens=refund_detail
-         modal "Refund payment"@{nl="Betaling terugbetalen"} id=refund_detail
-          slot content
-           form refund_payment arguments={invoice=row} display=inline
-            select payment
-            input amount
-            textarea reason
-         button opens=record_refund_detail
-         modal "Record external refund"@{nl="Externe terugbetaling registreren"} id=record_refund_detail
-          slot content
-           form record_refund arguments={invoice=row} display=inline
-            select payment
-            input amount
-            input reference
-            input received
-            textarea evidence
-            textarea reason
-         button opens=void_detail
-         modal "Void invoice"@{nl="Factuur ongeldig maken"} id=void_detail
-          slot content
-           form void_invoice arguments={invoice=row} display=inline
-            textarea reason
-       table row.Attempt columns=mode,requested,outcome_at,kind,amount,status,failure,checkout,received empty="No attempts recorded yet"@{nl="Nog geen pogingen vastgelegd"}
-        table row.PaymentRequest columns=kind,status,review_reason,reviewed_by,reviewed_at empty="No observation requests yet"@{nl="Nog geen waarnemingsaanvragen"}
+       card "Collection and refund evidence"@{nl="Innings- en terugbetalingsbewijs"}
+        primary "Generate document"@{nl="Document genereren"} action=document arguments={invoice=row}
+        primary "Generate receipt"@{nl="Betalingsbewijs genereren"} action=generate_receipt arguments={invoice=row}
+        primary "Collect payment"@{nl="Betaling innen"} action=collect arguments={invoice=row}
+        primary "Issue invoice"@{nl="Factuur uitgeven"} opens=issue_detail
+        modal "Issue invoice"@{nl="Factuur uitgeven"} id=issue_detail
+         slot content
+          form issue arguments={invoice=row} display=inline
+           input number
+        dropdown
+         slot trigger
+          text "More actions"@{nl="Meer acties"}
+         slot content
+          button opens=payment_detail caption="Record external payment"@{nl="Externe betaling registreren"}
+          modal "Record external payment"@{nl="Externe betaling registreren"} id=payment_detail
+           slot content
+            form record_payment arguments={invoice=row} display=inline
+             input amount
+             input reference
+             input received
+             textarea evidence
+          button opens=credit_detail caption="Credit invoice"@{nl="Factuur crediteren"}
+          modal "Credit invoice"@{nl="Factuur crediteren"} id=credit_detail
+           slot content
+            form credit arguments={invoice=row} display=inline
+             input amount
+             textarea reason
+          button opens=refund_detail caption="Refund payment"@{nl="Betaling terugbetalen"}
+          modal "Refund payment"@{nl="Betaling terugbetalen"} id=refund_detail
+           slot content
+            form refund_payment arguments={invoice=row} display=inline
+             select payment
+             input amount
+             textarea reason
+          button opens=record_refund_detail caption="Record external refund"@{nl="Externe terugbetaling registreren"}
+          modal "Record external refund"@{nl="Externe terugbetaling registreren"} id=record_refund_detail
+           slot content
+            form record_refund arguments={invoice=row} display=inline
+             select payment
+             input amount
+             input reference
+             input received
+             textarea evidence
+             textarea reason
+          button opens=void_detail caption="Void invoice"@{nl="Factuur ongeldig maken"}
+          modal "Void invoice"@{nl="Factuur ongeldig maken"} id=void_detail
+           slot content
+            form void_invoice arguments={invoice=row} display=inline
+             textarea reason
+        table row.Attempt columns=mode,requested,outcome_at,kind,amount,status,failure,checkout,received empty="No attempts recorded yet"@{nl="Nog geen pogingen vastgelegd"}
+         table row.PaymentRequest columns=kind,status,review_reason,reviewed_by,reviewed_at empty="No observation requests yet"@{nl="Nog geen waarnemingsaanvragen"}
+          pagination
          pagination
-        pagination
-       table row.ExternalPayment columns=reference,amount,received,evidence empty="No external payments recorded"@{nl="Geen externe betalingen vastgelegd"}
-        pagination
-       table row.ExternalRefund columns=reference,amount,received,evidence,reason empty="No external refunds recorded"@{nl="Geen externe terugbetalingen vastgelegd"}
-        pagination
-       history
+        table row.ExternalPayment columns=reference,amount,received,evidence empty="No external payments recorded"@{nl="Geen externe betalingen vastgelegd"}
+         pagination
+        table row.ExternalRefund columns=reference,amount,received,evidence,reason empty="No external refunds recorded"@{nl="Geen externe terugbetalingen vastgelegd"}
+         pagination
+        history
   # Print the exact issued invoice rather than current customer-directory data. @{nl="Druk de exacte uitgegeven factuur af in plaats van huidige gegevens uit het klantenregister."}
   page /finance/invoice/{Invoice.id} title=page_finance_invoice_Invoice_id_title $InvoiceWorkspace
    require authenticated
@@ -1030,7 +1036,9 @@ package invoice label="Invoices"@{nl="Facturen"}
     metrics row.credits,row.received,row.refunded,row.refund_due
     text row.refund_pending
    card "Documents and adjustments"@{nl="Documenten en correcties"}
-    actions document,generate_receipt,collect
+    primary "Generate document"@{nl="Document genereren"} action=document arguments={invoice=row}
+    primary "Generate receipt"@{nl="Betalingsbewijs genereren"} action=generate_receipt arguments={invoice=row}
+    primary "Collect payment"@{nl="Betaling innen"} action=collect arguments={invoice=row}
     table row.Document columns=kind,revision,file,generated empty="No documents generated yet"@{nl="Nog geen documenten gegenereerd"}
      pagination
     table row.DocumentRequest columns=kind,revision,status,error empty="No document requests yet"@{nl="Nog geen documentaanvragen"}
@@ -1043,7 +1051,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     require finance
     table row.parent.CommercialHistory columns=complete,first_invoice,evidence empty="No commercial history reviewed yet"@{nl="Nog geen commerciële historiek beoordeeld"}
      pagination
-    form review_commercial_history arguments={customer=row.parent}
+    secondary "Review customer commercial history"@{nl="Commerciële klanthistoriek beoordelen"} action=review_commercial_history arguments={customer=row.parent}
      fieldset
       checkbox complete
       textarea evidence

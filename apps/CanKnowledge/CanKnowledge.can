@@ -273,7 +273,7 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
    table Topic as topic columns=name,expert filter=active defaults={active=true} display=split empty="No topics available"@{nl="Geen onderwerpen beschikbaar"}
     pagination
     text row.active,row.daily_limit,row.input_tokens,row.output_tokens
-    form ask arguments={topic}
+    primary "Ask a private question"@{nl="Privévraag stellen"} action=ask arguments={topic}
      textarea question
     table row.Document as document columns=name,current display=split empty="No procedures in this topic"@{nl="Geen procedures in dit onderwerp"}
      pagination
@@ -292,8 +292,10 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
      text row.coverage,row.unfinished,row.used,row.stop_requested,row.request?.error,row.request?.progress?.detail
      content row.answer
      alert "Historical answers keep their original scope. Ask again for current guidance; changed or revoked used sources hide the answer."@{nl="Historische antwoorden behouden hun oorspronkelijke bronselectie. Stel opnieuw een vraag voor actuele uitleg; gewijzigde of ingetrokken gebruikte bronnen verbergen het antwoord."}
-     actions stop,reconcile,release_skipped
-     form escalate arguments={question}
+     secondary "Stop answer"@{nl="Antwoord stoppen"} action=stop arguments={question=row}
+     secondary "Check answer outcome"@{nl="Antwoordresultaat controleren"} action=reconcile arguments={question=row}
+     secondary "Release unsent question"@{nl="Niet-verzonden vraag vrijgeven"} action=release_skipped arguments={question=row}
+     primary "Ask the expert"@{nl="Expert inschakelen"} action=escalate arguments={question}
       textarea reason
       checkbox share
      list question.Escalation as issue empty="No expert requests"@{nl="Geen expertverzoeken"}
@@ -312,22 +314,22 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
   page /knowledge/editor title="Procedure editing"@{nl="Procedures bewerken"} $KnowledgeWorkspace
    require knowledge_author or knowledge_reviewer
    breadcrumbs
-   form create_document
+   primary "New procedure"@{nl="Nieuwe procedure"} action=create_document
     select topic
     input name
    table Document as document where editorial(actor,document) columns=name,parent,owner,active,current display=split empty="No procedures to edit"@{nl="Geen procedures om te bewerken"}
     pagination
     text row.name,row.parent,row.owner,row.active,row.current
-    form revise arguments={document}
+    primary "Propose revision"@{nl="Revisie voorstellen"} action=revise arguments={document}
      input title
      textarea body
      ## attachments:file[] stays generated: no catalog array control.
-    button opens=assign_author_detail
+    primary "Assign author"@{nl="Auteur aanwijzen"} opens=assign_author_detail
     modal "Assign author"@{nl="Auteur aanwijzen"} id=assign_author_detail
      slot content
       ## account:user stays generated: no user-picker vocabulary.
       form assign_author arguments={document=row} display=inline
-    button opens=document_status_detail
+    primary "Set procedure availability"@{nl="Beschikbaarheid procedure instellen"} opens=document_status_detail
     modal "Set procedure availability"@{nl="Beschikbaarheid procedure instellen"} id=document_status_detail
      slot content
       form document_status arguments={document=row} display=inline
@@ -337,13 +339,13 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
      badge row.index.state
      content row.body
      text row.attachments
-     form publish arguments={revision}
+     primary "Approve publication"@{nl="Publicatie goedkeuren"} action=publish arguments={revision}
       textarea reason
-     form reindex arguments={revision}
+     primary "Refresh source index"@{nl="Bronindex vernieuwen"} action=reindex arguments={revision}
     table document.Publication as publication columns=revision,reviewer,reviewed,active display=split empty="No publication decisions"@{nl="Geen publicatiebesluiten"}
      pagination
      text row.reason,row.withdrawal,row.withdrawn_by,row.withdrawn_at
-     form withdraw arguments={publication}
+     secondary "Withdraw publication"@{nl="Publicatie intrekken"} action=withdraw arguments={publication}
       textarea reason
      history
   page /knowledge/expert title="Expert questions"@{nl="Expertvragen"} $KnowledgeWorkspace
@@ -353,14 +355,14 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
     pagination
     badge row.state
     text row.parent.request_value.question,row.parent.account,row.reason
-    form resolve arguments={issue}
+    primary "Record expert resolution"@{nl="Expertoplossing vastleggen"} action=resolve arguments={issue}
      select revision
      textarea note
     text row.resolution,row.note,row.resolved_by,row.resolved_at
   page /knowledge/settings title="Knowledge settings"@{nl="Kennisinstellingen"} $KnowledgeWorkspace
    require knowledge_manager
    breadcrumbs
-   form Topic.create
+   primary "Create Topic"@{nl="Aanmaken"} action=Topic.create
     fieldset "Topic"@{nl="Onderwerp"}
      input name
      checkbox active
@@ -376,18 +378,18 @@ package knowledge label="Company knowledge"@{nl="Bedrijfskennis"}
    table Topic columns=name,expert,profile,active,daily_limit display=split empty="No topics configured"@{nl="Geen onderwerpen ingesteld"}
     pagination
     text row.name,row.expert,row.profile,row.active,row.daily_limit
-    edit
-    form Audience.create
+    primary "Edit Topic"@{nl="Bewerken"} action=Topic.update arguments={record=row}
+    primary "Create Audience"@{nl="Aanmaken"} action=Audience.create
      checkbox active
      ## account:user stays generated: no user-picker vocabulary.
     table row.Audience columns=account,active empty="No readers yet"@{nl="Nog geen lezers"}
      pagination
      text row.account,row.active
-     edit
+     primary "Edit Audience"@{nl="Bewerken"} action=Audience.update arguments={record=row}
     table row.Document as document columns=name,owner,active empty="No procedures in this topic"@{nl="Geen procedures in dit onderwerp"}
      pagination
      ## account:user stays generated: no user-picker vocabulary.
-     form assign_author arguments={document}
+     primary "Assign author"@{nl="Auteur aanwijzen"} action=assign_author arguments={document}
     table row.DailyUsage columns=account,day,requests order=-day empty="No usage recorded"@{nl="Geen verbruik geregistreerd"}
      pagination
      progress row.requests max=row.parent.daily_limit

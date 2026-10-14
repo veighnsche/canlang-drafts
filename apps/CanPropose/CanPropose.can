@@ -386,12 +386,12 @@ package propose
    card "Customer selection"@{nl="Klantselectie"}
     list Customer empty="No customers in scope."@{nl="Geen klanten binnen scope."}
      pagination
-     form Proposal.create
+     primary "Create Proposal"@{nl="Aanmaken"} action=Proposal.create
    card "Offer drafts"@{nl="Conceptoffertes"}
     list Proposal filter=location search=title defaults={location=preferences.location} display=split empty="No proposals match these filters."@{nl="Geen offertes voor deze filters."}
      pagination
-     edit
-     form revise
+     primary "Edit Proposal"@{nl="Bewerken"} action=Proposal.update arguments={record=row}
+     primary "Create revision"@{nl="Nieuwe versie maken"} action=revise arguments={proposal=row}
       fieldset "Revision terms"@{nl="Versievoorwaarden"}
        textarea terms
        input resource
@@ -410,41 +410,47 @@ package propose
       text row.number,row.issuer_snapshot,row.customer_snapshot,row.title_snapshot,row.location_snapshot,row.recipient_email,row.resource,row.from,row.until,row.seats,row.quantity,row.terms,row.refund_before,row.expires,row.total,row.state,row.handoff,row.booking,row.invoice,row.hold_state,row.held_until,row.document_state,row.pdf
       tabs
        tab "Frozen revisions and items"@{nl="Vastgelegde versies en regels"}
-        form Item.create
-         fieldset heading_itemized_quote
-          input title
-          input quantity
-          input unit
-        list row.Item empty="No items recorded."@{nl="Geen offerteregels vastgelegd."}
-         pagination
-         edit
-         delete
+        card "Frozen revisions and items"@{nl="Vastgelegde versies en regels"}
+         primary "Create Item"@{nl="Aanmaken"} action=Item.create
+          fieldset heading_itemized_quote
+           input title
+           input quantity
+           input unit
+         list row.Item empty="No items recorded."@{nl="Geen offerteregels vastgelegd."}
+          pagination
+          primary "Edit Item"@{nl="Bewerken"} action=Item.update arguments={record=row}
+          secondary "Delete Item"@{nl="Verwijderen"} action=Item.delete arguments={record=row}
        tab "Booking follow-up"@{nl="Boekingsopvolging"}
-        actions send_offer,document,request_booking,retry_hold_release,recover_hold
-        button opens=hold_detail
-        modal "Hold quoted inventory"@{nl="Geoffreerde voorraad tijdelijk reserveren"} id=hold_detail
-         slot content
-          form hold_inventory arguments={revision=row} display=inline
-           input until
-        button opens=alternative_detail
-        modal "Prepare sold-out alternative"@{nl="Alternatief bij uitverkoop voorbereiden"} id=alternative_detail
-         slot content
-          form offer_alternative arguments={revision=row} display=inline
-           fieldset "Alternative terms"@{nl="Alternatieve voorwaarden"}
-            input resource
-            input from
+        card "Booking follow-up"@{nl="Boekingsopvolging"}
+         primary "Send offer"@{nl="Offerte versturen"} action=send_offer arguments={revision=row}
+         primary "Generate quote document"@{nl="Offertedocument genereren"} action=document arguments={revision=row}
+         primary "Request booking"@{nl="Boeking aanvragen"} action=request_booking arguments={revision=row}
+         secondary "Retry hold release"@{nl="Vrijgave voorraad opnieuw proberen"} action=retry_hold_release arguments={revision=row}
+         secondary "Resume hold follow-up"@{nl="Voorraadopvolging hervatten"} action=recover_hold arguments={revision=row}
+         primary "Hold quoted inventory"@{nl="Geoffreerde voorraad tijdelijk reserveren"} opens=hold_detail
+         modal "Hold quoted inventory"@{nl="Geoffreerde voorraad tijdelijk reserveren"} id=hold_detail
+          slot content
+           form hold_inventory arguments={revision=row} display=inline
             input until
-            textarea terms
-            input refund_before
-            input product
-        collapse "New offer required"@{nl="Nieuwe offerte vereist"}
-         require row.handoff==unavailable and row.booking==null
-         text "This accepted revision cannot be booked again. Prepare a new alternative revision for the recipient to review."@{nl="Deze geaccepteerde versie kan niet opnieuw worden geboekt. Bereid een nieuwe alternatieve versie voor die de ontvanger kan beoordelen."}
-        collapse "Existing booking needs review"@{nl="Bestaande boeking vereist beoordeling"}
-         require row.handoff==unavailable and row.booking!=null
-         text "Use the recorded booking and invoice references to resolve cancellation, payment or refund work in Workspace. A separate new offer does not replace those obligations."@{nl="Gebruik de vastgelegde boekings- en factuurreferenties om annulering, betaling of terugbetaling in Workspace af te handelen. Een afzonderlijke nieuwe offerte vervangt die verplichtingen niet."}
-        copy app_url(format("/offers/respond/{id}",{id=row.id}))
-        history
+         primary "Prepare sold-out alternative"@{nl="Alternatief bij uitverkoop voorbereiden"} opens=alternative_detail
+         modal "Prepare sold-out alternative"@{nl="Alternatief bij uitverkoop voorbereiden"} id=alternative_detail
+          slot content
+           form offer_alternative arguments={revision=row} display=inline
+            fieldset "Alternative terms"@{nl="Alternatieve voorwaarden"}
+             input resource
+             input from
+             input until
+             textarea terms
+             input refund_before
+             input product
+         collapse "New offer required"@{nl="Nieuwe offerte vereist"}
+          require row.handoff==unavailable and row.booking==null
+          text "This accepted revision cannot be booked again. Prepare a new alternative revision for the recipient to review."@{nl="Deze geaccepteerde versie kan niet opnieuw worden geboekt. Bereid een nieuwe alternatieve versie voor die de ontvanger kan beoordelen."}
+         collapse "Existing booking needs review"@{nl="Bestaande boeking vereist beoordeling"}
+          require row.handoff==unavailable and row.booking!=null
+          text "Use the recorded booking and invoice references to resolve cancellation, payment or refund work in Workspace. A separate new offer does not replace those obligations."@{nl="Gebruik de vastgelegde boekings- en factuurreferenties om annulering, betaling of terugbetaling in Workspace af te handelen. Een afzonderlijke nieuwe offerte vervangt die verplichtingen niet."}
+         copy app_url(format("/offers/respond/{id}",{id=row.id}))
+         history
 
   # Review the exact addressed offer and its separate booking outcome. @{nl="Bekijk de exact geadresseerde offerte en het afzonderlijke boekingsresultaat."}
   page /offers/respond/{Revision.id} title="Your offer"@{nl="Jouw offerte"} $ProposeWorkspace
@@ -459,12 +465,13 @@ package propose
      table row.Item columns=title,quantity,unit,price,tax,discount empty="No items recorded."@{nl="Geen offerteregels vastgelegd."}
       pagination
    card "Decision and booking outcome"@{nl="Besluit en boekingsresultaat"}
-    button opens=decide_detail
+    primary "Record decision"@{nl="Besluit vastleggen"} opens=decide_detail
     modal "Record decision"@{nl="Besluit vastleggen"} id=decide_detail
      slot content
       form decide arguments={revision=row} display=inline
        checkbox accept
-    actions document,request_booking
+    primary "Generate quote document"@{nl="Offertedocument genereren"} action=document arguments={revision=row}
+    primary "Request booking"@{nl="Boeking aanvragen"} action=request_booking arguments={revision=row}
     status row.notice_state
     status row.document_delivery_state
     text row.pdf,row.document_state,row.booking,row.invoice

@@ -327,29 +327,30 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
     content row.envelope.body
     text row.envelope.attachments
     collapse "Classification evidence"@{nl="Classificatiebewijs"}
-     alert "Predictions do not grant another department access. Attachment contents are not classified."@{nl="Voorspellingen geven een andere afdeling geen inzage. Bijlage-inhoud wordt niet geclassificeerd."}
-     form classify arguments={message=mail}
-      checkbox additional
-     list mail.Assessment as assessment display=split empty="No assessments yet"@{nl="Nog geen beoordelingen"}
-      pagination
-      status row.state
-      text row.number,row.error
-      text row.input,row.specification
-      collapse "Questions and complete results"@{nl="Vragen en volledige resultaten"}
-       require row.result!=null
-       badge row.result.route.choice
-       text row.result.model,row.result.specification_revision,row.result.reply.probability,row.result.route.confidence,row.result.urgency.score,row.result.urgency.confidence,row.result.input_tokens,row.result.output_tokens
-       table row.result.route.probabilities columns=option,probability empty="No route probabilities"@{nl="Geen routekansen"}
-        pagination
-       table row.result.urgency.levels columns=level,index,description,probability empty="No urgency levels"@{nl="Geen urgentieniveaus"}
-        pagination
+     card "Classification evidence"@{nl="Classificatiebewijs"}
+      alert "Predictions do not grant another department access. Attachment contents are not classified."@{nl="Voorspellingen geven een andere afdeling geen inzage. Bijlage-inhoud wordt niet geclassificeerd."}
+      primary "Evaluate message"@{nl="Bericht beoordelen"} action=classify arguments={message=mail}
+       checkbox additional
+      list mail.Assessment as assessment display=split empty="No assessments yet"@{nl="Nog geen beoordelingen"}
+       pagination
+       status row.state
+       text row.number,row.error
+       text row.input,row.specification
+       collapse "Questions and complete results"@{nl="Vragen en volledige resultaten"}
+        require row.result!=null
+        badge row.result.route.choice
+        text row.result.model,row.result.specification_revision,row.result.reply.probability,row.result.route.confidence,row.result.urgency.score,row.result.urgency.confidence,row.result.input_tokens,row.result.output_tokens
+        table row.result.route.probabilities columns=option,probability empty="No route probabilities"@{nl="Geen routekansen"}
+         pagination
+        table row.result.urgency.levels columns=level,index,description,probability empty="No urgency levels"@{nl="Geen urgentieniveaus"}
+         pagination
     collapse "Review and permitted transfer"@{nl="Beoordeling en toegestane overdracht"}
      require queue_route(actor,mail.queue)
      list mail.mailbox.destinations as destination where destination.active display=split empty="No permitted destinations"@{nl="Geen toegestane doelwachtrijen"}
       pagination
       badge row.kind
       text row.name
-      form review arguments={message=mail,queue=destination}
+      primary "Review and assign"@{nl="Beoordelen en toewijzen"} action=review arguments={message=mail,queue=destination}
        checkbox reply_needed
        radio urgency
        textarea reason
@@ -360,9 +361,10 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
      text row.queue,row.reply_needed,row.reason,row.evidence,row.reviewer,row.reviewed
     collapse "Reviewed replies"@{nl="Beoordeelde antwoorden"}
      collapse "Compose a reply"@{nl="Antwoord opstellen"}
-      require queue_reply(actor,mail.queue)
-      form draft_reply arguments={message=mail}
-       textarea body
+      card "Compose a reply"@{nl="Antwoord opstellen"}
+       require queue_reply(actor,mail.queue)
+       primary "Draft reply"@{nl="Antwoord opstellen"} action=draft_reply arguments={message=mail}
+        textarea body
        ## attachments:file[] stays generated: no catalog array control.
      list mail.Reply as reply display=split empty="No replies yet"@{nl="Nog geen antwoorden"}
       pagination
@@ -370,27 +372,32 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
       content row.body
       text row.to,row.subject,row.attachments
       collapse "Edit and approve draft"@{nl="Concept bewerken en goedkeuren"}
-       require row.state==draft and queue_reply(actor,mail.queue)
-       form revise arguments={reply}
-        textarea body
+       card "Edit and approve draft"@{nl="Concept bewerken en goedkeuren"}
+        require row.state==draft and queue_reply(actor,mail.queue)
+        primary "Revise draft"@{nl="Concept aanpassen"} action=revise arguments={reply}
+         textarea body
         ## attachments:file[] stays generated: no catalog array control.
-       actions submit,discard
+        primary "Approve and send"@{nl="Goedkeuren en versturen"} action=submit arguments={reply=row}
+        secondary "Discard draft"@{nl="Concept verwerpen"} action=discard arguments={reply=row}
       list reply.Attempt as attempt empty="No send attempts"@{nl="Geen verzendpogingen"}
        pagination
        badge row.state
        text row.approved_by,row.approved_at,row.reference,row.detail,row.checks
        collapse "Reconcile outcome"@{nl="Resultaat controleren"}
-        require row==reply.current and row.state==unknown and queue_reply(actor,mail.queue)
-        form reconcile arguments={attempt}
+        card "Reconcile outcome"@{nl="Resultaat controleren"}
+         require row==reply.current and row.state==unknown and queue_reply(actor,mail.queue)
+         secondary "Reconcile uncertain send"@{nl="Onzekere verzending controleren"} action=reconcile arguments={attempt}
        collapse "Resubmit proven unsent reply"@{nl="Bewezen onverzonden antwoord opnieuw indienen"}
-        require row==reply.current and row.state==not_sent and queue_reply(actor,mail.queue)
-        form resubmit arguments={attempt}
+        card "Resubmit proven unsent reply"@{nl="Bewezen onverzonden antwoord opnieuw indienen"}
+         require row==reply.current and row.state==not_sent and queue_reply(actor,mail.queue)
+         primary "Resubmit confirmed unsent reply"@{nl="Bevestigd onverzonden antwoord opnieuw indienen"} action=resubmit arguments={attempt}
        history
     collapse "Resolve or reopen"@{nl="Afhandelen of heropenen"}
-     require queue_route(actor,mail.queue) or queue_reply(actor,mail.queue)
-     form resolve arguments={message=mail}
-      checkbox close
-      textarea reason
+     card "Resolve or reopen"@{nl="Afhandelen of heropenen"}
+      require queue_route(actor,mail.queue) or queue_reply(actor,mail.queue)
+      primary "Record resolution"@{nl="Afhandeling vastleggen"} action=resolve arguments={message=mail}
+       checkbox close
+       textarea reason
     list mail.Disposition empty="No resolutions recorded"@{nl="Geen afhandelingen vastgelegd"}
      pagination
      text row.closed,row.reason,row.reviewer,row.reviewed
@@ -398,7 +405,7 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
   page /inbox/settings title="Inbox settings"@{nl="Postvakinstellingen"} $InboxWorkspace
    require inbox_admin
    breadcrumbs
-   form Queue.create
+   primary "Create Queue"@{nl="Aanmaken"} action=Queue.create
     input name
     radio kind
     checkbox active
@@ -406,8 +413,8 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
     pagination
     badge row.kind
     text row.name,row.active
-    edit
-    form Grant.create
+    primary "Edit Queue"@{nl="Bewerken"} action=Queue.update arguments={record=row}
+    primary "Create Grant"@{nl="Aanmaken"} action=Grant.create
      checkbox route
      checkbox reply
      checkbox active
@@ -415,8 +422,8 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
     table row.Grant columns=account,route,reply,active empty="No grants yet"@{nl="Nog geen machtigingen"}
      pagination
      text row.account,row.route,row.reply,row.active
-     edit
-   form Mailbox.create
+     primary "Edit Grant"@{nl="Bewerken"} action=Grant.update arguments={record=row}
+   primary "Create Mailbox"@{nl="Aanmaken"} action=Mailbox.create
     fieldset "Identity and intake"@{nl="Identiteit en ontvangst"}
      input key
      input name
@@ -430,7 +437,7 @@ package inbox label="Departmental inbox"@{nl="Afdelingspostvak"}
     pagination
     text row.destinations
     text row.name,row.key,row.intake,row.enabled,row.classify,row.daily_limit
-    edit
+    primary "Edit Mailbox"@{nl="Bewerken"} action=Mailbox.update arguments={record=row}
     table row.DailyUsage columns=day,requests order=-day empty="No usage recorded"@{nl="Geen verbruik geregistreerd"}
      pagination
      progress row.requests max=row.parent.daily_limit

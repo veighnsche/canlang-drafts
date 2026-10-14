@@ -317,8 +317,8 @@ package hire label="Recruitment"@{nl="Werving"}
       show CandidateApplication {row=row}
       ## Nullable file target: lane-05 handoff — shared unavailable presentation when no CV was supplied.
       link target=row.cv caption="Download CV"@{nl="CV downloaden"}
-      tooltip "Withdraws your application and cancels interviews"@{nl="Trekt je sollicitatie in en annuleert gesprekken"}
-       action withdraw
+      text "Withdraws your application and cancels interviews"@{nl="Trekt je sollicitatie in en annuleert gesprekken"}
+      secondary "Withdraw"@{nl="Intrekken"} action=withdraw arguments={candidate=row}
 
   # Coordinate private candidates and restricted interview evidence. @{nl="Coördineer private kandidaten en afgeschermd gespreksbewijs."}
   page /hiring title="Hiring"@{nl="Werving"} $HireWorkspace
@@ -350,7 +350,8 @@ package hire label="Recruitment"@{nl="Werving"}
       text row.retention_until
      edit
       toggle published
-     actions close,reopen_vacancy
+     primary "Close vacancy"@{nl="Vacature sluiten"} action=close arguments={vacancy=row}
+     primary "Reopen vacancy"@{nl="Vacature heropenen"} action=reopen_vacancy arguments={vacancy=row}
      form intake display=inline
       fieldset "Record candidate intake"@{nl="Kandidaat registreren"}
        input name
@@ -368,19 +369,19 @@ package hire label="Recruitment"@{nl="Werving"}
       card "Recruiter decision"@{nl="Besluit van de recruiter"}
        require recruiter and can_work(actor,row.parent.location)
        text row.reason
-      tooltip "Requests one interviewer reservation"@{nl="Vraagt één interviewerreservering aan"}
-       button opens=schedule_interview
+      text "Requests one interviewer reservation"@{nl="Vraagt één interviewerreservering aan"}
+      primary "Schedule interview"@{nl="Gesprek plannen"} opens=schedule_interview
       modal "Schedule interview"@{nl="Gesprek plannen"} id=schedule_interview
        slot content
         form schedule arguments={candidate=row} display=inline
-      button opens=record_outcome
+      primary "Record decision"@{nl="Besluit vastleggen"} opens=record_outcome
       modal "Record decision"@{nl="Besluit vastleggen"} id=record_outcome
        slot content
         form decide arguments={candidate=row} display=inline
          fieldset "Hiring outcome"@{nl="Wervingsuitkomst"}
           radio stage
           textarea reason
-      button opens=reopen_case
+      primary "Reopen application"@{nl="Sollicitatie heropenen"} opens=reopen_case
       modal "Reopen application"@{nl="Sollicitatie heropenen"} id=reopen_case
        slot content
         form reopen_application arguments={candidate=row} display=inline
@@ -393,18 +394,18 @@ package hire label="Recruitment"@{nl="Werving"}
         badge row.release_state
         status row.notice_state
         text row.from,row.until,row.timezone,row.feedback
-        tooltip "Keeps the confirmed interview until the replacement is accepted"@{nl="Behoudt het bevestigde gesprek totdat de vervanging is aanvaard"}
-         button opens=reschedule_booking
+        text "Keeps the confirmed interview until the replacement is accepted"@{nl="Behoudt het bevestigde gesprek totdat de vervanging is aanvaard"}
+        primary "Reschedule interview"@{nl="Gesprek verplaatsen"} opens=reschedule_booking
         modal "Reschedule interview"@{nl="Gesprek verplaatsen"} id=reschedule_booking
          slot content
           form reschedule arguments={booking=row} display=inline
-        button opens=cancel_booking
+        secondary "Cancel interview"@{nl="Gesprek annuleren"} opens=cancel_booking
         modal "Cancel interview"@{nl="Gesprek annuleren"} id=cancel_booking
          slot content
           form cancel_interview arguments={interview=row} display=inline
            textarea reason
-        action retry_release
-        button opens=record_feedback
+        secondary "Retry release"@{nl="Vrijgave herhalen"} action=retry_release arguments={interview=row}
+        primary "Record feedback" opens=record_feedback
         modal label_Interview_feedback id=record_feedback
          slot content
           form feedback arguments={interview=row} display=inline
@@ -416,7 +417,7 @@ package hire label="Recruitment"@{nl="Werving"}
    breadcrumbs
    require hr
    card "Reviewed employee identity"@{nl="Beoordeelde medewerkeridentiteit"}
-    form Employee.create
+    primary "Create Employee"@{nl="Aanmaken"} action=Employee.create
     list Candidate as candidate where candidate.stage==hired and candidate.onboarding_reference==null empty="No pending handoffs."@{nl="Geen openstaande overdrachten."}
      pagination
      text row.name,row.email,row.account
@@ -429,7 +430,7 @@ package hire label="Recruitment"@{nl="Werving"}
    list Interview as interview where interview.interviewer.user==actor and interview.interviewer.active and can_work(actor,interview.parent.parent.location) and interview.state==confirmed order=from empty="No assigned interviews."@{nl="Geen toegewezen gesprekken."}
     pagination
     text row.parent.name,row.parent.application,row.parent.cv,row.from,row.until,row.timezone,row.feedback
-    button opens=record_feedback
+    primary "Record feedback" opens=record_feedback
     modal label_Interview_feedback id=record_feedback
      slot content
       form feedback arguments={interview=row} display=inline

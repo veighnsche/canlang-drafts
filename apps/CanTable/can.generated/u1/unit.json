@@ -1,0 +1,30 @@
+{
+  "abi_version": 1,
+  "id": "u1",
+  "source": {
+    "owner": "CanTable",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "CanTable:style-inline:Page:Page",
+    "path": "CanTable.can",
+    "revision": "64ae38772cc3ef2a5f2cb1318f1f35e28ae466ec93bc232d353228c3f93bc6cf",
+    "start": 12729,
+    "end": 13523
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "7d7e0830013e3ce0bdeed1605c3b47ac1c75b4234abe9a937cd98e875718ce13",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "7d7e0830013e3ce0bdeed1605c3b47ac1c75b4234abe9a937cd98e875718ce13",
+    "files": {}
+  },
+  "provenance": {
+    "origin": "bound",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind; no generated output yet"
+  }
+}

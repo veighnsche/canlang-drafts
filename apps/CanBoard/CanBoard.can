@@ -130,7 +130,7 @@ package board label="Governance"@{nl="Bestuur"}
    require board_member or coordinator or secretary
    breadcrumbs
    card "Meeting intake"@{nl="Vergadering aanmaken"}
-    form Meeting.create
+    primary "Create Meeting"@{nl="Aanmaken"} action=Meeting.create
    list Meeting columns=title,at,location,finalized order=-at filter=finalized defaults={finalized=preferences.finalized} search=title display=split empty="No meetings match this filter."@{nl="Geen vergaderingen voor dit filter."}
     pagination
     text row.finalized
@@ -140,62 +140,65 @@ package board label="Governance"@{nl="Bestuur"}
      alert
       require row.finalized
       text "Finalized minutes are immutable; later corrections use amendments."@{nl="Definitieve notulen zijn onveranderlijk; latere correcties gebruiken aanvullingen."}
-     edit
-     action finalize
+     primary "Edit Meeting"@{nl="Bewerken"} action=Meeting.update arguments={record=row}
+     secondary "Finalize minutes"@{nl="Notulen definitief maken"} action=finalize arguments={meeting=row}
     tabs
      tab "Agenda and papers"@{nl="Agenda en stukken"}
-      form Agenda.create
-       input title
-       input position
-       file_input paper
-       textarea discussion
-      table row.Agenda columns=position,title,paper,discussion order=position empty="No agenda items yet."@{nl="Nog geen agendapunten."}
-       pagination
-       card
-        require row.paper!=null
-        button target=row.paper caption="Open paper"@{nl="Stuk openen"}
-       edit
+      card "Agenda and papers"@{nl="Agenda en stukken"}
+       primary "Create Agenda"@{nl="Aanmaken"} action=Agenda.create
+        input title
+        input position
+        file_input paper
+        textarea discussion
+       table row.Agenda columns=position,title,paper,discussion order=position empty="No agenda items yet."@{nl="Nog geen agendapunten."}
+        pagination
+        card
+         require row.paper!=null
+         primary "Open paper"@{nl="Stuk openen"} target=row.paper
+        primary "Edit Agenda"@{nl="Bewerken"} action=Agenda.update arguments={record=row}
      tab "Resolutions and actions"@{nl="Besluiten en acties"}
-      form Resolution.create
-      list row.Resolution columns=title,outcome,evidence empty="No resolutions yet."@{nl="Nog geen besluiten."}
-       pagination
-       badge row.outcome
-       button opens=decide_resolution
-       modal "Record decision"@{nl="Besluit vastleggen"} id=decide_resolution
-        slot content
-         form decide arguments={resolution=row} display=inline
+      card "Resolutions and actions"@{nl="Besluiten en acties"}
+       primary "Create Resolution"@{nl="Aanmaken"} action=Resolution.create
+       list row.Resolution columns=title,outcome,evidence empty="No resolutions yet."@{nl="Nog geen besluiten."}
+        pagination
+        badge row.outcome
+        primary "Record decision"@{nl="Besluit vastleggen"} opens=decide_resolution
+        modal "Record decision"@{nl="Besluit vastleggen"} id=decide_resolution
+         slot content
+          form decide arguments={resolution=row} display=inline
           ## Decisions stay manual with evidence; the bound resolution is protected and accept/evidence keep typed controls.
-          fieldset "Record decision"@{nl="Besluit vastleggen"}
-           checkbox accept
-           textarea evidence
-       form Action.create
+           fieldset "Record decision"@{nl="Besluit vastleggen"}
+            checkbox accept
+            textarea evidence
+        primary "Create Action"@{nl="Aanmaken"} action=Action.create
         ## owner:user keeps its generated entry: no user-picker vocabulary.
-        fieldset "Action assignment"@{nl="Actietoewijzing"}
-         input title
-         calendar due
-       table row.Action columns=title,owner,due,done order=due filter=done empty="No actions assigned."@{nl="Geen acties toegewezen."}
-        pagination
-        text row.done
-        tooltip "Complete this action"@{nl="Deze actie afronden"}
-         button action=complete
-        collapse "Completion evidence"@{nl="Bewijs afronding"}
-         show ActionEvidence {row=row}
+         fieldset "Action assignment"@{nl="Actietoewijzing"}
+          input title
+          calendar due
+        table row.Action columns=title,owner,due,done order=due filter=done empty="No actions assigned."@{nl="Geen acties toegewezen."}
+         pagination
+         text row.done
+         text "Complete this action"@{nl="Deze actie afronden"}
+         primary "Complete" action=complete arguments={action=row}
+         collapse "Completion evidence"@{nl="Bewijs afronding"}
+          show ActionEvidence {row=row}
      tab "Final minutes and amendments"@{nl="Definitieve notulen en aanvullingen"}
-      form finalized_record
-       text result.title,result.at,result.timezone,result.location,result.attendance,result.minutes,result.finalized_by,result.finalized_at
-       table result.Agenda columns=position,title,paper,discussion order=position empty="No agenda items recorded."@{nl="Geen agendapunten vastgelegd."}
-        pagination
-       list result.Resolution columns=title,outcome,evidence,decided_by,decided_at empty="No resolutions recorded."@{nl="Geen besluiten vastgelegd."}
-        pagination
-       collapse "Recorded amendments"@{nl="Vastgelegde aanvullingen"} open=preferences.amendments_open
+      card "Final minutes and amendments"@{nl="Definitieve notulen en aanvullingen"}
+       form finalized_record
+        text result.title,result.at,result.timezone,result.location,result.attendance,result.minutes,result.finalized_by,result.finalized_at
+        table result.Agenda columns=position,title,paper,discussion order=position empty="No agenda items recorded."@{nl="Geen agendapunten vastgelegd."}
+         pagination
+        list result.Resolution columns=title,outcome,evidence,decided_by,decided_at empty="No resolutions recorded."@{nl="Geen besluiten vastgelegd."}
+         pagination
+        collapse "Recorded amendments"@{nl="Vastgelegde aanvullingen"} open=preferences.amendments_open
         ## Amendments are ordered attributed entries; the timeline renders one item per admitted amendment in stable order.
-        timeline result.Amendment
-         slot item
-          content row.text
-          text row.paper,row.author
-      form Amendment.create
-       textarea text
-       file_input paper
+         timeline result.Amendment
+          slot item
+           content row.text
+           text row.paper,row.author
+       primary "Create Amendment"@{nl="Aanmaken"} action=Amendment.create
+        textarea text
+        file_input paper
     history
 
   # Follow assigned outstanding actions under their own operation. @{nl="Volg toegewezen openstaande acties via hun eigen operatie."}
@@ -207,7 +210,7 @@ package board label="Governance"@{nl="Bestuur"}
     text row.done
     form origin
      text result.resolution,result.meeting
-    tooltip "Complete this action"@{nl="Deze actie afronden"}
-     button action=complete
+    text "Complete this action"@{nl="Deze actie afronden"}
+    primary "Complete" action=complete arguments={action=row}
     collapse "Action evidence"@{nl="Actiebewijs"}
      show ActionEvidence {row=row}

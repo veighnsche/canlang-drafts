@@ -163,8 +163,8 @@ package agreements
      pagination
    card "Open obligations"@{nl="Open verplichtingen"}
     table Obligation as obligation where not obligation.done and not obligation.parent.terminated columns=parent,title,due order=due empty="No open obligations"@{nl="Geen open verplichtingen"}
-     tooltip "Complete this obligation with attribution"@{nl="Rond deze verplichting toe met herleiding"}
-      button action=complete
+     text "Complete this obligation with attribution"@{nl="Rond deze verplichting toe met herleiding"}
+     primary "Complete" action=complete arguments={obligation=row}
      pagination
    divider "Agreement registry"@{nl="Overeenkomstregister"}
    card "Agreement intake"@{nl="Overeenkomst aanmaken"}
@@ -185,7 +185,7 @@ package agreements
       label email
       input email
       validator email
-     button submit=true
+     primary "Create Agreement"@{nl="Aanmaken"} submit=true
    list Agreement columns=title,category,location,owner,counterparty,active filter=category,location,owner defaults={location=preferences.location} search=title display=split empty="No agreements match these filters"@{nl="Geen overeenkomsten voor deze filters"}
     card "Agreement parties"@{nl="Overeenkomstpartijen"}
      status row.active
@@ -196,8 +196,8 @@ package agreements
        select owner
        input email
        toggle active
-      button submit=true
-     button opens=new_term
+      primary "Edit Agreement"@{nl="Bewerken"} submit=true
+     primary "Record term"@{nl="Termijn vastleggen"} opens=new_term
      modal "Record term"@{nl="Termijn vastleggen"} id=new_term
       slot content
        form Term.create arguments={parent=row}
@@ -210,7 +210,7 @@ package agreements
          textarea pricing
          input currency
          select previous
-        button submit=true
+        primary "Create Term"@{nl="Aanmaken"} submit=true
     list row.Term order=until empty="No terms recorded"@{nl="Geen termijnen vastgelegd"}
      card "Recorded term"@{nl="Vastgelegde termijn"}
       ## Lifecycle strip: each stage shows its live flag beside the frozen record.
@@ -223,7 +223,7 @@ package agreements
         status row.terminated
       text row.file,row.from,row.until,row.pricing,row.currency,row.notice_days,row.notice_date,row.timezone,row.snapshot
       text row.reason
-      button target=row.file caption="Download executed file"@{nl="Ondertekend bestand downloaden"}
+      primary "Download executed file"@{nl="Ondertekend bestand downloaden"} target=row.file
       edit
        fieldset "Term dates and pricing"@{nl="Termijndata en prijzen"}
         file_input file
@@ -232,14 +232,15 @@ package agreements
         input notice_days
         textarea pricing
         input currency
-       button submit=true
-      button opens=execute_term
+       primary "Edit Term"@{nl="Bewerken"} submit=true
+      primary "Execute agreement"@{nl="Overeenkomst ondertekenen"} opens=execute_term
       modal "Execute agreement"@{nl="Overeenkomst ondertekenen"} id=execute_term
        slot content
         alert "Execution freezes the file, dates and party snapshot."@{nl="Ondertekening legt het bestand, de data en de partijsnapshot vast."}
-        form execute arguments={term=row}
-      tooltip "Record a renewal linked to this term"@{nl="Leg een verlenging vast die naar deze termijn verwijst"}
-       button opens=renew_term
+       slot actions
+        primary "Execute agreement"@{nl="Overeenkomst ondertekenen"} action=execute arguments={term=row}
+      text "Record a renewal linked to this term"@{nl="Leg een verlenging vast die naar deze termijn verwijst"}
+      primary "Record renewal"@{nl="Verlenging vastleggen"} opens=renew_term
       modal "Record renewal"@{nl="Verlenging vastleggen"} id=renew_term
        slot content
         form renew arguments={term=row}
@@ -253,26 +254,26 @@ package agreements
           validator notice_days
           textarea pricing
           input currency
-         button submit=true
-      button opens=terminate_term
+         primary "Record renewal"@{nl="Verlenging vastleggen"} submit=true
+      secondary "Terminate term"@{nl="Termijn beëindigen"} opens=terminate_term
       modal "Terminate term"@{nl="Termijn beëindigen"} id=terminate_term
        slot content
         alert "Termination preserves history and cancels pending reminders."@{nl="Beëindiging behoudt de historie en annuleert openstaande herinneringen."}
         form terminate arguments={term=row}
          textarea reason
-         button submit=true
+         primary "Terminate term"@{nl="Termijn beëindigen"} submit=true
      tabs
       tab "Obligations"@{nl="Verplichtingen"}
        form Obligation.create arguments={parent=row}
         fieldset "Obligation"@{nl="Verplichting"}
          input title
          calendar due
-        button submit=true
+        primary "Create Obligation"@{nl="Aanmaken"} submit=true
        table row.Obligation columns=title,due order=due filter=done empty="No obligations match this filter"@{nl="Geen verplichtingen voor dit filter"}
         status row.done
-        edit
-        tooltip "Complete this obligation with attribution"@{nl="Rond deze verplichting toe met herleiding"}
-         button action=complete
+        primary "Edit Obligation"@{nl="Bewerken"} action=Obligation.update arguments={record=row}
+        text "Complete this obligation with attribution"@{nl="Rond deze verplichting toe met herleiding"}
+        primary "Complete" action=complete arguments={obligation=row}
         details "Obligation completion"@{nl="Afronding verplichting"}
          text row.completed_by,row.completed_at
         pagination
@@ -286,7 +287,7 @@ package agreements
         fieldset "Amendment"@{nl="Aanvulling"}
          textarea text
          file_input file
-        button submit=true
+        primary "Create Amendment"@{nl="Aanmaken"} submit=true
        list row.Amendment empty="No amendments recorded"@{nl="Geen aanvullingen vastgelegd"}
         text row.text,row.file,row.author
         pagination

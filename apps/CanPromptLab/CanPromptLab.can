@@ -108,28 +108,36 @@ package prompt_lab
   style Workspace $"Give the attached page, card, form, generated-view root or custom view host a readable catalog surface with modest spacing and responsive stacking. Respect each target's actual root/part contract and nearest ownership. Inherit the theme and canonical shell, retain all fields, controls, validation feedback, localized captions and keyboard focus; caller host styling cannot style a child renderer's interior."
   style FieldSurface $"Give the attached canonical text input or textarea a clear boundary, comfortable spacing and visible keyboard focus. Preserve labels, required/disabled states, native and generated validation feedback, exact field identity and submission behavior. Inherit the theme."
   style ControlSurface $"Make the attached canonical button or control easy to identify with visible focus and compact spacing. Retain its permission admission, caption, loading/error states, version and CSRF data, confirmation and operation binding. Inherit the theme."
-  view EntryTile(row:Entry) $"Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup." $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
-   edit $ControlSurface
-   button action=archive_entry $ControlSurface
-   button action=restore_entry $"Show this canonical restore control clearly beside the archive evidence, retaining every admission, confirmation, feedback and focus state."
-   delete $"Keep the canonical delete control distinct and legible without changing its confirmation, permission, version or submission behavior."
-  view TagTile(row:Tag) $"Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation." $Workspace
-   edit
-   button action=archive_tag
-   button action=restore_tag
-   delete
+  view EntryTile(row:Entry) $"Render the complete opaque bindings.card unchanged exactly once as this view's canonical surface. Its authored title, content and standard footer actions/header menu present the admitted entry code, title, barcode, summary, rank and archive evidence using canonical captions and exact formatting. Do not extract, reorder, recreate, duplicate or restyle its fields or edit, archive, restore and delete controls. Preserve admission, withheld-field omission, validation feedback and keyboard focus. Keep notes, collection queries, paging and history at the caller; introduce no independent lookup, form implementation or mutation." $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
+   card "Catalog entry"
+    title row.title
+    text row.code,row.barcode,row.rank,row.archived,row.archived_by,row.archive_recorded_at
+    content row.summary
+    primary "Edit Catalog entry"@{nl="Bewerken"} action=Entry.update arguments={record=row}
+    secondary "Archive entry" action=archive_entry arguments={entry=row}
+    secondary "Restore entry" action=restore_entry arguments={entry=row}
+    secondary "Delete Catalog entry"@{nl="Verwijderen"} action=Entry.delete arguments={record=row}
+  view TagTile(row:Tag) $"Render the complete opaque bindings.card unchanged exactly once as this view's canonical surface. Its authored title, content and standard footer actions/header menu present the admitted tag name, description, rank and archive evidence using canonical captions and exact formatting. Do not extract, reorder, recreate, duplicate or restyle its fields or edit, archive, restore and delete controls. Preserve admission, withheld-field omission, validation feedback and keyboard focus. Keep queries and paging at the caller; introduce no independent lookup, form implementation or mutation." $Workspace
+   card "Catalog tag"
+    title row.name
+    text row.rank,row.archived,row.archived_by,row.archive_recorded_at
+    content row.description
+    primary "Edit Catalog tag"@{nl="Bewerken"} action=Tag.update arguments={record=row}
+    secondary "Archive tag" action=archive_tag arguments={tag=row}
+    secondary "Restore tag" action=restore_tag arguments={tag=row}
+    secondary "Delete Catalog tag"@{nl="Verwijderen"} action=Tag.delete arguments={record=row}
   page /catalogs title="Catalogs" $Workspace
    require members
    breadcrumbs
    card "New catalog" $Workspace
-    form Catalog.create $Workspace
+    primary "Create Catalog"@{nl="Aanmaken"} action=Catalog.create
      input name $FieldSurface
    list Catalog columns=name order=name empty="No catalogs yet."
     pagination
     card "Catalog entries" $"Keep the selected catalog heading, entry intake and collection easy to scan; stack on narrow screens and preserve canonical controls and feedback."
      title row.name
-     edit
-     form Entry.create $"Group every canonical entry field without changing parent binding, submit behavior, labels or validation."
+     primary "Edit Catalog"@{nl="Bewerken"} action=Catalog.update arguments={record=row}
+     primary "Create Catalog entry"@{nl="Aanmaken"} action=Entry.create
       input code $FieldSurface
       input title $FieldSurface
       input barcode $"Make the canonical EAN-13 input readable with a monospaced value and visible validation feedback; do not normalize or repair entered digits."
@@ -138,18 +146,18 @@ package prompt_lab
      list row.Entry columns=code,title,archived order=rank empty="No entries in this catalog."
       pagination
       show EntryTile {row=row} $Workspace
-      form Note.create
+      primary "Create Entry note"@{nl="Aanmaken"} action=Note.create
        textarea body
       list row.Note columns=body,author,pinned order=-created empty="No notes yet."
        pagination
-       edit
-       delete
+       primary "Edit Entry note"@{nl="Bewerken"} action=Note.update arguments={record=row}
+       secondary "Delete Entry note"@{nl="Verwijderen"} action=Note.delete arguments={record=row}
       history
   page /tags title="Catalog tags" $"Use a compact tag workspace with readable descriptions and a clear intake area; preserve the shared shell, canonical admission and feedback."
    require members
    breadcrumbs
    card "New tag" $"Separate tag intake from existing tags with modest theme-based spacing and responsive wrapping."
-    form Tag.create
+    primary "Create Catalog tag"@{nl="Aanmaken"} action=Tag.create
      input name $FieldSurface
      textarea description $FieldSurface
      input rank

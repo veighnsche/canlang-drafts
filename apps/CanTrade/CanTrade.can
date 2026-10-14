@@ -85,7 +85,7 @@ package trade
    breadcrumbs
    card "Publish a listing"@{nl="Een advertentie publiceren"}
     require authenticated and actor.email_verified and eligible(actor,null)
-    form Post.create
+    primary "Create Post"@{nl="Aanmaken"} action=Post.create
      fieldset "Listing details"@{nl="Advertentiegegevens"}
       radio kind
       input title
@@ -102,25 +102,26 @@ package trade
      pagination
      badge row.state
      content row.description
-     edit
+     primary "Edit Post"@{nl="Bewerken"} action=Post.update arguments={record=row}
      ## Closing and reopening keep the owning status operation with its typed open control.
-     button opens=community_listing_status
+     primary "Change listing status"@{nl="Advertentiestatus wijzigen"} opens=community_listing_status
      modal "Change listing status"@{nl="Advertentiestatus wijzigen"} id=community_listing_status
       slot content
        form status arguments={post=row} display=inline
         checkbox open
      collapse "Published contact and reporting"@{nl="Gepubliceerd contact en melden"}
-      text row.visibility,row.state
-      form Report.create
-       textarea reason
+      card "Published contact and reporting"@{nl="Gepubliceerd contact en melden"}
+       text row.visibility,row.state
+       primary "Create Report"@{nl="Aanmaken"} action=Report.create
+        textarea reason
    card "My listings"@{nl="Mijn advertenties"}
     require authenticated and preferences.view==mine
     table Post as post where post.author==actor columns=kind,title,visibility,state,moderation_reason filter=state display=split empty="No own listings yet."@{nl="Nog geen eigen advertenties."}
      pagination
      badge row.state
-     edit
-     delete
-     button opens=own_listing_status
+     primary "Edit Post"@{nl="Bewerken"} action=Post.update arguments={record=row}
+     secondary "Delete Post"@{nl="Verwijderen"} action=Post.delete arguments={record=row}
+     primary "Change listing status"@{nl="Advertentiestatus wijzigen"} opens=own_listing_status
      modal "Change listing status"@{nl="Advertentiestatus wijzigen"} id=own_listing_status
       slot content
        form status arguments={post=row} display=inline
@@ -133,11 +134,11 @@ package trade
    breadcrumbs
    card "Publication audience"@{nl="Publicatiedoelgroep"}
     require owner
-    form Audience.create
+    primary "Create Audience"@{nl="Aanmaken"} action=Audience.create
      checkbox allow_public
     list Audience empty="No audience record yet."@{nl="Nog geen doelgroeprecord."}
      pagination
-     edit
+     primary "Edit Audience"@{nl="Bewerken"} action=Audience.update arguments={record=row}
    card "Reported listings"@{nl="Gemelde advertenties"}
     require moderator
     ## The queue defaults to unresolved reports; dismissal keeps the original report and decision history.
@@ -145,7 +146,7 @@ package trade
     table Report columns=parent,reason,resolved,decision filter=resolved defaults={resolved=false} empty="No reports match this filter."@{nl="Geen meldingen voor dit filter."}
      pagination
      text row.resolved
-     button opens=dismiss_report
+     primary "Dismiss report"@{nl="Melding afwijzen"} opens=dismiss_report
      modal "Dismiss report"@{nl="Melding afwijzen"} id=dismiss_report
       slot content
        form dismiss arguments={report=row} display=inline
@@ -155,7 +156,7 @@ package trade
     list Post as post where any(post.Report as report,not report.resolved) display=split empty="No listings awaiting moderation."@{nl="Geen advertenties te beoordelen."}
      pagination
      badge row.state
-     button opens=moderate_listing
+     primary "Remove reported listing"@{nl="Gemelde advertentie verwijderen"} opens=moderate_listing
      modal "Remove reported listing"@{nl="Gemelde advertentie verwijderen"} id=moderate_listing
       slot content
        form moderate arguments={post=row} display=inline

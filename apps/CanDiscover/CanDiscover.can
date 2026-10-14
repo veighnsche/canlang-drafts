@@ -322,36 +322,40 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
    breadcrumbs
    tabs
     tab "Plans"@{nl="Plannen"}
-     form Plan.create
-      input name
-      select location
-      textarea ted_query
-      textarea grants_query
-      textarea criteria
-     table Plan columns=name,location,active,revision empty="No research plans"@{nl="Geen onderzoeksplannen"}
-      pagination
-      actions start,pause,resume,take_over
-      form configure arguments={plan=row}
-       fieldset "Sources"@{nl="Bronnen"}
-        textarea ted_query
-        textarea grants_query
-        textarea criteria
-       fieldset "Limits"@{nl="Limieten"}
-        input period
-        input lookback_days
-        input max_pages
-        input max_documents
-        input max_analysis
-        input output_tokens
-      table row.Run columns=started,complete,stopped,document_slots,analysis_slots empty="No research runs"@{nl="Geen onderzoeksrondes"}
+     card "Plans"@{nl="Plannen"}
+      primary "Create Plan"@{nl="Aanmaken"} action=Plan.create
+       input name
+       select location
+       textarea ted_query
+       textarea grants_query
+       textarea criteria
+      table Plan columns=name,location,active,revision empty="No research plans"@{nl="Geen onderzoeksplannen"}
        pagination
-       action stop
-       table row.SourcePass columns=source,state,requests,detail empty="No source passes"@{nl="Geen bronrondes"}
+       primary "Run now"@{nl="Nu uitvoeren"} action=start arguments={plan=row}
+       secondary "Pause" action=pause arguments={plan=row}
+       primary "Resume" action=resume arguments={plan=row}
+       secondary "Take over" action=take_over arguments={plan=row}
+       primary "Configure" action=configure arguments={plan=row}
+        fieldset "Sources"@{nl="Bronnen"}
+         textarea ted_query
+         textarea grants_query
+         textarea criteria
+        fieldset "Limits"@{nl="Limieten"}
+         input period
+         input lookback_days
+         input max_pages
+         input max_documents
+         input max_analysis
+         input output_tokens
+       table row.Run columns=started,complete,stopped,document_slots,analysis_slots empty="No research runs"@{nl="Geen onderzoeksrondes"}
         pagination
-        badge row.state
-        action retry
-        table row.PageAttempt columns=cursor,take,applied,late,traversal,detail,request empty="No page attempts"@{nl="Geen paginapogingen"}
+        secondary "Stop" action=stop arguments={run=row}
+        table row.SourcePass columns=source,state,requests,detail empty="No source passes"@{nl="Geen bronrondes"}
          pagination
+         badge row.state
+         secondary "Retry" action=retry arguments={pass=row}
+         table row.PageAttempt columns=cursor,take,applied,late,traversal,detail,request empty="No page attempts"@{nl="Geen paginapogingen"}
+          pagination
     tab "Evidence and review"@{nl="Bewijs en beoordeling"}
      ## Readable pipeline stages; gating stays in When guards.
      steps
@@ -365,23 +369,24 @@ package discover label="Opportunity research"@{nl="Kansenonderzoek"}
        text "Promote"@{nl="Promoveren"}
      table Opportunity columns=source,key,canonical_url,needs_identity_review,expired,duplicate_of,deal empty="No opportunities"@{nl="Geen kansen"}
       pagination
-      form duplicate arguments={opportunity=row}
+      primary "Duplicate" action=duplicate arguments={opportunity=row}
        select canonical
        textarea reason
-      form accept_identity arguments={opportunity=row}
+      primary "Accept identity" action=accept_identity arguments={opportunity=row}
        textarea reason
       ## Ordinal evidence chain; newest admission invalidates older reviews.
       timeline row.Evidence
        slot item
-        text row.document,row.claims,row.analysis_issue
-        copy row.document.key
-        action analyse
-        form review arguments={evidence=row}
-         input title
-         textarea summary
-         input deadline
-         input deadline_zone
-         textarea deadline_note
+        card "Evidence review"@{nl="Bronbeoordeling"}
+         text row.document,row.claims,row.analysis_issue
+         copy row.document.key
+         primary "Analyse" action=analyse arguments={evidence=row}
+         primary "Review" action=review arguments={evidence=row}
+          input title
+          textarea summary
+          input deadline
+          input deadline_zone
+          textarea deadline_note
          ## quotes keeps its generated control: quote arrays have no catalog control.
       table row.Conflict columns=document,observed empty="No conflicts"@{nl="Geen conflicten"}
        pagination

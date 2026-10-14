@@ -222,7 +222,7 @@ package affiliate
    ## Explicit controls restyle declared create inputs only; unmentioned eligible inputs keep generated controls.
    ## `active` is not in create_fields, so it has no control here.
    card "Partner intake"@{nl="Partner aanmaken"}
-    form Partner.create
+    primary "Create Partner"@{nl="Aanmaken"} action=Partner.create
      textarea agreement
      range rate
      radio milestone
@@ -233,15 +233,14 @@ package affiliate
     card "Partner terms"@{nl="Partnervoorwaarden"}
      badge row.provider_state
      status row.onboarded
-     edit
+     primary "Edit Partner"@{nl="Bewerken"} action=Partner.update arguments={record=row}
       textarea agreement
       range rate
       radio milestone
       checkbox active
      text row.agreement,row.milestone
-     join
-      button action=refresh_account arguments={partner=row}
-      button opens=settle_dialog
+     primary "Refresh provider status"@{nl="Providerstatus verversen"} action=refresh_account arguments={partner=row}
+     primary "Settle commission"@{nl="Commissie verrekenen"} opens=settle_dialog
      modal "Settle commission"@{nl="Commissie verrekenen"} id=settle_dialog
       slot content
        form settle arguments={partner=row} display=inline
@@ -270,8 +269,9 @@ package affiliate
         require row.review or row.allocation==unknown
         text row.delivery
        collapse "Settlement identity"@{nl="Identiteit verrekening"}
-        text row.source,row.delivery
-        button action=refresh_settlement arguments={settlement=row}
+        card "Settlement identity"@{nl="Identiteit verrekening"}
+         text row.source,row.delivery
+         primary "Refresh settlement"@{nl="Verrekening verversen"} action=refresh_settlement arguments={settlement=row}
     history
   # Trace only your broker terms and distinguish connected-account allocation from bank receipt. @{nl="Bekijk uitsluitend je makelaarsvoorwaarden en onderscheid toewijzing aan het gekoppelde account van bankontvangst."}
   page /partners/mine title="My commissions"@{nl="Mijn commissies"} $AffiliateWorkspace
@@ -283,9 +283,8 @@ package affiliate
      badge row.provider_state
      status row.onboarded
      text row.name,row.rate,row.agreement,row.milestone
-     join
-      button action=onboard arguments={partner=row}
-      button action=refresh_account arguments={partner=row}
+     primary "Complete provider onboarding"@{nl="Providerregistratie voltooien"} action=onboard arguments={partner=row}
+     primary "Refresh provider status"@{nl="Providerstatus verversen"} action=refresh_account arguments={partner=row}
      copy app_url(format("/partners/share/{id}",{id=row.id}))
      stat
       slot value
@@ -308,12 +307,13 @@ package affiliate
      badge row.allocation
      badge row.bank
      status row.review
-     button action=refresh_settlement arguments={settlement=row}
+     primary "Refresh settlement"@{nl="Verrekening verversen"} action=refresh_settlement arguments={settlement=row}
   # A partner link records a verified customer attribution without exposing broker terms or banking data. @{nl="Een partnerlink legt geverifieerde klanttoewijzing vast zonder makelaarsvoorwaarden of bankgegevens te tonen."}
   page /partners/share/{Partner.id} title="Partner introduction"@{nl="Partnerintroductie"} nav=none $AffiliateWorkspace
    require row.active
    breadcrumbs
    ## Captionless hero avoids duplicating the page title (hero: optional caption).
    hero
-    text row.name
-    form capture arguments={partner=row} fields=customer
+    card "Attribution code"@{nl="Toewijzingscode"}
+     text row.name
+     primary "Use attribution code"@{nl="Toewijzingscode gebruiken"} action=capture arguments={partner=row} fields=customer

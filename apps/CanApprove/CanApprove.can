@@ -277,7 +277,7 @@ package approve label="Document review"@{nl="Documentbeoordeling"}
    ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Document intake"@{nl="Document aanmaken"}
-    form Document.create
+    primary "Create Document"@{nl="Aanmaken"} action=Document.create
      input title
      input category
      input subject
@@ -285,8 +285,8 @@ package approve label="Document review"@{nl="Documentbeoordeling"}
    list Document as document where document.submitter==actor columns=title,location,category,current filter=location,category search=title display=split
     pagination
     card "Current document"@{nl="Huidig document"}
-     edit
-     form submit
+     primary "Edit Document"@{nl="Bewerken"} action=Document.update arguments={record=row}
+     form submit arguments={document=row}
       file_input file
       textarea note
       input reviewer_email
@@ -301,7 +301,7 @@ package approve label="Document review"@{nl="Documentbeoordeling"}
      table row.Submission columns=revision,file,note,reviewer,due,overdue,state,reason order=-revision filter=state,reviewer,overdue
       pagination
       show SubmittedVersionStatus {row=row}
-      button action=withdraw arguments={submission=row}
+      secondary "Withdraw"@{nl="Intrekken"} action=withdraw arguments={submission=row}
       collapse "Version decision history"@{nl="Besluithistorie versies"}
        text row.decided_by,row.decided_at
        history
@@ -317,9 +317,8 @@ package approve label="Document review"@{nl="Documentbeoordeling"}
      show SubmittedVersionStatus {row=row}
      text row.revision,row.file,row.note,row.due,row.reason
      ## One binding per button; each modal id is unique in this page scope; the external opener suppresses the implicit opener.
-     join
-      button opens=decide_dialog
-      button opens=assign_dialog
+     primary "Record decision"@{nl="Besluit vastleggen"} opens=decide_dialog
+     primary "Assign"@{nl="Toewijzen"} opens=assign_dialog
      modal "Record decision"@{nl="Besluit vastleggen"} id=decide_dialog
       slot content
        form decide arguments={submission=row} display=inline

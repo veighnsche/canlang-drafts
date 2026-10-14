@@ -151,7 +151,7 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
   page /decisions title="Process decisions"@{nl="Procesbeslissingen"} poll=2s $"Use balanced desktop columns for generated and reviewed text, and keep advisory distributions visually separate from the human-choice form. Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged."
    require analyst or reviewer
    breadcrumbs
-   form Case.create
+   primary "Create Case"@{nl="Aanmaken"} action=Case.create
     input title
     textarea objective
     textarea evidence
@@ -161,9 +161,9 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
     text row.objective,row.active
     stat row.generations,row.evaluations
     content row.evidence
-    edit fields=active
+    primary "Edit Case"@{nl="Bewerken"} action=Case.update arguments={record=row} fields=active
      checkbox active
-    action generate
+    primary "Generate decision brief"@{nl="Beslisnotitie genereren"} action=generate arguments={case=row}
     ## Readable pipeline stages; the workflow itself stays in When guards.
     steps
      slot item
@@ -178,8 +178,8 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
      pagination
      status row.delivery_state
      text row.input,row.value,row.request?.error
-     action stop
-     form review arguments={draft=row}
+     secondary "Stop draft"@{nl="Concept stoppen"} action=stop arguments={draft=row}
+     primary "Review and correct brief"@{nl="Notitie beoordelen en corrigeren"} action=review arguments={draft=row}
       textarea state
       ## choices keeps its generated control: candidate arrays have no catalog control.
       textarea note
@@ -193,8 +193,8 @@ package decide label="Decision review"@{nl="Beslisbeoordeling"}
       slot after
        content row.state
      text row.choices,row.note,row.specification,row.result,row.judgment,row.reason,row.request?.error
-     action evaluate
-     button opens=decide_dialog
+     primary "Request advisory evaluation"@{nl="Adviserende beoordeling aanvragen"} action=evaluate arguments={review=row}
+     primary "Record human decision"@{nl="Menselijke beslissing vastleggen"} opens=decide_dialog
      modal "Record human decision"@{nl="Menselijke beslissing vastleggen"} id=decide_dialog
       slot content
        form decide arguments={review=row} display=inline

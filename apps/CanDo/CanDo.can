@@ -122,10 +122,14 @@ package todo
   style TaskTileHost $"Give each task tile a little vertical separation and let it fill its card. Style only the caller host placement, size and inherited typography; keep the tile renderer and its private parts owned by the view."
   preferences { location:Location?, done:bool?, view:enum(all,today,overdue)=all label={text="Task view"@{nl="Taakweergave"},values={all="All tasks"@{nl="Alle taken"},today="Due today"@{nl="Vandaag verschuldigd"},overdue="Overdue"@{nl="Te laat"}}} }
   invariant preferences: row.location==null or (actor!=null and can_work(actor,row.location))
-  view TaskTile(row:Task) $"Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site." $"Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior."
-   edit
-   button action=complete $"Make completion an easy-to-find, comfortably sized button with a clear focus ring and canonical pending state. Keep its action and permission visibility unchanged."
-   button action=reopen
+  view TaskTile(row:Task) $"Render the complete opaque bindings.card unchanged exactly once as this view's canonical surface. Its authored title, content and standard footer actions/header menu present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with canonical localized formatting, followed by its description as ordinary content. Do not extract, reorder, recreate, duplicate or restyle its fields or controls. Preserve permission admission, withheld-field omission, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the caller." $"Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior."
+   card "Task"@{nl="Taak"}
+    title row.title
+    text row.assignee,row.due,row.priority,row.done,row.completed_by,row.completed_at
+    content row.description
+    primary "Edit Task"@{nl="Bewerken"} action=Task.update arguments={record=row}
+    primary "Complete" action=complete arguments={task=row}
+    primary "Reopen" action=reopen arguments={task=row}
   # Add tasks quickly and follow location, due date and ownership. @{nl="Voeg taken snel toe en volg locatie, deadline en eigenaarschap."}
   page /tasks title="Tasks"@{nl="Taken"} $TodoWorkspace
    require members
@@ -147,7 +151,7 @@ package todo
     card "Current task"@{nl="Huidige taak"}
      show TaskTile {row=row} $TaskTileHost
     card "Attributed comments"@{nl="Toegeschreven reacties"}
-     form Comment.create
+     primary "Create Comment"@{nl="Aanmaken"} action=Comment.create
       textarea body
      list row.Comment empty="No comments yet."@{nl="Nog geen reacties."}
       pagination
@@ -191,19 +195,19 @@ package todo
    require task_manager
    breadcrumbs
    card "Template intake"@{nl="Sjabloon aanmaken"}
-    form Template.create
+    primary "Create Checklist template"@{nl="Aanmaken"} action=Template.create
      input name
      select location
    list Template columns=name,location search=name display=split empty="No templates yet."@{nl="Nog geen sjablonen."}
     pagination
     card "Template and generation"@{nl="Sjabloon en generatie"}
      text row.name,row.location
-     edit
-     delete
-     form generate
+     primary "Edit Checklist template"@{nl="Bewerken"} action=Template.update arguments={record=row}
+     secondary "Delete Checklist template"@{nl="Verwijderen"} action=Template.delete arguments={record=row}
+     primary "Generate tasks from checklist"@{nl="Taken uit checklist genereren"} action=generate arguments={template=row}
     card "Template items"@{nl="Sjabloonitems"}
-     form TemplateTask.create
+     primary "Create TemplateTask"@{nl="Aanmaken"} action=TemplateTask.create
      table row.TemplateTask columns=title,offset,priority order=offset empty="No template items yet."@{nl="Nog geen sjabloonitems."}
       pagination
-      edit
-      delete
+      primary "Edit TemplateTask"@{nl="Bewerken"} action=TemplateTask.update arguments={record=row}
+      secondary "Delete TemplateTask"@{nl="Verwijderen"} action=TemplateTask.delete arguments={record=row}

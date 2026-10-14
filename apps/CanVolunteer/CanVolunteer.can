@@ -217,7 +217,7 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
        text row.description,row.requirements,row.timezone,row.from,row.until
        form availability
         stat result.remaining
-       button action=signup
+       primary "Sign up for activity"@{nl="Inschrijven voor activiteit"} action=signup arguments={opportunity=row}
     tab assignments
      require authenticated
      card "Your signups and assigned tasks"@{nl="Jouw inschrijvingen en toegewezen taken"}
@@ -227,10 +227,12 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
        status row.cancelled
        status row.needs_confirmation
        text row.notification?.status
-       actions withdraw,reactivate,reconfirm
+       secondary "Withdraw signup"@{nl="Inschrijving intrekken"} action=withdraw arguments={signup=row}
+       primary "Register again"@{nl="Opnieuw inschrijven"} action=reactivate arguments={signup=row}
+       primary "Accept changed activity"@{nl="Gewijzigde activiteit aanvaarden"} action=reconfirm arguments={signup=row}
        list row.Task
         text row.title,row.done,row.completed_by,row.completed_at
-        button action=complete
+        primary "Complete" action=complete arguments={task=row}
        ## Per-signup history shows the volunteer's own state-transition audit under the own grant.
        history
   # Coordinate confirmed participants and entered attendance. @{nl="Coördineer bevestigde deelnemers en ingevoerde aanwezigheid."}
@@ -238,9 +240,9 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
    require organizer
    breadcrumbs
    card "Opportunity authoring"@{nl="Activiteiten opstellen"}
-    form Community.create
+    primary "Create Community"@{nl="Aanmaken"} action=Community.create
     list Community
-     form Opportunity.create
+     primary "Create Opportunity"@{nl="Aanmaken"} action=Opportunity.create
       ## The community parent auto-binds; contact, timezone, instants and capacity keep generated controls.
       fieldset "New activity"@{nl="Nieuwe activiteit"}
        select location
@@ -250,18 +252,19 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
        select venue
     list Opportunity filter=location defaults={location=preferences.location} order=from display=split
      pagination
-     edit
+     primary "Edit Opportunity"@{nl="Bewerken"} action=Opportunity.update arguments={record=row}
      badge row.remaining
      status row.open
      status row.cancelled
      status row.venue_confirmed
      text row.venue
-     form link_venue
+     primary "Link venue reservation"@{nl="Locatiereservering koppelen"} action=link_venue arguments={opportunity=row}
       select venue
-     form reschedule
+     primary "Reschedule activity"@{nl="Activiteit verplaatsen"} action=reschedule arguments={opportunity=row}
       select venue
       textarea reason
-     actions publish,cancel
+     primary "Publish" action=publish arguments={opportunity=row}
+     secondary "Cancel" action=cancel arguments={opportunity=row}
      card "Participants and attendance"@{nl="Deelnemers en aanwezigheid"}
       list row.Signup
        pagination
@@ -269,13 +272,13 @@ package volunteer label="Volunteering"@{nl="Vrijwilligerswerk"}
        status row.cancelled
        status row.needs_confirmation
        text row.email,row.notification?.status
-       actions confirm
-       button opens=attendance_dialog
+       primary "Confirm signup"@{nl="Inschrijving bevestigen"} action=confirm arguments={signup=row}
+       primary "Record attendance"@{nl="Aanwezigheid vastleggen"} opens=attendance_dialog
        ## The dialog keeps the signup row; attendance is the only entered input.
        modal "Record attendance"@{nl="Aanwezigheid vastleggen"} id=attendance_dialog
         slot content
          form attendance arguments={signup=row} display=inline
           toggle attend
        card "Task assignments"@{nl="Taaktoewijzingen"}
-        form Task.create
+        primary "Create Task"@{nl="Aanmaken"} action=Task.create
        history

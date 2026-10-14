@@ -19,7 +19,7 @@ package rent_catalog_ui
    preferences
     toggle arrival_open
    card "Location catalog"@{nl="Locatiecatalogus"}
-    form Location.create
+    primary "Create Location"@{nl="Aanmaken"} action=Location.create
      fieldset
       input name
       textarea address
@@ -29,13 +29,13 @@ package rent_catalog_ui
       textarea arrival
     table Location columns=name,address,timezone,currency,hours empty="No locations yet"@{nl="Nog geen locaties"}
      text row.active
-     edit
+     primary "Edit Location"@{nl="Bewerken"} action=Location.update arguments={record=row}
       fieldset
        checkbox active
        textarea arrival
      collapse "Arrival information"@{nl="Aankomstinformatie"} open=preferences.arrival_open
       text row.arrival
-     form WeeklyHours.create
+     primary "Create WeeklyHours"@{nl="Aanmaken"} action=WeeklyHours.create
       fieldset
        input weekday
        input opens
@@ -43,16 +43,16 @@ package rent_catalog_ui
        input close_after
        radio fold
      table row.WeeklyHours columns=weekday,opens,closes,close_after empty="No weekly hours yet"@{nl="Nog geen weekopeningstijden"}
-      edit
+      primary "Edit WeeklyHours"@{nl="Bewerken"} action=WeeklyHours.update arguments={record=row}
       pagination
-     form ClosedDate.create
+     primary "Create ClosedDate"@{nl="Aanmaken"} action=ClosedDate.create
       fieldset
        calendar day
        textarea reason
      table row.ClosedDate columns=day,reason empty="No closed dates yet"@{nl="Nog geen sluitingsdagen"}
-      edit
+      primary "Edit ClosedDate"@{nl="Bewerken"} action=ClosedDate.update arguments={record=row}
       pagination
-     form DateHours.create
+     primary "Create DateHours"@{nl="Aanmaken"} action=DateHours.create
       fieldset
        calendar day
        input opens
@@ -61,7 +61,7 @@ package rent_catalog_ui
        checkbox closed
        radio fold
      table row.DateHours columns=day,opens,closes,close_after,closed empty="No date hours yet"@{nl="Nog geen datumtijden"}
-      edit
+      primary "Edit DateHours"@{nl="Bewerken"} action=DateHours.update arguments={record=row}
       pagination
      history
      pagination
@@ -1483,7 +1483,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     text entry.facts.customer_source,entry.facts.customer_external_id,entry.facts.resource_source,entry.facts.resource_external_id,entry.facts.actor,entry.facts.from_original,entry.facts.until_original,entry.facts.from,entry.facts.until,entry.facts.status,entry.facts.payment,entry.facts.quantity,entry.facts.amount,entry.customer,entry.resource
     card "Current mapping and source evidence"@{nl="Huidige koppeling en bronbewijs"}
      require reservation_manager or finance
-     button opens=link_legacy_booking
+     primary "Map historical booking"@{nl="Historische reservering koppelen"} opens=link_legacy_booking
      link target=entry.source_evidence caption="Original source artifact"@{nl="Oorspronkelijk bronbestand"}
      text entry.account,entry.mapping_reason,entry.attestation,entry.imported_by,entry.imported_at
      modal "Map historical booking"@{nl="Historische reservering koppelen"} id=link_legacy_booking
@@ -1507,8 +1507,8 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     badge row.refund_state
     text row.customer,row.from,row.until,row.total
     copy row.source
-    actions reconcile_booking
-    button opens=booking_refund
+    secondary "Reconcile booking payment"@{nl="Reserveringsbetaling reconciliëren"} action=reconcile_booking arguments={booking=row}
+    secondary "Refund booking exception"@{nl="Reserveringsuitzondering terugbetalen"} opens=booking_refund
     modal "Refund booking exception"@{nl="Reserveringsuitzondering terugbetalen"} id=booking_refund
      slot content
       form refund_review arguments={booking=row} display=inline
@@ -1519,7 +1519,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    list Booking as booking where booking.status in [confirmed,occupied,completed,no_show] display=split empty="No confirmed bookings"@{nl="Geen bevestigde reserveringen"}
     badge row.status
     copy row.source
-    button opens=booking_adjust
+    primary "Charge booking adjustment"@{nl="Reserveringscorrectie factureren"} opens=booking_adjust
     modal "Charge booking adjustment"@{nl="Reserveringscorrectie factureren"} id=booking_adjust
      slot content
       form adjust arguments={booking=row} display=inline
@@ -1530,7 +1530,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     list row.Movement as movement where movement.credit_due!=null and movement.credit_due.minor>0 empty="No movement credits"@{nl="Geen verplaatsingstegoeden"}
      badge row.state
      text row.credit_due
-     button opens=movement_credit_refund
+     secondary "Refund movement credit"@{nl="Verplaatsingstegoed terugbetalen"} opens=movement_credit_refund
      modal "Refund movement credit"@{nl="Verplaatsingstegoed terugbetalen"} id=movement_credit_refund
       slot content
        form refund_movement_credit arguments={movement=row} display=inline
@@ -1545,7 +1545,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
     list row.Adjustment empty="No adjustments"@{nl="Geen correcties"}
      badge row.state
      text row.amount,row.reason,row.new_until
-     button opens=adjustment_refund
+     secondary "Refund adjustment exception"@{nl="Correctie-uitzondering terugbetalen"} opens=adjustment_refund
      modal "Refund adjustment exception"@{nl="Correctie-uitzondering terugbetalen"} id=adjustment_refund
       slot content
        form refund_adjustment arguments={adjustment=row} display=inline
@@ -1559,7 +1559,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    require catalog_owner
    breadcrumbs
    card "Resource catalog and rates"@{nl="Voorzieningencatalogus en tarieven"}
-    form Resource.create
+    primary "Create Resource"@{nl="Aanmaken"} action=Resource.create
      fieldset
       select location
       input name
@@ -1580,7 +1580,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
       input refund_notice
       textarea accessibility
     table Resource columns=location,name,capacity,hourly,increment,minimum,terms,refund_notice,active filter=location defaults={location=preferences.location} display=split empty="No resources match these filters"@{nl="Geen voorzieningen voldoen aan deze filters"}
-     edit
+     primary "Edit Resource"@{nl="Bewerken"} action=Resource.update arguments={record=row}
       fieldset
        checkbox active
        textarea terms
@@ -1640,88 +1640,91 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
    breadcrumbs
    card "Availability and booking evidence"@{nl="Beschikbaarheids- en reserveringsbewijs"}
     list Resource filter=location,active defaults={location=preferences.location} display=split empty="No resources match these filters"@{nl="Geen voorzieningen voldoen aan deze filters"}
-     edit
+     primary "Edit Resource"@{nl="Bewerken"} action=Resource.update arguments={record=row}
      tabs
       tab "Resource windows"@{nl="Beschikbaarheidsvensters"}
-       form DayCalendar.create
-        fieldset
-         calendar day
-         input opens
-         input closes
-         checkbox closed
-         radio fold
-       table row.DayCalendar columns=day,opens,closes,closed empty="No day calendars yet"@{nl="Nog geen dagkalenders"}
-        edit
-        pagination
-       form Window.create
-        fieldset
-         input from
-         input until
-         checkbox closed
-         textarea reason
-       table row.Window columns=from,until,closed,reason empty="No availability windows"@{nl="Geen beschikbaarheidsvensters"}
-        edit
-        pagination
+       card "Resource windows"@{nl="Beschikbaarheidsvensters"}
+        primary "Create DayCalendar"@{nl="Aanmaken"} action=DayCalendar.create
+         fieldset
+          calendar day
+          input opens
+          input closes
+          checkbox closed
+          radio fold
+        table row.DayCalendar columns=day,opens,closes,closed empty="No day calendars yet"@{nl="Nog geen dagkalenders"}
+         primary "Edit DayCalendar"@{nl="Bewerken"} action=DayCalendar.update arguments={record=row}
+         pagination
+        primary "Create Window"@{nl="Aanmaken"} action=Window.create
+         fieldset
+          input from
+          input until
+          checkbox closed
+          textarea reason
+        table row.Window columns=from,until,closed,reason empty="No availability windows"@{nl="Geen beschikbaarheidsvensters"}
+         primary "Edit Window"@{nl="Bewerken"} action=Window.update arguments={record=row}
+         pagination
       tab "Booking outcomes"@{nl="Reserveringsresultaten"}
        ## GR board: by= one enum field; status visible via grouping.
        board row.Booking by=status columns=customer,from,until,quantity,payment,allowance empty="No bookings yet"@{nl="Nog geen reserveringen"}
         history
         pagination
       tab "Capacity and desks"@{nl="Capaciteit en bureaus"}
-       form revise_capacity
-        fieldset
+       card "Capacity and desks"@{nl="Capaciteit en bureaus"}
+        primary "Revise pooled capacity"@{nl="Poolcapaciteit herzien"} action=revise_capacity arguments={resource=row}
+         fieldset
          ## proposed: int as input's "appropriate scalar"; checker confirms.
-         input capacity
-         textarea reason
-       table row.CapacityRevision columns=capacity,effective,reason empty="No capacity revisions yet"@{nl="Nog geen capaciteitsrevisies"}
-        pagination
-       form Desk.create
-        fieldset
-         input name
-         checkbox active
-       table row.Desk columns=name,active empty="No desks yet"@{nl="Nog geen bureaus"}
-        edit
-        pagination
-       list row.VenueReservation empty="No venue reservations"@{nl="Geen ruimtereserveringen"}
-        badge row.status
-        text row.source,row.from,row.until,row.quantity
-        copy row.source
-        pagination
-       list row.QuoteHold empty="No quote holds"@{nl="Geen offertereserveringen"}
-        text row.active
-        text row.source,row.from,row.until,row.quantity,row.expires
-        copy row.source
-        pagination
-       alert "Conflicts need manager review"@{nl="Conflicten vereisen beoordeling"}
-       list row.Conflict as conflict where not conflict.resolved empty="No unresolved conflicts"@{nl="Geen onopgeloste conflicten"}
-        text row.booking,row.reason
-        button opens=conflict_resolve
-        modal "Resolve reservation conflict"@{nl="Reserveringsconflict oplossen"} id=conflict_resolve
-         slot content
-          form resolve_conflict arguments={conflict=row} display=inline
-           fieldset
-            textarea evidence
-        pagination
+          input capacity
+          textarea reason
+        table row.CapacityRevision columns=capacity,effective,reason empty="No capacity revisions yet"@{nl="Nog geen capaciteitsrevisies"}
+         pagination
+        primary "Create Desk"@{nl="Aanmaken"} action=Desk.create
+         fieldset
+          input name
+          checkbox active
+        table row.Desk columns=name,active empty="No desks yet"@{nl="Nog geen bureaus"}
+         primary "Edit Desk"@{nl="Bewerken"} action=Desk.update arguments={record=row}
+         pagination
+        list row.VenueReservation empty="No venue reservations"@{nl="Geen ruimtereserveringen"}
+         badge row.status
+         text row.source,row.from,row.until,row.quantity
+         copy row.source
+         pagination
+        list row.QuoteHold empty="No quote holds"@{nl="Geen offertereserveringen"}
+         text row.active
+         text row.source,row.from,row.until,row.quantity,row.expires
+         copy row.source
+         pagination
+        alert "Conflicts need manager review"@{nl="Conflicten vereisen beoordeling"}
+        list row.Conflict as conflict where not conflict.resolved empty="No unresolved conflicts"@{nl="Geen onopgeloste conflicten"}
+         text row.booking,row.reason
+         primary "Resolve reservation conflict"@{nl="Reserveringsconflict oplossen"} opens=conflict_resolve
+         modal "Resolve reservation conflict"@{nl="Reserveringsconflict oplossen"} id=conflict_resolve
+          slot content
+           form resolve_conflict arguments={conflict=row} display=inline
+            fieldset
+             textarea evidence
+         pagination
       tab "Repair blocks and restoration"@{nl="Reparatieblokkades en herstel"}
-       button opens=repair_block
-       modal "Block for repair"@{nl="Blokkeren voor reparatie"} id=repair_block
-        slot content
-         form block arguments={resource=row} display=inline
-          fieldset
-           input from
-           input until
-           textarea reason
-       list row.Downtime empty="No repair blocks"@{nl="Geen reparatieblokkades"}
-        text row.active
-        text row.from,row.until,row.reason,row.verified_by,row.verification
-        copy row.source
-        button opens=downtime_restore
-        modal "Restore availability"@{nl="Beschikbaarheid herstellen"} id=downtime_restore
+       card "Repair blocks and restoration"@{nl="Reparatieblokkades en herstel"}
+        primary "Block for repair"@{nl="Blokkeren voor reparatie"} opens=repair_block
+        modal "Block for repair"@{nl="Blokkeren voor reparatie"} id=repair_block
          slot content
-          form restore arguments={downtime=row} display=inline
+          form block arguments={resource=row} display=inline
            fieldset
-            textarea evidence
-        pagination
+            input from
+            input until
+            textarea reason
+        list row.Downtime empty="No repair blocks"@{nl="Geen reparatieblokkades"}
+         text row.active
+         text row.from,row.until,row.reason,row.verified_by,row.verification
+         copy row.source
+         secondary "Restore availability"@{nl="Beschikbaarheid herstellen"} opens=downtime_restore
+         modal "Restore availability"@{nl="Beschikbaarheid herstellen"} id=downtime_restore
+          slot content
+           form restore arguments={downtime=row} display=inline
+            fieldset
+             textarea evidence
+         pagination
      pagination
 
 # Fulfill received payments and allowances without treating provider requests as success. @{nl="Verwerk ontvangen betalingen en tegoeden zonder provideraanvragen als succes te behandelen."}
@@ -1775,18 +1778,16 @@ package rent_fulfillment label="Workspace fulfillment"@{nl="Werkplekuitvoering"}
      stat row.total
      text row.from,row.until,row.monetary_due,row.service_due,row.allowance_units,row.included_units
      copy row.source
-     actions reconcile_booking,reconcile_allowance
-     join
-      button opens=request_payment
-     join
-      button opens=move_hold
-      button opens=move_days_hold
-      button opens=move_member
-      button opens=move_member_days
-     join
-      button opens=booking_extend
-      button opens=booking_cancel
-      button opens=free_confirm
+     secondary "Reconcile booking payment"@{nl="Reserveringsbetaling reconciliëren"} action=reconcile_booking arguments={booking=row}
+     secondary "Reconcile membership allowance"@{nl="Lidmaatschapstegoed reconciliëren"} action=reconcile_allowance arguments={booking=row}
+     primary "Request payment and allowance"@{nl="Betaling en tegoed aanvragen"} opens=request_payment
+     primary "Move held booking"@{nl="Tijdelijke reservering verplaatsen"} opens=move_hold
+     primary "Move workspace days"@{nl="Werkplekdagen verplaatsen"} opens=move_days_hold
+     primary "Move member workspace"@{nl="Ledenwerkplek verplaatsen"} opens=move_member
+     primary "Move member workspace days"@{nl="Ledenwerkplekdagen verplaatsen"} opens=move_member_days
+     primary "Extend booking"@{nl="Reservering verlengen"} opens=booking_extend
+     secondary "Cancel booking"@{nl="Reservering annuleren"} opens=booking_cancel
+     primary "Confirm free booking"@{nl="Gratis reservering bevestigen"} opens=free_confirm
      modal "Request payment and allowance"@{nl="Betaling en tegoed aanvragen"} id=request_payment
       slot content
        form request arguments={booking=row} display=inline
@@ -1839,13 +1840,15 @@ package rent_fulfillment label="Workspace fulfillment"@{nl="Werkplekuitvoering"}
      list row.Movement empty="No workspace moves"@{nl="Geen werkplekverplaatsingen"}
       badge row.state
       text row.intervals,row.outcome
-      actions abandon_movement,reconcile_movement,retry_movement_cleanup
+      primary "Abandon workspace move"@{nl="Werkplekverplaatsing afbreken"} action=abandon_movement arguments={movement=row}
+      secondary "Reconcile workspace move"@{nl="Werkplekverplaatsing reconciliëren"} action=reconcile_movement arguments={movement=row}
+      secondary "Retry workspace move cleanup"@{nl="Opruimen werkplekverplaatsing opnieuw proberen"} action=retry_movement_cleanup arguments={movement=row}
       pagination
      list row.Notice empty="No correspondence yet"@{nl="Nog geen correspondentie"}
       status row.state
       text row.kind,row.subject
-      tooltip "Retry delivery"@{nl="Opnieuw verzenden"}
-       action resend_notice
+      text "Retry delivery"@{nl="Opnieuw verzenden"}
+      secondary "Retry booking notice"@{nl="Reserveringsbericht opnieuw proberen"} action=resend_notice arguments={notice=row}
       pagination
      history
      pagination
@@ -1855,11 +1858,11 @@ package rent_fulfillment label="Workspace fulfillment"@{nl="Werkplekuitvoering"}
    breadcrumbs
    card "Physical arrivals and departures"@{nl="Werkelijke aankomsten en vertrekken"}
     table Booking columns=customer,from,until,status,checked_in,checked_out,overdue filter=status display=split empty="No bookings to handle"@{nl="Geen reserveringen om af te handelen"}
-     actions check_in,check_out
-     join
-      button opens=request_payment_arrival
-      button opens=free_confirm_arrival
-      button opens=account_confirm
+     primary "Check in"@{nl="Inchecken"} action=check_in arguments={booking=row}
+     primary "Check out"@{nl="Uitchecken"} action=check_out arguments={booking=row}
+     primary "Request payment and allowance"@{nl="Betaling en tegoed aanvragen"} opens=request_payment_arrival
+     primary "Confirm free booking"@{nl="Gratis reservering bevestigen"} opens=free_confirm_arrival
+     primary "Confirm on account"@{nl="Op rekening bevestigen"} opens=account_confirm
      modal "Request payment and allowance"@{nl="Betaling en tegoed aanvragen"} id=request_payment_arrival
       slot content
        form request arguments={booking=row} display=inline
@@ -1879,9 +1882,9 @@ package rent_fulfillment label="Workspace fulfillment"@{nl="Werkplekuitvoering"}
       slot trigger
        text "More actions"@{nl="Meer acties"}
       slot content
-       button opens=booking_no_show
-       button opens=booking_cancel_arrival
-       button opens=desk_assign
+       button opens=booking_no_show caption="Record no-show"@{nl="Niet verschijnen vastleggen"}
+       button opens=booking_cancel_arrival caption="Cancel booking"@{nl="Reservering annuleren"}
+       button opens=desk_assign caption="Assign pool desk"@{nl="Poolbureau toewijzen"}
      modal "Record no-show"@{nl="Niet verschijnen vastleggen"} id=booking_no_show
       slot content
        form no_show arguments={booking=row} display=inline

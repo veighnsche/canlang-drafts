@@ -270,8 +270,8 @@ package leave label="Leave"@{nl="Verlof"}
        badge row.state
        ## sync is an enum: badge, not status.
        badge row.sync
-       tooltip "Withdraws your pending request"@{nl="Trekt je lopende aanvraag in"}
-        action withdraw
+       text "Withdraws your pending request"@{nl="Trekt je lopende aanvraag in"}
+       secondary "Withdraw"@{nl="Intrekken"} action=withdraw arguments={request=row}
     card "Annual allowance"@{nl="Jaarlijks verloftegoed"}
      table Allowance as allowance where allowance.parent.user==actor columns=year,bucket,days,remaining filter=year,bucket defaults={year=preferences.year,bucket=preferences.bucket} empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
       pagination
@@ -290,19 +290,19 @@ package leave label="Leave"@{nl="Verlof"}
      ## sync/release_state are enums: badge, not status.
      badge row.sync
      badge row.release_state
-     button opens=decide_request
+     primary "Decide request"@{nl="Aanvraag beoordelen"} opens=decide_request
      modal "Decide request"@{nl="Aanvraag beoordelen"} id=decide_request
       slot content
        form decide arguments={request=row} display=inline
         fieldset "Decision"@{nl="Besluit"}
          checkbox approve
          textarea reason
-     button opens=cancel_request
+     secondary "Cancel request"@{nl="Aanvraag annuleren"} opens=cancel_request
      modal "Cancel request"@{nl="Aanvraag annuleren"} id=cancel_request
       slot content
        form cancel arguments={request=row} display=inline
         textarea reason
-     action retry_release
+     secondary "Retry absence release"@{nl="Vrijgave afwezigheid herhalen"} action=retry_release arguments={request=row}
      collapse "Recorded date portions"@{nl="Vastgelegde datumdelen"}
       list row.Portion empty="No portions."@{nl="Geen delen."}
        pagination
@@ -310,27 +310,27 @@ package leave label="Leave"@{nl="Verlof"}
      history
    card "Allowance and calendar policies"@{nl="Tegoed en kalenderbeleid"}
     require hr
-    form Allowance.create
+    primary "Create Allowance"@{nl="Aanmaken"} action=Allowance.create
      input year
      input bucket
      input days
     table Allowance columns=year,bucket,days,remaining filter=year,bucket empty="No allowances configured."@{nl="Geen tegoeden ingesteld."}
      pagination
-     edit
-    form Calendar.create
+     primary "Edit Allowance"@{nl="Bewerken"} action=Allowance.update arguments={record=row}
+    primary "Create Calendar"@{nl="Aanmaken"} action=Calendar.create
      input name
     list Calendar empty="No calendars configured."@{nl="Geen kalenders ingesteld."}
      pagination
-     edit
-     form Day.create
+     primary "Edit Calendar"@{nl="Bewerken"} action=Calendar.update arguments={record=row}
+     primary "Create Day"@{nl="Aanmaken"} action=Day.create
       calendar date
-     form Category.create
+     primary "Create Category"@{nl="Aanmaken"} action=Category.create
      table row.Category columns=name,allowance_bucket empty="No absence categories configured."@{nl="Geen afwezigheidscategorieën ingesteld."}
       pagination
-      edit
+      primary "Edit Category"@{nl="Bewerken"} action=Category.update arguments={record=row}
      table row.Day columns=date,working empty="No calendar days configured."@{nl="Geen kalenderdagen ingesteld."}
       pagination
-      edit
+      primary "Edit Day"@{nl="Bewerken"} action=Day.update arguments={record=row}
 
   # View accepted dates for coverage planning under location grants. @{nl="Bekijk geaccepteerde datums voor bezettingsplanning binnen locatierechten."}
   page /leave/absence title="Absence dates"@{nl="Afwezigheidsdatums"} $LeaveWorkspace

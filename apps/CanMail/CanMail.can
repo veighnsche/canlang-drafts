@@ -354,16 +354,16 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
    ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    card "Service entitlement"@{nl="Dienstrecht"}
-    form configure
+    secondary "Configure mail service"@{nl="Postdienst instellen"} action=configure
      fieldset "Handling instructions"@{nl="Afhandelingsinstructies"}
       textarea instructions
       textarea forwarding
     list Service display=split empty="No mail services"@{nl="Geen postdiensten"}
      pagination
      text row.location,row.recipient,row.from,row.until,row.active,row.source,row.term,row.paid_evidence
-     action service_status
+     primary "Review service availability"@{nl="Dienstbeschikbaarheid beoordelen"} action=service_status arguments={service=row}
    card "Mail receipt"@{nl="Post ontvangen"}
-    form receive
+    primary "Record receipt"@{nl="Ontvangst registreren"} action=receive
      fieldset "Receipt"@{nl="Ontvangst"}
       radio kind
       input source
@@ -379,8 +379,11 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
       require row.incident!=null
       alert row.incident
      text row.service,row.photo,row.completed
-     actions match,forward,return_item,incident
-     button opens=collect_detail
+     primary "Match recipient"@{nl="Ontvanger koppelen"} action=match arguments={item=row}
+     primary "Prepare forwarding"@{nl="Doorzending voorbereiden"} action=forward arguments={item=row}
+     primary "Record return"@{nl="Retour registreren"} action=return_item arguments={item=row}
+     primary "Handling incident"@{nl="Afhandelingsincident"} action=incident arguments={item=row}
+     primary "Record collection"@{nl="Afhaling registreren"} opens=collect_detail
      modal "Record collection"@{nl="Afhaling registreren"} id=collect_detail
       slot content
        form collect arguments={item=row} display=inline
@@ -396,7 +399,7 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
        slot content
         form dispatched arguments={dispatch=row,revision=row.revision}
         form uncertain arguments={dispatch=row,revision=row.revision}
-        action retry_fee
+        form retry_fee arguments={dispatch=row}
      table row.Handling columns=kind,instruction,revision,destination,evidence,carrier,fee empty="No handling records"@{nl="Geen afhandelingsregistraties"}
       pagination
      history
@@ -408,14 +411,14 @@ package mailroom label="Mailroom"@{nl="Postkamer"}
     list Service display=split empty="No mail service yet"@{nl="Nog geen postdienst"}
      pagination
      text row.location,row.from,row.until,row.instructions,row.forwarding,row.revision
-     form instructions arguments={service=row,revision=row.revision}
+     primary "Update handling instructions"@{nl="Afhandelingsinstructies bijwerken"} action=instructions arguments={service=row,revision=row.revision}
       textarea instructions
       textarea forwarding
-     form Delegate.create
+     primary "Create Delegate"@{nl="Aanmaken"} action=Delegate.create
      list row.Delegate empty="No collection delegates"@{nl="Geen afhaalgemachtigden"}
       pagination
       text row.contact,row.account,row.active
-      edit
+      primary "Edit Delegate"@{nl="Bewerken"} action=Delegate.update arguments={record=row}
    card "Own mail outcomes"@{nl="Eigen postresultaten"}
     tabs preferences.view
     table Item as item where preferences.view==all or (preferences.view==collection and item.state in [received,notified,collection_ready]) or (preferences.view==forwarding and item.state in [forward_pending,forwarded]) or (preferences.view==history and item.state in [collected,forwarded,returned]) columns=recipient,kind,state,notice_state,completed filter=state display=split empty="No own mail items"@{nl="Geen eigen poststukken"}

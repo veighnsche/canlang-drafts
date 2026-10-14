@@ -175,19 +175,21 @@ package sync label="CRM synchronization"@{nl="CRM-synchronisatie"}
    ## Breadcrumbs show current declared ancestry; the shared left-sidebar shell supplies navigation, no per-app menu.
    breadcrumbs
    tabs preferences.view
-   form Link.create
+   primary "Create Link"@{nl="Aanmaken"} action=Link.create
     input remote
     input period
    table Link as link where link.enabled==(preferences.view==active) columns=remote,enabled,period,latest.created,current.request.status empty="No linked accounts in this view"@{nl="Geen gekoppelde accounts in deze weergave"}
     pagination
     status row.current?.request?.status
     text row.remote,row.enabled,row.period,row.latest.created
-    edit fields=period
-    actions refresh,pause,resume
+    primary "Edit Link"@{nl="Bewerken"} action=Link.update arguments={record=row} fields=period
+    primary "Refresh remote account"@{nl="Externe account verversen"} action=refresh arguments={link=row}
+    secondary "Pause link"@{nl="Koppeling pauzeren"} action=pause arguments={link=row}
+    primary "Resume link"@{nl="Koppeling hervatten"} action=resume arguments={link=row}
     ## The drawer exception keeps details display=drawer for the activated record detail.
     details "Remote account and correction"@{nl="Externe account en correctie"} display=drawer
      text link.latest?.value,link.latest?.created
-     form propose arguments={link}
+     primary "Prepare correction"@{nl="Correctie voorbereiden"} action=propose arguments={link}
       input value.name
       input value.phone
       input value.website
@@ -201,8 +203,10 @@ package sync label="CRM synchronization"@{nl="CRM-synchronisatie"}
        slot after
         text row.desired
       text row.before.revision,row.reviewed_by,row.reason
-      actions approve,rebase,acknowledge
-      button opens=close_proposal
+      primary "Approve correction"@{nl="Correctie goedkeuren"} action=approve arguments={proposal=row}
+      primary "Retry nonconflicting correction"@{nl="Niet-conflicterende correctie herhalen"} action=rebase arguments={proposal=row}
+      primary "Record observed match"@{nl="Waargenomen overeenkomst vastleggen"} action=acknowledge arguments={proposal=row}
+      primary "Close reviewed correction"@{nl="Beoordeelde correctie sluiten"} opens=close_proposal
       modal "Close reviewed correction"@{nl="Beoordeelde correctie sluiten"} id=close_proposal
        slot content
         form close arguments={proposal=row} display=inline

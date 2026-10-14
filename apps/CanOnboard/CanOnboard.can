@@ -153,7 +153,7 @@ package onboard label=page_people_onboarding_title
       require row.document!=null
       link target=row.document caption="Open attachment"@{nl="Bijlage openen"}
      text row.completed_by,row.completed_at
-     action complete
+     primary "Complete" action=complete arguments={step=row}
      pagination
 
   # Prepare work identities and role/location checklists under HR document grants. @{nl="Bereid werkidentiteiten en rol- en locatiechecklists voor binnen HR-documentrechten."}
@@ -161,7 +161,7 @@ package onboard label=page_people_onboarding_title
    require hr
    breadcrumbs
    card "Employee onboarding"@{nl="Medewerkers inwerken"}
-    form Employee.create
+    primary "Create Employee"@{nl="Aanmaken"} action=Employee.create
      ## user stays generated: no user-picker vocabulary.
      input name
      select home
@@ -173,13 +173,13 @@ package onboard label=page_people_onboarding_title
    card "Dated checklist steps"@{nl="Gedateerde checkliststappen"}
     tabs preferences.view
     list Employee order=start filter=home,active,role search=role defaults={home=preferences.home} display=split empty="No employees found"@{nl="Geen medewerkers gevonden"}
-     edit
-     button opens=start_checklist
+     primary "Edit Employee"@{nl="Bewerken"} action=Employee.update arguments={record=row}
+     primary "Start onboarding checklist"@{nl="Inwerkchecklist starten"} opens=start_checklist
      modal "Start onboarding checklist"@{nl="Inwerkchecklist starten"} id=start_checklist
       slot content
        form start arguments={employee=row} display=inline
         select template
-     button opens=end_employment
+     primary "End active employment"@{nl="Actief dienstverband beëindigen"} opens=end_employment
      modal "End active employment"@{nl="Actief dienstverband beëindigen"} id=end_employment
       slot content
        form deactivate arguments={employee=row} display=inline
@@ -188,7 +188,7 @@ package onboard label=page_people_onboarding_title
       text row.template,row.template_version,row.started
       stat row.completed_steps,row.total_steps
       progress row.progress max=100
-      form Step.create
+      primary "Create Step"@{nl="Aanmaken"} action=Step.create
        input title
        calendar due
        ## assignee:user stays generated: no user-picker vocabulary.
@@ -208,34 +208,34 @@ package onboard label=page_people_onboarding_title
         require row.document!=null
         link target=row.document caption="Open attachment"@{nl="Bijlage openen"}
        text row.completed_by,row.completed_at
-       edit
-       action complete
-       button opens=reopen_step
+       primary "Edit Step"@{nl="Bewerken"} action=Step.update arguments={record=row}
+       primary "Complete" action=complete arguments={step=row}
+       primary "Reopen step"@{nl="Stap heropenen"} opens=reopen_step
        modal "Reopen step"@{nl="Stap heropenen"} id=reopen_step
         slot content
          form reopen arguments={step=row} display=inline
           textarea reason
-       delete
+       secondary "Delete Step"@{nl="Verwijderen"} action=Step.delete arguments={record=row}
        history
        pagination
       pagination
      pagination
    card "Reusable templates"@{nl="Herbruikbare templates"}
-    form Template.create
+    primary "Create Template"@{nl="Aanmaken"} action=Template.create
      input name
      input role
      select location
     list Template display=split empty="No templates yet"@{nl="Nog geen templates"}
      text row.name,row.role,row.location,row.revision,row.active
-     edit
-     form TemplateStep.create
+     primary "Edit Template"@{nl="Bewerken"} action=Template.update arguments={record=row}
+     primary "Create TemplateStep"@{nl="Aanmaken"} action=TemplateStep.create
       input title
       input offset_days
       radio category
      list row.TemplateStep empty="No template steps yet"@{nl="Nog geen templatestappen"}
       badge row.category
       text row.title,row.offset_days
-      edit
-      delete
+      primary "Edit TemplateStep"@{nl="Bewerken"} action=TemplateStep.update arguments={record=row}
+      secondary "Delete TemplateStep"@{nl="Verwijderen"} action=TemplateStep.delete arguments={record=row}
       pagination
      pagination

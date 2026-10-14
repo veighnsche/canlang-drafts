@@ -176,34 +176,34 @@ package crm label="Sales"@{nl="Verkoop"}
      pagination
      badge row.kind
      status row.active
-     edit
-     delete
+     primary "Edit Customer"@{nl="Bewerken"} action=Customer.update arguments={record=row}
+     secondary "Delete Customer"@{nl="Verwijderen"} action=Customer.delete arguments={record=row}
      form Contact.create arguments={parent=customer} import=csv review=duplicate_contacts
      collapse "Likely company duplicates"@{nl="Mogelijke dubbele bedrijven"}
       alert "Reviewed aliases never rewrite history or transfer roles; candidates need staff confirmation."@{nl="Beoordeelde aliassen herschrijven geen geschiedenis en dragen geen rollen over; kandidaten vereisen personeelsbevestiging."}
       tooltip "Candidates match same kind and case-folded name under current directory grants; not identity proof."@{nl="Kandidaten komen overeen op soort en hoofdletteronverschillige naam onder huidige directoryrechten; geen identiteitsbewijs."}
        list Customer archived=include as candidate where candidate.kind==customer.kind and lower(candidate.name)==lower(customer.name) and candidate!=customer columns=name,kind
-        form customer_alias arguments={source=candidate,target=customer}
+        primary "Record reviewed alias"@{nl="Beoordeelde alias vastleggen"} action=customer_alias arguments={source=candidate,target=customer}
       ## Alias inputs stay owner-owned; the bare form keeps generated controls for the reviewed mapping.
-     form invite_company arguments={org=customer}
-     form recover_company arguments={org=customer}
+     primary "Invite company colleague"@{nl="Bedrijfscollega uitnodigen"} action=invite_company arguments={org=customer}
+     secondary "Recover company administration"@{nl="Bedrijfsbeheer herstellen"} action=recover_company arguments={org=customer}
      list customer.CompanyRole columns=account,role,locations,active
       badge row.role
       status row.active
-      button action=remove_company_role
+      secondary "Remove company role"@{nl="Bedrijfsrol verwijderen"} action=remove_company_role arguments={grant=row}
      list customer.Invitation columns=email,role,locations,status,expires
       badge row.role
       badge row.status
       badge row.expires
-      button action=accept_invitation
+      primary "Accept invitation"@{nl="Uitnodiging accepteren"} action=accept_invitation arguments={invitation=row}
      list Alias as mapping where mapping.from_customer==customer or mapping.to_customer==customer columns=from_customer,to_customer,reason,approved_by
      list customer.Contact as contact columns=name,email
       pagination
-      edit
-      delete
-      form Deal.create arguments={customer,contact}
+      primary "Edit Contact"@{nl="Bewerken"} action=Contact.update arguments={record=row}
+      secondary "Delete Contact"@{nl="Verwijderen"} action=Contact.delete arguments={record=row}
+      primary "Create Deal"@{nl="Aanmaken"} action=Deal.create arguments={customer,contact}
       ## Deal creation keeps generated controls here; the deal drawer shows an explicit subset for updates.
-      button action=claim_contact
+      primary "Claim own contact"@{nl="Eigen contact koppelen"} action=claim_contact arguments={contact=row}
       collapse "Likely contact duplicates"@{nl="Mogelijke dubbele contactpersonen"}
        alert "Exact-email candidates need staff review; never silently merge."@{nl="Kandidaten met exact e-mailadres vereisen personeelsbeoordeling; nooit stilzwijgend samenvoegen."}
        list Contact archived=include as candidate where candidate.email==contact.email and candidate!=contact columns=name,email
@@ -230,9 +230,9 @@ package crm label="Sales"@{nl="Verkoop"}
        label notes
        textarea notes
        validator notes
-       button submit=true
+      primary "Save deal"@{nl="Verkoopkans opslaan"} submit=true
      ## Placed update inputs render here; owner/value/seats/duration/source/next-action keep generated controls. No directory is inferred.
-     button opens=advance_stage
+     primary "Advance stage"@{nl="Fase vooruitzetten"} opens=advance_stage
      modal "Advance stage"@{nl="Fase vooruitzetten"} id=advance_stage
       slot content
        form advance arguments={deal=row} display=inline
@@ -240,9 +240,9 @@ package crm label="Sales"@{nl="Verkoop"}
          label stage
          radio stage
          validator stage
-         button submit=true
+        primary "Advance stage"@{nl="Fase vooruitzetten"} submit=true
       ## Only lead-to-qualified and qualified-to-proposal succeed; other choices fail correctably with the draft kept.
-     button opens=record_win
+     primary "Record won opportunity"@{nl="Gewonnen kans vastleggen"} opens=record_win
      modal "Record won opportunity"@{nl="Gewonnen kans vastleggen"} id=record_win
       slot content
        alert "Winning records an existing booking or paid term; it reserves no space and confirms no payment."@{nl="Winnen legt een bestaande boeking of betaalde termijn vast; het reserveert geen ruimte en bevestigt geen betaling."}
@@ -254,9 +254,9 @@ package crm label="Sales"@{nl="Verkoop"}
          label term
          select term
          validator term
-         button submit=true
+        primary "Record won opportunity"@{nl="Gewonnen kans vastleggen"} submit=true
       ## Exactly one of booking/term is required; duplicates are rejected and prior evidence survives reopening.
-     button opens=record_loss
+     primary "Record lost opportunity"@{nl="Verloren kans vastleggen"} opens=record_loss
      modal "Record lost opportunity"@{nl="Verloren kans vastleggen"} id=record_loss
       slot content
        form lose arguments={deal=row} display=inline
@@ -264,8 +264,8 @@ package crm label="Sales"@{nl="Verkoop"}
          label reason
          textarea reason
          validator reason
-         button submit=true
-     button opens=deal_reopen
+        primary "Record lost opportunity"@{nl="Verloren kans vastleggen"} submit=true
+     primary "Reopen opportunity"@{nl="Kans heropenen"} opens=deal_reopen
      modal "Reopen opportunity"@{nl="Kans heropenen"} id=deal_reopen
       slot content
        form reopen arguments={deal=row} display=inline
@@ -273,9 +273,9 @@ package crm label="Sales"@{nl="Verkoop"}
          label reason
          textarea reason
          validator reason
-         button submit=true
+        primary "Reopen" submit=true
       ## Reopening creates an attributed note, preserves prior sale/loss evidence and returns the deal to lead.
-     button opens=reviewed_link
+     primary "Record reviewed link"@{nl="Beoordeelde link vastleggen"} opens=reviewed_link
      modal "Record reviewed link"@{nl="Beoordeelde link vastleggen"} id=reviewed_link
       slot content
        form record_link arguments={deal=row} display=inline
@@ -289,7 +289,7 @@ package crm label="Sales"@{nl="Verkoop"}
          label body
          textarea body
          validator body
-         button submit=true
+        primary "Record reviewed link"@{nl="Beoordeelde link vastleggen"} submit=true
       ## Links are staff evidence only, never scheduling or issuing; duplicate kind and link pairs are rejected.
      form Activity.create arguments={parent=deal}
       fieldset "Sales activity"@{nl="Verkoopactiviteit"}
@@ -299,7 +299,7 @@ package crm label="Sales"@{nl="Verkoop"}
        label body
        textarea body
        validator body
-       button submit=true
+      primary "Create Activity"@{nl="Aanmaken"} submit=true
      ## Calls, emails and notes only; tours/quotes/sales use their dedicated evidence operations below.
      collapse "Schedule a tour"@{nl="Rondleiding plannen"}
       alert "Pending host or room coordination is not a confirmed tour."@{nl="Wachtende gastheer- of ruimteafstemming is geen bevestigde rondleiding."}
@@ -316,61 +316,62 @@ package crm label="Sales"@{nl="Verkoop"}
         pagination
         status row.available
        list calendar.Type as type columns=name,duration,room
-        form book_tour arguments={type,customer=deal.customer,contact=deal.contact}
+        primary "Book appointment"@{nl="Afspraak boeken"} action=book_tour arguments={type,customer=deal.customer,contact=deal.contact}
       ## Booking inputs stay CanBook-owned; a salesperson alone schedules nothing without the host grant.
       list Appointment as appointment where appointment.customer==deal.customer and appointment.contact==deal.contact and appointment.parent.parent.location==deal.location columns=from,until,state,reason,host_ok,room_ok order=from
        pagination
        badge row.state
        status row.host_ok
        status row.room_ok
-       button action=cancel_tour
-       button action=tour_attendance
+       secondary "Cancel tour" action=cancel_tour arguments={appointment=row}
+       primary "Record attendance"@{nl="Aanwezigheid vastleggen"} action=tour_attendance arguments={appointment=row}
        form record_tour arguments={deal,appointment}
         fieldset "Tour evidence note"@{nl="Notitie rondleidingbewijs"}
          label body
          textarea body
          validator body
-         button submit=true
+        primary "Record tour appointment"@{nl="Rondleidingafspraak vastleggen"} submit=true
       ## Pending coordination stays retainable without claiming confirmation; duplicate appointments are rejected.
      collapse "Prepare and issue a quote"@{nl="Offerte voorbereiden en uitgeven"}
-      steps
-       slot item
-        text "Draft proposal"@{nl="Conceptvoorstel"}
-       slot item
-        text "Issue priced revision"@{nl="Geprijsde versie uitgeven"}
-       slot item
-        text "Record issued evidence"@{nl="Uitgegeven bewijs vastleggen"}
+      card "Prepare and issue a quote"@{nl="Offerte voorbereiden en uitgeven"}
+       steps
+        slot item
+         text "Draft proposal"@{nl="Conceptvoorstel"}
+        slot item
+         text "Issue priced revision"@{nl="Geprijsde versie uitgeven"}
+        slot item
+         text "Record issued evidence"@{nl="Uitgegeven bewijs vastleggen"}
       ## Quote stages are readable only; issuing freezes pricing and acceptance still needs a separate handoff.
-      form Proposal.create arguments={parent=deal.customer,recipient=deal.contact,location=deal.location,currency=deal.value.currency}
+       primary "Create Proposal"@{nl="Aanmaken"} action=Proposal.create arguments={parent=deal.customer,recipient=deal.contact,location=deal.location,currency=deal.value.currency}
       ## Proposal inputs stay CanPropose-owned; customer, contact, location, currency and seats arrive bound.
-      list Proposal as proposal where proposal.parent==deal.customer and proposal.recipient==deal.contact and proposal.location==deal.location columns=title,current,currency
-       edit
-       form revise_quote arguments={proposal,seats=deal.seats}
-       list proposal.Revision as revision order=-number columns=number,state,total,expires,handoff,booking
-        pagination
-        badge revision.state
-        stat revision.total
-        text revision.from,revision.until,revision.seats,revision.terms,revision.pdf
-        button target=revision.pdf caption="Open quote PDF"@{nl="Offerte-PDF openen"}
-        diff
-         slot before
-          text deal.value
-         slot after
-          text revision.total
+       list Proposal as proposal where proposal.parent==deal.customer and proposal.recipient==deal.contact and proposal.location==deal.location columns=title,current,currency
+        primary "Edit Proposal"@{nl="Bewerken"} action=Proposal.update arguments={record=row}
+        primary "Create revision"@{nl="Nieuwe versie maken"} action=revise_quote arguments={proposal,seats=deal.seats}
+        list proposal.Revision as revision order=-number columns=number,state,total,expires,handoff,booking
+         pagination
+         badge revision.state
+         stat revision.total
+         text revision.from,revision.until,revision.seats,revision.terms,revision.pdf
+         primary "Open quote PDF"@{nl="Offerte-PDF openen"} target=revision.pdf
+         diff
+          slot before
+           text deal.value
+          slot after
+           text revision.total
         ## Side-by-side authorized values only; currencies already match and no conversion is inferred.
-        form Item.create arguments={parent=revision}
-        list revision.Item columns=title,quantity,unit,price,tax,discount
-         edit
-         delete
-        button action=send_offer
-        button action=quote_document
-        button action=request_booking
-        form record_quote arguments={deal,revision}
-         fieldset "Quote evidence note"@{nl="Notitie offertebewijs"}
-          label body
-          textarea body
-          validator body
-          button submit=true
+         primary "Create Item"@{nl="Aanmaken"} action=Item.create arguments={parent=revision}
+         list revision.Item columns=title,quantity,unit,price,tax,discount
+          primary "Edit Item"@{nl="Bewerken"} action=Item.update arguments={record=row}
+          secondary "Delete Item"@{nl="Verwijderen"} action=Item.delete arguments={record=row}
+         primary "Send offer"@{nl="Offerte versturen"} action=send_offer arguments={revision=row}
+         primary "Generate quote document"@{nl="Offertedocument genereren"} action=quote_document arguments={revision=row}
+         primary "Request booking"@{nl="Boeking aanvragen"} action=request_booking arguments={revision=row}
+         form record_quote arguments={deal,revision}
+          fieldset "Quote evidence note"@{nl="Notitie offertebewijs"}
+           label body
+           textarea body
+           validator body
+          primary "Record issued quote"@{nl="Uitgegeven offerte vastleggen"} submit=true
         ## Sent, accepted or declined revisions only; drafts are rejected and the exact revision stays bound.
      timeline row.Activity order=-occurred
       slot item
@@ -393,10 +394,10 @@ package crm label="Sales"@{nl="Verkoop"}
       label currency
       input currency
       validator currency
-      button submit=true
      stat result.count
      stat result.total
     ## Metrics share the stat contract; the selected currency keeps unlike amounts separate.
+     primary "Read pipeline"@{nl="Verkoopkansen lezen"} submit=true
     alert "Pipeline groups by selected currency; unlike amounts never add."@{nl="Verkoopkansen groeperen op gekozen valuta; ongelijke bedragen worden nooit opgeteld."}
    card "Customer timeline"@{nl="Klanttijdlijn"}
     list Customer archived=include as customer columns=name,kind,active,archived_at search=name

@@ -361,9 +361,10 @@ package grant
      pagination
      badge row.state
      status row.notice_state
-     edit
+     primary "Edit Application"@{nl="Bewerken"} action=Application.update arguments={record=row}
      text row.terms,row.criteria,row.questions,row.answers
-     actions submit,correct
+     primary "Submit" action=submit arguments={application=row}
+     primary "Create correction draft"@{nl="Correctieconcept maken"} action=correct arguments={application=row}
      table row.Recovery columns=previous,reviewer,reason,author,recorded empty="No reviewer changes."@{nl="Geen beoordelaarswijzigingen."}
       pagination
      table row.Withdrawal columns=reason,author,recorded empty="No withdrawals."@{nl="Geen intrekkingen."}
@@ -383,13 +384,13 @@ package grant
       input name
       textarea terms
       textarea criteria
-    form intake
+    primary "External applicant intake"@{nl="Externe aanvraag invoeren"} action=intake
    card "Assigned applications and decisions"@{nl="Toegewezen aanvragen en besluiten"}
     list Grant order=closes filter=location,closes defaults={location=preferences.location} display=split empty="No programs in scope."@{nl="Geen programma's binnen scope."}
      pagination
      card heading_program_budget
       require coordinator and can_work(actor,row.location)
-      edit
+      primary "Edit Grant"@{nl="Bewerken"} action=Grant.update arguments={record=row}
       metrics row.budget,row.requested,row.committed,row.withdrawn,row.remaining
       ## Committed and budget share the program currency by invariant; in-range by the remaining>=0 invariant.
       progress row.committed max=row.budget
@@ -400,30 +401,30 @@ package grant
       pagination
       badge row.state
       status row.notice_state
-      button opens=decide_application
+      primary "Record decision"@{nl="Besluit vastleggen"} opens=decide_application
       modal "Record decision"@{nl="Besluit vastleggen"} id=decide_application
        slot content
         form decide arguments={application=row} display=inline
          fieldset "Decision"@{nl="Besluit"}
           checkbox approve
           textarea reason
-      button opens=record_receipt
+      primary "Record external receipt"@{nl="Externe ontvangst registreren"} opens=record_receipt
       modal "Record external receipt"@{nl="Externe ontvangst registreren"} id=record_receipt
        slot content
         form external arguments={application=row} display=inline
          textarea evidence
          input override_reason
-      button opens=restore_review
+      secondary "Restore review"@{nl="Beoordeling herstellen"} opens=restore_review
       modal "Restore review"@{nl="Beoordeling herstellen"} id=restore_review
        slot content
         form recover arguments={application=row} display=inline
          textarea reason
-      button opens=withdraw_award
+      secondary "Withdraw"@{nl="Intrekken"} opens=withdraw_award
       modal "Withdraw"@{nl="Intrekken"} id=withdraw_award
        slot content
         form withdraw arguments={application=row} display=inline
          textarea reason
-      button opens=add_comment
+      primary "Private reviewer comment"@{nl="Privéopmerking beoordelaar"} opens=add_comment
       modal "Private reviewer comment"@{nl="Privéopmerking beoordelaar"} id=add_comment
        slot content
         form Comment.create display=inline

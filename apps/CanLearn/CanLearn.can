@@ -163,10 +163,11 @@ package learn label="Learning"@{nl="Opleidingen"}
       pagination
     steps row.parent.Lesson
      slot item
-      title row.title
-      content row.content
-      text any(enrollment.Completion as acknowledgment,acknowledgment.lesson==row)
-      form complete arguments={enrollment=enrollment,lesson=row}
+      card "Lesson details"@{nl="Lesgegevens"}
+       title row.title
+       content row.content
+       text any(enrollment.Completion as acknowledgment,acknowledgment.lesson==row)
+       primary "Complete" action=complete arguments={enrollment=enrollment,lesson=row}
     pagination
 
   # Author and publish course versions and inspect attributed completion. @{nl="Maak en publiceer cursusversies en bekijk herleidbare afronding."}
@@ -174,29 +175,30 @@ package learn label="Learning"@{nl="Opleidingen"}
    require instructor
    breadcrumbs
    card page_learning_courses_title
-    form Course.create
+    primary "Create Course"@{nl="Aanmaken"} action=Course.create
      input title
      radio audience
      checkbox required
      ## locations keeps its generated control (array input has no catalog control).
     list Course as course where preferences.location==null or preferences.location in course.locations filter=audience,required defaults={audience=preferences.audience} search=title display=split empty="No courses yet"@{nl="Nog geen cursussen"}
      badge row.audience
-     edit
+     primary "Edit Course"@{nl="Bewerken"} action=Course.update arguments={record=row}
      tabs
       tab "Ordered draft lessons"@{nl="Geordende conceptlessen"}
-       form DraftLesson.create
-        input title
-        textarea content
-        input position
-       list row.DraftLesson order=position empty="No draft lessons yet"@{nl="Nog geen conceptlessen"}
-        edit
-        delete
-        pagination
-       action publish
+       card "Ordered draft lessons"@{nl="Geordende conceptlessen"}
+        primary "Create DraftLesson"@{nl="Aanmaken"} action=DraftLesson.create
+         input title
+         textarea content
+         input position
+        list row.DraftLesson order=position empty="No draft lessons yet"@{nl="Nog geen conceptlessen"}
+         primary "Edit DraftLesson"@{nl="Bewerken"} action=DraftLesson.update arguments={record=row}
+         secondary "Delete DraftLesson"@{nl="Verwijderen"} action=DraftLesson.delete arguments={record=row}
+         pagination
+        primary "Publish" action=publish arguments={course=row}
       tab "Published versions and enrollments"@{nl="Gepubliceerde versies en inschrijvingen"}
        list row.Version empty="No published versions yet"@{nl="Nog geen gepubliceerde versies"}
         badge row.audience
-        button opens=enroll
+        primary "Enroll learner"@{nl="Deelnemer inschrijven"} opens=enroll
         modal "Enroll learner"@{nl="Deelnemer inschrijven"} id=enroll
          slot content
           form enroll arguments={version=row} display=inline
@@ -204,7 +206,7 @@ package learn label="Learning"@{nl="Opleidingen"}
            calendar due
         table row.Enrollment columns=account,due,active,total,progress empty="No enrollments yet"@{nl="Nog geen inschrijvingen"}
          progress row.progress max=100
-         action withdraw
+         secondary "Withdraw"@{nl="Intrekken"} action=withdraw arguments={enrollment=row}
          table row.Completion columns=lesson,author,completed order=completed empty="No acknowledgments yet"@{nl="Nog geen bevestigingen"}
           pagination
          pagination

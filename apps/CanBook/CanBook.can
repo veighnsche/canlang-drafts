@@ -378,19 +378,23 @@ package appointments
   style AppointmentsWorkspace $"Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   preferences { location:Location?, appointment_state:Appointment.state? label="Initial appointment state filter"@{nl="Eerste filter afspraakstatus"} }
   view appointment_coordination(row:Appointment)
-   badge row.state
-   status row.host_ok
-   status row.room_ok
-   actions cancel,reschedule,discard_reschedule,retry_cleanup
-   collapse "Appointment coordination"@{nl="Afspraakafstemming"}
-    text row.host_ok,row.room_ok,row.host_delivery,row.room_delivery
-    list row.Attempt columns=kind,from,until,state,host_ok,room_ok,host_unknown,room_unknown,host_released,room_released
-     pagination
-     badge row.state
-     button action=recover_attempt arguments={attempt=row}
-    list row.Notice columns=kind,state
-     pagination
-     badge row.state
+   card "Appointment outcome"@{nl="Afspraakresultaat"}
+    badge row.state
+    status row.host_ok
+    status row.room_ok
+    secondary "Cancel" action=cancel arguments={appointment=row}
+    primary "Reschedule appointment"@{nl="Afspraak verplaatsen"} action=reschedule arguments={visit=row}
+    secondary "Discard reschedule"@{nl="Verplaatsing afbreken"} action=discard_reschedule arguments={visit=row}
+    secondary "Retry reservation cleanup"@{nl="Vrijgave opnieuw proberen"} action=retry_cleanup arguments={appointment=row}
+    collapse "Appointment coordination"@{nl="Afspraakafstemming"}
+     text row.host_ok,row.room_ok,row.host_delivery,row.room_delivery
+     list row.Attempt columns=kind,from,until,state,host_ok,room_ok,host_unknown,room_unknown,host_released,room_released
+      pagination
+      badge row.state
+      secondary "Resume reservation follow-up"@{nl="Reserveringsopvolging hervatten"} action=recover_attempt arguments={attempt=row}
+     list row.Notice columns=kind,state
+      pagination
+      badge row.state
   # Choose a location, appointment type and published host window. @{nl="Kies een locatie, afspraaktype en gepubliceerd gastheervenster."}
   page /appointments title="Appointments"@{nl="Afspraken"} $AppointmentsWorkspace
    breadcrumbs
@@ -414,7 +418,7 @@ package appointments
       text row.name,row.duration
       ## book takes type from the row; customer/contact/from keep generated
       ## controls (from is a datetime: no date-only calendar control applies).
-      form book
+      primary "Book appointment"@{nl="Afspraak boeken"} action=book arguments={type=row}
    card "Own appointments"@{nl="Eigen afspraken"}
     ## Unbound tabs require nonempty captioned suites (GRAMMAR tabs_group). Both
     ## tabs together show every appointment; both keep the full action set so a
@@ -435,7 +439,7 @@ package appointments
    breadcrumbs
    require host_manager
    card "Calendar intake"@{nl="Kalender aanmaken"}
-    form Calendar.create
+    primary "Create Calendar"@{nl="Aanmaken"} action=Calendar.create
      input hours
      textarea instructions
    list Calendar display=split
@@ -444,48 +448,55 @@ package appointments
      text row.location,row.timezone,row.hours,row.instructions,row.cutoff
      ## edit keeps its canonical update schema; the suite only places the active
      ## control first (UI-COMPONENTS Forms-and-field-placement; GRAMMAR edit_group).
-     edit
+     primary "Edit Calendar"@{nl="Bewerken"} action=Calendar.update arguments={record=row}
       checkbox active
     tabs
      tab "Weekly hours and holidays"@{nl="Wekelijkse uren en feestdagen"}
-      form WeeklyHours.create
-       input opens
-       input closes
-       radio fold
-      list row.WeeklyHours columns=weekday,opens,closes
-       pagination
-       edit
-       delete
-      form ClosedDay.create
-       calendar day
-       input reason
-      list row.ClosedDay columns=day,reason
-       pagination
-       edit
-       delete
+      card "Weekly hours and holidays"@{nl="Wekelijkse uren en feestdagen"}
+       primary "Create WeeklyHours"@{nl="Aanmaken"} action=WeeklyHours.create
+        input opens
+        input closes
+        radio fold
+       list row.WeeklyHours columns=weekday,opens,closes
+        pagination
+        primary "Edit WeeklyHours"@{nl="Bewerken"} action=WeeklyHours.update arguments={record=row}
+        secondary "Delete WeeklyHours"@{nl="Verwijderen"} action=WeeklyHours.delete arguments={record=row}
+       primary "Create ClosedDay"@{nl="Aanmaken"} action=ClosedDay.create
+        calendar day
+        input reason
+       list row.ClosedDay columns=day,reason
+        pagination
+        primary "Edit ClosedDay"@{nl="Bewerken"} action=ClosedDay.update arguments={record=row}
+        secondary "Delete ClosedDay"@{nl="Verwijderen"} action=ClosedDay.delete arguments={record=row}
      tab "Dated availability"@{nl="Gedateerde beschikbaarheid"}
+      card "Dated availability"@{nl="Gedateerde beschikbaarheid"}
       ## Window bounds are datetimes: no date-only calendar control applies.
-      form Window.create
-      list row.Window order=from
-       pagination
-       edit
+       primary "Create Window"@{nl="Aanmaken"} action=Window.create
+       list row.Window order=from
+        pagination
+        primary "Edit Window"@{nl="Bewerken"} action=Window.update arguments={record=row}
      tab "Appointment types"@{nl="Afspraaktypen"}
-      form Type.create
-       input name
-       input room
-      list row.Type
-       pagination
-       edit
+      card "Appointment types"@{nl="Afspraaktypen"}
+       primary "Create Type"@{nl="Aanmaken"} action=Type.create
+        input name
+        input room
+       list row.Type
+        pagination
+        primary "Edit Type"@{nl="Bewerken"} action=Type.update arguments={record=row}
    card "Appointment agenda"@{nl="Afsprakenagenda"}
     calendar Appointment start=from end=until filter=state defaults={state=preferences.appointment_state}
      pagination
-     badge row.state
-     status row.host_ok
-     status row.room_ok
-     text row.duration,row.reason
+     card "Appointment outcome"@{nl="Afspraakresultaat"}
+      badge row.state
+      status row.host_ok
+      status row.room_ok
+      text row.duration,row.reason
      ## attendance takes the row; placed controls move the generated fields.
-     form attendance arguments={appointment=row}
-      checkbox attend
-      textarea reason
-     actions cancel,reschedule,discard_reschedule,retry_cleanup
-     history
+      primary "Record attendance"@{nl="Aanwezigheid vastleggen"} action=attendance arguments={appointment=row}
+       checkbox attend
+       textarea reason
+      secondary "Cancel" action=cancel arguments={appointment=row}
+      primary "Reschedule appointment"@{nl="Afspraak verplaatsen"} action=reschedule arguments={visit=row}
+      secondary "Discard reschedule"@{nl="Verplaatsing afbreken"} action=discard_reschedule arguments={visit=row}
+      secondary "Retry reservation cleanup"@{nl="Vrijgave opnieuw proberen"} action=retry_cleanup arguments={appointment=row}
+      history

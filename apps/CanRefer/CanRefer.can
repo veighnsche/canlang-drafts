@@ -167,8 +167,8 @@ package refer
     list Program
      badge row.reward
      ## join_program auto-binds the enclosing program; the canonical form opens only for missing inputs.
-     tooltip "Join this program"@{nl="Deelnemen aan dit programma"}
-      button action=join_program
+     text "Join this program"@{nl="Deelnemen aan dit programma"}
+     primary "Join program"@{nl="Deelnemen aan programma"} action=join_program arguments={program=row}
     list Advocate as advocate where advocate.account==actor and (preferences.program==null or advocate.parent==preferences.program)
      copy app_url(format("/referrals/share/{id}",{id=row.id}))
      text row.parent.destination
@@ -193,23 +193,23 @@ package refer
    require program_manager or finance
    breadcrumbs
    card "Program maintenance"@{nl="Programmabeheer"}
-    form Program.create
+    primary "Create Referral program"@{nl="Aanmaken"} action=Program.create
     list Program
      badge row.reward
-     edit
+     primary "Edit Referral program"@{nl="Bewerken"} action=Program.update arguments={record=row}
    card balances_title
     list Advocate as advocate where preferences.program==null or advocate.parent==preferences.program
      stat row.earned,row.paid,row.available,row.owed
      table SourceEvidence as source where source.advocate==advocate columns=source,value.milestone,value.history_known,value.first_customer,reversed,reason
       pagination
-      button opens=reject_dialog
+      secondary "Reject source qualification"@{nl="Bronkwalificatie afwijzen"} opens=reject_dialog
       ## The modal keeps the evidence row; reason is the only entered input.
       modal "Reject source qualification"@{nl="Bronkwalificatie afwijzen"} id=reject_dialog
        slot content
         form reject_source arguments={evidence=row} display=inline
          textarea reason
      card "Record a cash settlement"@{nl="Een uitbetaling vastleggen"}
-      form settle
+      primary "Record cash settlement"@{nl="Uitbetaling vastleggen"} action=settle arguments={advocate=row}
        ## advocate auto-binds the enclosing advocate; amount keeps its generated money control.
        fieldset "Payment evidence"@{nl="Betalingsbewijs"}
         input payment_source
@@ -224,10 +224,11 @@ package refer
    require row.parent.active
    breadcrumbs
    hero
-    badge row.code
-    link target=row.parent.destination caption=row.parent.destination
-    form capture arguments={advocate=row} fields=customer
-     select customer
+    card "Attribution code"@{nl="Toewijzingscode"}
+     badge row.code
+     link target=row.parent.destination caption=row.parent.destination
+     primary "Use attribution code"@{nl="Toewijzingscode gebruiken"} action=capture arguments={advocate=row} fields=customer
+      select customer
 
 # Capture one verified customer choice for either an advocate or a contracted partner. @{nl="Leg één geverifieerde klantkeuze vast voor een ambassadeur of een contractpartner."}
 package sales_attribution

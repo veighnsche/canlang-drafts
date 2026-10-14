@@ -176,7 +176,8 @@ package check
      alert
       require row.last_ping==null
       text "No heartbeat received yet. The first missed deadline marks this check down."@{nl="Nog geen heartbeat ontvangen. De eerste gemiste deadline markeert deze controle als uitgevallen."}
-     actions pause,resume
+     secondary "Pause" action=pause arguments={check=row}
+     primary "Resume" action=resume arguments={check=row}
     divider "Recorded history"@{nl="Vastgelegde historiek"}
     tabs
      tab "Transitions"@{nl="Overgangen"}

@@ -187,7 +187,7 @@ package desk
    require support
    card "Ticket intake"@{nl="Supportverzoek aanmaken"}
     ## due is a nullable datetime: no date-only calendar control applies.
-    form Ticket.create
+    primary "Create Ticket"@{nl="Aanmaken"} action=Ticket.create
      input subject
      input email
      input category
@@ -197,7 +197,7 @@ package desk
     table Unmatched as mail where mail.state==pending columns=sender,subject,received order=-received
      pagination
      text row.recipient,row.body,row.attachments,row.thread
-     form triage
+     primary "Triage unmatched mail"@{nl="Ongekoppelde mail beoordelen"} action=triage arguments={incoming=row}
       input category
       input queue
       input subject
@@ -217,59 +217,61 @@ package desk
       text row.escalation,row.escalated_by,row.escalated_at
      divider
      text row.booking,row.membership,row.invoice,row.repair
-     edit
+     primary "Edit Ticket"@{nl="Bewerken"} action=Ticket.update arguments={record=row}
       input subject
       input category
       radio priority
       radio state
       input queue
-     form escalate
+     primary "Escalate request"@{nl="Verzoek escaleren"} action=escalate arguments={ticket=row}
       input queue
       textarea reason
-     form handoff
+     primary "Hand off to maintenance"@{nl="Overdragen aan onderhoud"} action=handoff arguments={ticket=row}
       textarea description
       file_input photo
     tabs
      tab "Customer conversation"@{nl="Klantgesprek"}
-      form reply_customer
-       textarea body
+      card "Customer conversation"@{nl="Klantgesprek"}
+       primary "Reply to customer"@{nl="Klant beantwoorden"} action=reply_customer arguments={ticket=row}
+        textarea body
       ## chat_bubble slots preserve the enclosing row chain; every column of the
       ## former message table stays visible (kind badge, sender/recipient/time,
       ## paragraph body, attachment links, delivery badge, author).
-      list row.Message as message where message.kind!=note order=created
-       pagination
-       chat_bubble
-        slot header
-         badge row.kind
-         text row.sender,row.recipient,row.created
-        slot content
-         content row.body
-         text row.attachments
-        slot footer
-         badge row.state
-         text row.author
+       list row.Message as message where message.kind!=note order=created
+        pagination
+        chat_bubble
+         slot header
+          badge row.kind
+          text row.sender,row.recipient,row.created
+         slot content
+          content row.body
+          text row.attachments
+         slot footer
+          badge row.state
+          text row.author
      tab "Private staff notes"@{nl="Privénotities"}
-      form add_note
-       textarea body
-      list row.Message as message where message.kind==note order=created
-       pagination
-       chat_bubble
-        slot header
-         badge row.kind
-         text row.sender,row.recipient,row.created
-        slot content
-         content row.body
-         text row.attachments
-        slot footer
-         badge row.state
-         text row.author
+      card "Private staff notes"@{nl="Privénotities"}
+       primary "Add private staff note"@{nl="Privénotitie toevoegen"} action=add_note arguments={ticket=row}
+        textarea body
+       list row.Message as message where message.kind==note order=created
+        pagination
+        chat_bubble
+         slot header
+          badge row.kind
+          text row.sender,row.recipient,row.created
+         slot content
+          content row.body
+          text row.attachments
+         slot footer
+          badge row.state
+          text row.author
     history
   # Read only your authenticated customer conversation. @{nl="Lees uitsluitend je geauthenticeerde klantgesprek."}
   page /support/mine title="My support requests"@{nl="Mijn supportverzoeken"} $DeskWorkspace
    breadcrumbs
    require authenticated and actor.email_verified
    card "Private support intake"@{nl="Privésupportverzoek"}
-    form open_request
+    primary "Open support request"@{nl="Supportverzoek openen"} action=open_request
      input subject
      textarea body
      input category
@@ -279,7 +281,7 @@ package desk
     badge row.state
     badge row.priority
     text row.subject,row.category
-    form respond
+    primary "Reply to support"@{nl="Support beantwoorden"} action=respond arguments={ticket=row}
      textarea body
     ## No kind predicate here: the customer Message policy already excludes notes.
     list row.Message order=created

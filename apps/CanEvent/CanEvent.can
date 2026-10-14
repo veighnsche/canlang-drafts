@@ -541,7 +541,7 @@ package events
      ## Owner gap: available is not in the public Event fields and counts rows a
      ## public caller cannot read; the seats display assumes an owner grant ruling.
      progress row.available max=row.capacity
-     button opens=register_dialog
+     primary "Register for event"@{nl="Registreren voor evenement"} opens=register_dialog
      modal "Register for event"@{nl="Registreren voor evenement"} id=register_dialog
       slot content
        alert
@@ -562,22 +562,22 @@ package events
      copy row.ticket
      table row.Notice columns=kind,revision,state
       pagination
-     form cancel arguments={registration=row}
+     secondary "Cancel" action=cancel arguments={registration=row}
       textarea reason
-     button action=reconcile arguments={registration=row}
+     secondary "Reconcile ticket payment"@{nl="Betaling toegangsbewijs reconciliëren"} action=reconcile arguments={registration=row}
   # Author events and perform scoped reception admission. @{nl="Beheer evenementen en voer beperkte receptietoelating uit."}
   page /events/work title="Event operations"@{nl="Evenementuitvoering"} $EventsWorkspace
    breadcrumbs
    require organizer or check_in or finance
    card "Event intake"@{nl="Evenement aanmaken"}
     require organizer
-    form Program.create
+    primary "Create Program"@{nl="Aanmaken"} action=Program.create
      input name
     list Program columns=name
      pagination
      ## from/until/sales_until/refund_before are datetimes: no date-only
      ## calendar control applies; they keep generated controls.
-     form Event.create
+     primary "Create Event"@{nl="Aanmaken"} action=Event.create
       input name
       textarea description
       textarea terms
@@ -587,41 +587,42 @@ package events
      status row.published
      status row.cancelled
      text row.timezone,row.capacity,row.sales_until,row.refund_before,row.terms
-     edit
+     primary "Edit Event"@{nl="Bewerken"} action=Event.update arguments={record=row}
       input name
       textarea description
       textarea terms
-     button action=publish arguments={event=row}
-     form change_schedule
+     primary "Publish" action=publish arguments={event=row}
+     primary "Change schedule or reserve venue"@{nl="Planning wijzigen of locatie reserveren"} action=change_schedule arguments={event=row}
       textarea reason
-     form cancel_event
+     secondary "Cancel event"@{nl="Evenement annuleren"} action=cancel_event arguments={event=row}
       textarea reason
-     form register arguments={event=row}
+     primary "Register for event"@{nl="Registreren voor evenement"} action=register arguments={event=row}
       input name
       input email
     table row.Change columns=location,from,until,state,venue_state,venue_revision,hold_status,confirm_status,release_status
      pagination
      badge row.state
      ## abandon keeps its generated reason form (reason is required).
-     action abandon
-     button action=retry_release arguments={change=row}
+     primary "Abandon proposed change"@{nl="Voorgestelde wijziging verlaten"} action=abandon arguments={change=row}
+     secondary "Retry venue cleanup"@{nl="Locatieopruiming opnieuw proberen"} action=retry_release arguments={change=row}
      history
     table row.Registration columns=name,email,state,payment,ticket,checked_in filter=state,payment search=name display=split
      pagination
      badge row.state
      badge row.payment
-     button action=admit arguments={registration=row}
+     primary "Admit ticket"@{nl="Toegangsbewijs toelaten"} action=admit arguments={registration=row}
      collapse "Ticket finance and history"@{nl="Financiën en historie toegangsbewijs"}
-      require organizer or finance
-      badge row.refund_state
-      badge row.charge_status
-      text row.expires,row.price,row.checked_by,row.terms,row.refund_before,row.invoice,row.delivery?.id,row.collected,row.refunded,row.cancel_status,row.refund_status,row.reconcile_status
-      form cancel arguments={registration=row}
-       textarea reason
-      form refund arguments={registration=row}
-       textarea reason
-      button action=reconcile arguments={registration=row}
-      table row.Notice columns=kind,revision,state
-       pagination
-       button action=resend_notice arguments={notice=row}
-      history
+      card "Ticket finance and history"@{nl="Financiën en historie toegangsbewijs"}
+       require organizer or finance
+       badge row.refund_state
+       badge row.charge_status
+       text row.expires,row.price,row.checked_by,row.terms,row.refund_before,row.invoice,row.delivery?.id,row.collected,row.refunded,row.cancel_status,row.refund_status,row.reconcile_status
+       secondary "Cancel" action=cancel arguments={registration=row}
+        textarea reason
+       secondary "Resolve ticket refund"@{nl="Terugbetaling toegangsbewijs afhandelen"} action=refund arguments={registration=row}
+        textarea reason
+       secondary "Reconcile ticket payment"@{nl="Betaling toegangsbewijs reconciliëren"} action=reconcile arguments={registration=row}
+       table row.Notice columns=kind,revision,state
+        pagination
+        secondary "Retry attendee notice"@{nl="Deelnemersbericht opnieuw proberen"} action=resend_notice arguments={notice=row}
+       history

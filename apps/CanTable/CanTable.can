@@ -136,15 +136,15 @@ package cafe
   page /cafe title="Café host"@{nl="Cafébediening"} $"Use fast-scanning café rows with party size, priority, table, and timing prominent. Distinguish waiting guests, reserved intervals, and actual occupancy; give overdue estimates and uncleared-table conflicts clear notices beside seating and clearing actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /cafe page content; keep page admission and the shared shell unchanged. Keep café and table intake compact above walk-in intake and the booking queue. Group planned intervals separately from actual seating and estimated end labels; keep overdue and conflict notices adjacent to the affected party actions and retain those labels in narrow cards."
    require host
    breadcrumbs
-   form Cafe.create
+   primary "Create Café"@{nl="Aanmaken"} action=Cafe.create
     input name
     select location
    list Cafe as cafe where preferences.cafe==null or cafe==preferences.cafe empty="No cafés available."@{nl="Geen cafés beschikbaar."}
     pagination
     card "Café and table definitions"@{nl="Café- en tafeldefinities"}
-     edit
+     primary "Edit Café"@{nl="Bewerken"} action=Cafe.update arguments={record=row}
      text cafe.location
-     form Table.create
+     primary "Create Dining table"@{nl="Aanmaken"} action=Table.create
       fieldset "Dining table"@{nl="Cafétafel"}
        input name
        input zone
@@ -152,7 +152,7 @@ package cafe
        checkbox active
      table row.Table columns=name,zone,seats,active empty="No tables defined yet."@{nl="Nog geen tafels gedefinieerd."}
       pagination
-      edit
+      primary "Edit Dining table"@{nl="Bewerken"} action=Table.update arguments={record=row}
       history
     card "Walk-in intake"@{nl="Invoer van binnenlopende gasten"}
      form Booking.create display=inline
@@ -174,8 +174,8 @@ package cafe
       alert
        require row.conflict
        text "This reservation conflicts with an uncleared party on the same table."@{nl="Deze reservering botst met een niet-vrijgegeven groep aan dezelfde tafel."}
-      edit
-      button opens=reserve_table
+      primary "Edit Booking"@{nl="Bewerken"} action=Booking.update arguments={record=row}
+      primary "Reserve dining table"@{nl="Cafétafel reserveren"} opens=reserve_table
       modal "Reserve dining table"@{nl="Cafétafel reserveren"} id=reserve_table
        slot content
         form reserve arguments={booking=row} display=inline
@@ -184,19 +184,19 @@ package cafe
           input from
           input until
           textarea reason
-      button opens=record_seating
+      primary "Record seating"@{nl="Plaatsnemen vastleggen"} opens=record_seating
       modal "Record seating"@{nl="Plaatsnemen vastleggen"} id=record_seating
        slot content
         form seat arguments={booking=row} display=inline
          fieldset "Seating"@{nl="Plaatsnemen"}
           select table
           input estimated_until
-      button opens=clear_table
+      primary "Clear dining table"@{nl="Cafétafel vrijgeven"} opens=clear_table
       modal "Clear dining table"@{nl="Cafétafel vrijgeven"} id=clear_table
        slot content
         form clear arguments={booking=row} display=inline
          textarea reason
-      button opens=cancel_booking
+      secondary "Cancel booking"@{nl="Boeking annuleren"} opens=cancel_booking
       modal "Cancel booking"@{nl="Boeking annuleren"} id=cancel_booking
        slot content
         form cancel arguments={booking=row} display=inline
@@ -209,11 +209,11 @@ package cafe
        require booking.conflict
        table cafe.Booking as occupant where occupant.table==booking.table and occupant.seated!=null and occupant.cleared==null columns=name,party,table,seated,estimated_until,overdue empty="No uncleared diners."@{nl="Geen niet-vrijgegeven gasten."}
         pagination
-        form clear arguments={booking=row}
+        primary "Clear dining table"@{nl="Cafétafel vrijgeven"} action=clear arguments={booking=row}
       collapse "Upcoming reservations affected by this occupancy"@{nl="Toekomstige reserveringen geraakt door deze bezetting"}
        require booking.seated!=null and booking.cleared==null
        table cafe.Booking as upcoming where upcoming.state==reserved and upcoming.table==booking.table and upcoming.conflict columns=name,party,table,from,until,conflict order=from empty="No affected upcoming reservations."@{nl="Geen geraakte toekomstige reserveringen."}
         pagination
-        form reserve arguments={booking=row}
-        form cancel arguments={booking=row}
+        primary "Reserve dining table"@{nl="Cafétafel reserveren"} action=reserve arguments={booking=row}
+        secondary "Cancel" action=cancel arguments={booking=row}
       history

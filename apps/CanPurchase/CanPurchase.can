@@ -383,7 +383,7 @@ package purchase label=page_purchasing_title
    require members
    breadcrumbs
    card "Own requests"@{nl="Eigen aanvragen"}
-    form Request.create
+    primary "Create Request"@{nl="Aanmaken"} action=Request.create
      fieldset "Purchase request"@{nl="Inkoopaanvraag"}
       textarea purpose
       input category
@@ -392,8 +392,8 @@ package purchase label=page_purchasing_title
     list Request as request where request.requester==actor order=request.required_by filter=state,location,supplier defaults={state=preferences.state,location=preferences.location,supplier=preferences.supplier} display=split empty="No requests yet."@{nl="Nog geen aanvragen."}
      pagination
      badge row.state
-     edit
-     action submit
+     primary "Edit Request"@{nl="Bewerken"} action=Request.update arguments={record=row}
+     primary "Submit" action=submit arguments={request=row}
      text row.purpose,row.amount,row.required_by,row.state,row.decision,row.actual,row.evidence
 
   # Maintain supplier records and view affordable commitments and actual spending. @{nl="Beheer leveranciers en bekijk betaalbare toezeggingen en werkelijke uitgaven."}
@@ -401,51 +401,43 @@ package purchase label=page_purchasing_title
    require buyer or budget_manager or approver
    breadcrumbs
    card "Supplier directory"@{nl="Leveranciersregister"}
-    form Supplier.create
+    primary "Create Supplier"@{nl="Aanmaken"} action=Supplier.create
     table Supplier columns=name,contact,locations,active empty="No suppliers recorded."@{nl="Geen leveranciers vastgelegd."}
      pagination
-     edit
+     primary "Edit Supplier"@{nl="Bewerken"} action=Supplier.update arguments={record=row}
    card "Review and order queue"@{nl="Beoordelings- en bestelwachtrij"}
     list Request filter=state,location,supplier defaults={state=preferences.state,location=preferences.location,supplier=preferences.supplier} display=split empty="No requests match these filters."@{nl="Geen aanvragen voor deze filters."}
      pagination
      text row.purpose,row.amount,row.authorized,row.required_by,row.state,row.decision
      badge row.state
-     button opens=auth_detail
+     primary "Purchase authorization"@{nl="Inkoopautorisatie"} opens=auth_detail
      drawer "Purchase authorization"@{nl="Inkoopautorisatie"} id=auth_detail
       slot content
-       edit
-       action submit
-       button opens=decide_detail
        modal "Record decision"@{nl="Besluit vastleggen"} id=decide_detail
         slot content
          form decide arguments={request=row} display=inline
           checkbox approve
           textarea reason
-       button opens=order_detail
        modal "Place supplier order"@{nl="Leveranciersbestelling plaatsen"} id=order_detail
         slot content
          form order arguments={request=row} display=inline
           input reference
-       button opens=increase_detail
        modal "Authorize increase"@{nl="Verhoging autoriseren"} id=increase_detail
         slot content
          form increase arguments={request=row} display=inline
           input amount
           textarea reason
-       button opens=close_detail
        modal "Close spending"@{nl="Uitgaven afsluiten"} id=close_detail
         slot content
          form close arguments={request=row} display=inline
           input actual
           textarea evidence
-       button opens=cancel_detail
        modal "Cancel request"@{nl="Aanvraag annuleren"} id=cancel_detail
         slot content
          form cancel arguments={request=row} display=inline
           input actual
           textarea evidence
           textarea reason
-       button opens=adjust_detail
        modal "Adjust spending"@{nl="Uitgaven aanpassen"} id=adjust_detail
         slot content
          form adjust arguments={request=row} display=inline
@@ -454,8 +446,8 @@ package purchase label=page_purchasing_title
        list row.Order empty="No orders placed."@{nl="Geen bestellingen geplaatst."}
         pagination
         badge row.state
-        form Line.create
-        button opens=payable_detail
+        primary "Create Line"@{nl="Aanmaken"} action=Line.create
+        primary "Record payable"@{nl="Te betalen bedrag registreren"} opens=payable_detail
         modal "Record payable"@{nl="Te betalen bedrag registreren"} id=payable_detail
          slot content
           form record_payable arguments={order=row} display=inline
@@ -468,22 +460,22 @@ package purchase label=page_purchasing_title
         table row.Payable columns=invoice,amount,issued,evidence,posting,reference empty="No invoice evidence recorded."@{nl="Geen factuurbewijs vastgelegd."}
          pagination
          badge row.posting
-         action export_payable
-        form intake_invoice
+         primary "Export payable" action=export_payable arguments={payable=row}
+        primary "Intake invoice document"@{nl="Factuurdocument innemen"} action=intake_invoice arguments={order=row}
          fieldset "Invoice document"@{nl="Factuurdocument"}
           file_input document
           input source
         table row.InvoiceDocument columns=document,source,status,invoice,amount,issued,decision order=created empty="No invoice documents recorded."@{nl="Geen factuurdocumenten vastgelegd."}
          pagination
          badge row.status
-         button opens=transcribe_detail
+         primary "Transcribe invoice claims"@{nl="Factuurgegevens overnemen"} opens=transcribe_detail
          modal "Transcribe invoice claims"@{nl="Factuurgegevens overnemen"} id=transcribe_detail
           slot content
            form transcribe_claims arguments={invoice_document=row} display=inline
             input invoice
             input amount
             calendar issued
-         button opens=accept_detail
+         primary "Accept invoice document"@{nl="Factuurdocument accepteren"} opens=accept_detail
          modal "Accept invoice document"@{nl="Factuurdocument accepteren"} id=accept_detail
           slot content
            form accept_invoice arguments={invoice_document=row} display=inline
@@ -491,7 +483,7 @@ package purchase label=page_purchasing_title
             input amount
             calendar issued
             textarea evidence
-         button opens=reject_detail
+         secondary "Reject invoice document"@{nl="Factuurdocument afwijzen"} opens=reject_detail
          modal "Reject invoice document"@{nl="Factuurdocument afwijzen"} id=reject_detail
           slot content
            form reject_invoice arguments={invoice_document=row} display=inline
@@ -499,14 +491,14 @@ package purchase label=page_purchasing_title
         table row.Line columns=sku,unit,quantity,ordered,accepted,unit_price empty="No line items recorded."@{nl="Geen regels vastgelegd."}
          pagination
          progress row.accepted max=row.ordered
-         edit
-         button opens=amend_detail
+         primary "Edit Line"@{nl="Bewerken"} action=Line.update arguments={record=row}
+         primary "Amend line"@{nl="Regel wijzigen"} opens=amend_detail
          modal "Amend line"@{nl="Regel wijzigen"} id=amend_detail
           slot content
            form amend arguments={line=row} display=inline
             input quantity
             textarea reason
-         form receive
+         primary "Record receipt"@{nl="Ontvangst registreren"} action=receive arguments={line=row}
           fieldset "Delivery receipt"@{nl="Ontvangstregistratie"}
            input source
            input accepted
@@ -516,8 +508,8 @@ package purchase label=page_purchasing_title
          table row.Receipt columns=source,accepted,rejected,returned,received,posting,evidence order=-received empty="No delivery receipts recorded."@{nl="Geen ontvangstregistraties vastgelegd."}
           pagination
           badge row.posting
-          action retry_stock
-          button opens=return_detail
+          secondary "Retry stock" action=retry_stock arguments={receipt=row}
+          primary "Return goods"@{nl="Goederen retourneren"} opens=return_detail
           modal "Return goods"@{nl="Goederen retourneren"} id=return_detail
            slot content
             form return_goods arguments={receipt=row} display=inline
@@ -529,13 +521,22 @@ package purchase label=page_purchasing_title
           table row.Return columns=source,quantity,returned,evidence,posting empty="No supplier returns recorded."@{nl="Geen leveranciersretouren vastgelegd."}
            pagination
            badge row.posting
-           action retry_return
+           secondary "Retry return" action=retry_return arguments={returned=row}
           history
        history
+      slot actions
+       primary "Edit Request"@{nl="Bewerken"} action=Request.update arguments={record=row}
+       primary "Submit" action=submit arguments={request=row}
+       primary "Record decision"@{nl="Besluit vastleggen"} opens=decide_detail
+       primary "Place supplier order"@{nl="Leveranciersbestelling plaatsen"} opens=order_detail
+       primary "Authorize increase"@{nl="Verhoging autoriseren"} opens=increase_detail
+       primary "Close spending"@{nl="Uitgaven afsluiten"} opens=close_detail
+       secondary "Cancel request"@{nl="Aanvraag annuleren"} opens=cancel_detail
+       primary "Adjust spending"@{nl="Uitgaven aanpassen"} opens=adjust_detail
    card "Budget commitments"@{nl="Budgettoezeggingen"}
-    form Budget.create
+    primary "Create Budget"@{nl="Aanmaken"} action=Budget.create
     list Budget display=split empty="No budgets recorded."@{nl="Geen budgetten vastgelegd."}
      pagination
      stat row.total,row.committed,row.spent,row.remaining
-     edit
-     form Request.create
+     primary "Edit Budget"@{nl="Bewerken"} action=Budget.update arguments={record=row}
+     primary "Create Request"@{nl="Aanmaken"} action=Request.create

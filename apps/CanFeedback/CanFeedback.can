@@ -273,7 +273,7 @@ package feedback
     text row.name,row.location
     card "Urgent private issue"@{nl="Dringend privéprobleem"}
      alert "Use private support for incidents. Never put access instructions or anyone’s contact details in a suggestion. New suggestions await owner review."@{nl="Gebruik privésupport voor incidenten. Zet nooit toegangsinstructies of contactgegevens van anderen in een suggestie. Nieuwe suggesties wachten op beoordeling door de verantwoordelijke."}
-     form open_request arguments={priority=urgent}
+     primary "Open support request"@{nl="Supportverzoek openen"} action=open_request arguments={priority=urgent}
     card "Contribution intake"@{nl="Bijdrage aanmaken"}
      form Suggestion.create arguments={parent=choice.product} display=inline
       fieldset "Your suggestion"@{nl="Je suggestie"}
@@ -300,8 +300,8 @@ package feedback
         badge row.status
         text row.title,row.moderation_reason
         alert "Awaiting owner review."@{nl="Wacht op beoordeling."}
-      edit
-      delete
+      primary "Edit Suggestion"@{nl="Bewerken"} action=Suggestion.update arguments={record=row}
+      secondary "Delete Suggestion"@{nl="Verwijderen"} action=Suggestion.delete arguments={record=row}
       history
     collapse "Suggestions and your votes"@{nl="Suggesties en je eigen stemmen"}
      list choice.product.Suggestion filter=category,status defaults={category=preferences.category,status=preferences.status} empty="No suggestions yet."@{nl="Nog geen suggesties."}
@@ -310,9 +310,9 @@ package feedback
       title row.title
       content row.description
       text row.category,row.response
-      edit
-      tooltip "Vote for this idea. Votes are spaced ten seconds apart."@{nl="Stem op dit idee. Stemmen volgen elkaar op met tien seconden ertussen."}
-       action vote
+      primary "Edit Suggestion"@{nl="Bewerken"} action=Suggestion.update arguments={record=row}
+      text "Vote for this idea. Votes are spaced ten seconds apart."@{nl="Stem op dit idee. Stemmen volgen elkaar op met tien seconden ertussen."}
+      primary "Vote"@{nl="Stemmen"} action=vote arguments={suggestion=row}
       collapse "Operator decision history"@{nl="Geschiedenis exploitantbesluiten"}
        form decision_history
         table result.items columns=published_at,status,response
@@ -322,7 +322,7 @@ package feedback
        list row.Vote empty="No vote yet."@{nl="Nog geen stem."}
         pagination
         text row.active
-        action unvote
+        primary "Withdraw own vote"@{nl="Eigen stem intrekken"} action=unvote arguments={vote=row}
   # Moderate suggestions and record only authorized roadmap commitments. @{nl="Modereer suggesties en leg uitsluitend toegestane roadmaptoezeggingen vast."}
   page /feedback/moderation title="Moderation and roadmap"@{nl="Moderatie en roadmap"} $FeedbackWorkspace
    breadcrumbs
@@ -337,7 +337,7 @@ package feedback
     text row.name,row.location
     ## Explicit update form keeps its record binding (the row is a choice, not
     ## a Product record, so bare edit cannot bind); the suite only places name.
-    form Product.update arguments={record=choice.product}
+    primary "Edit Product"@{nl="Bewerken"} action=Product.update arguments={record=choice.product}
      input name
     list choice.product.Suggestion filter=hidden,status defaults={status=preferences.status} display=split search=title empty="No suggestions to review."@{nl="Geen suggesties te beoordelen."}
      pagination
@@ -347,7 +347,7 @@ package feedback
       content row.description
       text row.category,row.author,row.response,row.hidden,row.moderation_reason,row.duplicate
       divider "Decisions"@{nl="Besluiten"}
-      button opens=roadmap_decision
+      primary "Record roadmap decision"@{nl="Roadmapbesluit vastleggen"} opens=roadmap_decision
       modal "Record roadmap decision"@{nl="Roadmapbesluit vastleggen"} id=roadmap_decision
        slot content
         form roadmap arguments={suggestion=row} display=inline
@@ -355,7 +355,7 @@ package feedback
           radio status
           textarea response
           select duplicate
-      button opens=moderate_content
+      primary "Moderate suggestion"@{nl="Suggestie modereren"} opens=moderate_content
       modal "Moderate suggestion"@{nl="Suggestie modereren"} id=moderate_content
        slot content
         form moderate arguments={suggestion=row} display=inline
@@ -367,4 +367,4 @@ package feedback
       list row.Decision order=created
        pagination
        text row.status,row.response,row.published_at,row.withdrawn,row.withdrawal_reason
-       action withdraw_decision
+       secondary "Withdraw operator decision"@{nl="Exploitantbesluit intrekken"} action=withdraw_decision arguments={decision=row}

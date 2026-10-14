@@ -239,14 +239,14 @@ package customer
     card "Canonical customer identity"@{nl="Canonieke klantidentiteit"}
      status row.active
      badge row.kind
-     edit
+     primary "Edit Customer"@{nl="Bewerken"} action=Customer.update arguments={record=row}
       input name
       checkbox active
      ## Explicit forms bind the row record and place typed reason controls; same
      ## canonical operations and guards as the former `actions` pair.
-     form alias arguments={source=row}
+     secondary "Record reviewed alias"@{nl="Beoordeelde alias vastleggen"} action=alias arguments={source=row}
       textarea reason
-     form recover arguments={org=row}
+     secondary "Recover company administration"@{nl="Bedrijfsbeheer herstellen"} action=recover arguments={org=row}
       textarea reason
     tabs
      tab "Contacts"@{nl="Contactpersonen"}
@@ -258,15 +258,16 @@ package customer
       table row.Contact columns=name,email,phone,account,verified
        pagination
        status row.verified
-       edit
+       primary "Edit Contact"@{nl="Bewerken"} action=Contact.update arguments={record=row}
      tab "Billing profiles"@{nl="Factuurprofielen"}
-      form BillingProfile.create
-       textarea address
-       input tax_reference
-      table row.BillingProfile columns=contact,address,tax_reference,on_account
-       pagination
-       status row.on_account
-       edit
+      card "Billing profiles"@{nl="Factuurprofielen"}
+       primary "Create BillingProfile"@{nl="Aanmaken"} action=BillingProfile.create
+        textarea address
+        input tax_reference
+       table row.BillingProfile columns=contact,address,tax_reference,on_account
+        pagination
+        status row.on_account
+        primary "Edit BillingProfile"@{nl="Bewerken"} action=BillingProfile.update arguments={record=row}
     history
   # Review invoicing eligibility without granting membership or recording payment. @{nl="Beoordeel facturatiegeschiktheid zonder lidmaatschap te verlenen of betaling vast te leggen."}
   page /customers/billing-approvals title="Billing approvals"@{nl="Facturatiegoedkeuringen"} $CustomerWorkspace
@@ -275,7 +276,7 @@ package customer
    table BillingProfile columns=parent,contact,on_account,approved_locations,approval_reason,approved_by,approved_at
     pagination
     status row.on_account
-    form approve_account arguments={profile=row}
+    primary "Review on-account eligibility"@{nl="Geschiktheid voor facturatie op rekening beoordelen"} action=approve_account arguments={profile=row}
      checkbox approve
      textarea reason
     history
@@ -289,7 +290,7 @@ package customer
     ## captions may be replaced by typed message references (DESIGN §9 intro).
     ## Placed controls render first, then the generated org/locations controls
     ## in owner order.
-    form invite
+    primary "Invite company colleague"@{nl="Bedrijfscollega uitnodigen"} action=invite arguments={org=row}
      fieldset notice_company_invitation
       input email
       radio role
@@ -298,7 +299,7 @@ package customer
      pagination
      badge row.role
      status row.active
-     button action=remove arguments={grant=row}
+     secondary "Remove company role"@{nl="Bedrijfsrol verwijderen"} action=remove arguments={grant=row}
    card "Invitation outcomes"@{nl="Uitnodigingsuitkomsten"}
     list row.Invitation
      pagination
@@ -316,10 +317,10 @@ package customer
      pagination
      status row.verified
      text row.name,row.email
-     button action=claim arguments={contact=row}
+     primary "Claim own contact"@{nl="Eigen contact koppelen"} action=claim arguments={contact=row}
    card "Addressed company invitations"@{nl="Gerichte bedrijfsuitnodigingen"}
     list Invitation as invitation where actor!=null and invitation.email==actor.email and invitation.status==open
      pagination
      badge row.status
      text row.email,row.role,row.locations,row.expires
-     button action=accept arguments={invitation=row}
+     primary "Accept invitation"@{nl="Uitnodiging accepteren"} action=accept arguments={invitation=row}
