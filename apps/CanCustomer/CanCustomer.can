@@ -12,7 +12,7 @@ package customer
  use std {EmailV1 as Mail} from=deployment.mail
  Given
   role customer_manager label="Customer manager"@{nl="Klantbeheerder"}
-  role customer_reader label="Customer directory reader"@{nl="Lezer klantendirectory"}
+  export role customer_reader label="Customer directory reader"@{nl="Lezer klantendirectory"}
   role billing_reader label="Billing reader"@{nl="Lezer factuurgegevens"}
   export Customer { name:text trim min=1, kind:enum(individual,company) label={text="Customer kind"@{nl="Klantsoort"},values={individual="Individual"@{nl="Particulier"},company=label_Customer_kind_company}}, locations:Location[] label=label_Customer_locations, active:bool=true } label="Customer"@{nl="Klant"}
   export Contact in Customer { name:text trim min=1, email:email, account:user? label=label_Contact_account, verified:bool=false label="Verified"@{nl="Geverifieerd"}, phone:text?, external_id:text? label="External identity"@{nl="Externe identiteit"} } label=label_Contact

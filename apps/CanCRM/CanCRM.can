@@ -3,7 +3,7 @@ app CanCRM uses=[crm,customer,appointments,propose]
 
 # Manage scoped sales opportunities against the canonical customer directory. @{nl="Beheer toegestane verkoopkansen met de canonieke klantendirectory."}
 package crm label="Sales"@{nl="Verkoop"}
- use customer {Customer,Contact,duplicate_customers,duplicate_contacts,Alias,CompanyRole,Invitation,alias as customer_alias,invite as invite_company,recover as recover_company,claim as claim_contact,accept as accept_invitation,remove as remove_company_role,test_company,test_contact}
+ use customer {Customer,Contact,duplicate_customers,duplicate_contacts,Alias,CompanyRole,Invitation,alias as customer_alias,invite as invite_company,recover as recover_company,claim as claim_contact,accept as accept_invitation,remove as remove_company_role,test_company,test_contact,customer_reader}
  use appointments {Calendar,Window,Type,Appointment,book as book_tour,cancel as cancel_tour,attendance as tour_attendance,booked}
  use propose {Proposal,Revision,Item,revise as revise_quote,send_offer,document as quote_document,request_booking,current_offer}
  use employee {Employee,can_work,test_worker}
@@ -62,14 +62,14 @@ package crm label="Sales"@{nl="Verkoop"}
     return deal
    examples seed=[test_worker] source="discover:new" input={customer=test_company,contact=test_contact,location=test_site,title="Office",value=money(500,"EUR"),notes="Reviewed evidence"}
     as,input.customer.active,input.value -> count(ResearchIntake),result.source,result.stage
-    salesperson,true,money(500,"EUR") -> 1,"discover:new",lead
-    salesperson,false,money(500,"EUR") -> error(rule_failed)
-    salesperson,true,money(500,"USD") -> error(rule_failed)
+    [salesperson,customer_reader],true,money(500,"EUR") -> 1,"discover:new",lead
+    [salesperson,customer_reader],false,money(500,"EUR") -> error(rule_failed)
+    [salesperson,customer_reader],true,money(500,"USD") -> error(rule_failed)
     members,true,money(500,"EUR") -> error(forbidden)
    examples seed=[test_worker,research_intake] source="discover:existing" input={customer=test_company,contact=test_contact,location=test_site,title="Office",value=money(500,"EUR"),notes="Reviewed evidence"}
     as,input.title -> count(ResearchIntake),result==prospect
-    salesperson,"Office" -> 1,true
-    salesperson,"Different approval" -> error(rule_failed)
+    [salesperson,customer_reader],"Office" -> 1,true
+    [salesperson,customer_reader],"Different approval" -> error(rule_failed)
   # Advance a live deal without claiming inventory or payment. @{nl="Zet een actieve verkoopkans vooruit zonder voorraad of betaling te claimen."}
   scenario advance(deal:Deal,stage:Deal.stage label=label_Deal_stage) by=salesperson label="Advance stage"@{nl="Fase vooruitzetten"}
    require can_work(actor,deal.location) and ((deal.stage==lead and stage==qualified) or (deal.stage==qualified and stage==proposal))
