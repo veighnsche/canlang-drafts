@@ -46,7 +46,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
   Swap in Duty { substitute:Employee label=label_Swap_substitute, original:Employee label="Original employee"@{nl="Oorspronkelijke medewerker"}, revision:int, state:enum(open,accepted,rejected,obsolete)=open label={text="State"@{nl="Status"},values={open="Open"@{nl="Open"},accepted="Accepted"@{nl="Geaccepteerd"},rejected="Rejected"@{nl="Afgewezen"},obsolete="Superseded"@{nl="Achterhaald"}}} } label="Shift swap"@{nl="Dienstruil"}
   event DutyNotice { duty:Duty, recipient:user, revision:int, kind:enum(published,changed,cancelled,swap_request,swap_accepted,swap_rejected) label={text="Roster notice kind"@{nl="Soort roosterbericht"},values={published="Published"@{nl="Gepubliceerd"},changed="Changed"@{nl="Gewijzigd"},cancelled="Cancelled"@{nl="Geannuleerd"},swap_request="Swap request"@{nl="Ruilverzoek"},swap_accepted="Swap accepted"@{nl="Ruil geaccepteerd"},swap_rejected="Swap declined"@{nl="Ruil afgewezen"}}}, swap:Swap? }
   event EligibilityReview { employee:Employee?, location:text?, account:user?, roster:Roster? }
-  Notice in Duty { recipient:user, revision:int, kind:DutyNotice.kind, delivery:delivery(Mail.send)? } label="Roster notice"@{nl="Roosterbericht"}
+  Notice in Duty { recipient:user, revision:int, kind:DutyNotice.kind, delivery:delivery(Mail.send_user)? } label="Roster notice"@{nl="Roosterbericht"}
   derive Notice.state:DeliveryResult.status? = row.delivery?.status label={text="Notice delivery"@{nl="Berichtverzending"},values={pending="Pending"@{nl="In afwachting"},succeeded="Sent"@{nl="Verzonden"},failed="Failed"@{nl="Mislukt"},unknown="Unknown"@{nl="Onbekend"},skipped="Skipped"@{nl="Overgeslagen"}}}
   export capability ScheduleIngressV1 version=1
    event reserve { roster:Roster, employee:Employee, location:Location, value:CommitmentRequest }
@@ -89,7 +89,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
   fixture proposed=Swap {parent=reception_duty,substitute=test_worker,original=substitute,revision=1}
   fixture away=Location {name="Second site",address="2 Example Road",timezone="Europe/Brussels",currency="EUR",hours="09:00–18:00",arrival="Report to reception"}
   fixture unavailable=Availability {parent=roster,employee=test_worker,from=datetime("2099-01-01T17:00:00Z"),until=datetime("2099-01-01T17:15:00Z"),available=false}
-  fixture notice_attempt=Mail.send {request={to="staff@example.test",subject="Roster",body="Review the current roster"}}
+  fixture notice_attempt=Mail.send_user {request={to=self,subject="Roster",body="Review the current roster"}}
   fixture notification=Notice {parent=reception_duty,recipient=self,revision=1,kind=published,delivery=notice_attempt}
  When
   crud Roster by=scheduler fields=name delete=none
@@ -247,7 +247,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
       set swap {state=obsolete}
   scenario duty_notice on=DutyNotice
    do
-    send Mail.send {to=event.recipient.email,subject=format("Your staff roster changed"@{nl="Je personeelsrooster is gewijzigd"},locale=null),body=format("Review your current shifts and swap decisions."@{nl="Bekijk je huidige diensten en ruilbesluiten."},locale=null)} when=active_member(event.recipient,team) and event.duty.parent.revision==event.revision and (event.kind in [cancelled,swap_rejected] or (eligible(event.duty.parent) and not event.duty.parent.conflict)) and ((event.kind==cancelled and not event.duty.parent.active) or (event.kind!=cancelled and event.duty.parent.active and (event.kind!=swap_request or (event.swap!=null and event.swap.state==open)))) as delivery
+    send Mail.send_user {to=event.recipient,subject=format("Your staff roster changed"@{nl="Je personeelsrooster is gewijzigd"},locale=null),body=format("Review your current shifts and swap decisions."@{nl="Bekijk je huidige diensten en ruilbesluiten."},locale=null)} when=active_member(event.recipient,team) and event.duty.parent.revision==event.revision and (event.kind in [cancelled,swap_rejected] or (eligible(event.duty.parent) and not event.duty.parent.conflict)) and ((event.kind==cancelled and not event.duty.parent.active) or (event.kind!=cancelled and event.duty.parent.active and (event.kind!=swap_request or (event.swap!=null and event.swap.state==open)))) as delivery
     create Notice {parent=event.duty,recipient=event.recipient,revision=event.revision,kind=event.kind,delivery} as notice
   scenario reserve_connected on=ScheduleRequests.reserve
    require event.employee.user==event.value.employee and event.location.id==event.value.location and event.location.active and event.employee.active and event.value.from<event.value.until and event.value.before>=0m and event.value.after>=0m and event.value.revision>0
