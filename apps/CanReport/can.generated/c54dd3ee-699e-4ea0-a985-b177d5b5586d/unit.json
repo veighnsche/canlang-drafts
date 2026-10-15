@@ -1,20 +1,33 @@
 {
-  "unit_id": "c54dd3ee-699e-4ea0-a985-b177d5b5586d",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanReport/CanReport.can",
-  "owner": "report",
-  "page": "/reports",
-  "view": null,
-  "label": null,
-  "prompt": "Use precise report rows with clear source, revision, unit, currency, and provisional labels. Give run checkpoints and completeness prominent context; align numeric measures while keeping missing or uncertain coverage visible beside the authorized results. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /reports page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 120,
-  "draft_source_key": "[\"report\",\"page\",\"/reports\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "c54dd3ee-699e-4ea0-a985-b177d5b5586d",
+  "source": {
+    "owner": "report",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "report:style-inline:Page:Page",
+    "path": "CanReport.can",
+    "revision": "a746646c4f3e0dc9d95cb0aeaeda81c00642a4e2f3c958dab841c3db43fbf58e",
+    "start": 14108,
+    "end": 14890,
+    "selector": "[\"report\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"reports\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "a402fe5af5f1b47c23e89649e39196383c91f454d423820525db93ae9332d796",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "19ecddbd0cb5b1432f9b2624b85f8674cffd3ec41ffe3ea817cd7c20a5046ee0",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:20.645Z"
+  }
 }

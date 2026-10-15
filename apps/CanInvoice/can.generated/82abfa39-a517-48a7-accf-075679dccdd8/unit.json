@@ -1,43 +1,35 @@
 {
-  "unit_id": "82abfa39-a517-48a7-accf-075679dccdd8",
   "abi_version": 1,
-  "kind": "then_view",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "invoice",
-  "label": "InvoiceBalance",
-  "profile": "frontend",
-  "source": "apps/CanInvoice/CanInvoice.can",
-  "declaration_selector": "invoice.InvoiceBalance",
-  "target": "view InvoiceBalance(row:Invoice)",
-  "prompt": "Present admitted invoice total and outstanding balance using canonical exact money formatting, followed by settled and collection-pending indicators. Render the existing derived values without calculating payment, credit, refund or settlement amounts. Preserve field admission and localized captions. Leave invoice identity, due date, currency, credits, receipts, refunds, refund-pending indicator and every canonical operation at each caller.",
-  "export_roles": [
-    "render"
-  ],
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "row_model": "Invoice",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "metricsFields",
-    "textFields"
-  ],
-  "definition_style_prompt": "Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.",
-  "source_inverse": {
-    "added_declaration": "  view InvoiceBalance(row:Invoice) $\"Present admitted invoice total and outstanding balance using canonical exact money formatting, followed by settled and collection-pending indicators. Render the existing derived values without calculating payment, credit, refund or settlement amounts. Preserve field admission and localized captions. Leave invoice identity, due date, currency, credits, receipts, refunds, refund-pending indicator and every canonical operation at each caller.\"\n   style $\"Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.\"\n",
-    "replacements": [
-      {
-        "original": "      text row.number,row.description,row.total,row.balance,row.settled,row.collection_pending,row.due,row.currency\n",
-        "replacement": "      text row.number,row.description,row.due,row.currency\n      show InvoiceBalance {row=row}\n"
-      },
-      {
-        "original": "     metrics row.total,row.credits,row.received,row.refunded,row.balance,row.refund_due\n     text row.settled,row.collection_pending,row.refund_pending\n",
-        "replacement": "     show InvoiceBalance {row=row}\n     metrics row.credits,row.received,row.refunded,row.refund_due\n     text row.refund_pending\n"
-      }
-    ]
+  "id": "82abfa39-a517-48a7-accf-075679dccdd8",
+  "source": {
+    "owner": "invoice",
+    "kind": "view",
+    "label": "InvoiceBalance",
+    "anchor": "invoice:view:InvoiceBalance:Invoice",
+    "path": "CanInvoice.can",
+    "revision": "1bf1c904017c07b58905104c4ee340f4661818f9877cf612f550fa8721d312ad",
+    "start": 90100,
+    "end": 90817,
+    "selector": "[\"invoice\",\"Section:Then\",\"[\\\"View\\\",\\\"InvoiceBalance\\\"]\",\"slot:ViewDefinition\"]"
   },
-  "source_line": 822
+  "contract": {
+    "target": "Invoice",
+    "profile": null,
+    "prompt_sha256": "cad653ec248484f2d0af20ead96d7b3a3b0c85345d27929aefd3d13257b82cbc",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "cad653ec248484f2d0af20ead96d7b3a3b0c85345d27929aefd3d13257b82cbc",
+    "files": {
+      "implementation.js": "f279111a9cc56034672fac92b6e3d62e69baa7c39b6a752558e2ecabb0d881c0",
+      "server.js": "f279111a9cc56034672fac92b6e3d62e69baa7c39b6a752558e2ecabb0d881c0",
+      "source-behavior.can.txt": "84c9fdc03b78fb8fb73193eac2666f013bac19da66aa9c79b9f81aa7717815e0"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:01.232Z"
+  }
 }

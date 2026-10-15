@@ -1,0 +1,20 @@
+{
+  "unit_id": "6564ce69-85c8-473e-a29f-10e6c3c83acd",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanCustomer/CanCustomer.can",
+  "owner": "customer",
+  "page": null,
+  "view": null,
+  "label": "CustomerWorkspace",
+  "prompt": "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 227,
+  "draft_source_key": "[\"customer\",\"style\",\"CustomerWorkspace\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "style_scope": "definition"
+}

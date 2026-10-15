@@ -1,20 +1,33 @@
 {
-  "unit_id": "5dfb6c46-e9a6-49d2-ba85-76dfc31264e3",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanRent/CanRent.can",
-  "owner": "rent_catalog_ui",
-  "page": "/workspace/catalog",
-  "view": null,
-  "label": null,
-  "prompt": "Prioritize workspace discovery rows, readable rates, and interval checks. Make reservation, payment, allowance, and physical arrival outcomes distinct; use a legible occupancy agenda and clear capacity evidence while retaining resource windows and recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workspace/catalog page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 15,
-  "draft_source_key": "[\"rent_catalog_ui\",\"page\",\"/workspace/catalog\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "5dfb6c46-e9a6-49d2-ba85-76dfc31264e3",
+  "source": {
+    "owner": "rent_catalog_ui",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "rent_catalog_ui:style-inline:Page:Page",
+    "path": "CanRent.can",
+    "revision": "f0f53cc28aa25874c56c34b3352b96558f5b41ead2903a67981376c885dc62fe",
+    "start": 1267,
+    "end": 1806,
+    "selector": "[\"rent_catalog_ui\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"workspace\\\"]]],[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"catalog\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "438c080d7d8712b5c12b5650edbb5cb243577ffada292a2e83d3b1a3e956f976",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "438c080d7d8712b5c12b5650edbb5cb243577ffada292a2e83d3b1a3e956f976",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:14.999Z"
+  }
 }

@@ -1,35 +1,36 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "profile": "shared",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "17a4aadd-c628-4ee6-9385-7b3385353862",
-  "kind": "given_trait",
-  "owner": "crm",
-  "label": "sales_seats",
-  "source": "apps/CanCRM/CanCRM.can",
-  "declaration_selector": "crm.sales_seats",
-  "prompt": "Supply the existing sales-seat default of one and require at least one seat. Preserve the integer type, labels, remaining field constraints and every existing permission and operation. Add no other contribution.",
-  "target_kind": "field",
-  "applications": [
-    {
-      "model": "Deal",
-      "field": "seats",
-      "type": "int"
-    }
-  ],
-  "export_roles": [
-    "defaultValue",
-    "check"
-  ],
-  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
-  "source_replacement": {
-    "original": "seats:int=1 min=1",
-    "replacement": "seats:int sales_seats"
+  "id": "17a4aadd-c628-4ee6-9385-7b3385353862",
+  "source": {
+    "owner": "crm",
+    "kind": "named-trait",
+    "label": "sales_seats",
+    "anchor": "crm:trait:sales_seats:",
+    "path": "CanCRM.can",
+    "revision": "f61f8f45fc05f4d0cd5004802f01e495a74426fe0d0d8811ed9416b254a6c32d",
+    "start": 1184,
+    "end": 1419,
+    "selector": "[\"crm\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"sales_seats\\\"]\",\"slot:NamedTrait\"]"
   },
-  "source_behavior_scope": "original full owning model declaration",
-  "source_line": 15
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "0629637c1d2309f0b6eb8f032524ab3400013ee6937bbf4dbdffa1e2c2029059",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "0629637c1d2309f0b6eb8f032524ab3400013ee6937bbf4dbdffa1e2c2029059",
+    "files": {
+      "contributions.can": "6fa38d47564a44b0a5e6abb1cc9b4fd6f3a864277dc48cf3f4ef544a3d453b8d",
+      "implementation.js": "817f99fcb02bf107118d1e3c2d5cf38338a2ed141907ef1bddae43901be95ace",
+      "server.js": "817f99fcb02bf107118d1e3c2d5cf38338a2ed141907ef1bddae43901be95ace",
+      "source-behavior.can.txt": "8807c82c714264397b3792e840391f5bbae84848d8b227e1baf1a18481e0435f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:03.362Z"
+  }
 }

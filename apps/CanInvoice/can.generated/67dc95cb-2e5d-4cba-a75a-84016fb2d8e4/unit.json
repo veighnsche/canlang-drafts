@@ -1,21 +1,33 @@
 {
-  "unit_id": "67dc95cb-2e5d-4cba-a75a-84016fb2d8e4",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanInvoice/CanInvoice.can",
-  "owner": "invoice",
-  "page": null,
-  "view": "InvoiceBalance",
-  "label": null,
-  "prompt": "Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.",
-  "profile": "frontend",
-  "source_line": 822,
-  "draft_source_key": "[\"invoice\",\"view\",\"InvoiceBalance\",null]",
-  "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
-  "style_scope": "inline"
+  "id": "67dc95cb-2e5d-4cba-a75a-84016fb2d8e4",
+  "source": {
+    "owner": "invoice",
+    "kind": "view-style-inline",
+    "label": "InvoiceBalance",
+    "anchor": "invoice:view-style-inline:InvoiceBalance:InvoiceBalance",
+    "path": "CanInvoice.can",
+    "revision": "1bf1c904017c07b58905104c4ee340f4661818f9877cf612f550fa8721d312ad",
+    "start": 90582,
+    "end": 90731,
+    "selector": "[\"invoice\",\"Section:Then\",\"[\\\"View\\\",\\\"InvoiceBalance\\\"]\",\"slot:ViewRootStyleInline\"]"
+  },
+  "contract": {
+    "target": "InvoiceBalance",
+    "profile": null,
+    "prompt_sha256": "f99adf87d691601f3da04624c7f3e26d7576b8cf72220e76a08b6c5cfdde8bfc",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "f99adf87d691601f3da04624c7f3e26d7576b8cf72220e76a08b6c5cfdde8bfc",
+    "files": {
+      "style.css": "3dc53b81f286a938e94a9cdbdd80e2a87a917209a0d16c11802789bf06a78bc1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:02.229Z"
+  }
 }

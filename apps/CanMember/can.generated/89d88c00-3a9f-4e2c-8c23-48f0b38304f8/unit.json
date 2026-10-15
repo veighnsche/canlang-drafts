@@ -1,21 +1,33 @@
 {
-  "unit_id": "89d88c00-3a9f-4e2c-8c23-48f0b38304f8",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanMember/CanMember.can",
-  "owner": "member_terms",
-  "page": null,
-  "view": "TermOutcome",
-  "label": null,
-  "prompt": "Use distinct readable outcome badges, a compact term interval and exact price, with a wrapping source reference; inherit the current theme.",
-  "profile": "frontend",
-  "source_line": 720,
-  "draft_source_key": "[\"member_terms\",\"view\",\"TermOutcome\",null]",
-  "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
-  "style_scope": "inline"
+  "id": "89d88c00-3a9f-4e2c-8c23-48f0b38304f8",
+  "source": {
+    "owner": "member_terms",
+    "kind": "view-style-inline",
+    "label": "TermOutcome",
+    "anchor": "member_terms:view-style-inline:TermOutcome:TermOutcome",
+    "path": "CanMember.can",
+    "revision": "3578dc48b1d368cff504cd20b3724f6bb3b0b7b2d4c010a0685af5378189a4fa",
+    "start": 72740,
+    "end": 72883,
+    "selector": "[\"member_terms\",\"Section:Then\",\"[\\\"View\\\",\\\"TermOutcome\\\"]\",\"slot:ViewRootStyleInline\"]"
+  },
+  "contract": {
+    "target": "TermOutcome",
+    "profile": null,
+    "prompt_sha256": "a5c9317112125897bd1f1fe8a145393115eeb76f7e6662f99a5f6914e754c485",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "a5c9317112125897bd1f1fe8a145393115eeb76f7e6662f99a5f6914e754c485",
+    "files": {
+      "style.css": "3dc53b81f286a938e94a9cdbdd80e2a87a917209a0d16c11802789bf06a78bc1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:09.111Z"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "7b137fca-2ed2-4092-927e-c46d36f5e099",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanPropose/CanPropose.can",
-  "owner": "propose",
-  "page": null,
-  "view": null,
-  "label": "ProposeWorkspace",
-  "prompt": "Use a polished but restrained offer layout with readable customer context and aligned itemized currency amounts. Distinguish editable drafts, frozen revisions, recipient decisions, and booking follow-up outcomes; keep exact revision details prominent during review. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 380,
-  "draft_source_key": "[\"propose\",\"style\",\"ProposeWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "7b137fca-2ed2-4092-927e-c46d36f5e099",
+  "source": {
+    "owner": "propose",
+    "kind": "style",
+    "label": "ProposeWorkspace",
+    "anchor": "propose:style:ProposeWorkspace:",
+    "path": "CanPropose.can",
+    "revision": "d671366a93c1696ff0f0f871e985b49ba019537af18e8aedfb5fd0568d9ec88d",
+    "start": 40567,
+    "end": 41134,
+    "selector": "[\"propose\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ProposeWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "93e3d3b60a68a79f9e753fe68f7d186fe5561842a3af6c7512ebabae2f6643ca",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "93e3d3b60a68a79f9e753fe68f7d186fe5561842a3af6c7512ebabae2f6643ca",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:20.905Z"
+  }
 }

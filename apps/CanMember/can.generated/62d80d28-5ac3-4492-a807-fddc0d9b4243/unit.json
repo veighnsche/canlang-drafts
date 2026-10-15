@@ -1,20 +1,33 @@
 {
-  "unit_id": "62d80d28-5ac3-4492-a807-fddc0d9b4243",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanMember/CanMember.can",
-  "owner": "member_terms",
-  "page": null,
-  "view": null,
-  "label": "MemberTermsWorkspace",
-  "prompt": "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 719,
-  "draft_source_key": "[\"member_terms\",\"style\",\"MemberTermsWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "62d80d28-5ac3-4492-a807-fddc0d9b4243",
+  "source": {
+    "owner": "member_terms",
+    "kind": "style",
+    "label": "MemberTermsWorkspace",
+    "anchor": "member_terms:style:MemberTermsWorkspace:",
+    "path": "CanMember.can",
+    "revision": "3578dc48b1d368cff504cd20b3724f6bb3b0b7b2d4c010a0685af5378189a4fa",
+    "start": 71719,
+    "end": 72284,
+    "selector": "[\"member_terms\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"MemberTermsWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "c79bec091eba24710f2aca904fe0ab3b78785e9b52a50759231c91e8cfb340f8",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c79bec091eba24710f2aca904fe0ab3b78785e9b52a50759231c91e8cfb340f8",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:06.500Z"
+  }
 }

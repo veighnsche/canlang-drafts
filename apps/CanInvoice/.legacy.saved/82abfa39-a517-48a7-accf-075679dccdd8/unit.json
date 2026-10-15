@@ -1,0 +1,43 @@
+{
+  "unit_id": "82abfa39-a517-48a7-accf-075679dccdd8",
+  "abi_version": 1,
+  "kind": "then_view",
+  "draft": true,
+  "origin": "handwritten-draft",
+  "provider": null,
+  "model": null,
+  "owner": "invoice",
+  "label": "InvoiceBalance",
+  "profile": "frontend",
+  "source": "apps/CanInvoice/CanInvoice.can",
+  "declaration_selector": "invoice.InvoiceBalance",
+  "target": "view InvoiceBalance(row:Invoice)",
+  "prompt": "Present admitted invoice total and outstanding balance using canonical exact money formatting, followed by settled and collection-pending indicators. Render the existing derived values without calculating payment, credit, refund or settlement amounts. Preserve field admission and localized captions. Leave invoice identity, due date, currency, credits, receipts, refunds, refund-pending indicator and every canonical operation at each caller.",
+  "export_roles": [
+    "render"
+  ],
+  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
+  "row_model": "Invoice",
+  "checked_controls": [],
+  "required_ui_helpers": [
+    "element",
+    "hooks",
+    "metricsFields",
+    "textFields"
+  ],
+  "definition_style_prompt": "Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.",
+  "source_inverse": {
+    "added_declaration": "  view InvoiceBalance(row:Invoice) $\"Present admitted invoice total and outstanding balance using canonical exact money formatting, followed by settled and collection-pending indicators. Render the existing derived values without calculating payment, credit, refund or settlement amounts. Preserve field admission and localized captions. Leave invoice identity, due date, currency, credits, receipts, refunds, refund-pending indicator and every canonical operation at each caller.\"\n   style $\"Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults.\"\n",
+    "replacements": [
+      {
+        "original": "      text row.number,row.description,row.total,row.balance,row.settled,row.collection_pending,row.due,row.currency\n",
+        "replacement": "      text row.number,row.description,row.due,row.currency\n      show InvoiceBalance {row=row}\n"
+      },
+      {
+        "original": "     metrics row.total,row.credits,row.received,row.refunded,row.balance,row.refund_due\n     text row.settled,row.collection_pending,row.refund_pending\n",
+        "replacement": "     show InvoiceBalance {row=row}\n     metrics row.credits,row.received,row.refunded,row.refund_due\n     text row.refund_pending\n"
+      }
+    ]
+  },
+  "source_line": 822
+}

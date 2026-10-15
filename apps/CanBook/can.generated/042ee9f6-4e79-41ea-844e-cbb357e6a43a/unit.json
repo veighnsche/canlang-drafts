@@ -1,20 +1,33 @@
 {
-  "unit_id": "042ee9f6-4e79-41ea-844e-cbb357e6a43a",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanBook/CanBook.can",
-  "owner": "appointments",
-  "page": null,
-  "view": null,
-  "label": "AppointmentsWorkspace",
-  "prompt": "Make published host windows easy to scan, with timezone and duration beside dates. Use chronological appointment rows and a legible host agenda; distinguish host commitments, room outcomes, attendance, and recovery actions with labeled states. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 378,
-  "draft_source_key": "[\"appointments\",\"style\",\"AppointmentsWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "042ee9f6-4e79-41ea-844e-cbb357e6a43a",
+  "source": {
+    "owner": "appointments",
+    "kind": "style",
+    "label": "AppointmentsWorkspace",
+    "anchor": "appointments:style:AppointmentsWorkspace:",
+    "path": "CanBook.can",
+    "revision": "e5fa32edb82b2f5af1f8a36520ee9ca68030fcc8a080f04906ec23720a669d2f",
+    "start": 34646,
+    "end": 35196,
+    "selector": "[\"appointments\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"AppointmentsWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "054674d1ca8a29b22e77639f5f6bfab73eedacbdb16894b7b12b5332e5a39718",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "054674d1ca8a29b22e77639f5f6bfab73eedacbdb16894b7b12b5332e5a39718",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:18.688Z"
+  }
 }

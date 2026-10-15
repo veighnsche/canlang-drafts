@@ -1,20 +1,33 @@
 {
-  "unit_id": "fa30709d-9fba-4496-955c-b1547917cde4",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanAffiliate/CanAffiliate.can",
-  "owner": "affiliate",
-  "page": null,
-  "view": null,
-  "label": "AffiliateWorkspace",
-  "prompt": "Use compact partner rows and readable commission ledgers. Align currency amounts and frozen rates; clearly separate qualification, allocation, bank delivery, and review states. Keep own terms and introduction pages visually restrained. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 215,
-  "draft_source_key": "[\"affiliate\",\"style\",\"AffiliateWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "fa30709d-9fba-4496-955c-b1547917cde4",
+  "source": {
+    "owner": "affiliate",
+    "kind": "style",
+    "label": "AffiliateWorkspace",
+    "anchor": "affiliate:style:AffiliateWorkspace:",
+    "path": "CanAffiliate.can",
+    "revision": "7e64deae64ed0fb649fb956d4ca2e1eb7a40b29458ed15923db7d87da2007626",
+    "start": 22713,
+    "end": 23252,
+    "selector": "[\"affiliate\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"AffiliateWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "2676586b9957c80108d6a9de9fc622c78a2434aa7b455696904d7b3ed18efb18",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "2676586b9957c80108d6a9de9fc622c78a2434aa7b455696904d7b3ed18efb18",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:22.617Z"
+  }
 }

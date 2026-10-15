@@ -1,0 +1,20 @@
+{
+  "unit_id": "70dfcdbb-9e00-4984-b68d-7735e3d921e6",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanRefer/CanRefer.can",
+  "owner": "refer",
+  "page": null,
+  "view": null,
+  "label": "ReferWorkspace",
+  "prompt": "Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 159,
+  "draft_source_key": "[\"refer\",\"style\",\"ReferWorkspace\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "style_scope": "definition"
+}

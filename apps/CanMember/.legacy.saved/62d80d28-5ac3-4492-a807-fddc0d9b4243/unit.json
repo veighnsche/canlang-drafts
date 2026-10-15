@@ -1,0 +1,20 @@
+{
+  "unit_id": "62d80d28-5ac3-4492-a807-fddc0d9b4243",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanMember/CanMember.can",
+  "owner": "member_terms",
+  "page": null,
+  "view": null,
+  "label": "MemberTermsWorkspace",
+  "prompt": "Present plan benefits and units clearly, with readable paid-term snapshots and company-seat rows. Distinguish allowances, held allocations, renewals, and live member access; keep consent and member information comfortable to read within their declared scopes. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 719,
+  "draft_source_key": "[\"member_terms\",\"style\",\"MemberTermsWorkspace\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "style_scope": "definition"
+}

@@ -1,20 +1,33 @@
 {
-  "unit_id": "70dfcdbb-9e00-4984-b68d-7735e3d921e6",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanRefer/CanRefer.can",
-  "owner": "refer",
-  "page": null,
-  "view": null,
-  "label": "ReferWorkspace",
-  "prompt": "Use straightforward referral-program terms and aligned currency balances. Distinguish qualification, reversal evidence, owed rewards, and external settlement records; keep referral invitations welcoming while showing neither private advocate balances nor partner banking details. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 159,
-  "draft_source_key": "[\"refer\",\"style\",\"ReferWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "70dfcdbb-9e00-4984-b68d-7735e3d921e6",
+  "source": {
+    "owner": "refer",
+    "kind": "style",
+    "label": "ReferWorkspace",
+    "anchor": "refer:style:ReferWorkspace:",
+    "path": "CanRefer.can",
+    "revision": "50b36dc89426a05b740ba207dc749942740fe7a1c5ac5221e2a24ca685f3d876",
+    "start": 17963,
+    "end": 18542,
+    "selector": "[\"refer\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ReferWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "ed4043b706ce387c80859ffd7f406e9fc3283408995997175c22b3d2ab85d0f2",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "ed4043b706ce387c80859ffd7f406e9fc3283408995997175c22b3d2ab85d0f2",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:12.065Z"
+  }
 }

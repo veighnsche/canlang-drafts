@@ -1,20 +1,33 @@
 {
-  "unit_id": "f36929d0-9979-4e50-ba63-357663dbd5d0",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanCRM/CanCRM.can",
-  "owner": "crm",
-  "page": "/sales",
-  "view": null,
-  "label": null,
-  "prompt": "Favor scannable sales opportunity rows, customer context, and dated next actions. Emphasize stage and overdue follow-up without hiding details; align the selected-currency pipeline values and keep duplicate review comparisons readable. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sales page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 168,
-  "draft_source_key": "[\"crm\",\"page\",\"/sales\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "f36929d0-9979-4e50-ba63-357663dbd5d0",
+  "source": {
+    "owner": "crm",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "crm:style-inline:Page:Page",
+    "path": "CanCRM.can",
+    "revision": "f61f8f45fc05f4d0cd5004802f01e495a74426fe0d0d8811ed9416b254a6c32d",
+    "start": 17284,
+    "end": 17781,
+    "selector": "[\"crm\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"sales\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "6b46ba32708107800d12336462b80f6c66af5cc254b922ec0bd684720c0cbf9b",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "6b46ba32708107800d12336462b80f6c66af5cc254b922ec0bd684720c0cbf9b",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:04.291Z"
+  }
 }

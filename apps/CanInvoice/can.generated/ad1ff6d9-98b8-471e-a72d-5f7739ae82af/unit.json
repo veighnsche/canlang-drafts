@@ -1,20 +1,33 @@
 {
-  "unit_id": "ad1ff6d9-98b8-471e-a72d-5f7739ae82af",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanInvoice/CanInvoice.can",
-  "owner": "invoice",
-  "page": null,
-  "view": null,
-  "label": "InvoiceWorkspace",
-  "prompt": "Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 821,
-  "draft_source_key": "[\"invoice\",\"style\",\"InvoiceWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "ad1ff6d9-98b8-471e-a72d-5f7739ae82af",
+  "source": {
+    "owner": "invoice",
+    "kind": "style",
+    "label": "InvoiceWorkspace",
+    "anchor": "invoice:style:InvoiceWorkspace:",
+    "path": "CanInvoice.can",
+    "revision": "1bf1c904017c07b58905104c4ee340f4661818f9877cf612f550fa8721d312ad",
+    "start": 89531,
+    "end": 90100,
+    "selector": "[\"invoice\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"InvoiceWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "fac1ea5b36511411d3a35d2c542330ab969bf066a94eb0fa3a8ca7101c051a81",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "fac1ea5b36511411d3a35d2c542330ab969bf066a94eb0fa3a8ca7101c051a81",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:00.227Z"
+  }
 }

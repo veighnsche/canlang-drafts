@@ -820,6 +820,9 @@ package invoice label="Invoices"@{nl="Facturen"}
  Then
   style InvoiceWorkspace $"Use a precise invoice layout with readable issuer and recipient blocks, aligned itemized currency amounts, and prominent balance and refund obligations. Clearly distinguish collection attempts, observed payments, document generation, and retained historical evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   view InvoiceBalance(row:Invoice) $"Present admitted invoice total and outstanding balance using canonical exact money formatting, followed by settled and collection-pending indicators. Render the existing derived values without calculating payment, credit, refund or settlement amounts. Preserve field admission and localized captions. Leave invoice identity, due date, currency, credits, receipts, refunds, refund-pending indicator and every canonical operation at each caller." $"Align readable exact currency amounts and keep settlement and pending indicators distinct, with responsive wrapping and inherited theme defaults."
+   card
+    metrics row.total,row.balance
+    text row.settled,row.collection_pending
   preferences { location:Location?, currency:currency? }
   # Read retained invoices and reviewed booking relationships under current billing access. @{nl="Lees bewaarde facturen en beoordeelde reserveringsrelaties met huidige factuurtoegang."}
   page /finance/invoice-history title="Historical invoice evidence"@{nl="Historisch factuurbewijs"} $InvoiceWorkspace

@@ -1,0 +1,3 @@
+      text row.number,row.description,row.total,row.balance,row.settled,row.collection_pending,row.due,row.currency
+     metrics row.total,row.credits,row.received,row.refunded,row.balance,row.refund_due
+     text row.settled,row.collection_pending,row.refund_pending

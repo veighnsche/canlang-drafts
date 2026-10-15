@@ -1,20 +1,33 @@
 {
-  "unit_id": "a07f2643-7992-4670-ae3f-7425c4878630",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanRent/CanRent.can",
-  "owner": "rent_reporting",
-  "page": "/workspace/occupancy",
-  "view": null,
-  "label": null,
-  "prompt": "Prioritize workspace discovery rows, readable rates, and interval checks. Make reservation, payment, allowance, and physical arrival outcomes distinct; use a legible occupancy agenda and clear capacity evidence while retaining resource windows and recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workspace/occupancy page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 1914,
-  "draft_source_key": "[\"rent_reporting\",\"page\",\"/workspace/occupancy\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "a07f2643-7992-4670-ae3f-7425c4878630",
+  "source": {
+    "owner": "rent_reporting",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "rent_reporting:style-inline:Page:Page",
+    "path": "CanRent.can",
+    "revision": "f0f53cc28aa25874c56c34b3352b96558f5b41ead2903a67981376c885dc62fe",
+    "start": 203442,
+    "end": 203983,
+    "selector": "[\"rent_reporting\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"workspace\\\"]]],[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"occupancy\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "2f543a07f070e7de7eea5b2be6edc8d658a429ce693f430191ad481bf7baa547",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "2f543a07f070e7de7eea5b2be6edc8d658a429ce693f430191ad481bf7baa547",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:05:18.522Z"
+  }
 }

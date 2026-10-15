@@ -1,0 +1,16 @@
+       badge term.collection
+       badge term.cancellation
+       text term.paid,term.from,term.until,term.price
+       copy term.source
+       badge term.collection
+       badge term.cancellation
+       badge term.refund_access
+       text term.paid,term.mail,term.from,term.until,term.invoice
+       stat term.price,term.seats
+       copy term.source
+       badge term.collection
+       badge term.cancellation
+       badge term.refund_access
+       text term.paid,term.from,term.until,term.invoice
+       stat term.price,term.seats
+       copy term.source

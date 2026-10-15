@@ -181,9 +181,9 @@ package crm label="Sales"@{nl="Verkoop"}
      form Contact.create arguments={parent=customer} import=csv review=duplicate_contacts
      collapse "Likely company duplicates"@{nl="Mogelijke dubbele bedrijven"}
       alert "Reviewed aliases never rewrite history or transfer roles; candidates need staff confirmation."@{nl="Beoordeelde aliassen herschrijven geen geschiedenis en dragen geen rollen over; kandidaten vereisen personeelsbevestiging."}
-      tooltip "Candidates match same kind and case-folded name under current directory grants; not identity proof."@{nl="Kandidaten komen overeen op soort en hoofdletteronverschillige naam onder huidige directoryrechten; geen identiteitsbewijs."}
-       list Customer archived=include as candidate where candidate.kind==customer.kind and lower(candidate.name)==lower(customer.name) and candidate!=customer columns=name,kind
-        primary "Record reviewed alias"@{nl="Beoordeelde alias vastleggen"} action=customer_alias arguments={source=candidate,target=customer}
+      text "Candidates match same kind and case-folded name under current directory grants; not identity proof."@{nl="Kandidaten komen overeen op soort en hoofdletteronverschillige naam onder huidige directoryrechten; geen identiteitsbewijs."}
+      list Customer archived=include as candidate where candidate.kind==customer.kind and lower(candidate.name)==lower(customer.name) and candidate!=customer columns=name,kind
+       primary "Record reviewed alias"@{nl="Beoordeelde alias vastleggen"} action=customer_alias arguments={source=candidate,target=customer}
       ## Alias inputs stay owner-owned; the bare form keeps generated controls for the reviewed mapping.
      primary "Invite company colleague"@{nl="Bedrijfscollega uitnodigen"} action=invite_company arguments={org=customer}
      secondary "Recover company administration"@{nl="Bedrijfsbeheer herstellen"} action=recover_company arguments={org=customer}

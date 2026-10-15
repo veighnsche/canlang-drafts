@@ -1,20 +1,33 @@
 {
-  "unit_id": "6564ce69-85c8-473e-a29f-10e6c3c83acd",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanCustomer/CanCustomer.can",
-  "owner": "customer",
-  "page": null,
-  "view": null,
-  "label": "CustomerWorkspace",
-  "prompt": "Present canonical customer identities with compact contact and billing-profile rows. Clearly separate company grants, invitation outcomes, and billing approvals; keep duplicate or alias review context readable and avoid visual emphasis that implies ungranted administration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 227,
-  "draft_source_key": "[\"customer\",\"style\",\"CustomerWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "6564ce69-85c8-473e-a29f-10e6c3c83acd",
+  "source": {
+    "owner": "customer",
+    "kind": "style",
+    "label": "CustomerWorkspace",
+    "anchor": "customer:style:CustomerWorkspace:",
+    "path": "CanCustomer.can",
+    "revision": "44a81ce2a2a4a73b530923de6dc6ba287c9086855c7b361febf229e729422b1b",
+    "start": 20740,
+    "end": 21317,
+    "selector": "[\"customer\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"CustomerWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "6c9b51581c7d50901241bbbb85f5e195922ac0967602e58ad3eeb0536e4c6c69",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "6c9b51581c7d50901241bbbb85f5e195922ac0967602e58ad3eeb0536e4c6c69",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:04:17.082Z"
+  }
 }
