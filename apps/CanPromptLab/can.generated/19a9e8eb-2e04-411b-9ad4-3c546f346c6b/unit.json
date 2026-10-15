@@ -1,44 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "19a9e8eb-2e04-411b-9ad4-3c546f346c6b",
-  "kind": "given_keyword",
-  "label": "canonical_identity",
-  "source_line": 9,
-  "profile": "careful",
-  "prompt": "Use the selected text field's NFKC-normalized, ASCII-lowercased value as a canonical unique key in its existing model ownership scope. Preserve stored spelling, ordinary read/write permissions and native text constraints. Select the canonical State unique-key producer: State owns old/final claims, atomic swaps, deletion release, rollback, version fencing, replay and collision-checked schema activation. Add no helper field, raw claim API or authority.",
-  "target": "canonical_identity(target:model, field:field(target,text))",
-  "applications": [
-    {
-      "target": "Entry",
-      "field": "Entry.code"
-    },
-    {
-      "target": "Tag",
-      "field": "Tag.name"
-    }
-  ],
-  "export_roles": [
-    "canonicalKey"
-  ],
-  "provisional_binding": {
-    "owner": "State",
-    "producer": "state.unique-key@1",
-    "export": "canonicalKey",
-    "input_schema": "text",
-    "result_schema": "text",
-    "reads": [
-      "selected field value"
-    ],
-    "effects": [],
-    "authority": "Canonical owner admission only; no generated grant or raw claim access",
-    "target_resolution": "Compiler-owned model/field references; owner supplies scope and claims"
+  "id": "19a9e8eb-2e04-411b-9ad4-3c546f346c6b",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "keyword",
+    "label": "canonical_identity",
+    "anchor": "prompt_lab:keyword:canonical_identity:",
+    "selector": "[\"prompt_lab\",\"Section:Given\",\"[\\\"KeywordDef\\\",\\\"canonical_identity\\\"]\",\"slot:KeywordDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 906,
+    "end": 1447
   },
-  "schema_evolution_note": "Compiler derives saved implementation/import fingerprint; canonical activation checks installed rows and collisions before activation"
+  "contract": {
+    "target": null,
+    "profile": "careful",
+    "prompt_sha256": "cc9e3ad135ef881241a9d2664cd2f86dd387215f984c5dd15dcc4e3aab83b3e6",
+    "signature": "target:model,field:field(target,text)"
+  },
+  "original": {
+    "prompt_sha256": "cc9e3ad135ef881241a9d2664cd2f86dd387215f984c5dd15dcc4e3aab83b3e6",
+    "files": {
+      "implementation.js": "28a7411f9affc311a1c42be16bd0c15e1d6a310744d92d04a872e5ce7934417c",
+      "server.js": "28a7411f9affc311a1c42be16bd0c15e1d6a310744d92d04a872e5ce7934417c",
+      "source-behavior.can.txt": "e457db7f6c7b116850238aee70d56627e024adf5f04ce88fb47c4b33945f1108"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

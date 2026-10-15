@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "be951c09-0eb9-43b0-af6b-ba79746e1627",
-  "source_line": 110,
-  "page": null,
-  "view": null,
-  "label": "ControlSurface",
-  "style_scope": "definition",
-  "prompt": "Make the attached canonical button or control easy to identify with visible focus and compact spacing. Retain its permission admission, caption, loading/error states, version and CSRF data, confirmation and operation binding. Inherit the theme.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"style\",\"ControlSurface\",null]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "be951c09-0eb9-43b0-af6b-ba79746e1627",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style",
+    "label": "ControlSurface",
+    "anchor": "prompt_lab:style:ControlSurface:",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ControlSurface\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 9181,
+    "end": 9452
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "8611549618320eb5b9ef4af750111515b55770c0529de5923362427dfdd0c2e1",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "8611549618320eb5b9ef4af750111515b55770c0529de5923362427dfdd0c2e1",
+    "files": {
+      "style.css": "bf98bb0f12819b2f7934e453b4d5565810b0417a02bbd262ebbb6ad432bf2792"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

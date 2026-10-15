@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "2c01f326-d9de-4799-9fd2-df9acaa13192",
-  "source_line": 108,
-  "page": null,
-  "view": null,
-  "label": "Workspace",
-  "style_scope": "definition",
-  "prompt": "Give the attached page, card, form, generated-view root or custom view host a readable catalog surface with modest spacing and responsive stacking. Respect each target's actual root/part contract and nearest ownership. Inherit the theme and canonical shell, retain all fields, controls, validation feedback, localized captions and keyboard focus; caller host styling cannot style a child renderer's interior.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"style\",\"Workspace\",null]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "2c01f326-d9de-4799-9fd2-df9acaa13192",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style",
+    "label": "Workspace",
+    "anchor": "prompt_lab:style:Workspace:",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"Workspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 8460,
+    "end": 8890
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "68a7f88016bd7b8fec1c6514b61d88aca4fd7a5cbfe8ca823093e244d071726a",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "68a7f88016bd7b8fec1c6514b61d88aca4fd7a5cbfe8ca823093e244d071726a",
+    "files": {
+      "style.css": "09033410c2f7cadc701ee888822c245e3d8abcc948ad0b76205398d56c5e06d7"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

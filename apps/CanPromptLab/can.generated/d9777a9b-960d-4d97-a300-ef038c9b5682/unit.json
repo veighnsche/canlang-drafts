@@ -1,26 +1,34 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "d9777a9b-960d-4d97-a300-ef038c9b5682",
-  "kind": "given_trait",
-  "label": "archive_evidence",
-  "source_line": 7,
-  "profile": "shared",
-  "prompt": "Contribute archived:bool=false, archived_by:user? and archive_recorded_at:datetime? with clear field labels to the attached model. Keep its existing policy, locks, invariant and CRUD declarations. Never archive automatically or grant permission; the explicitly authored archive and restore scenarios own every transition.",
-  "target_kind": "model",
-  "target": "Entry and Tag owner-attached model contribution",
-  "applications": [
-    "Entry",
-    "Tag"
-  ],
-  "export_roles": [
-    "contributions"
-  ],
-  "binding_status": "Partial native declarations only; canonical operations stay in source"
+  "id": "d9777a9b-960d-4d97-a300-ef038c9b5682",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "named-trait",
+    "label": "archive_evidence",
+    "anchor": "prompt_lab:trait:archive_evidence:",
+    "selector": "[\"prompt_lab\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"archive_evidence\\\"]\",\"slot:NamedTrait\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 175,
+    "end": 525
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "21c416b8da2c22d6e383442de545d2af7a3b6e1855914a6af83a40c211599513",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "21c416b8da2c22d6e383442de545d2af7a3b6e1855914a6af83a40c211599513",
+    "files": {
+      "contributions.can": "6f6bfe0b81315e948a9065525bf0825bb2ec8691978a495f7b2e99b363d37387",
+      "source-behavior.can.txt": "1b03f3602dcbcb3ba7de4bc9251c524cee7c922357d207da6f2f4ecb8caba046"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

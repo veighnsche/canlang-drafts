@@ -7,10 +7,10 @@
    require not entry.archived
    do set entry {archived=true,archived_by=actor,archive_recorded_at=now}
    examples entry=alice
-    as,entry.archived -> entry.archived,entry.archived_by,entry.archive_recorded_at
-    editor,false -> true,self,now
-    editor,true -> error(rule_failed)
-    members,false -> error(forbidden)
+    as,entry.archived,entry.archived_by,entry.archive_recorded_at -> entry.archived,entry.archived_by,entry.archive_recorded_at
+    editor,false,null,null -> true,editor,now
+    editor,true,editor,now -> error(rule_failed)
+    members,false,null,null -> error(forbidden)
   scenario restore_entry(entry:Entry) by=curator label="Restore entry"
    require entry.archived
    do set entry {archived=false,archived_by=null,archive_recorded_at=null}
@@ -23,7 +23,7 @@
    do set tag {archived=true,archived_by=actor,archive_recorded_at=now}
    examples tag=tag
     as,tag.archived -> tag.archived,tag.archived_by
-    editor,false -> true,self
+    editor,false -> true,editor
     members,false -> error(forbidden)
   scenario restore_tag(tag:Tag) by=curator label="Restore tag"
    require tag.archived

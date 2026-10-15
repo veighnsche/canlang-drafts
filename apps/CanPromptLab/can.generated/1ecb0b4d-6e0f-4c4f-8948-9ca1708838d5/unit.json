@@ -1,27 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "1ecb0b4d-6e0f-4c4f-8948-9ca1708838d5",
-  "source_line": 136,
-  "page": "/catalogs",
-  "view": null,
-  "component_path": [
-    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
-    "card \"Catalog entries\"",
-    "form Entry.create",
-    "textarea summary"
-  ],
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Use readable line length and visible focus for the canonical summary textarea; preserve exact text and validation behavior.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\",\"form Entry.create\",\"textarea summary\"]]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "1ecb0b4d-6e0f-4c4f-8948-9ca1708838d5",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style-inline",
+    "label": "CatalogItem",
+    "anchor": "prompt_lab:style-inline:CatalogItem:CatalogItem",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"catalogs\\\"]]]]]\",\"[\\\"Collection\\\",[[\\\"Name\\\",\\\"list\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"Catalog\\\"]]]]]\",\"[\\\"Card\\\",[[\\\"Name\\\",\\\"card\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Catalog entries\\\"]]]]]\",\"[\\\"Form\\\",[[\\\"Name\\\",\\\"primary\\\"],[\\\"MessageValue\\\",[[\\\"Literal\\\",[[\\\"String\\\",\\\"Create Catalog entry\\\"]]],[\\\"Punct\\\",\\\"@\\\"],[\\\"Punct\\\",\\\"{\\\"],[\\\"MessageVariant\\\",[[\\\"Name\\\",\\\"nl\\\"],[\\\"Punct\\\",\\\"=\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Aanmaken\\\"]]]]],[\\\"Punct\\\",\\\"}\\\"]]]]]\",\"[\\\"CatalogItem\\\",[[\\\"Name\\\",\\\"textarea\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"summary\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 12750,
+    "end": 12877
+  },
+  "contract": {
+    "target": "CatalogItem",
+    "profile": null,
+    "prompt_sha256": "bc1b6f33537bc2b5e341b545bee40ec54c8286d739463d4694e8c82873dfb3d7",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "bc1b6f33537bc2b5e341b545bee40ec54c8286d739463d4694e8c82873dfb3d7",
+    "files": {
+      "style.css": "e7b2519bc131d9cb2d973f22e2fde0291f7c52106405c86f3704a081508fba65"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

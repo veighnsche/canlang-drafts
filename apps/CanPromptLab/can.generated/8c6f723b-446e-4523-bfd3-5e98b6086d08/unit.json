@@ -1,25 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "8c6f723b-446e-4523-bfd3-5e98b6086d08",
-  "source_line": 165,
-  "page": "/catalogs/archived",
-  "view": null,
-  "component_path": [
-    "list Entry as row where row.archived columns=code,title,archived order=rank empty=\"No archived entries.\"",
-    "show EntryTile {row=row}"
-  ],
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Give this custom view host enough space for archive evidence and restoration; retain child-owned renderer roots and all canonical control behavior.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs/archived\",[\"list Entry as row where row.archived columns=code,title,archived order=rank empty=\\\"No archived entries.\\\"\",\"show EntryTile {row=row}\"]]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "8c6f723b-446e-4523-bfd3-5e98b6086d08",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style-inline",
+    "label": "Show:EntryTile",
+    "anchor": "prompt_lab:style-inline:Show:EntryTile:Show:EntryTile",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"catalogs\\\"]]],[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"archived\\\"]]]]]\",\"[\\\"Collection\\\",[[\\\"Name\\\",\\\"list\\\"],[\\\"Query\\\",[[\\\"NameRef\\\",[[\\\"Name\\\",\\\"Entry\\\"]]],[\\\"QueryClause\\\",[[\\\"Name\\\",\\\"as\\\"],[\\\"Name\\\",\\\"row\\\"]]],[\\\"QueryClause\\\",[[\\\"Name\\\",\\\"where\\\"],[\\\"Member\\\",[[\\\"NameRef\\\",[[\\\"Name\\\",\\\"row\\\"]]],[\\\"Punct\\\",\\\".\\\"],[\\\"Name\\\",\\\"archived\\\"]]]]]]]]]\",\"[\\\"Show\\\",[[\\\"Name\\\",\\\"show\\\"],[\\\"Name\\\",\\\"EntryTile\\\"],[\\\"Object\\\",[[\\\"Punct\\\",\\\"{\\\"],[\\\"ObjectEntry\\\",[[\\\"Name\\\",\\\"row\\\"],[\\\"Punct\\\",\\\"=\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"row\\\"]]]]],[\\\"Punct\\\",\\\"}\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 14304,
+    "end": 14455
+  },
+  "contract": {
+    "target": "Show:EntryTile",
+    "profile": null,
+    "prompt_sha256": "89c4336d0f631c8cc867020d9c811d2c30f8a705734c5039ef27ab32b890676e",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "89c4336d0f631c8cc867020d9c811d2c30f8a705734c5039ef27ab32b890676e",
+    "files": {
+      "style.css": "09033410c2f7cadc701ee888822c245e3d8abcc948ad0b76205398d56c5e06d7"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

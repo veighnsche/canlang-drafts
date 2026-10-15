@@ -1,33 +1,36 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "968b443f-b0b0-4e52-b82b-4e9cdb7d1608",
-  "kind": "given_trait",
-  "label": "key_text_budget",
-  "source_line": 8,
-  "profile": "shared",
-  "prompt": "Validate that the attached text field's UTF-8 encoded value occupies at most 128 bytes using a pure field check. Preserve stored spelling, existing native trim and character-length constraints, labels, permissions and canonical validation feedback. Do not truncate, normalize, repair or mutate the value; supply no operation, storage owner or authority.",
-  "target_kind": "field",
-  "target": "Entry.code and Tag.name",
-  "applications": [
-    "Entry.code",
-    "Tag.name"
-  ],
-  "export_roles": [
-    "check"
-  ],
-  "provisional_binding": {
-    "owner": "canonical schema validation",
-    "role": "pure field check",
-    "input_schema": "text",
-    "result_schema": "bool",
-    "export": "check",
-    "admission": "Existing field validation authority; exact owner descriptor remains implementation work"
+  "id": "968b443f-b0b0-4e52-b82b-4e9cdb7d1608",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "named-trait",
+    "label": "key_text_budget",
+    "anchor": "prompt_lab:trait:key_text_budget:",
+    "selector": "[\"prompt_lab\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"key_text_budget\\\"]\",\"slot:NamedTrait\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 525,
+    "end": 906
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "0fbf99639304b2e07d2b84063b8e633bf6daac65f4d46bf2d729929703b067f4",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "0fbf99639304b2e07d2b84063b8e633bf6daac65f4d46bf2d729929703b067f4",
+    "files": {
+      "contributions.can": "5fa049df54fc39aee50b088cff54309bec6349bac9c54528a1fff1bc53595a67",
+      "implementation.js": "33472c7a14f56b8bd3b0eb48e2e6a2287be80403fc56634a20255f44cdbb92ad",
+      "server.js": "33472c7a14f56b8bd3b0eb48e2e6a2287be80403fc56634a20255f44cdbb92ad",
+      "source-behavior.can.txt": "fa913cd75b1a6794c07929a70df09d375c82b2cb2ad818030e5b078ac041db07"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
   }
 }

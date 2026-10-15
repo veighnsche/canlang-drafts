@@ -1,5 +1,9 @@
-  view EntryTile(row:Entry) $"Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup." $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
-   edit $ControlSurface
-   button action=archive_entry $ControlSurface
-   button action=restore_entry $"Show this canonical restore control clearly beside the archive evidence, retaining every admission, confirmation, feedback and focus state."
-   delete $"Keep the canonical delete control distinct and legible without changing its confirmation, permission, version or submission behavior."
+  view EntryTile(row:Entry) $"Render the complete opaque bindings.card unchanged exactly once as this view's canonical surface. Its authored title, content and standard footer actions/header menu present the admitted entry code, title, barcode, summary, rank and archive evidence using canonical captions and exact formatting. Do not extract, reorder, recreate, duplicate or restyle its fields or edit, archive, restore and delete controls. Preserve admission, withheld-field omission, validation feedback and keyboard focus. Keep notes, collection queries, paging and history at the caller; introduce no independent lookup, form implementation or mutation." $"Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus."
+   card "Catalog entry"
+    title row.title
+    text row.code,row.barcode,row.rank,row.archived,row.archived_by,row.archive_recorded_at
+    content row.summary
+    primary "Edit Catalog entry"@{nl="Bewerken"} action=Entry.update arguments={record=row}
+    secondary "Archive entry" action=archive_entry arguments={entry=row}
+    secondary "Restore entry" action=restore_entry arguments={entry=row}
+    secondary "Delete Catalog entry"@{nl="Verwijderen"} action=Entry.delete arguments={record=row}

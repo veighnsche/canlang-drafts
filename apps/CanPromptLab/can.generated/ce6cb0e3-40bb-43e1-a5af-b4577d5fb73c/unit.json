@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "ce6cb0e3-40bb-43e1-a5af-b4577d5fb73c",
-  "source_line": 109,
-  "page": null,
-  "view": null,
-  "label": "FieldSurface",
-  "style_scope": "definition",
-  "prompt": "Give the attached canonical text input or textarea a clear boundary, comfortable spacing and visible keyboard focus. Preserve labels, required/disabled states, native and generated validation feedback, exact field identity and submission behavior. Inherit the theme.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"style\",\"FieldSurface\",null]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "ce6cb0e3-40bb-43e1-a5af-b4577d5fb73c",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style",
+    "label": "FieldSurface",
+    "anchor": "prompt_lab:style:FieldSurface:",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"FieldSurface\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 8890,
+    "end": 9181
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "00c5c75aecca8874771baec9666fe63c79db041b60f37d62af896956aa8349b4",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "00c5c75aecca8874771baec9666fe63c79db041b60f37d62af896956aa8349b4",
+    "files": {
+      "style.css": "ac046648e3679bc2f7ad9fc3008b171629bb2211ee952f2cf3cb26e11c3e0147"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

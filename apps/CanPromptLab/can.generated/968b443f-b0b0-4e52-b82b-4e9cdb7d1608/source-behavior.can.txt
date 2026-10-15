@@ -1,3 +1,18 @@
   trait key_text_budget $"Validate that the attached text field's UTF-8 encoded value occupies at most 128 bytes using a pure field check. Preserve stored spelling, existing native trim and character-length constraints, labels, permissions and canonical validation feedback. Do not truncate, normalize, repair or mutate the value; supply no operation, storage owner or authority."
   Entry in Catalog { code:text trim min=1 max=100 key_text_budget label="Catalog code", title:text trim min=1 max=200, barcode:text min=13 max=13 trait $"Validate a required EAN-13 barcode as exactly thirteen ASCII digits whose final digit equals the standard alternating one/three weighted check digit of the preceding twelve. Preserve the stored text, native length constraints, field label, permissions and canonical validation feedback. Supply only a pure field-validation contribution; do not repair or coerce an invalid barcode." label="EAN-13 barcode", summary:text trim min=1 max=4000, rank:int=0 min=0 max=999 label="Display rank" } archive_evidence label="Catalog entry"
   Tag { name:text trim min=1 max=100 key_text_budget, description:text trim min=1 max=1000, rank:int=0 min=0 max=999 label="Display rank" } archive_evidence label="Catalog tag"
+  scenario add_tag(name:text,description:text) by=curator -> Tag label="Add tag"
+   do
+    create Tag {name,description} as tag
+    return tag
+   examples seed=[tag,accented_tag] description="A useful category"
+    as,name -> result.name
+    editor,"Ｒeference" -> error(conflict)
+    editor,"REFERENCE" -> error(conflict)
+    editor,"New" -> "New"
+    editor,"É" -> error(conflict)
+    editor,"é" -> "é"
+    editor,"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"  éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé  " -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> error(validation)
+    members,"New" -> error(forbidden)

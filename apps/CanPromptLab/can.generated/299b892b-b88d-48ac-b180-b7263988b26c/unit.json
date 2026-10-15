@@ -1,40 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "299b892b-b88d-48ac-b180-b7263988b26c",
-  "kind": "then_view",
-  "label": "TagTile",
-  "source_line": 116,
-  "profile": "frontend",
-  "prompt": "Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation.",
-  "target": "view TagTile(row:Tag)",
-  "row_model": "Tag",
-  "export_roles": [
-    "render"
-  ],
-  "checked_controls": [
-    "edit",
-    "button action=archive_tag",
-    "button action=restore_tag",
-    "delete"
-  ],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields",
-    "control"
-  ],
-  "provisional_binding": {
-    "export": "render",
-    "input": "admitted row and checked declared canonical controls",
-    "result": "canonical presentation nodes"
+  "id": "299b892b-b88d-48ac-b180-b7263988b26c",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "view",
+    "label": "TagTile",
+    "anchor": "prompt_lab:view:TagTile:Tag",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"View\\\",\\\"TagTile\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 10771,
+    "end": 11853
   },
-  "definition_style_prompt": null,
-  "definition_style_name": "Workspace"
+  "contract": {
+    "target": "Tag",
+    "profile": null,
+    "prompt_sha256": "8c53c1eec793126f0a0082dd10121fcea01f53b694e221c5794f75650aad235e",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "76192cb339f4509fb37a2d1962254b570724f6108bfdb50afd1ea9b44d1bc98f",
+    "files": {
+      "implementation.js": "0173ae21916fec7314b1db7002bc8c10cbf6eedcf30fadf2e0daaa07f1af9d87",
+      "server.js": "0173ae21916fec7314b1db7002bc8c10cbf6eedcf30fadf2e0daaa07f1af9d87",
+      "source-behavior.can.txt": "ebf78cc50879b2f0a819ec01682d2ba43580682f194c1ebc94d66e1ec4ff0364"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

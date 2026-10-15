@@ -2,11 +2,13 @@
    do
     create Entry {parent=catalog,code,title,barcode,summary} as entry
     return entry
-   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
-    as,code,barcode -> result.code
-    editor,"Alice","4006381333931" -> error(unique)
-    editor,"ALICE","4006381333931" -> error(unique)
-    editor,"Carol","4006381333931" -> "Carol"
-    editor,"Carol","4006381333932" -> error(validation)
-    editor,"Carol","４006381333931" -> error(validation)
-    members,"Carol","4006381333931" -> error(forbidden)
+   examples seed=[alice] title="New item" summary="A short description"
+    as,catalog,code,barcode -> result.code
+    editor,catalog,"Alice","4006381333931" -> error(conflict)
+    editor,catalog,"ALICE","4006381333931" -> error(conflict)
+    editor,catalog,"Carol","4006381333931" -> "Carol"
+    editor,catalog,"Bob","4006381333931" -> "Bob"
+    editor,other_catalog,"Alice","4006381333931" -> "Alice"
+    editor,catalog,"Carol","4006381333932" -> error(validation)
+    editor,catalog,"Carol","４006381333931" -> error(validation)
+    members,catalog,"Carol","4006381333931" -> error(forbidden)

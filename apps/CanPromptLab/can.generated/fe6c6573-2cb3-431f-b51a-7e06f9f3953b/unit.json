@@ -1,32 +1,36 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "fe6c6573-2cb3-431f-b51a-7e06f9f3953b",
-  "kind": "given_trait",
-  "label": null,
-  "source_line": 11,
-  "profile": "shared",
-  "prompt": "Validate a required EAN-13 barcode as exactly thirteen ASCII digits whose final digit equals the standard alternating one/three weighted check digit of the preceding twelve. Preserve the stored text, native length constraints, field label, permissions and canonical validation feedback. Supply only a pure field-validation contribution; do not repair or coerce an invalid barcode.",
-  "target_kind": "field",
-  "target": "Entry.barcode",
-  "applications": [
-    "Entry.barcode"
-  ],
-  "export_roles": [
-    "check"
-  ],
-  "provisional_binding": {
-    "owner": "canonical schema validation",
-    "role": "pure field check",
-    "input_schema": "text",
-    "result_schema": "bool",
-    "export": "check",
-    "admission": "Existing field validation authority; exact owner descriptor remains implementation work"
+  "id": "fe6c6573-2cb3-431f-b51a-7e06f9f3953b",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "inline-trait",
+    "label": "Entry.barcode",
+    "anchor": "prompt_lab:inline-trait:Entry.barcode:Entry.barcode",
+    "selector": "[\"prompt_lab\",\"Section:Given\",\"[\\\"Model\\\",\\\"Entry\\\"]\",\"[\\\"Field\\\",\\\"barcode\\\"]\",\"slot:InlineTrait\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 1652,
+    "end": 2042
+  },
+  "contract": {
+    "target": "Entry.barcode",
+    "profile": null,
+    "prompt_sha256": "657559efb1bdead7ba58a79761ab33f24ba15215f39cfa51b843816cd5bb1c89",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "657559efb1bdead7ba58a79761ab33f24ba15215f39cfa51b843816cd5bb1c89",
+    "files": {
+      "contributions.can": "6da9ac4014b31af4d98d2f753d82f085ea186128adcf808250ceba7bc3a51fba",
+      "implementation.js": "38c1b52b66a54ccb49b06d0225704d65a0c317484da8c193ddbbf47c98b2cc47",
+      "server.js": "38c1b52b66a54ccb49b06d0225704d65a0c317484da8c193ddbbf47c98b2cc47",
+      "source-behavior.can.txt": "9d505b8e974b5bb86668c2673e1acd5caa6ecb92ef877215c3d0f2d3d9fb0d86"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
   }
 }

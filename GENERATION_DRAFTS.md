@@ -1,6 +1,14 @@
 # Prompt-based generation drafts
 
-This is a source/design rehearsal of the accepted [build-generation contract](../design/proposals/build-generation/implementation-contract.md). No build-time coding CLI/model ran for these drafts. All saved output is handwritten and provisional; source examples are expected behavior, not executed runtime results. Muse implements the feature in a separate checkout.
+PromptLab adoption update (15 October 2026): its 17 live groups are adopted and
+all 30 source examples pass against the installed runtime, with three obsolete styles preserved
+under `apps/CanPromptLab/legacy.saved/`. Its current executable modules use checked
+field validation and opaque canonical cards. See the [app companion](apps/CanPromptLab/CanPromptLab.md)
+for actual acceptance status. The original 100-unit inventory and direct algorithm
+checks below describe the earlier handwritten snapshot; they do not qualify the
+other apps or make historical files eligible for training.
+
+The original inventory is a source/design rehearsal of the accepted [build-generation contract](../design/proposals/build-generation/implementation-contract.md). No build-time coding CLI/model ran for these drafts. Saved output began as handwritten provisional witnesses. PromptLab's explicit adoption and executed source rows are the scoped exception described above; other source examples remain expected behavior without runtime acceptance.
 
 ## Layout
 
@@ -41,32 +49,38 @@ One folder contains each Can* companion group. Existing app/package/uses/use dec
 
 Traits attach behavior to a model/field. Custom keywords define new standalone Given statements; a named trait is not a keyword. There are **no inline keyword prompts** or prompted keyword applications. Built-in policy/unique/invariant/lock declarations remain ordinary Can, as do all When/scenario/handler bodies; `$"..."` is invalid as a do body.
 
-CanPromptLab's computed-key keyword supplies genuinely new implicit behavior: NFKC normalization plus ASCII-only lowercase uniqueness, while preserving stored spelling. Its pure function returns a key; canonical State owns scope, claims, old/final state, swaps, deletion, rollback, replay and collision-checked schema activation. This is a desired owner integration, not a claimed working runtime. The named field trait checks UTF-8 byte length; the inline field trait checks EAN-13 digits/checksum. Basic trim/length/default/bounds remain native, including both rank declarations. Earlier six trait units remain narrow composition sketches; they do not qualify the novel keyword requirement.
+CanPromptLab's computed-key keyword supplies NFKC normalization plus ASCII-only lowercase uniqueness, while preserving stored spelling. Its pure function returns a key; canonical State owns scope, claims, old/final state, swaps, deletion, rollback, replay and collision-checked schema activation. The source rows now execute the scoped uniqueness, swap and rejection cases; broader application replay/activation acceptance remains separately recorded in its companion. The named field trait checks UTF-8 byte length; the inline field trait checks EAN-13 digits/checksum. Basic trim/length/default/bounds remain native, including both rank declarations. Earlier six trait units remain narrow composition sketches; they do not qualify the novel keyword requirement.
 
 ## Named reuse and component attachments
 
-The `style` keyword only names a reusable prompt: a top-level `style Name $"..."` declaration, with no body and no other `style` statement anywhere. Every rendered component instead carries its own style directly as a single `$Name` or `$"..."` suffix, including page/card/form/input, canonical controls and custom show instances. Named uses share the saved definition and create no extra generation unit. Keep one-off styles on their component; names express reuse rather than retry targeting. Nonvisual guards/data declarations have no style suffix. A view is a component too: its header's first `$"..."` generates rendering, and an optional second suffix on that same header (`$"..."` or `$Name`) styles the renderer root; a prompted view's children are only its canonical controls, each with its own suffix.
+The `style` keyword only names a reusable prompt: a top-level `style Name $"..."` declaration, with no body and no other `style` statement anywhere. Every rendered component instead carries its own style directly as a single `$Name` or `$"..."` suffix, including page/card/form/input, canonical controls and custom show instances. Named uses share the saved definition and create no extra generation unit. Keep one-off styles on their component; names express reuse rather than retry targeting. Nonvisual guards/data declarations have no style suffix. A view is a component too: its header's first `$"..."` generates rendering, and an optional second suffix on that same header (`$"..."` or `$Name`) styles the renderer root. Direct children follow the finite generated-view contract: canonical cards and controls, text/content/history bindings, and whole-view require guards. Each binding remains complete and opaque. PromptLab uses one source-authored card per view and returns it unchanged exactly once.
+
+Using PromptLab's existing Tag model and CRUD declarations, this presentation excerpt shows the current card contract:
 
 ```can
 Then
- style TaskField $"Comfortable labeled fields with clear validation and focus."
+ style FieldSurface $"Comfortable labeled fields with clear validation and focus."
  style Workspace $"Readable task content; stack on narrow screens."
- view TaskTile(row:Task) $"Arrange admitted fields and declared controls." $"Compact readable task details with visible keyboard focus."
-  edit
-  button action=complete $"Make completion easy to find; preserve canonical states."
- page /tasks title="Tasks" $Workspace
+ view TagTile(row:Tag) $"Return the complete opaque bindings.card unchanged exactly once." $"Compact readable tag details with visible keyboard focus."
+  card "Catalog tag"
+   title row.name
+   text row.rank
+   content row.description
+   primary "Edit tag" action=Tag.update arguments={record=row}
+ page /tags title="Tags" $Workspace
   require members
-  card "Quick task entry" $"Keep intake compact and responsive."
-   form Task.create
-    input title $TaskField
-    input due $TaskField
-  list Task
-   show TaskTile {row=row} $"Give the custom view host some vertical space."
+  card "New tag" $"Keep intake compact and responsive."
+   form Tag.create
+    input name $FieldSurface
+    textarea description $FieldSurface
+    input rank
+  list Tag
+   show TagTile {row=row} $"Give the custom view host some vertical space."
 ```
 
-All 49 prior apps now attach styles to their 119 page headers rather than wrapping page content in child style blocks. Page guard/control ordering, business declarations, localization and examples stay intact. The new showcase adds three pages. Across 50 apps there are **100 handwritten units: 79 styles, ten traits, one keyword and ten views**. Forty-two named style definitions plus 37 inline styles serve the source; **119 named style applications** reuse definitions without copied output. CanPromptLab contributes 20 units; CanDo adds four styles for its fields, card, control and custom view host. Original CSS and legacy JavaScript witnesses are preserved.
+In the original handwritten inventory, the 49 prior apps attach styles to their 119 page headers rather than wrapping page content in child style blocks. Page guard/control ordering, business declarations, localization and examples stay intact. The showcase adds three pages. That historical 50-app inventory contains **100 handwritten units: 79 styles, ten traits, one keyword and ten views**. Forty-two named style definitions plus 37 inline styles serve the source; **119 named style applications** reuse definitions without copied output. CanPromptLab originally contributes 20 units (17 are now live and three preserved as obsolete); CanDo adds four styles for its fields, card, control and custom view host. Original CSS and legacy JavaScript witnesses are preserved.
 
-Generated CSS must respect nearest style ownership and the canonical component contracts. Caller show-host styling controls placement, size and inheritance, while child view styles own its interior. Handwritten `:scope` starters are desired scoped CSS, not proof of the compiler's ownership lowering or browser appearance. Views receive admitted stored rows and declared canonical controls; queries, paging, history, permission checks and mutation wiring stay with their canonical owners.
+Generated CSS must respect nearest style ownership and the canonical component contracts. Caller show-host styling controls placement, size and inheritance, while child view styles own its interior. Handwritten `:scope` starters are desired scoped CSS, not proof of the compiler's ownership lowering or browser appearance. Views receive admitted stored rows and complete canonical bindings. PromptLab keeps queries, paging and history at the caller; permission checks and mutation wiring remain with their canonical owners.
 
 ## Build controls represented by the drafts
 
@@ -79,9 +93,9 @@ Build-time coding agents submit CSS/JS/code content through the custom Can MCP s
 ## Organizer
 
 ```sh
-python3tools/organize.py
-python3tools/organize.py --apply
-python3tools/organize.py --apply --scaffold-styles
+python3 tools/organize.py
+python3 tools/organize.py --apply
+python3 tools/organize.py --apply --scaffold-styles
 ```
 
 Dry run is default. Flat Can* companions move into `apps/<stem>/` through exclusive destination creation; conflicts and symlinks refuse. Style discovery handles named definitions, component suffixes (including a view header's root-style suffix) and same-owner cross-file reuse. It creates only missing CSS/records and never overwrites edited files. Named uses create no files. Unknown names, malformed/nonvisual carriers, any non-definition `style` statement (inline leaf or wrapper) and ambiguous structural keys refuse before writes.

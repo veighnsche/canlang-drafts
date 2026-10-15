@@ -1,4 +1,3 @@
-## Handwritten partial contributions attached to the original owners.
-## These envelopes do not redeclare ownership, policy, CRUD or invariants.
-Entry { archived:bool=false label="Archived", archived_by:user? label="Archived by", archive_recorded_at:datetime? label="Archive time" }
-Tag { archived:bool=false label="Archived", archived_by:user? label="Archived by", archive_recorded_at:datetime? label="Archive time" }
+app CanPromptLab
+Given
+ archive_evidence {archived:bool=false label="Archived", archived_by:user?=null label="Archived by", archive_recorded_at:datetime?=null label="Archive time"}

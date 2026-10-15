@@ -1,25 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "514c292f-e6f5-4ea4-ab59-393ca07c0ef1",
-  "source_line": 129,
-  "page": "/catalogs",
-  "view": null,
-  "component_path": [
-    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
-    "card \"Catalog entries\""
-  ],
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Keep the selected catalog heading, entry intake and collection easy to scan; stack on narrow screens and preserve canonical controls and feedback.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\"]]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "514c292f-e6f5-4ea4-ab59-393ca07c0ef1",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style-inline",
+    "label": "Card",
+    "anchor": "prompt_lab:style-inline:Card:Card",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"catalogs\\\"]]]]]\",\"[\\\"Collection\\\",[[\\\"Name\\\",\\\"list\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"Catalog\\\"]]]]]\",\"[\\\"Card\\\",[[\\\"Name\\\",\\\"card\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Catalog entries\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 12169,
+    "end": 12319
+  },
+  "contract": {
+    "target": "Card",
+    "profile": null,
+    "prompt_sha256": "c1c9a3108bb5a7c90c6f287e2c184b24a5e94b55aff32dc81f81ebeeebf4beba",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c1c9a3108bb5a7c90c6f287e2c184b24a5e94b55aff32dc81f81ebeeebf4beba",
+    "files": {
+      "style.css": "09033410c2f7cadc701ee888822c245e3d8abcc948ad0b76205398d56c5e06d7"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

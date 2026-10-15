@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "2176e06f-ce36-471c-b615-46964907e8e2",
-  "source_line": 111,
-  "page": null,
-  "view": "EntryTile",
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"view\",\"EntryTile\",null]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "2176e06f-ce36-471c-b615-46964907e8e2",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "view-style-inline",
+    "label": "EntryTile",
+    "anchor": "prompt_lab:view-style-inline:EntryTile:EntryTile",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"View\\\",\\\"EntryTile\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 10111,
+    "end": 10274
+  },
+  "contract": {
+    "target": "EntryTile",
+    "profile": null,
+    "prompt_sha256": "c5f2bdfe9daab7a104b6ebd727400e57a823324dc6672b1ec5b65819512412a7",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c5f2bdfe9daab7a104b6ebd727400e57a823324dc6672b1ec5b65819512412a7",
+    "files": {
+      "style.css": "09033410c2f7cadc701ee888822c245e3d8abcc948ad0b76205398d56c5e06d7"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

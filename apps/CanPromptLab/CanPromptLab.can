@@ -17,16 +17,17 @@ package prompt_lab
   policy Entry read=members
   policy Tag read=members
   policy Note read=members
-  lock Entry fields=archived,archived_by,archive_recorded_at
-  lock Tag fields=archived,archived_by,archive_recorded_at
-  lock Note fields=author
+  ## CRUD field lists exclude archive evidence; scenarios own its transitions.
+  ## Note.author is server-owned and absent from its CRUD update field list.
   invariant Entry: (not row.archived and row.archived_by==null and row.archive_recorded_at==null) or (row.archived and row.archived_by!=null and row.archive_recorded_at!=null)
   invariant Tag: (not row.archived and row.archived_by==null and row.archive_recorded_at==null) or (row.archived and row.archived_by!=null and row.archive_recorded_at!=null)
   fixture editor=user {roles=[curator]}
   fixture catalog=Catalog {name="Reading room"}
+  fixture other_catalog=Catalog {name="Workshop"}
   fixture alice=Entry {parent=catalog,code="Ａlice",title="Desk lamp",barcode="4006381333931",summary="Warm reading light",rank=1}
   fixture bob=Entry {parent=catalog,code="Bob",title="Notebook",barcode="9780306406157",summary="Reference notes",rank=2}
   fixture tag=Tag {name="Reference",description="Useful background material"}
+  fixture accented_tag=Tag {name="É",description="Uppercase accented key"}
   fixture note=Note {parent=alice,body="Keep the original barcode label",author=editor}
  When
   crud Catalog by=curator fields=name delete=none
@@ -37,10 +38,10 @@ package prompt_lab
    require not entry.archived
    do set entry {archived=true,archived_by=actor,archive_recorded_at=now}
    examples entry=alice
-    as,entry.archived -> entry.archived,entry.archived_by,entry.archive_recorded_at
-    editor,false -> true,self,now
-    editor,true -> error(rule_failed)
-    members,false -> error(forbidden)
+    as,entry.archived,entry.archived_by,entry.archive_recorded_at -> entry.archived,entry.archived_by,entry.archive_recorded_at
+    editor,false,null,null -> true,editor,now
+    editor,true,editor,now -> error(rule_failed)
+    members,false,null,null -> error(forbidden)
   scenario restore_entry(entry:Entry) by=curator label="Restore entry"
    require entry.archived
    do set entry {archived=false,archived_by=null,archive_recorded_at=null}
@@ -53,7 +54,7 @@ package prompt_lab
    do set tag {archived=true,archived_by=actor,archive_recorded_at=now}
    examples tag=tag
     as,tag.archived -> tag.archived,tag.archived_by
-    editor,false -> true,self
+    editor,false -> true,editor
     members,false -> error(forbidden)
   scenario restore_tag(tag:Tag) by=curator label="Restore tag"
    require tag.archived
@@ -66,32 +67,39 @@ package prompt_lab
     set first {code=second.code}
     set second {code=previous}
    examples first=alice second=bob
-    as,first.archived,second.archived -> first.code,second.code
-    editor,false,false -> "Bob","Ａlice"
-    editor,false,true -> error(rule_failed)
-    members,false,false -> error(forbidden)
+    as,first.archived,second.archived,second.archived_by,second.archive_recorded_at -> first.code,second.code
+    editor,false,false,null,null -> "Bob","Ａlice"
+    editor,false,true,editor,now -> error(rule_failed)
+    members,false,false,null,null -> error(forbidden)
   ## Independent authored cases for the novel computed-key and checksum behavior.
   scenario add_entry(catalog:Catalog,code:text,title:text,barcode:text,summary:text) by=curator -> Entry label="Add checked entry"
    do
     create Entry {parent=catalog,code,title,barcode,summary} as entry
     return entry
-   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
-    as,code,barcode -> result.code
-    editor,"Alice","4006381333931" -> error(unique)
-    editor,"ALICE","4006381333931" -> error(unique)
-    editor,"Carol","4006381333931" -> "Carol"
-    editor,"Carol","4006381333932" -> error(validation)
-    editor,"Carol","４006381333931" -> error(validation)
-    members,"Carol","4006381333931" -> error(forbidden)
+   examples seed=[alice] title="New item" summary="A short description"
+    as,catalog,code,barcode -> result.code
+    editor,catalog,"Alice","4006381333931" -> error(conflict)
+    editor,catalog,"ALICE","4006381333931" -> error(conflict)
+    editor,catalog,"Carol","4006381333931" -> "Carol"
+    editor,catalog,"Bob","4006381333931" -> "Bob"
+    editor,other_catalog,"Alice","4006381333931" -> "Alice"
+    editor,catalog,"Carol","4006381333932" -> error(validation)
+    editor,catalog,"Carol","４006381333931" -> error(validation)
+    members,catalog,"Carol","4006381333931" -> error(forbidden)
   scenario add_tag(name:text,description:text) by=curator -> Tag label="Add tag"
    do
     create Tag {name,description} as tag
     return tag
-   examples seed=[tag] description="A useful category"
+   examples seed=[tag,accented_tag] description="A useful category"
     as,name -> result.name
-    editor,"Ｒeference" -> error(unique)
-    editor,"REFERENCE" -> error(unique)
+    editor,"Ｒeference" -> error(conflict)
+    editor,"REFERENCE" -> error(conflict)
     editor,"New" -> "New"
+    editor,"É" -> error(conflict)
+    editor,"é" -> "é"
+    editor,"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"  éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé  " -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> error(validation)
     members,"New" -> error(forbidden)
   ## A post-write guard failure rolls back both the value and computed key.
   scenario change_code_if(entry:Entry,code:text,accept:bool) by=curator label="Change code with final approval"

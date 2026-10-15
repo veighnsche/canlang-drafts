@@ -8,32 +8,39 @@
     set first {code=second.code}
     set second {code=previous}
    examples first=alice second=bob
-    as,first.archived,second.archived -> first.code,second.code
-    editor,false,false -> "Bob","Ａlice"
-    editor,false,true -> error(rule_failed)
-    members,false,false -> error(forbidden)
+    as,first.archived,second.archived,second.archived_by,second.archive_recorded_at -> first.code,second.code
+    editor,false,false,null,null -> "Bob","Ａlice"
+    editor,false,true,editor,now -> error(rule_failed)
+    members,false,false,null,null -> error(forbidden)
   ## Independent authored cases for the novel computed-key and checksum behavior.
   scenario add_entry(catalog:Catalog,code:text,title:text,barcode:text,summary:text) by=curator -> Entry label="Add checked entry"
    do
     create Entry {parent=catalog,code,title,barcode,summary} as entry
     return entry
-   examples seed=[alice] catalog=catalog title="New item" summary="A short description"
-    as,code,barcode -> result.code
-    editor,"Alice","4006381333931" -> error(unique)
-    editor,"ALICE","4006381333931" -> error(unique)
-    editor,"Carol","4006381333931" -> "Carol"
-    editor,"Carol","4006381333932" -> error(validation)
-    editor,"Carol","４006381333931" -> error(validation)
-    members,"Carol","4006381333931" -> error(forbidden)
+   examples seed=[alice] title="New item" summary="A short description"
+    as,catalog,code,barcode -> result.code
+    editor,catalog,"Alice","4006381333931" -> error(conflict)
+    editor,catalog,"ALICE","4006381333931" -> error(conflict)
+    editor,catalog,"Carol","4006381333931" -> "Carol"
+    editor,catalog,"Bob","4006381333931" -> "Bob"
+    editor,other_catalog,"Alice","4006381333931" -> "Alice"
+    editor,catalog,"Carol","4006381333932" -> error(validation)
+    editor,catalog,"Carol","４006381333931" -> error(validation)
+    members,catalog,"Carol","4006381333931" -> error(forbidden)
   scenario add_tag(name:text,description:text) by=curator -> Tag label="Add tag"
    do
     create Tag {name,description} as tag
     return tag
-   examples seed=[tag] description="A useful category"
+   examples seed=[tag,accented_tag] description="A useful category"
     as,name -> result.name
-    editor,"Ｒeference" -> error(unique)
-    editor,"REFERENCE" -> error(unique)
+    editor,"Ｒeference" -> error(conflict)
+    editor,"REFERENCE" -> error(conflict)
     editor,"New" -> "New"
+    editor,"É" -> error(conflict)
+    editor,"é" -> "é"
+    editor,"éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"  éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé  " -> "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    editor,"ééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé" -> error(validation)
     members,"New" -> error(forbidden)
   ## A post-write guard failure rolls back both the value and computed key.
   scenario change_code_if(entry:Entry,code:text,accept:bool) by=curator label="Change code with final approval"

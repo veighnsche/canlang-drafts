@@ -1,40 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "bfcf7560-a72e-413f-af2a-a0d05669a38c",
-  "kind": "then_view",
-  "label": "EntryTile",
-  "source_line": 111,
-  "profile": "frontend",
-  "prompt": "Present the admitted code, title, barcode, summary, rank and archive evidence with canonical captions, exact formatting and withheld-field omission. Arrange only the declared canonical edit, archive, restore and delete controls. Keep notes, collection queries, paging and history at their caller; do not introduce a form implementation, mutation or independent lookup.",
-  "target": "view EntryTile(row:Entry)",
-  "row_model": "Entry",
-  "export_roles": [
-    "render"
-  ],
-  "checked_controls": [
-    "edit",
-    "button action=archive_entry",
-    "button action=restore_entry",
-    "delete"
-  ],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields",
-    "control"
-  ],
-  "provisional_binding": {
-    "export": "render",
-    "input": "admitted row and checked declared canonical controls",
-    "result": "canonical presentation nodes"
+  "id": "bfcf7560-a72e-413f-af2a-a0d05669a38c",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "view",
+    "label": "EntryTile",
+    "anchor": "prompt_lab:view:EntryTile:Entry",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"View\\\",\\\"EntryTile\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 9452,
+    "end": 10771
   },
-  "definition_style_prompt": "Keep entry identity and barcode readable, wrap summaries naturally, and separate canonical actions with modest gaps. Inherit theme and preserve keyboard focus.",
-  "definition_style_name": null
+  "contract": {
+    "target": "Entry",
+    "profile": null,
+    "prompt_sha256": "3611d0acb9bfe5fd9370eaf5e6973abc7fd1c2a4d1dad583bbe81fe4e4e49995",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "8b076a65c0ef3aa36bae3e70b7ea6fe1c1fbff0c1193f64aab4c891ceec8325a",
+    "files": {
+      "implementation.js": "f765e810e22eff88194b6bd8ae051792f016f95583728ea0790dba4bc16dc3a4",
+      "server.js": "f765e810e22eff88194b6bd8ae051792f016f95583728ea0790dba4bc16dc3a4",
+      "source-behavior.can.txt": "ca9fc683e5753a530061ea8ab900ee1334f377b368c0e15c0541e09e383ad63b"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

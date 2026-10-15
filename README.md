@@ -1,5 +1,10 @@
 # Application drafts
 
+[CanPromptLab](apps/CanPromptLab/CanPromptLab.md) is undergoing explicit saved-output
+adoption and compiler/runtime/browser qualification in the parent repository.
+Its current acceptance status is recorded in that companion; historical draft
+claims and counts below do not establish executable or training readiness.
+
 This is the independent [canlang-drafts](https://github.com/veighnsche/canlang-drafts) repository, mounted at `draft/` in [Canlang](https://github.com/veighnsche/canlang). Commit and push draft changes here first, then update the submodule commit in Canlang when those changes should be adopted.
 
 The repository preserves all 106 draft-history commits reachable from Canlang commit [`52ed896`](https://github.com/veighnsche/canlang/commit/52ed8965b147604f2040158d9b82ad80967f383d), extracted with `git subtree split --prefix=draft`. Authors, committers, dates, messages and draft snapshots are preserved; commit IDs changed because `draft/` contents now live at the repository root. Canlang retains its original history. The extraction ends at `e022bee4743bc9379e498cc2af3038ee3df3c379`; this repository's later commits make the standalone documentation usable.

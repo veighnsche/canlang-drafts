@@ -1,5 +1,9 @@
-  view TagTile(row:Tag) $"Present only the admitted tag name, description, rank and archive evidence with canonical formatting and captions. Arrange the declared canonical edit, archive, restore and delete controls. Keep queries and paging at the caller and perform no independent lookup, form wiring or mutation." $Workspace
-   edit
-   button action=archive_tag
-   button action=restore_tag
-   delete
+  view TagTile(row:Tag) $"Render the complete opaque bindings.card unchanged exactly once as this view's canonical surface. Its authored title, content and standard footer actions/header menu present the admitted tag name, description, rank and archive evidence using canonical captions and exact formatting. Do not extract, reorder, recreate, duplicate or restyle its fields or edit, archive, restore and delete controls. Preserve admission, withheld-field omission, validation feedback and keyboard focus. Keep queries and paging at the caller; introduce no independent lookup, form implementation or mutation." $Workspace
+   card "Catalog tag"
+    title row.name
+    text row.rank,row.archived,row.archived_by,row.archive_recorded_at
+    content row.description
+    primary "Edit Catalog tag"@{nl="Bewerken"} action=Tag.update arguments={record=row}
+    secondary "Archive tag" action=archive_tag arguments={tag=row}
+    secondary "Restore tag" action=restore_tag arguments={tag=row}
+    secondary "Delete Catalog tag"@{nl="Verwijderen"} action=Tag.delete arguments={record=row}

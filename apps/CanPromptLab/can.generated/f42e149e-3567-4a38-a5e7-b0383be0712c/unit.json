@@ -1,27 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "prompt_lab",
-  "source": "apps/CanPromptLab/CanPromptLab.can",
-  "interface_status": "Provisional handwritten interface; no compiler, runtime or browser execution claimed",
-  "unit_id": "f42e149e-3567-4a38-a5e7-b0383be0712c",
-  "source_line": 135,
-  "page": "/catalogs",
-  "view": null,
-  "component_path": [
-    "list Catalog columns=name order=name empty=\"No catalogs yet.\"",
-    "card \"Catalog entries\"",
-    "form Entry.create",
-    "input barcode"
-  ],
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Make the canonical EAN-13 input readable with a monospaced value and visible validation feedback; do not normalize or repair entered digits.",
-  "profile": "frontend",
-  "draft_source_key": "[\"prompt_lab\",\"page\",\"/catalogs\",[\"list Catalog columns=name order=name empty=\\\"No catalogs yet.\\\"\",\"card \\\"Catalog entries\\\"\",\"form Entry.create\",\"input barcode\"]]",
-  "kind": "style",
-  "target": "browser-css"
+  "id": "f42e149e-3567-4a38-a5e7-b0383be0712c",
+  "source": {
+    "owner": "prompt_lab",
+    "kind": "style-inline",
+    "label": "CatalogItem",
+    "anchor": "prompt_lab:style-inline:CatalogItem:CatalogItem",
+    "selector": "[\"prompt_lab\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"catalogs\\\"]]]]]\",\"[\\\"Collection\\\",[[\\\"Name\\\",\\\"list\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"Catalog\\\"]]]]]\",\"[\\\"Card\\\",[[\\\"Name\\\",\\\"card\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Catalog entries\\\"]]]]]\",\"[\\\"Form\\\",[[\\\"Name\\\",\\\"primary\\\"],[\\\"MessageValue\\\",[[\\\"Literal\\\",[[\\\"String\\\",\\\"Create Catalog entry\\\"]]],[\\\"Punct\\\",\\\"@\\\"],[\\\"Punct\\\",\\\"{\\\"],[\\\"MessageVariant\\\",[[\\\"Name\\\",\\\"nl\\\"],[\\\"Punct\\\",\\\"=\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Aanmaken\\\"]]]]],[\\\"Punct\\\",\\\"}\\\"]]]]]\",\"[\\\"CatalogItem\\\",[[\\\"Name\\\",\\\"input\\\"],[\\\"NameRef\\\",[[\\\"Name\\\",\\\"barcode\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanPromptLab.can",
+    "revision": "de2d9bbb843667be97c1fa89e3784dc3ad5ad19afe4f50b70b3a06e25293cc15",
+    "start": 12583,
+    "end": 12727
+  },
+  "contract": {
+    "target": "CatalogItem",
+    "profile": null,
+    "prompt_sha256": "bd1a2082b60751e56cbab49862552949512e4f8a4407d57726f9a9e2f630341a",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "bd1a2082b60751e56cbab49862552949512e4f8a4407d57726f9a9e2f630341a",
+    "files": {
+      "style.css": "4961cd1ed0bdbf9f516c9f2c0578cbbb617379c0688e5e5d5ae6f277d3db7844"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }
