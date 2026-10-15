@@ -1,10 +1,2 @@
-/* Handwritten draft for ReceiptEvidence; instance hooks are provisional. */
-:scope { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem 1rem; align-items: start; padding-block: .65rem; border-block-end: 1px solid color-mix(in srgb, currentColor 16%, transparent); }
-:scope [data-can-part="source"] { grid-column: 1 / -1; font-size: .9em; overflow-wrap: anywhere; }
-:scope [data-can-part="merchant"] { min-width: 0; overflow-wrap: anywhere; }
-:scope [data-can-part="amount"] { text-align: end; font-variant-numeric: tabular-nums; }
-:scope [data-can-part="date"] { grid-column: 1 / -1; font-variant-numeric: tabular-nums; }
-@media (max-width: 36rem) {
-  :scope { grid-template-columns: minmax(0, 1fr); }
-  :scope [data-can-part="amount"] { text-align: start; }
-}
+/* Arrange the canonical source card within this view style instance. */
+:host { display: grid; gap: 0.5rem; min-width: 0; overflow-wrap: anywhere; }

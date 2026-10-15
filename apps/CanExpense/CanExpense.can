@@ -356,6 +356,8 @@ package expense label="Expenses"@{nl="Onkosten"}
  Then
   style ExpenseWorkspace $"Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged."
   view ReceiptEvidence(row:ReceiptExtract) $"Present the admitted receipt transcription source, merchant, amount and receipt date in their original order using canonical localized captions and exact text, money and date formatting. Make the source traceable and the amount easy to scan. Preserve safe omission of withheld fields and null handling. Keep the owning claim, receipt-extract query and pagination, decision and reimbursement controls, comparisons and history at the use site." $"Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions."
+   card
+    text row.source,row.merchant,row.amount,row.spent_on
   preferences { status:Expense.status? }
   # Submit your receipts and see their private decision history. @{nl="Dien je bonnen in en bekijk hun privébesluithistorie."}
   page /expenses/mine title="My expenses"@{nl="Mijn onkosten"} $ExpenseWorkspace

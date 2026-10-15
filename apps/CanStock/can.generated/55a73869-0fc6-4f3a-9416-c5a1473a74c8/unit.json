@@ -1,20 +1,33 @@
 {
-  "unit_id": "55a73869-0fc6-4f3a-9416-c5a1473a74c8",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanStock/CanStock.can",
-  "owner": "stock",
-  "page": "/stock",
-  "view": null,
-  "label": null,
-  "prompt": "Use compact consumable rows with fixed units and clear location context. Make reorder thresholds, purchase posting queues, and ledger movements easy to scan; distinguish receipts, transfers, and corrections with readable source and actor evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /stock page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 171,
-  "draft_source_key": "[\"stock\",\"page\",\"/stock\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "55a73869-0fc6-4f3a-9416-c5a1473a74c8",
+  "source": {
+    "owner": "stock",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "stock:style-inline:Page:Page",
+    "path": "CanStock.can",
+    "revision": "d7437193d855b345fcc50cd3c064ca299f52b680bd0bc58df13872e882fdb8ee",
+    "start": 15973,
+    "end": 16738,
+    "selector": "[\"stock\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"stock\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "dd2df9723803888727c2f01eebdb0af5790f65d1ea8cd9ab20186d0f350afbf3",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "b0e101f2b6a09ff7c484bf7068f547af3da8ec1e4228dfb564ffecc0b3712d24",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:36:20.826Z"
+  }
 }

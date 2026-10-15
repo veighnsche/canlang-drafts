@@ -1,0 +1,20 @@
+{
+  "unit_id": "efb5fb76-df38-445d-ad20-7d7a5635da69",
+  "kind": "style",
+  "draft": true,
+  "origin": "handwritten-script",
+  "source": "apps/CanSuccess/CanSuccess.can",
+  "owner": "success",
+  "page": "/customer-success",
+  "view": null,
+  "label": null,
+  "prompt": "Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged.",
+  "profile": "frontend",
+  "source_line": 149,
+  "draft_source_key": "[\"success\",\"page\",\"/customer-success\",null]",
+  "abi_version": 1,
+  "provider": null,
+  "model": null,
+  "target": "browser-css",
+  "style_scope": "inline"
+}

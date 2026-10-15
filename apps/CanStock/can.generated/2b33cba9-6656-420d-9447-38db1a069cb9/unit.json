@@ -1,39 +1,36 @@
 {
-  "unit_id": "2b33cba9-6656-420d-9447-38db1a069cb9",
   "abi_version": 1,
-  "kind": "given_trait",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "stock",
-  "label": "reorder_threshold",
-  "profile": "shared",
-  "source": "apps/CanStock/CanStock.can",
-  "prompt": "For an existing integer reorder threshold, preserve the exact native-integer default zero and minimum zero. Apply the same rule to item-wide and location-specific thresholds. Keep the existing caption, balance/low derivations, policies and movement history; do not reserve, purchase or adjust stock.",
-  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
-  "source_transformation": {
-    "kind": "field-declarations",
-    "declaration": "  trait reorder_threshold $\"For an existing integer reorder threshold, preserve the exact native-integer default zero and minimum zero. Apply the same rule to item-wide and location-specific thresholds. Keep the existing caption, balance/low derivations, policies and movement history; do not reserve, purchase or adjust stock.\"\n",
-    "replacements": [
-      {
-        "original": "  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int=0 min=0 label=label_Item_reorder, active:bool=true } label=\"Stock item\"@{nl=\"Voorraadartikel\"}\n",
-        "replacement": "  Item { sku:text unique label=label_StockReceipt_sku, name:text, unit:text label=label_StockReceipt_unit, reorder:int reorder_threshold label=label_Item_reorder, active:bool=true } label=\"Stock item\"@{nl=\"Voorraadartikel\"}\n"
-      },
-      {
-        "original": "  Threshold in Item { location:Location, reorder:int=0 min=0 label=label_Item_reorder } label=\"Location reorder threshold\"@{nl=\"Besteldrempel per locatie\"}\n",
-        "replacement": "  Threshold in Item { location:Location, reorder:int reorder_threshold label=label_Item_reorder } label=\"Location reorder threshold\"@{nl=\"Besteldrempel per locatie\"}\n"
-      }
-    ]
+  "id": "2b33cba9-6656-420d-9447-38db1a069cb9",
+  "source": {
+    "owner": "stock",
+    "kind": "named-trait",
+    "label": "reorder_threshold",
+    "anchor": "stock:trait:reorder_threshold:",
+    "path": "CanStock.can",
+    "revision": "d7437193d855b345fcc50cd3c064ca299f52b680bd0bc58df13872e882fdb8ee",
+    "start": 744,
+    "end": 1073,
+    "selector": "[\"stock\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"reorder_threshold\\\"]\",\"slot:NamedTrait\"]"
   },
-  "target_kind": "field",
-  "applications": [
-    "Item.reorder",
-    "Threshold.reorder"
-  ],
-  "export_roles": [
-    "defaultValue",
-    "check"
-  ],
-  "source_line": 11
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "567c85223b3f5df949f6f2732403e0a117360e428ef18b7febca0742b639bacc",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "567c85223b3f5df949f6f2732403e0a117360e428ef18b7febca0742b639bacc",
+    "files": {
+      "contributions.can": "40099e4b7e49028b1b32e4f134f45f131fc2d8c3ccfc995aa4578e61422526d8",
+      "implementation.js": "7e50e4d6fe2f6762005a0219a22f9b20cc5d97838926ad81639c710ad17e9cdd",
+      "server.js": "7e50e4d6fe2f6762005a0219a22f9b20cc5d97838926ad81639c710ad17e9cdd",
+      "source-behavior.can.txt": "e3c355d8cdc0b501947795ccdc7a0ef4bbfbbebee4820f47655a6416fe6024c3"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:36:19.809Z"
+  }
 }

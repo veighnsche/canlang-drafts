@@ -1,12 +1,12 @@
 /* Handwritten draft scaffold; refine for the owning style prompt. */
-:scope { display: block; padding: 1rem; }
-:scope :is(form, .card) { display: grid; gap: .75rem; }
-:scope :is(input, select, textarea, button) { max-width: 100%; }
-:scope table { width: 100%; border-collapse: collapse; }
-:scope :is(th, td) { padding: .5rem; text-align: start; }
-:scope :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+:host { display: block; padding: 1rem; }
+:host :is(form, .card) { display: grid; gap: .75rem; }
+:host :is(input, select, textarea, button) { max-width: 100%; }
+:host table { width: 100%; border-collapse: collapse; }
+:host :is(th, td) { padding: .5rem; text-align: start; }
+:host :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 @media (max-width: 40rem) {
-  :scope { padding: .5rem; }
-  :scope form { grid-template-columns: minmax(0, 1fr); }
-  :scope table { display: block; overflow-x: auto; }
+  :host { padding: .5rem; }
+  :host form { grid-template-columns: minmax(0, 1fr); }
+  :host table { display: block; overflow-x: auto; }
 }

@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "expense",
-  "source": "apps/CanExpense/CanExpense.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "2bf4b6bc-1c8a-4e5e-806d-562c18f0d766",
-  "kind": "style",
-  "page": null,
-  "view": "ReceiptEvidence",
-  "label": null,
-  "prompt": "Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions.",
-  "profile": "frontend",
-  "source_line": 358,
-  "draft_source_key": "[\"expense\",\"view\",\"ReceiptEvidence\",null]",
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "2bf4b6bc-1c8a-4e5e-806d-562c18f0d766",
+  "source": {
+    "owner": "expense",
+    "kind": "view-style-inline",
+    "label": "ReceiptEvidence",
+    "anchor": "expense:view-style-inline:ReceiptEvidence:ReceiptEvidence",
+    "path": "CanExpense.can",
+    "revision": "20175f121b4c800799ca8b39cd9d249cbe659492950e0de1cf22cd14ac5b76df",
+    "start": 39741,
+    "end": 40029,
+    "selector": "[\"expense\",\"Section:Then\",\"[\\\"View\\\",\\\"ReceiptEvidence\\\"]\",\"slot:ViewRootStyleInline\"]"
+  },
+  "contract": {
+    "target": "ReceiptEvidence",
+    "profile": null,
+    "prompt_sha256": "b2e22464917dd0b4a9f378670f33af471b2ebfa58b60624f325cc1e52f520144",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "b2e22464917dd0b4a9f378670f33af471b2ebfa58b60624f325cc1e52f520144",
+    "files": {
+      "style.css": "5c75f317d415b35fa29c6b97b8fad09c943cfe24b69049c77d240677fe74c96b"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:35:46.641Z"
+  }
 }

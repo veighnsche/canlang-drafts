@@ -1,39 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "expense",
-  "source": "apps/CanExpense/CanExpense.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "cd4fec34-15a8-410c-aa5f-fe27ae92ca82",
-  "kind": "then_view",
-  "label": "ReceiptEvidence",
-  "profile": "frontend",
-  "declaration_selector": "expense.ReceiptEvidence",
-  "target": "view ReceiptEvidence(row:ReceiptExtract)",
-  "prompt": "Present the admitted receipt transcription source, merchant, amount and receipt date in their original order using canonical localized captions and exact text, money and date formatting. Make the source traceable and the amount easy to scan. Preserve safe omission of withheld fields and null handling. Keep the owning claim, receipt-extract query and pagination, decision and reimbursement controls, comparisons and history at the use site.",
-  "export_roles": [
-    "render"
-  ],
-  "row_model": "ReceiptExtract",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields"
-  ],
-  "source_transformation": {
-    "kind": "row-fragment",
-    "declaration": "  view ReceiptEvidence(row:ReceiptExtract) $\"Present the admitted receipt transcription source, merchant, amount and receipt date in their original order using canonical localized captions and exact text, money and date formatting. Make the source traceable and the amount easy to scan. Preserve safe omission of withheld fields and null handling. Keep the owning claim, receipt-extract query and pagination, decision and reimbursement controls, comparisons and history at the use site.\" $\"Arrange receipt evidence as compact readable facts with a distinct source reference, merchant, aligned amount and receipt date. Use inherited typography and theme colors, wrap long source references and stack on narrow screens. Preserve all field formatting, ordering and permissions.\"\n",
-    "replacements": [
-      {
-        "original": "       text row.source,row.merchant,row.amount,row.spent_on\n",
-        "replacement": "       show ReceiptEvidence {row=row}\n",
-        "count": 2
-      }
-    ]
+  "id": "cd4fec34-15a8-410c-aa5f-fe27ae92ca82",
+  "source": {
+    "owner": "expense",
+    "kind": "view",
+    "label": "ReceiptEvidence",
+    "anchor": "expense:view:ReceiptEvidence:ReceiptExtract",
+    "path": "CanExpense.can",
+    "revision": "20175f121b4c800799ca8b39cd9d249cbe659492950e0de1cf22cd14ac5b76df",
+    "start": 39253,
+    "end": 40094,
+    "selector": "[\"expense\",\"Section:Then\",\"[\\\"View\\\",\\\"ReceiptEvidence\\\"]\",\"slot:ViewDefinition\"]"
   },
-  "source_line": 358
+  "contract": {
+    "target": "ReceiptExtract",
+    "profile": null,
+    "prompt_sha256": "1517acdd4421407f41c6b5eab45fee81407f38c5cf72b36bea842b38e072945d",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "1517acdd4421407f41c6b5eab45fee81407f38c5cf72b36bea842b38e072945d",
+    "files": {
+      "implementation.js": "92fd66e399f428361ce162917e1ff167da6d6c2099fca305d7ca566006bc5699",
+      "server.js": "92fd66e399f428361ce162917e1ff167da6d6c2099fca305d7ca566006bc5699",
+      "source-behavior.can.txt": "7edd633ed06f43df187904b02f124566bac58be88b02a71842c02c22be7b3b7d"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:35:45.641Z"
+  }
 }

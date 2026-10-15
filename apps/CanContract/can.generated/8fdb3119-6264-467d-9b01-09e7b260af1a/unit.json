@@ -1,20 +1,33 @@
 {
-  "unit_id": "8fdb3119-6264-467d-9b01-09e7b260af1a",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanContract/CanContract.can",
-  "owner": "agreements",
-  "page": "/agreements",
-  "view": null,
-  "label": null,
-  "prompt": "Use orderly agreement rows and readable recorded terms, prioritizing notice deadlines and open obligations. Distinguish executed terms, amendments, and reminder outcomes; give document comparisons and evidence enough space without crowding date controls. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /agreements page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 156,
-  "draft_source_key": "[\"agreements\",\"page\",\"/agreements\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "8fdb3119-6264-467d-9b01-09e7b260af1a",
+  "source": {
+    "owner": "agreements",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "agreements:style-inline:Page:Page",
+    "path": "CanContract.can",
+    "revision": "c0ce71a6c09958a17f8c7e732c7c907d9fe3b7c8febac2665ed9a46ec92e56f1",
+    "start": 15763,
+    "end": 16284,
+    "selector": "[\"agreements\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"agreements\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "7854683041ad130a8c10e3bdc32f5c6f7a097e40118c17d4dc1bb939291958f3",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "7854683041ad130a8c10e3bdc32f5c6f7a097e40118c17d4dc1bb939291958f3",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:36:04.900Z"
+  }
 }

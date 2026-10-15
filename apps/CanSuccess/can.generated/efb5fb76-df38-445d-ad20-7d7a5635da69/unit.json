@@ -1,20 +1,33 @@
 {
-  "unit_id": "efb5fb76-df38-445d-ad20-7d7a5635da69",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanSuccess/CanSuccess.can",
-  "owner": "success",
-  "page": "/customer-success",
-  "view": null,
-  "label": null,
-  "prompt": "Favor account rows, overdue follow-ups, and dated renewal context. Keep milestones and private notes readable beside source agreements or memberships; distinguish reminder delivery and task completion from actual paid terms or renewed agreements. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /customer-success page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 149,
-  "draft_source_key": "[\"success\",\"page\",\"/customer-success\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "efb5fb76-df38-445d-ad20-7d7a5635da69",
+  "source": {
+    "owner": "success",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "success:style-inline:Page:Page",
+    "path": "CanSuccess.can",
+    "revision": "ed09179218951320b60f3aa7a96184c3473c5d7390434a1f81a0bff82fc0330b",
+    "start": 14886,
+    "end": 15621,
+    "selector": "[\"success\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"customer\\\"],[\\\"Punct\\\",\\\"-\\\"],[\\\"Name\\\",\\\"success\\\"]]]]]\",\"slot:StyleInline\"]"
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "455437ffcd29af19218f05150cb05dc382237cb97423f3e45a23af891f77fa13",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "097ef27ba3f8edb2aed4d8dfcaba0b6b7d25d36119139f3fe00d982614430a4e",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:36:02.807Z"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "4f42c71c-385e-4267-8a31-a72e47a03cee",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanExpense/CanExpense.can",
-  "owner": "expense",
-  "page": null,
-  "view": null,
-  "label": "ExpenseWorkspace",
-  "prompt": "Use discreet employee claim rows and readable receipt details, with aligned currency amounts and dates. Distinguish frozen review decisions, correction comparisons, awaiting reimbursement, and accounting evidence; preserve the separation between private claims and historical records. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 357,
-  "draft_source_key": "[\"expense\",\"style\",\"ExpenseWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "4f42c71c-385e-4267-8a31-a72e47a03cee",
+  "source": {
+    "owner": "expense",
+    "kind": "style",
+    "label": "ExpenseWorkspace",
+    "anchor": "expense:style:ExpenseWorkspace:",
+    "path": "CanExpense.can",
+    "revision": "20175f121b4c800799ca8b39cd9d249cbe659492950e0de1cf22cd14ac5b76df",
+    "start": 38667,
+    "end": 39253,
+    "selector": "[\"expense\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ExpenseWorkspace\\\"]\",\"slot:StyleDefinition\"]"
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "14410cf14adcf1e49ff1aa99cf5fcbd86b21351eb82e7a53f98216671f8801ad",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "14410cf14adcf1e49ff1aa99cf5fcbd86b21351eb82e7a53f98216671f8801ad",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "adopted repaired files at 2026-10-15T00:35:44.423Z"
+  }
 }

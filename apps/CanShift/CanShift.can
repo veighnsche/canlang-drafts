@@ -262,7 +262,7 @@ package shift label="Staff scheduling"@{nl="Personeelsplanning"}
      else
       emit ReservationOutcome {value={source=previous.source,revision=previous.revision,state=confirmed,reference=previous.id}}
     else
-     let conflicts=event.roster.Commitment as item where item!=previous and item.active and item.employee==event.employee and overlaps(event.value.from-event.value.before,event.value.until+event.value.after,item.from-item.before,item.until+item.after)
+     let conflicts=event.roster.Commitment as item where item.active and item.employee==event.employee and overlaps(event.value.from-event.value.before,event.value.until+event.value.after,item.from-item.before,item.until+item.after)
      let available=any(event.roster.Availability as window,window.employee==event.employee and window.available and window.from<=event.value.from-event.value.before and event.value.until+event.value.after<=window.until) and not any(event.roster.Availability as window,window.employee==event.employee and not window.available and overlaps(event.value.from-event.value.before,event.value.until+event.value.after,window.from,window.until))
      let compatible=all(conflicts as item,item.kind==duty and not item.conflict and eligible(item) and item.location==event.location and item.from<=event.value.from and event.value.until<=item.until and event.value.kind in [visit,appointment,interview])
      if event.value.kind!=absence and (not available or not compatible or not travel_entered(event.roster,event.employee,event.location,event.value.from,event.value.until,event.value.before,event.value.after,previous))
