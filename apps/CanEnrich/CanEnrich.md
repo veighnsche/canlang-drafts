@@ -51,7 +51,7 @@ The page polls stored evidence every five seconds; it does not query either prov
 
 Nineteen table rows cover cache reuse, explicit refresh, role/disabled rejection, consented missing-data fallback, stopped/nonconsented/unknown-primary suppression, secondary-cache reuse, explicit unknown-cost consent, exact accepted evidence, stale prior decisions, provider disagreement and missing fact rejection. Two connected sequences show the four-request limit and stop preventing a later fact acceptance. Fixtures provide typed isolated receipts and source evidence; they make no network request or claim that providers ran.
 
-The JavaScript is a handwritten desired target with proposed library imports. Syntax/static correspondence and the supported subset of the existing parser are checked separately; successful parsing or `node --check` does not execute business rules, providers or examples. Associated deliveries, polling and sequence syntax are explicitly excluded from the old parser projection. The focused review record is in `design/complex-apps/enrich.md`.
+The JavaScript is a handwritten desired target with proposed library imports. Syntax/static correspondence and the supported subset of the existing parser are checked separately; successful parsing or `node --check` does not execute business rules, providers or examples. Associated deliveries, polling and sequence syntax are explicitly excluded from the old parser projection. The focused review record is in `docs/design/complex-apps/enrich.md`.
 
 ## Scope boundaries
 

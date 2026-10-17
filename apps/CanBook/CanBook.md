@@ -91,7 +91,7 @@ Focused inline examples cover active-host invalidation, exact source/revision re
 
 Inline examples cover holiday exclusion, authenticated booking, failed staged movement preserving the original, adoption only after both outcomes, unready resources, stale predecessor identity, repeated ready work, late host results, candidate-only cleanup, unchanged-time rejection and cancellation, with the admitted reminder row additionally observing its fresh pending receipt state. These are authored expectations, not executed scenario evidence. Focused source parsing of the disclosed projection checks surrounding syntax only. No generated CanBook JavaScript, runtime, reservation adapter or email implementation is supplied.
 
-The difficult staged-replacement decision and its three rewritten JEV consultations are saved in [crm-connections-reschedule-20261004](https://github.com/veighnsche/canlang/blob/main/design/jev/crm-connections-reschedule-20261004/README.md). Their probability distributions are advice; independent source inspection established why the original same-source replacement could lose the predecessor before the other authority settled. Cross-provider atomicity is not claimed.
+The difficult staged-replacement decision and its three rewritten JEV consultations are saved in [crm-connections-reschedule-20261004](https://github.com/veighnsche/canlang/blob/main/docs/design/jev/crm-connections-reschedule-20261004/README.md). Their probability distributions are advice; independent source inspection established why the original same-source replacement could lose the predecessor before the other authority settled. Cross-provider atomicity is not claimed.
 
 
 ## Record-addressed background progress

@@ -8,7 +8,7 @@ for actual acceptance status. The original 100-unit inventory and direct algorit
 checks below describe the earlier handwritten snapshot; they do not qualify the
 other apps or make historical files eligible for training.
 
-The original inventory is a source/design rehearsal of the accepted [build-generation contract](../design/proposals/build-generation/implementation-contract.md). No build-time coding CLI/model ran for these drafts. Saved output began as handwritten provisional witnesses. PromptLab's explicit adoption and executed source rows are the scoped exception described above; other source examples remain expected behavior without runtime acceptance.
+The original inventory is a source/design rehearsal of the accepted [build-generation contract](../docs/design/proposals/build-generation/implementation-contract.md). No build-time coding CLI/model ran for these drafts. Saved output began as handwritten provisional witnesses. PromptLab's explicit adoption and executed source rows are the scoped exception described above; other source examples remain expected behavior without runtime acceptance.
 
 ## Layout
 

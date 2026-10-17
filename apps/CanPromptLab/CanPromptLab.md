@@ -1,6 +1,6 @@
 # CanPromptLab
 
-A standalone private catalog demonstrating every prompt authoring carrier in the current [build-generation contract](../../../design/proposals/build-generation/implementation-contract.md). Curators create and edit catalogs, entries and tags; members read admitted records and manage their own notes. Entries and tags archive and restore through explicit attributed scenarios. Catalog deletion is disabled. Canonical child/deletion rules still apply to entry removal. Tags are an independent catalog vocabulary; this small demonstration adds no tag-assignment feature.
+A standalone private catalog demonstrating every prompt authoring carrier in the current [build-generation contract](../../../docs/design/proposals/build-generation/implementation-contract.md). Curators create and edit catalogs, entries and tags; members read admitted records and manage their own notes. Entries and tags archive and restore through explicit attributed scenarios. Catalog deletion is disabled. Canonical child/deletion rules still apply to entry removal. Tags are an independent catalog vocabulary; this small demonstration adds no tag-assignment feature.
 
 The 17 live saved groups have been explicitly adopted from the handwritten legacy
 outputs. Their records retain adopted provenance and original output hashes;
