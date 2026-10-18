@@ -1,0 +1,19 @@
+/* Handwritten draft scaffold for cafe/style-inline Page; refine for the owning style prompt via generation. */
+:host { display: block; padding: 1rem; }
+:host :is(form, .card) { display: grid; gap: .75rem; }
+:host :is(input, select, textarea, button) { max-width: 100%; }
+:host table { width: 100%; border-collapse: collapse; }
+:host :is(th, td) { padding: .5rem; text-align: start; }
+:host .cafe-rows { display: grid; gap: .5rem; }
+:host .cafe-row { display: grid; grid-template-columns: minmax(0, 2rem) minmax(0, 1fr) auto; gap: .5rem; align-items: baseline; }
+:host .cafe-row .party { font-weight: 600; }
+:host .cafe-row .timing { font-variant-numeric: tabular-nums; }
+:host :is(.cafe-waiting, .cafe-reserved, .cafe-occupied) { border-inline-start: .25rem solid currentColor; padding-inline-start: .5rem; }
+:host :is(.cafe-notice-overdue, .cafe-notice-conflict) { font-weight: 600; }
+:host :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (max-width: 40rem) {
+  :host { padding: .5rem; }
+  :host form { grid-template-columns: minmax(0, 1fr); }
+  :host .cafe-row { grid-template-columns: minmax(0, 1fr); }
+  :host table { display: block; overflow-x: auto; }
+}
