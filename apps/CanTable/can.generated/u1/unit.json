@@ -2,10 +2,11 @@
   "abi_version": 1,
   "id": "u1",
   "source": {
-    "owner": "CanTable",
+    "owner": "cafe",
     "kind": "style-inline",
     "label": "Page",
-    "anchor": "CanTable:style-inline:Page:Page",
+    "anchor": "cafe:style-inline:Page:Page",
+    "selector": "[\"cafe\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"cafe\\\"]]]]]\",\"slot:StyleInline\"]",
     "path": "CanTable.can",
     "revision": "64ae38772cc3ef2a5f2cb1318f1f35e28ae466ec93bc232d353228c3f93bc6cf",
     "start": 12729,
