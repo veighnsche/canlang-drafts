@@ -156,23 +156,6 @@ async function createEntry(page: Page, catalog: string, title: string, code = "ï
 defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
   previewRoles: { Ava: ["curator"] },
   actor: "Ava",
-  // These existing owner checks cover nonvisual outcomes; this is a declaration,
-  // not a claim that a browser journey executes or passes their native cases.
-  ownerChecks: [
-    { test: "draft/apps/CanPromptLab/CanPromptLab.can", requirements: [
-      "requirement:CanPromptLab:swap-the-two-current-entry-codes:906b5cf6f097",
-      "requirement:CanPromptLab:member-attempts-curator-create-edit-archive:da75dea5b1dc",
-    ] },
-    { test: "packages/cloudflare/src/runtime/promptlab-native-acceptance.integration.test.ts", requirements: [
-      "requirement:CanPromptLab:member-attempts-curator-create-edit-archive:da75dea5b1dc",
-      "requirement:CanPromptLab:change-code-if-writes-carol-and:d69c52a8a726",
-      "requirement:CanPromptLab:replay-a-committed-canonical-operation-with:24a52d128286",
-    ] },
-    { test: "packages/cloudflare/src/runtime/promptlab-activation-collision.integration.test.ts", requirements: [
-      "requirement:CanPromptLab:compute-and-distinct-keys-no-unicode:27c8eccc01c8",
-      "requirement:CanPromptLab:changed-key-implementation-collides-on-installed:ddadd49045e8",
-    ] },
-  ],
   references: [
     { route: "/catalogs", file: "02-catalogs-desktop.png" },
     { route: "/tags", file: "03-tags-desktop.png" },
@@ -252,20 +235,11 @@ defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
     {
       name: "curator corrects checked entry input and preserves canonical key ownership",
       covers: {
-        requirements: [
-          "requirement:CanPromptLab:create-lice-then-alice-or-alice:f8d85d42ff6e",
-          "requirement:CanPromptLab:create-bob-in-that-catalog-or:a48abbde55e0",
-          "requirement:CanPromptLab:delete-an-admitted-entry-through-canonical:bc673179b778",
-          "requirement:CanPromptLab:barcode-4006381333931-or-9780306406157-valid-4006381333932:b60539671303",
-        ],
-        operations: ["prompt_lab.Catalog.create", "prompt_lab.Catalog.update", "prompt_lab.Entry.create", "prompt_lab.Entry.update", "prompt_lab.Entry.delete", "prompt_lab.archive_entry", "prompt_lab.restore_entry"],
         states: [{ route: "/catalogs", state: "pending" }, { route: "/catalogs", state: "success" }, { route: "/catalogs", state: "expanded" }, { route: "/catalogs", state: "menu-open" }, { route: "/catalogs", state: "validation" }, { route: "/catalogs", state: "populated" }, { route: "/catalogs/archived", state: "populated" }],
       },
-      async run({ page, baseURL, capture, recordObservedState }) {
+      async run({ page, baseURL, capture }) {
         await page.goto(`${baseURL}/catalogs`, { waitUntil: "networkidle" });
         await createCatalog(page, "Browser catalog");
-        recordObservedState("/catalogs", "pending");
-        recordObservedState("/catalogs", "success");
         const editCatalog = formFor(page, "Catalog.update", catalogFor(page, "Browser catalog"));
         await openForm(editCatalog);
         await input(editCatalog, "name", true).fill("Checked catalog");
@@ -357,12 +331,9 @@ defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
     {
       name: "curator corrects tag byte budget and archives and restores committed tags",
       transportFailures: [{ operation: "prompt_lab.Tag.create", code: "net::ERR_INTERNET_DISCONNECTED" }],
-      covers: { requirements: [
-        "requirement:CanPromptLab:tag-reference-then-eference-or-reference:f42ef30e94db",
-        "requirement:CanPromptLab:entry-code-or-tag-name-contains:4f672c9d7d6a",
-      ], operations: ["prompt_lab.Tag.create", "prompt_lab.Tag.update", "prompt_lab.Tag.delete", "prompt_lab.archive_tag", "prompt_lab.restore_tag"],
+      covers: {
         states: [{ route: "/tags", state: "failure" }, { route: "/tags", state: "expanded" }, { route: "/tags", state: "pending" }, { route: "/tags", state: "success" }, { route: "/tags", state: "validation" }, { route: "/tags", state: "populated" }] },
-      async run({ page, context, baseURL, capture, recordObservedState }) {
+      async run({ page, context, baseURL, capture }) {
         await page.goto(`${baseURL}/tags`, { waitUntil: "networkidle" });
         const create = () => formFor(page, "Tag.create");
         await openForm(create());
@@ -385,11 +356,9 @@ defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
         const recovered = await submit(page, create());
         expect(recovered.ok()).toBe(true);
         expect((await recovered.json()).status).toBe("committed");
-        recordObservedState("/tags", "pending");
         await page.reload({ waitUntil: "networkidle" });
         await expect(page.getByRole("heading", { name: "Recovered tag", exact: true })).toHaveCount(1);
         await expect(viewFor(page, "Recovered tag")).toContainText("Retained through transport loss");
-        recordObservedState("/tags", "success");
         await openForm(create());
         await input(create(), "name").fill("Ã©".repeat(65));
         await input(create(), "description").fill("Keep tag description");
@@ -445,7 +414,7 @@ defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
     },
     {
       name: "ordinary member manages own notes while curator writes stay unavailable",
-      covers: { operations: ["prompt_lab.Note.create", "prompt_lab.Note.update", "prompt_lab.Note.delete"] },
+      covers: {  },
       async run({ page, context, session, baseURL }) {
         await page.goto(`${baseURL}/catalogs`, { waitUntil: "networkidle" });
         await createCatalog(page, "Member catalog");

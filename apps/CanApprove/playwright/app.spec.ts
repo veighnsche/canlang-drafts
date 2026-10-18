@@ -11,7 +11,6 @@ defineDraftAppSuite(import.meta.url, (title, body) => test(title, body), {
     {
       name: "Document intake rejects an invalid email, then persists a corrected own draft",
       covers: {
-        operations: ["approve.Document.create"],
         states: [
           { route: "/documents", state: "validation" },
           { route: "/documents", state: "success" },
