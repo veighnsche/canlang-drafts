@@ -33,3 +33,35 @@ These bodies have been authored, not browser-executed. They use the real protect
 Compiler-selected composition/prompt admission is the first runtime gate. The existing setup paragraph names the role, owning-record and deployment-resource gates: example fixtures execute in isolated stores and are not serving-preview records. Release those gates by provisioning actual source-authorized actors and creating prerequisite records through their owning operations. Then add the listed publication/approval/fulfillment/recovery, stale/revoked grants, loading/failure/pending and populated journeys with committed-data reload. A denial-only app still needs all permitted functionality. Incomplete-input rejection does not replace a successful corrected retry with real prerequisite records.
 
 Current gallery mappings exclude legacy or withdrawn concepts. Empty and denied captures are diagnostic states, not evidence that the populated concept is reproduced. Desktop captures require actual comparison review; narrow-screen functionality still requires checks even though the gallery has no mobile target. Any absent source-route concept remains a visible visual gap, not an automatically accepted baseline.
+
+## Missing journey contracts (DFE-01 mapping)
+
+The two companion requirements map to the 38 inline example rows in
+[CanTable.can](CanTable.can) for their nonvisual outcomes (see `ownerChecks`
+in [app.spec.ts](app.spec.ts)): Booking.create walk-in defaults, Table.update
+capacity/deactivation rejections, reserve interval/move/reason rows, seat
+overrun-denial and preserved-time rows, clear explicit/stale rows, and
+cancel/no-show reason rows. Populated browser execution of the contracts below
+is blocked on the DFE-02 preview gate (`PROFILE_UNSUPPORTED` before capture)
+and DFE-03 host-actor/record provisioning; nothing below invents source
+behavior beyond the companion and the source.
+
+- Journey H1 — host seats a walk-in; a later party waits on the occupied table
+  (`requirement:CanTable:staff-records-a-walk-in-selects:0ded0d0cdec7`).
+  Covers operations `cafe.Booking.create`, `cafe.reserve`, `cafe.seat`,
+  `cafe.clear`; states `/cafe` populated, dialog-open, success and validation.
+  Host creates the walk-in through Walk-in intake, reserves a suitable table
+  and interval, then records seating with an estimated end. The table stays
+  occupied past the estimate (overdue notice, no silent release); seating a
+  later party on it is refused with the conflict notice until explicit
+  clearance with a reason moves the booking to cleared.
+- Journey H2 — stale clear is rejected; cancel/no-show keeps reason and
+  history
+  (`requirement:CanTable:a-stale-device-attempts-to-clear:b24c2d4a6b9c`).
+  Covers operations `cafe.clear`, `cafe.cancel`; states `/cafe` populated,
+  success and failure. A clear submitted against a reused table/stale version
+  is rejected without changing the current party; cancelling with
+  missed true/false records cancelled/no-show with the reason retained and
+  visible history. Personal language changes retaining an unfinished walk-in
+  form is frontend-only: it has no source operation, no owner check covers
+  it, and it stays explicitly open.
