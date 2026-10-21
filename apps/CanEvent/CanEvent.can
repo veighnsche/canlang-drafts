@@ -219,8 +219,10 @@ package events
         set change.parent {published=false}
       if change.parent.pending_change==change and not change.parent.cancelled and change.base_revision==change.parent.revision
        if event.value.state==pending and change.state==holding and change.resource!=null
-        send Rooms.confirm {source=change.source,resource=change.resource.id} when=change.parent.pending_change==change and not change.parent.cancelled and change.state==confirming as delivery
-        set change {state=confirming,confirm_delivery=delivery.id,confirm_status=pending}
+        let resource=change.resource
+        set change {state=confirming}
+        send Rooms.confirm {source=change.source,resource=resource.id} when=change.parent.pending_change==change and not change.parent.cancelled and change.state==confirming as delivery
+        set change {confirm_delivery=delivery.id,confirm_status=pending}
        if event.value.state==confirmed and change.state in [holding,confirming,review]
         emit ApplyChange {change}
        if event.value.state in [unavailable,failed,unknown]
