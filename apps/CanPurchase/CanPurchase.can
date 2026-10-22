@@ -11,6 +11,7 @@ package purchase label=page_purchasing_title
  use std {OperationOutcome}
  Given
   message page_purchasing_title = "Purchasing"@{nl="Inkoop"}
+  message money_amount(amount:money) = "{amount}"@{nl="{amount}"}
   message label_Request_state = "State"@{nl="Status"}
   message label_Request_state_approved = "Approved"@{nl="Goedgekeurd"}
   message label_Request_state_cancelled = "Cancelled"@{nl="Geannuleerd"}
@@ -537,6 +538,6 @@ package purchase label=page_purchasing_title
     primary "Create Budget"@{nl="Aanmaken"} action=Budget.create
     list Budget display=split empty="No budgets recorded."@{nl="Geen budgetten vastgelegd."}
      pagination
-     stat row.total,row.committed,row.spent,row.remaining
+     stat money_amount(row.total),money_amount(row.committed),money_amount(row.spent),money_amount(row.remaining)
      primary "Edit Budget"@{nl="Bewerken"} action=Budget.update arguments={record=row}
      primary "Create Request"@{nl="Aanmaken"} action=Request.create

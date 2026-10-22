@@ -60,7 +60,7 @@ package events
   fixture incumbent=Change {parent=workshop,source="original-venue",base_revision=1,location=test_site,timezone="Europe/Brussels",from=datetime("2099-01-02T09:00:00Z"),until=datetime("2099-01-02T10:00:00Z"),capacity=1,sales_until=datetime("2099-01-02T08:00:00Z"),reason="Original confirmed venue",resource=event_room,customer=test_company,account=self,previous=null,state=adopted,venue_state=confirmed,venue_revision=2,reference="original-reservation"}
   fixture proposed=Change {parent=workshop,source="candidate",base_revision=1,location=test_site,timezone="Europe/Brussels",from=datetime("2099-01-03T09:00:00Z"),until=datetime("2099-01-03T10:00:00Z"),capacity=1,sales_until=datetime("2099-01-03T08:00:00Z"),reason="New schedule",resource=null,customer=null,account=self,previous=null}
   message notice_title(kind:Notice.kind) = "{kind,select,confirmation{Event ticket confirmed}change{Event schedule or venue changed}cancellation{Event admission cancelled}other{Event ticket update}}"@{nl="{kind,select,confirmation{Toegangsbewijs evenement bevestigd}change{Planning of locatie evenement gewijzigd}cancellation{Toegang tot evenement geannuleerd}other{Wijziging toegangsbewijs evenement}}"}
-  message notice_details(name:text,location:text,from:datetime,until:datetime,zone:timezone,reason:text,ticket:text,revision:int) = "{name} at {location}. Start: {from}; end: {until}. Event timezone: {zone}. Revision {revision}. {reason} Ticket: {ticket}."@{nl="{name} bij {location}. Begin: {from}; einde: {until}. Tijdzone evenement: {zone}. Revisie {revision}. {reason} Toegangsbewijs: {ticket}."}
+  message notice_details(name:text,location:text,from:datetime,until:datetime,zone:timezone,reason:text,ticket:text,revision:int,url:url) = "{name} at {location}. Start: {from}; end: {until}. Event timezone: {zone}. Revision {revision}. {reason} Ticket: {ticket}. {url}"@{nl="{name} bij {location}. Begin: {from}; einde: {until}. Tijdzone evenement: {zone}. Revisie {revision}. {reason} Toegangsbewijs: {ticket}. {url}"}
   message label_Event_cancelled = "Cancelled"@{nl="Geannuleerd"}
   message label_Registration_state_pending = "Pending"@{nl="In behandeling"}
  When
@@ -511,7 +511,7 @@ package events
    require event.registration.parent.revision==event.revision
    do
     let subject=format(notice_title(event.kind),locale=null)
-    let body=format("{details} {url}",{details=format(notice_details(event.registration.parent.name,event.registration.parent.location.name,event.registration.parent.from,event.registration.parent.until,event.registration.parent.timezone,event.body,event.registration.ticket,event.revision),locale=null),url=app_url("/events")})
+    let body=format(notice_details(event.registration.parent.name,event.registration.parent.location.name,event.registration.parent.from,event.registration.parent.until,event.registration.parent.timezone,event.body,event.registration.ticket,event.revision,app_url("/events")),locale=null)
     send Mail.send {to=event.registration.email,subject,body} when=event.registration.parent.revision==event.revision and (event.kind!=confirmation or (event.registration.state==confirmed and not event.registration.parent.cancelled)) as delivery
     create Notice {parent=event.registration,kind=event.kind,revision=event.revision,subject,body,delivery} as notice
    examples event={registration=free_ticket,kind=confirmation,revision=1,body="ticket"}

@@ -222,7 +222,7 @@ package field label="Service visits"@{nl="Servicebezoeken"}
        alert row.blocked_reason
       collapse "Schedule confirmation"@{nl="Planningsbevestiging"}
        require row.state==pending
-       skeleton
+       loading
       secondary "Retry scheduling"@{nl="Planning opnieuw proberen"} action=retry arguments={job=row}
       secondary "Retry schedule release"@{nl="Planningsvrijgave opnieuw proberen"} action=retry_cleanup arguments={job=row}
       primary "Reassign"@{nl="Opnieuw toewijzen"} opens=reassign_visit

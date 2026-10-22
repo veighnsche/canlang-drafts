@@ -1058,4 +1058,5 @@ package invoice label="Invoices"@{nl="Facturen"}
      fieldset
       checkbox complete
       textarea evidence
-   history
+   list Invoice as invoice where invoice.id==row.id
+    history

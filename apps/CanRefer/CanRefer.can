@@ -14,6 +14,7 @@ package refer
  use sales_attribution {Capture,capture}
  Given
   message balances_title = "Earned and paid rewards"@{nl="Verdiende en uitbetaalde beloningen"}
+  message money_amount(amount:money) = "{amount}"@{nl="{amount}"}
   message label_Program = "Referral program"@{nl="Verwijzingsprogramma"}
   message label_Credit = "Reward credit"@{nl="Beloningstegoed"}
   message label_Credit_source = "Source reference"@{nl="Bronreferentie"}
@@ -174,7 +175,7 @@ package refer
      text row.parent.destination
      badge row.code
      card balances_title
-      stat row.earned,row.paid,row.available,row.owed
+      stat money_amount(row.earned),money_amount(row.paid),money_amount(row.available),money_amount(row.owed)
      ## A positive owed balance only appears after a reversal preserved a settled payment.
      card "Owed balance"@{nl="Verschuldigd saldo"}
       require row.owed>money(0,row.parent.reward.currency)
@@ -199,7 +200,7 @@ package refer
      primary "Edit Referral program"@{nl="Bewerken"} action=Program.update arguments={record=row}
    card balances_title
     list Advocate as advocate where preferences.program==null or advocate.parent==preferences.program
-     stat row.earned,row.paid,row.available,row.owed
+     stat money_amount(row.earned),money_amount(row.paid),money_amount(row.available),money_amount(row.owed)
      table SourceEvidence as source where source.advocate==advocate columns=source,value.milestone,value.history_known,value.first_customer,reversed,reason
       pagination
       secondary "Reject source qualification"@{nl="Bronkwalificatie afwijzen"} opens=reject_dialog
