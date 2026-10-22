@@ -15,7 +15,7 @@ package appointments
   export Calendar { location:Location, host:Employee label=label_Calendar_host, timezone:timezone, duration:duration=30m, hours:text label="Opening hours"@{nl="Openingstijden"}, instructions:text, cutoff:duration=1h label="Cancellation cutoff"@{nl="Annuleringsgrens"}, active:bool=true } label="Host calendar"@{nl="Gastheerkalender"}
   export Window in Calendar { from:datetime label=label_Window_from, until:datetime label=label_Window_until, available:bool=true label="Available"@{nl="Beschikbaar"} } label="Availability window"@{nl="Beschikbaarheidsvenster"}
   export Type in Calendar { name:text, duration:duration, room:text? label="Room"@{nl="Ruimte"} } label="Appointment type"@{nl="Afspraaktype"}
-  export Appointment in Type { customer:Customer label="Customer"@{nl="Klant"}, contact:Contact label="Contact"@{nl="Contactpersoon"}, from:datetime label=label_Window_from, until:datetime label=label_Window_until, duration:duration, source:text unique label="Source reference"@{nl="Bronreferentie"}, host:user label=label_Calendar_host, state:enum(pending,confirmed,cancelled,attended,no_show,unavailable)=pending label={text="Appointment state"@{nl="Afspraakstatus"},values={pending="Pending"@{nl="In behandeling"},confirmed="Confirmed"@{nl="Bevestigd"},cancelled="Cancelled"@{nl="Geannuleerd"},attended=label_Appointment_state_attended,no_show="No show"@{nl="Niet verschenen"},unavailable="Unavailable"@{nl="Niet beschikbaar"}}}, host_ok:bool=false label="Host confirmed"@{nl="Gastheer bevestigd"}, room_ok:bool=false label="Room confirmed"@{nl="Ruimte bevestigd"}, host_delivery:text? label="Host request reference"@{nl="Referentie gastheerverzoek"}, room_delivery:text? label="Room request reference"@{nl="Referentie ruimteverzoek"}, reservation_account:user server=actor label="Reservation principal"@{nl="Reserveringsaccount"}, active_source:text label="Active reservation source"@{nl="Actieve reserveringsbron"}, room_snapshot:text? label="Frozen venue reference"@{nl="Vastgelegde ruimtereferentie"}, reason:text? } label="Appointment"@{nl="Afspraak"}
+  export Appointment in Type { customer:Customer label="Customer"@{nl="Klant"}, contact:Contact label="Contact"@{nl="Contactpersoon"}, from:datetime label=label_Window_from, until:datetime label=label_Window_until, duration:duration, source:text unique label="Source reference"@{nl="Bronreferentie"}, host:user label=label_Calendar_host, state:enum(pending,confirmed,cancelled,attended,no_show,unavailable)=pending label={text="Appointment state"@{nl="Afspraakstatus"},values={pending="Pending"@{nl="In behandeling"},confirmed="Confirmed"@{nl="Bevestigd"},cancelled="Cancelled"@{nl="Geannuleerd"},attended=label_Appointment_state_attended,no_show="No show"@{nl="Niet verschenen"},unavailable="Unavailable"@{nl="Niet beschikbaar"}}}, host_ok:bool=false label="Host confirmed"@{nl="Gastheer bevestigd"}, room_ok:bool=false label="Room confirmed"@{nl="Ruimte bevestigd"}, host_delivery:text? label="Host request reference"@{nl="Referentie gastheerverzoek"}, room_delivery:text? label="Room request reference"@{nl="Referentie ruimteverzoek"}, reservation_account:user server=actor label="Reservation principal"@{nl="Reserveringsaccount"}, active_source:text label="Active reservation source"@{nl="Actieve reserveringsbron"}, room_snapshot:text? label="Frozen venue reference"@{nl="Vastgelegde ruimtereferentie"}, reason:text?, reason_code:enum(host_unavailable)? label={text="System reason"@{nl="Systeemreden"},values={host_unavailable="Host commitment unavailable; cancel or request a new appointment time."@{nl="De gastheer is niet meer beschikbaar; annuleer of vraag een nieuw afspraaktijdstip aan."}}} } label="Appointment"@{nl="Afspraak"}
   WeeklyHours in Calendar { weekday:int min=1 max=7, opens:text="09:00", closes:text="18:00", fold:enum(earlier,later)=earlier } label="Weekly opening hours"@{nl="Wekelijkse openingstijden"}
   ClosedDay in Calendar { day:date unique, reason:text } label="Holiday or closed day"@{nl="Feestdag of sluitingsdag"}
   Attempt in Appointment { source:text unique, kind:enum(initial,movement) label={text="Request kind"@{nl="Verzoeksoort"},values={initial="Initial booking"@{nl="Eerste boeking"},movement="Reschedule"@{nl="Verplaatsing"}}}, from:datetime, until:datetime, previous_source:text?, previous_host_revision:int=1, previous_room_revision:int=1, requested_by:user server=actor, state:enum(pending,active,failed,cancelled,retired,released)=pending label={text="Reservation attempt"@{nl="Reserveringspoging"},values={pending="Pending"@{nl="In behandeling"},active="Active"@{nl="Actief"},failed="Failed"@{nl="Mislukt"},cancelled="Cancelled"@{nl="Geannuleerd"},retired="Previous slot awaiting release"@{nl="Vorige afspraak wacht op vrijgave"},released="Released"@{nl="Vrijgegeven"}}}, host_ok:bool=false, room_ok:bool=false, host_unknown:bool=false, room_unknown:bool=false, host_revision:int=1, room_revision:int=1, host_delivery:text?, room_delivery:text?, room_confirmation:text?, host_release:text?, room_release:text?, host_released:bool=false, room_released:bool=false } label="Reservation attempt"@{nl="Reserveringspoging"}
@@ -114,13 +114,13 @@ package appointments
    require appointment.state in [pending,confirmed,unavailable] and trim(reason)!=""
    require (appointment.contact.account==actor and appointment.contact.verified and (appointment.state==unavailable or now<appointment.from-appointment.parent.parent.cutoff)) or (host_manager and can_work(actor,appointment.parent.parent.location))
    do
-    set appointment {state=cancelled,reason}
+    set appointment {state=cancelled,reason,reason_code=null}
     cancel appointment.id
     for attempt in appointment.Attempt as item where item.state in [pending,active] limit=100
      set attempt {state=cancelled}
    examples seed=[test_worker,original] appointment=booked reason="Changed plans"
-    as,appointment.state -> appointment.state
-    members,confirmed -> cancelled
+    as,appointment.state -> appointment.state,appointment.reason_code
+    members,confirmed -> cancelled,null
     members,cancelled -> error(rule_failed)
     public,confirmed -> error(forbidden)
    examples seed=[test_worker,original] appointment=booked reason="Host unavailable"
@@ -155,12 +155,12 @@ package appointments
    require can_work(actor,appointment.parent.parent.location) and appointment.state==confirmed and now>=appointment.from and trim(reason)!=""
    do
     if attend
-     set appointment {state=attended,reason}
+     set appointment {state=attended,reason,reason_code=null}
     else
-     set appointment {state=no_show,reason}
+     set appointment {state=no_show,reason,reason_code=null}
    examples seed=[test_worker] appointment=booked attend=true reason="Attendance reviewed"
-    as,appointment.state,appointment.from,appointment.until -> appointment.state
-    host_manager,confirmed,now-30m,now -> attended
+    as,appointment.state,appointment.from,appointment.until -> appointment.state,appointment.reason_code
+    host_manager,confirmed,now-30m,now -> attended,null
     host_manager,unavailable,now-30m,now -> error(rule_failed)
   scenario host_result on=StaffSchedule.reserve.completed
    do
@@ -250,21 +250,21 @@ package appointments
       ## Keep the active allocations for explicit cancellation or a freshly confirmed replacement.
       if attempt.parent.active_source==attempt.source and attempt.parent.state==confirmed and event.value.state in [unavailable,failed,released]
        set attempt {host_ok=false,host_unknown=false}
-       set attempt.parent {state=unavailable,host_ok=false,reason=format("Host commitment unavailable; cancel or request a new appointment time."@{nl="De gastheer is niet meer beschikbaar; annuleer of vraag een nieuw afspraaktijdstip aan."},locale=null)}
+       set attempt.parent {state=unavailable,host_ok=false,reason_code=host_unavailable}
        cancel attempt.parent.id
    ## The provider's commercial revision identifies this commitment; it is not an event sequence.
    ## A late confirmed observation cannot revive an invalidated active appointment.
    examples seed=[test_worker,original] event={value={source="tour",revision=1,state=unavailable,reference="host-commitment",detail=null}}
-    original.state,booked.state,booked.active_source,event.value.source,event.value.revision,event.value.state -> booked.state,original.state,booked.host_ok,original.host_ok,booked.room_ok,original.host_release,original.room_release
-    active,confirmed,"tour","tour",1,unavailable -> unavailable,active,false,false,true,null,null
-    active,confirmed,"tour","tour",1,released -> unavailable,active,false,false,true,null,null
-    active,confirmed,"tour","other",1,unavailable -> confirmed,active,true,true,true,null,null
-    active,confirmed,"tour","tour",2,unavailable -> confirmed,active,true,true,true,null,null
-    active,confirmed,"replacement","tour",1,unavailable -> confirmed,active,true,true,true,null,null
-    retired,confirmed,"tour","tour",1,unavailable -> confirmed,retired,true,true,true,null,null
-    active,cancelled,"tour","tour",1,unavailable -> cancelled,active,true,true,true,null,null
-    active,attended,"tour","tour",1,unavailable -> attended,active,true,true,true,null,null
-    pending,pending,"tour","tour",1,unavailable -> unavailable,failed,false,false,true,null,null
+    original.state,booked.state,booked.active_source,event.value.source,event.value.revision,event.value.state -> booked.state,original.state,booked.host_ok,original.host_ok,booked.room_ok,original.host_release,original.room_release,booked.reason_code
+    active,confirmed,"tour","tour",1,unavailable -> unavailable,active,false,false,true,null,null,host_unavailable
+    active,confirmed,"tour","tour",1,released -> unavailable,active,false,false,true,null,null,host_unavailable
+    active,confirmed,"tour","other",1,unavailable -> confirmed,active,true,true,true,null,null,null
+    active,confirmed,"tour","tour",2,unavailable -> confirmed,active,true,true,true,null,null,null
+    active,confirmed,"replacement","tour",1,unavailable -> confirmed,active,true,true,true,null,null,null
+    retired,confirmed,"tour","tour",1,unavailable -> confirmed,retired,true,true,true,null,null,null
+    active,cancelled,"tour","tour",1,unavailable -> cancelled,active,true,true,true,null,null,null
+    active,attended,"tour","tour",1,unavailable -> attended,active,true,true,true,null,null,null
+    pending,pending,"tour","tour",1,unavailable -> unavailable,failed,false,false,true,null,null,null
    examples seed=[test_worker,original] event={value={source="tour",revision=1,state=confirmed,reference="host-commitment",detail=null}}
     booked.state,booked.host_ok,original.host_ok -> booked.state,booked.host_ok,original.host_ok
     unavailable,false,false -> unavailable,false,false
@@ -309,7 +309,7 @@ package appointments
        for previous in appointment.Attempt as item where item.source==attempt.previous_source and item.state==active limit=1
         set previous {state=retired}
       cancel appointment.id
-      set appointment {from=attempt.from,until=attempt.until,active_source=attempt.source,state=confirmed,host_ok=true,room_ok=true,host_delivery=attempt.host_delivery,room_delivery=attempt.room_delivery,reason=null}
+      set appointment {from=attempt.from,until=attempt.until,active_source=attempt.source,state=confirmed,host_ok=true,room_ok=true,host_delivery=attempt.host_delivery,room_delivery=attempt.room_delivery,reason=null,reason_code=null}
       set attempt {state=active}
       send Mail.send {to=appointment.contact.email,subject=format("Appointment confirmed"@{nl="Afspraak bevestigd"},locale=null),body=appointment.parent.parent.instructions} when=appointment.state==confirmed and appointment.active_source==attempt.source as confirmed_notice
       create Notice {parent=appointment,kind=confirmation,source=attempt.source,delivery=confirmed_notice} as notice
@@ -328,9 +328,9 @@ package appointments
     candidate.state,candidate.host_ok,booked.active_source,booked.from,booked.until,original.state -> candidate.state,original.state,booked.from,count(Notice)
     active,true,"move",candidate.from,candidate.until,retired -> active,retired,datetime("2099-01-01T10:00:00Z"),0
    examples seed=[test_worker,original] event={attempt=candidate}
-    booked.state,booked.host_ok,booked.reason,candidate.host_ok,candidate.room_ok -> booked.state,booked.host_ok,booked.reason,candidate.state,original.state
-    unavailable,false,"Host unavailable",true,true -> confirmed,true,null,active,retired
-    unavailable,false,"Host unavailable",false,true -> unavailable,false,"Host unavailable",pending,active
+    booked.state,booked.host_ok,booked.reason,candidate.host_ok,candidate.room_ok -> booked.state,booked.host_ok,booked.reason,booked.reason_code,candidate.state,original.state
+    unavailable,false,"Host unavailable",true,true -> confirmed,true,null,null,active,retired
+    unavailable,false,"Host unavailable",false,true -> unavailable,false,"Host unavailable",null,pending,active
   scenario cleanup on=AttemptProgress
    do
     let attempt=event.attempt
@@ -427,11 +427,11 @@ package appointments
     ## now-bounded view predicates use the ordinary query grammar.
     tabs
      tab "Upcoming"@{nl="Aankomend"}
-      table Appointment as visit where visit.from>=now columns=from,until,duration,state,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
+      table Appointment as visit where visit.from>=now columns=from,until,duration,state,reason_code,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
        pagination
        show appointment_coordination {row=row}
      tab "Past"@{nl="Verleden"}
-      table Appointment as visit where visit.from<now columns=from,until,duration,state,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
+      table Appointment as visit where visit.from<now columns=from,until,duration,state,reason_code,reason order=from filter=state defaults={state=preferences.appointment_state} display=split
        pagination
        show appointment_coordination {row=row}
   # Maintain availability and record attendance under host grants. @{nl="Beheer beschikbaarheid en leg aanwezigheid vast binnen gastheerbevoegdheden."}
@@ -490,6 +490,7 @@ package appointments
       badge row.state
       status row.host_ok
       status row.room_ok
+      badge row.reason_code
       text row.duration,row.reason
      ## attendance takes the row; placed controls move the generated fields.
       primary "Record attendance"@{nl="Aanwezigheid vastleggen"} action=attendance arguments={appointment=row}
