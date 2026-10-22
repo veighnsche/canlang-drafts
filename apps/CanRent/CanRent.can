@@ -122,9 +122,9 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
   export event VenueOutcome { value:OperationOutcome }
   export event OfferOutcome { value:ReservationOfferOutcome }
   VenueReservation in Resource { source:text unique, request_revision:int=1, customer:text, account:user, from:datetime, until:datetime, quantity:int min=1, expires:datetime, status:enum(held,staged,confirmed,released,expired)=held label={text="Status"@{nl="Status"},values={held="Held"@{nl="Tijdelijk gereserveerd"},staged="Staged"@{nl="Voorbereid"},confirmed="Confirmed"@{nl="Bevestigd"},released="Released"@{nl="Vrijgegeven"},expired="Expired"@{nl="Verlopen"}}}, previous:VenueReservation?, reason:text? } label="Appointment venue reservation"@{nl="Afspraakruimtereservering"}
-  ReservationFence in Resource { source:text, revision:int, reason:text, offer:AcceptedOffer? } label="Closed quote revision"@{nl="Afgesloten offerteversie"}
+  ReservationFence in Resource { source:text, revision:int, reason:text, reason_code:enum(quote_unavailable)? label={text="Closure reason"@{nl="Afsluitreden"},values={quote_unavailable="Quoted inventory unavailable"@{nl="Geoffreerde voorraad niet beschikbaar"}}}, offer:AcceptedOffer? } label="Closed quote revision"@{nl="Afgesloten offerteversie"}
   unique ReservationFence fields=source,revision
-  lock ReservationFence fields=source,revision,reason,offer
+  lock ReservationFence fields=source,revision,reason,reason_code,offer
   DowntimeFence in Resource {source:text unique,evidence:text}
   VenueFence in Resource { source:text unique, reason:text } label="Cancelled venue request"@{nl="Geannuleerde ruimteaanvraag"}
   QuoteHold in Resource { source:text unique, revision:int, offer:QuoteOffer, quantity:int min=1, from:datetime, until:datetime, intervals:BookingInterval[], expires:datetime, active:bool=true, booking:Booking? } label="Quoted capacity hold"@{nl="Offertecapaciteitsreservering"}
@@ -946,7 +946,7 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
         set hold {active=false}
         cancel hold.id
        if not quote_available(resource,event.value.snapshot,event.value.quantity)
-        create ReservationFence {parent=resource,source=event.value.source,revision=event.value.revision,reason=format("Quoted inventory unavailable"@{nl="Geoffreerde voorraad niet beschikbaar"},locale=null),offer=event.value} as rejected
+        create ReservationFence {parent=resource,source=event.value.source,revision=event.value.revision,reason="Quoted inventory unavailable",reason_code=quote_unavailable,offer=event.value} as rejected
         emit OfferOutcome {value={source=rejected.source,revision=rejected.revision,kind=booking,version=rejected.version,state=unavailable,detail=rejected.reason}}
        else
         create Booking {parent=resource,billing_location=resource.location,sale_product=format("{kind}",{kind=resource.kind}),purchased_at=event.value.accepted_at,attribution=event.value.attribution,exclusive_program=event.value.exclusive_program,attributed_at=event.value.attributed_at,attribution_window=event.value.attribution_window,customer,account=event.value.account,email=event.value.recipient,from=event.value.snapshot.from,until=event.value.snapshot.until,intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},original_intervals=event.value.snapshot.intervals as interval select BookingInterval {from=interval.from-resource.buffer_before,until=interval.until+resource.buffer_after},quantity=event.value.quantity,attendees=event.value.attendees,rate=event.value.snapshot.total,subtotal=sum(event.value.snapshot.lines as item select item.price*item.quantity,resource.currency),tax=sum(event.value.snapshot.lines as item select item.tax,resource.currency),discount=sum(event.value.snapshot.lines as item select item.discount,resource.currency),total=event.value.snapshot.total,refund_amount=event.value.snapshot.total,terms=event.value.snapshot.terms,refund_before=event.value.snapshot.refund_before,reserved_from=event.value.snapshot.from-resource.buffer_before,reserved_until=event.value.snapshot.until+resource.buffer_after,expires=now+resource.hold_for,source=event.value.source,quote=event.value,departure_buffer=resource.buffer_after,arrival_buffer=resource.buffer_before,benefit_unit=resource.price_unit,benefit_duration=resource.increment,benefit_rate=resource.hourly*(resource.increment/1h),benefit_intervals=[BenefitInterval {from=event.value.snapshot.from,until=event.value.snapshot.until}]} as accepted_booking
@@ -959,18 +959,18 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
         emit OfferOutcome {value={source=accepted_booking.source,revision=event.value.revision,kind=booking,version=accepted_booking.version,state=pending,reference=accepted_booking.id,expires=accepted_booking.expires}}
    ## Current authority precedes releasing a hold or creating a monetary obligation.
    examples seed=[test_admin,open_site,quote_window,quoted_hold] event={value={product=null,attribution=null,exclusive_program=null,attributed_at=null,attribution_window=null,source="quote-test",revision=1,customer=test_company.id,location=test_site.id,resource=test_room.id,account=self,recipient="customer@example.test",accepted_at=now,quantity=1,attendees=1,snapshot=quoted_hold.offer.snapshot}}
-    test_admin.active,test_admin.locations,test_company.active,test_room.active -> count(test_room.Booking),count(test_room.ReservationFence),quoted_hold.active
-    true,[test_site],true,true -> 1,0,false
+    test_admin.active,test_admin.locations,test_company.active,test_room.active -> count(test_room.Booking),count(test_room.ReservationFence),quoted_hold.active,any(test_room.ReservationFence as created,created.reason=="Quoted inventory unavailable" and created.reason_code==quote_unavailable)
+    true,[test_site],true,true -> 1,0,false,false
     false,[test_site],true,true -> error(rule_failed)
     true,[],true,true -> error(rule_failed)
     true,[test_site],false,true -> error(rule_failed)
-    true,[test_site],true,false -> 0,1,false
+    true,[test_site],true,false -> 0,1,false,true
    ## A closed revision remains closed after availability returns; changed accepted facts cannot reuse it.
    examples seed=[test_admin,closed_quote] event={value={product=null,attribution=null,exclusive_program=null,attributed_at=null,attribution_window=null,source="quote-test",revision=1,customer=test_company.id,location=test_site.id,resource=test_room.id,account=self,recipient="customer@example.test",accepted_at=now,quantity=1,attendees=1,snapshot=quoted_hold.offer.snapshot}}
-    closed_quote.offer,quoted_hold.active,event.value.snapshot.terms -> count(test_room.Booking),closed_quote.version,quoted_hold.active
-    closed_quote.offer,false,"Frozen terms" -> 0,1,false
+    closed_quote.offer,quoted_hold.active,event.value.snapshot.terms -> count(test_room.Booking),closed_quote.version,quoted_hold.active,closed_quote.reason
+    closed_quote.offer,false,"Frozen terms" -> 0,1,false,"Quoted inventory unavailable"
     closed_quote.offer,false,"Changed terms" -> error(rule_failed)
-    null,false,"Frozen terms" -> 0,1,false
+    null,false,"Frozen terms" -> 0,1,false,"Quoted inventory unavailable"
    ## A release fence may coexist with an existing booking; it cannot masquerade as a resource-free refusal.
    examples seed=[test_admin,closed_quote,test_hold] event={value={product=null,attribution=null,exclusive_program=null,attributed_at=null,attribution_window=null,source="quote-test",revision=1,customer=test_company.id,location=test_site.id,resource=test_room.id,account=self,recipient="customer@example.test",accepted_at=now,quantity=1,attendees=1,snapshot=quoted_hold.offer.snapshot}}
     test_hold.source,test_hold.status -> count(test_room.Booking)
@@ -1695,6 +1695,10 @@ package rent_reservations label="Workspace reservations"@{nl="Werkplekreserverin
          text row.active
          text row.source,row.from,row.until,row.quantity,row.expires
          copy row.source
+         pagination
+        list row.ReservationFence empty="No closed quote revisions"@{nl="Geen afgesloten offerteversies"}
+         badge row.reason_code
+         text row.source,row.revision,row.reason
          pagination
         alert "Conflicts need manager review"@{nl="Conflicten vereisen beoordeling"}
         list row.Conflict as conflict where not conflict.resolved empty="No unresolved conflicts"@{nl="Geen onopgeloste conflicten"}
