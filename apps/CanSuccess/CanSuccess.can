@@ -105,18 +105,15 @@ package success
    require event.followup.version==event.revision and event.followup.parent.version==event.account_revision and not event.followup.done and event.followup.parent.active
    do
     if account_manager(event.followup.assignee) and can_work(event.followup.assignee,event.followup.parent.location) and event.followup.due<=now
-     let subject=format("Account follow-up"@{nl="Klantopvolging"},locale=null)
-     send Mail.send {to=event.followup.email,subject,body=event.followup.title} when=event.followup.version==event.revision and event.followup.parent.version==event.account_revision and not event.followup.done and event.followup.parent.active and account_manager(event.followup.assignee) and can_work(event.followup.assignee,event.followup.parent.location) as notice
-     create Notice {parent=event.followup.parent,followup=event.followup,revision=event.revision,account_revision=event.account_revision,recipient=event.followup.email,subject,body=event.followup.title,delivery=notice} as outcome
+     send Mail.send {to=event.followup.email,subject=format("Account follow-up"@{nl="Klantopvolging"},locale=null),body=event.followup.title} when=event.followup.version==event.revision and event.followup.parent.version==event.account_revision and not event.followup.done and event.followup.parent.active and account_manager(event.followup.assignee) and can_work(event.followup.assignee,event.followup.parent.location) as notice
+     create Notice {parent=event.followup.parent,followup=event.followup,revision=event.revision,account_revision=event.account_revision,recipient=event.followup.email,subject="Account follow-up",body=event.followup.title,delivery=notice} as outcome
   # Remind the current manager at the location's renewal-date boundary without renewing paid terms. @{nl="Herinner de huidige beheerder op de lokale verlengingsdatum zonder betaalde voorwaarden te verlengen."}
   scenario renewal_due on=RenewalDue
    require event.account.version==event.revision and event.account.active and event.account.renewal!=null
    do
     if account_manager(event.account.manager) and can_work(event.account.manager,event.account.location) and local_instant(event.account.renewal,"00:00",event.account.location.timezone,fold=earlier)<=now
-     let subject=format("Account renewal due"@{nl="Klantverlenging nodig"},locale=null)
-     let body=format("Review the recorded renewal date; renewal remains a separate agreement action."@{nl="Controleer de vastgelegde verlengingsdatum; verlenging blijft een afzonderlijke overeenkomstactie."},locale=null)
-     send Mail.send {to=event.account.email,subject,body} when=event.account.version==event.revision and event.account.active and account_manager(event.account.manager) and can_work(event.account.manager,event.account.location) as notice
-     create Notice {parent=event.account,revision=event.revision,account_revision=event.revision,recipient=event.account.email,subject,body,delivery=notice} as outcome
+     send Mail.send {to=event.account.email,subject=format("Account renewal due"@{nl="Klantverlenging nodig"},locale=null),body=format("Review the recorded renewal date; renewal remains a separate agreement action."@{nl="Controleer de vastgelegde verlengingsdatum; verlenging blijft een afzonderlijke overeenkomstactie."},locale=null)} when=event.account.version==event.revision and event.account.active and account_manager(event.account.manager) and can_work(event.account.manager,event.account.location) as notice
+     create Notice {parent=event.account,revision=event.revision,account_revision=event.revision,recipient=event.account.email,subject="Account renewal due",body="Review the recorded renewal date; renewal remains a separate agreement action.",delivery=notice} as outcome
   # Record when a manager last reviewed the account, without changing a source agreement or paid term. @{nl="Leg vast wanneer een beheerder het dossier laatst beoordeelde zonder een bronovereenkomst of betaalde termijn te wijzigen."}
   scenario review(account:Account) by=account_manager label="Record account review"@{nl="Dossierbeoordeling vastleggen"}
    require can_work(actor,account.location) and account.active
