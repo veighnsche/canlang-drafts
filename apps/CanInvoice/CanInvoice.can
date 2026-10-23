@@ -632,7 +632,7 @@ package invoice label="Invoices"@{nl="Facturen"}
     "mandate",datetime("2020-01-20T00:00:00Z"),automatic,failed,transient,3 -> 1
   scenario overdue on=Overdue
    require event.invoice.state==issued and event.invoice.balance.minor>0
-   do send Mail.send {to=event.invoice.recipient_email,subject=format("Invoice overdue"@{nl="Factuur achterstallig"},locale=null),body=format("{description} {url}",{description=event.invoice.description,url=app_url(format("/finance/invoice/{invoice}",{invoice=event.invoice.id}))})} when=event.invoice.state==issued and event.invoice.balance.minor>0 as notice
+   do send Mail.send {to=event.invoice.recipient_email,subject=format("Invoice overdue"@{nl="Factuur achterstallig"},locale=null),body=format("{description} {url}",{description=event.invoice.description,url=app_url(format("/finance/invoice/{invoice}",{invoice=event.invoice.id}))})} when=event.invoice.state==issued and event.invoice.balance.minor>0 when_at=source as notice
    examples seed=[test_payment] event={invoice=test_invoice,revision=1}
     test_payment.status -> test_invoice.balance
     failed -> money(100,"EUR")
