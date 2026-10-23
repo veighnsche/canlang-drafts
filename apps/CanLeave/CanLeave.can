@@ -49,7 +49,7 @@ package leave label="Leave"@{nl="Verlof"}
   fixture calendar=Calendar {parent=test_worker,name="Working days",timezone="Europe/Brussels"}
   fixture vacation=Category {parent=calendar,name="vacation",allowance_bucket="vacation"}
   fixture sick=Category {parent=calendar,name="sick"}
-  fixture pending=Request {parent=calendar,location=test_site,from=date("2099-01-02"),until=date("2099-01-02"),bucket="vacation",reason="Holiday",reviewer=other,timezone="Europe/Brussels",calendar_version=1}
+  fixture pending_request=Request {parent=calendar,location=test_site,from=date("2099-01-02"),until=date("2099-01-02"),bucket="vacation",reason="Holiday",reviewer=other,timezone="Europe/Brussels",calendar_version=1}
   fixture leave_hr=user {roles=[hr]}
   fixture assigned_reviewer=user {roles=[leave_reviewer]}
   fixture ordinary_reviewer=Employee {user=other,home=test_site,locations=[test_site],start=date("2026-10-01"),role="Reviewer candidate"}
@@ -59,7 +59,7 @@ package leave label="Leave"@{nl="Verlof"}
   fixture january_1=Day {parent=calendar,date=date("2100-01-01"),working=false}
   fixture january_2=Day {parent=calendar,date=date("2100-01-02"),working=true}
   fixture allowance_2099=Allowance {parent=test_worker,year=2099,bucket="vacation"}
-  fixture recorded=Portion {parent=pending,allowance=allowance_2099,days=1,dates=[date("2099-01-02")]}
+  fixture recorded=Portion {parent=pending_request,allowance=allowance_2099,days=1,dates=[date("2099-01-02")]}
   fixture allowance_2100=Allowance {parent=test_worker,year=2100,bucket="vacation"}
  When
   crud Calendar by=hr fields=name,timezone delete=none
@@ -131,7 +131,7 @@ package leave label="Leave"@{nl="Verlof"}
      set request {reserve_delivery=delivery.id}
     else
      set request {state=rejected,decision=reason}
-   examples seed=[recorded,reviewer_worker] request=pending approve=true reason="Reviewed policy"
+   examples seed=[recorded,reviewer_worker] request=pending_request approve=true reason="Reviewed policy"
     as,request.parent.parent.user,request.reviewer,reviewer_worker.user,allowance_2099.days -> request.state,allowance_2099.remaining,request.sync
     leave_reviewer,other,self,self,1 -> approved,0,pending
     leave_reviewer,other,self,self,0 -> error(rule_failed)
@@ -139,7 +139,7 @@ package leave label="Leave"@{nl="Verlof"}
   scenario withdraw(request:Request) by=members label="Withdraw"@{nl="Intrekken"}
    require request.parent.parent.user==actor and request.state==pending
    do set request {state=withdrawn}
-   examples request=pending
+   examples request=pending_request
     as,request.state -> request.state
     members,pending -> withdrawn
     members,approved -> error(rule_failed)
@@ -152,7 +152,7 @@ package leave label="Leave"@{nl="Verlof"}
     if request.schedule_source!=null
      send StaffSchedule.release {source=request.schedule_source,revision=request.schedule_revision} when=request.state==cancelled as delivery
      set request {release_delivery=delivery.id}
-   examples seed=[recorded] request=pending reason="Cancelled plans"
+   examples seed=[recorded] request=pending_request reason="Cancelled plans"
     as,request.state,request.schedule_source -> request.state,allowance_2099.remaining,request.release_state
     hr,approved,"leave-source" -> cancelled,20,pending
     hr,cancelled,"leave-source" -> error(rule_failed)
@@ -194,8 +194,8 @@ package leave label="Leave"@{nl="Verlof"}
      else
       if request.state==cancelled and event.value.state==released
        set request {release_state=released}
-   examples seed=[pending] event={value={source="leave-source",revision=2,state=confirmed,reference=null,detail=null}}
-    pending.state,pending.schedule_source,pending.schedule_revision,event.value.state -> pending.state,pending.sync,pending.release_state
+   examples seed=[pending_request] event={value={source="leave-source",revision=2,state=confirmed,reference=null,detail=null}}
+    pending_request.state,pending_request.schedule_source,pending_request.schedule_revision,event.value.state -> pending_request.state,pending_request.sync,pending_request.release_state
     cancelled,"leave-source",2,confirmed -> cancelled,none,none
     cancelled,"leave-source",2,released -> cancelled,none,released
     approved,"leave-source",2,confirmed -> approved,confirmed,none
@@ -212,8 +212,8 @@ package leave label="Leave"@{nl="Verlof"}
         set request {sync=unavailable}
      else
       set request {sync=unavailable}
-   examples seed=[pending] event={delivery_id="reserve-current",status=succeeded,result={source="leave-source",revision=1,state=confirmed,reference=null,detail=null},error=null}
-    pending.state,pending.schedule_source,pending.schedule_revision,pending.reserve_delivery,pending.sync,event.delivery_id,event.result -> pending.state,pending.sync
+   examples seed=[pending_request] event={delivery_id="reserve-current",status=succeeded,result={source="leave-source",revision=1,state=confirmed,reference=null,detail=null},error=null}
+    pending_request.state,pending_request.schedule_source,pending_request.schedule_revision,pending_request.reserve_delivery,pending_request.sync,event.delivery_id,event.result -> pending_request.state,pending_request.sync
     approved,"leave-source",1,"reserve-current",pending,"reserve-current",{source="leave-source",revision=1,state=confirmed,reference=null,detail=null} -> approved,confirmed
     approved,"leave-source",1,"reserve-current",pending,"reserve-current",{source="different-source",revision=1,state=confirmed,reference=null,detail=null} -> approved,unavailable
     approved,"leave-source",1,"reserve-current",pending,"reserve-old",{source="leave-source",revision=1,state=confirmed,reference=null,detail=null} -> approved,pending
@@ -228,8 +228,8 @@ package leave label="Leave"@{nl="Verlof"}
        set request {release_state=failed}
       else
        set request {release_state=unknown}
-   examples seed=[pending] event={delivery_id="release-current",status=succeeded,result={source="leave-source",revision=2,state=released,reference=null,detail=null},error=null}
-    pending.state,pending.schedule_source,pending.schedule_revision,pending.release_delivery,pending.release_state,event.delivery_id,event.result,event.status,event.error -> pending.release_state
+   examples seed=[pending_request] event={delivery_id="release-current",status=succeeded,result={source="leave-source",revision=2,state=released,reference=null,detail=null},error=null}
+    pending_request.state,pending_request.schedule_source,pending_request.schedule_revision,pending_request.release_delivery,pending_request.release_state,event.delivery_id,event.result,event.status,event.error -> pending_request.release_state
     cancelled,"leave-source",2,"release-current",pending,"release-current",{source="leave-source",revision=2,state=released,reference=null,detail=null},succeeded,null -> released
     cancelled,"leave-source",2,"release-current",pending,"release-current",{source="different-source",revision=2,state=released,reference=null,detail=null},succeeded,null -> unknown
     cancelled,"leave-source",2,"release-current",pending,"release-current",{source="leave-source",revision=1,state=released,reference=null,detail=null},succeeded,null -> unknown
