@@ -1,20 +1,33 @@
 {
-  "unit_id": "e60d6725-ade8-4b08-85ab-fb77b6c12d6e",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanDo/CanDo.can",
-  "owner": "todo",
-  "source_line": 122,
-  "page": null,
-  "view": null,
-  "label": "TaskTileHost",
-  "style_scope": "definition",
-  "prompt": "Give each task tile a little vertical separation and let it fill its card. Style only the caller host placement, size and inherited typography; keep the tile renderer and its private parts owned by the view.",
-  "profile": "frontend",
-  "draft_source_key": "[\"todo\",\"style\",\"TaskTileHost\",null]"
+  "id": "e60d6725-ade8-4b08-85ab-fb77b6c12d6e",
+  "source": {
+    "owner": "todo",
+    "kind": "style",
+    "label": "TaskTileHost",
+    "anchor": "todo:style:TaskTileHost:",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"TaskTileHost\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 13770,
+    "end": 14002
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "1260c75867155507dafb3bd2d93e7ae757ec96b2ed4eeedac6e4e5c294d8a0b1",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "1260c75867155507dafb3bd2d93e7ae757ec96b2ed4eeedac6e4e5c294d8a0b1",
+    "files": {
+      "style.css": "5b51c2ca87df2023e74201d1bb9170216a130b0f74909f8ac4d6cbb19152c141"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

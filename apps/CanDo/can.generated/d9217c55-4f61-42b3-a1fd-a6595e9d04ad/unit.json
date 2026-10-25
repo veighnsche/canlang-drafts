@@ -1,23 +1,33 @@
 {
-  "unit_id": "d9217c55-4f61-42b3-a1fd-a6595e9d04ad",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanDo/CanDo.can",
-  "owner": "todo",
-  "source_line": 133,
-  "page": "/tasks",
-  "view": null,
-  "component_path": [
-    "card \"Quick task entry\"@{nl=\"Snel een taak toevoegen\"}"
-  ],
-  "label": null,
-  "style_scope": "inline",
-  "prompt": "Keep quick task entry compact and welcoming, with readable spacing and controls that stack on narrow screens. Keep field and child-view interiors within their own style ownership.",
-  "profile": "frontend",
-  "draft_source_key": "[\"todo\",\"page\",\"/tasks\",[\"card \\\"Quick task entry\\\"@{nl=\\\"Snel een taak toevoegen\\\"}\"]]"
+  "id": "d9217c55-4f61-42b3-a1fd-a6595e9d04ad",
+  "source": {
+    "owner": "todo",
+    "kind": "style-inline",
+    "label": "Card",
+    "anchor": "todo:style-inline:Card:Card",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"tasks\\\"]]]]]\",\"[\\\"Card\\\",[[\\\"Name\\\",\\\"card\\\"],[\\\"MessageValue\\\",[[\\\"Literal\\\",[[\\\"String\\\",\\\"Quick task entry\\\"]]],[\\\"Punct\\\",\\\"@\\\"],[\\\"Punct\\\",\\\"{\\\"],[\\\"MessageVariant\\\",[[\\\"Name\\\",\\\"nl\\\"],[\\\"Punct\\\",\\\"=\\\"],[\\\"Literal\\\",[[\\\"String\\\",\\\"Snel een taak toevoegen\\\"]]]]],[\\\"Punct\\\",\\\"}\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 15969,
+    "end": 16152
+  },
+  "contract": {
+    "target": "Card",
+    "profile": null,
+    "prompt_sha256": "e46e7f90be63d2db9d897c1ebcbbb8b6851f7f7e7e38dc167329276cc1832daf",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "e46e7f90be63d2db9d897c1ebcbbb8b6851f7f7e7e38dc167329276cc1832daf",
+    "files": {
+      "style.css": "904daf6fbca14d0bbd6754beffe3bf9aeb87c60f97f12513be40f3dd81e0c637"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

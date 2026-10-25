@@ -1,20 +1,33 @@
 {
-  "unit_id": "daecce9f-091e-4943-b0ca-96d0490dcf73",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanDo/CanDo.can",
-  "owner": "todo",
-  "page": null,
-  "view": "TaskTile",
-  "label": null,
-  "prompt": "Give this task detail a clear title and readable metadata spacing, stack details on narrow screens, and keep edit and quick-action controls easy to reach with visible focus. Use existing theme variables and inherit page typography. Preserve all canonical control and content behavior.",
-  "profile": "frontend",
-  "source_line": 125,
-  "draft_source_key": "[\"todo\",\"view\",\"TaskTile\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "daecce9f-091e-4943-b0ca-96d0490dcf73",
+  "source": {
+    "owner": "todo",
+    "kind": "view-style-inline",
+    "label": "TaskTile",
+    "anchor": "todo:view-style-inline:TaskTile:TaskTile",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"View\\\",\\\"TaskTile\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 15035,
+    "end": 15323
+  },
+  "contract": {
+    "target": "TaskTile",
+    "profile": null,
+    "prompt_sha256": "a1ee327016f025bac977876866779ed5216baa66ddf3b26765817a2ff9c9abda",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "a1ee327016f025bac977876866779ed5216baa66ddf3b26765817a2ff9c9abda",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

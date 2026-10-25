@@ -1,20 +1,33 @@
 {
-  "unit_id": "f42fc727-363b-4699-8ace-ccc174889e6f",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanDo/CanDo.can",
-  "owner": "todo",
-  "page": null,
-  "view": null,
-  "label": "TodoWorkspace",
-  "prompt": "Use concise daily task rows with prominent titles, assignees, due dates, and completion states. Make overdue work noticeable with text and subtle emphasis; keep quick entry and attributed comments convenient beside the current task. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 120,
-  "draft_source_key": "[\"todo\",\"style\",\"TodoWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "f42fc727-363b-4699-8ace-ccc174889e6f",
+  "source": {
+    "owner": "todo",
+    "kind": "style",
+    "label": "TodoWorkspace",
+    "anchor": "todo:style:TodoWorkspace:",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"TodoWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 12865,
+    "end": 13550
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "5ea3cad83fda7eb36d13cf46c2ac96c4ea1871d295b50040cdbf9d62f0bfd200",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "01367c1d8dd7e98578a519375e17a19c0791ee23bf0f9aaa9044f01a8afd2257",
+    "files": {
+      "style.css": "5056a2a8d7a9523a2cf3459fa05ef48ab0ee08e68c7c884fb6f37c16db08f1a1"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

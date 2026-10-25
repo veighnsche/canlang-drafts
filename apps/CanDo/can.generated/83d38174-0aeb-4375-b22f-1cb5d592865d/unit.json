@@ -1,34 +1,35 @@
 {
-  "unit_id": "83d38174-0aeb-4375-b22f-1cb5d592865d",
   "abi_version": 1,
-  "kind": "then_view",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "todo",
-  "label": "TaskTile",
-  "profile": "frontend",
-  "source": "apps/CanDo/CanDo.can",
-  "declaration_selector": "todo.TaskTile",
-  "target": "view TaskTile(row:Task)",
-  "prompt": "Present the admitted task title, assignee, due time, priority, completion state, completion author and completion time with the original canonical localized field formatting; render its description as ordinary content. Arrange the declared edit control and complete/reopen buttons as convenient quick actions. Preserve permission-based visibility, localized captions, field identity, validation feedback, version/CSRF data and keyboard focus. Keep the enclosing Current task card, collection, paging, comments and history at the use site.",
-  "export_roles": [
-    "render"
-  ],
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "row_model": "Task",
-  "checked_controls": [
-    "edit",
-    "button action=complete",
-    "button action=reopen"
-  ],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields",
-    "contentField",
-    "control"
-  ],
-  "source_line": 125
+  "id": "83d38174-0aeb-4375-b22f-1cb5d592865d",
+  "source": {
+    "owner": "todo",
+    "kind": "view",
+    "label": "TaskTile",
+    "anchor": "todo:view:TaskTile:Task",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"View\\\",\\\"TaskTile\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 14346,
+    "end": 15682
+  },
+  "contract": {
+    "target": "Task",
+    "profile": null,
+    "prompt_sha256": "4dec9bf4126c6f32c421d31ea192bbe1ac75363bac4a252e5cf2f14901c79900",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "71f9cd43eeeb99ff738ddfa6e4fa0df6447ff9204414980dcba2222deaf94a63",
+    "files": {
+      "implementation.js": "653e4356218989703c439e5243af39629132f91ebb2b4f54c558c0cecabf5fa3",
+      "server.js": "653e4356218989703c439e5243af39629132f91ebb2b4f54c558c0cecabf5fa3",
+      "source-behavior.can.txt": "552d9cf8472c24bb9d634b594cca7675811d66ded499e47ff6aba221dcc352d6"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

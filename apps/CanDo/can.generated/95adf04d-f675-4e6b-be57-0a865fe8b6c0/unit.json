@@ -1,20 +1,33 @@
 {
-  "unit_id": "95adf04d-f675-4e6b-be57-0a865fe8b6c0",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanDo/CanDo.can",
-  "owner": "todo",
-  "source_line": 121,
-  "page": null,
-  "view": null,
-  "label": "TaskField",
-  "style_scope": "definition",
-  "prompt": "Comfortable task-entry fields with clear labels, error text and visible keyboard focus. Use the existing theme, keep each field at full available width, and preserve canonical values and validation.",
-  "profile": "frontend",
-  "draft_source_key": "[\"todo\",\"style\",\"TaskField\",null]"
+  "id": "95adf04d-f675-4e6b-be57-0a865fe8b6c0",
+  "source": {
+    "owner": "todo",
+    "kind": "style",
+    "label": "TaskField",
+    "anchor": "todo:style:TaskField:",
+    "selector": "[\"todo\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"TaskField\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanDo.can",
+    "revision": "eb07184b9457fb6f2ebd4d1387b73ebb38f2babfb20faa0648a7840592bdf8cf",
+    "start": 13550,
+    "end": 13770
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "22f5cd1d71a548772c0acc9972c6b17867149d72a9975a0e44c782c55ccb9eb0",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "22f5cd1d71a548772c0acc9972c6b17867149d72a9975a0e44c782c55ccb9eb0",
+    "files": {
+      "style.css": "ece9b87ef8227fa4c79851ed45f81682e8fc3f9646adf9832f3f5db9a24d8b81"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }
