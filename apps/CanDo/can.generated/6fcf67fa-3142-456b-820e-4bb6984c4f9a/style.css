@@ -1,4 +1,4 @@
-/* Handwritten draft: :scope denotes this admitted root/host.
+/* Handwritten draft: :host denotes this admitted root/host.
    Compiler ownership lowering and canonical parts remain provisional. */
-:scope { min-block-size: 2.75rem; padding-inline: 1rem; font-weight: 600; }
-:scope:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+:host { min-block-size: 2.75rem; padding-inline: 1rem; font-weight: 600; }
+:host(:focus-visible) { outline: 2px solid currentColor; outline-offset: 3px; }
