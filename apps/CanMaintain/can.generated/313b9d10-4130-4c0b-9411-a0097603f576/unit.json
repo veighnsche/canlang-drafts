@@ -1,20 +1,33 @@
 {
-  "unit_id": "313b9d10-4130-4c0b-9411-a0097603f576",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanMaintain/CanMaintain.can",
-  "owner": "maintain",
-  "page": null,
-  "view": null,
-  "label": "MaintainWorkspace",
-  "prompt": "Make asset and repair rows easy to scan by severity, due date, and verified state. Keep inspections, affected bookings, contractor outcomes, and manager verification evidence distinct; emphasize return-to-service context without implying unconfirmed restoration. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 431,
-  "draft_source_key": "[\"maintain\",\"style\",\"MaintainWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "313b9d10-4130-4c0b-9411-a0097603f576",
+  "source": {
+    "owner": "maintain",
+    "kind": "style",
+    "label": "MaintainWorkspace",
+    "anchor": "maintain:style:MaintainWorkspace:",
+    "selector": "[\"maintain\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"MaintainWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanMaintain.can",
+    "revision": "0de1f5b250386a79c162511ec212a47724f3ce0833e9f7bc7c0d09d64180ef67",
+    "start": 43629,
+    "end": 44194
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "b8a11a71c34f7b1f11041c1a0f71ee0137caf34d9b2db545474704bc3e9d6481",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "b8a11a71c34f7b1f11041c1a0f71ee0137caf34d9b2db545474704bc3e9d6481",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "5ed13954-bed0-424b-99dc-1770802af07a",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanTime/CanTime.can",
-  "owner": "time",
-  "page": null,
-  "view": null,
-  "label": "TimeWorkspace",
-  "prompt": "Make timers and manual entry convenient above readable time rows. Align durations, rates, and currency-grouped amounts; distinguish observed entries, frozen period reviews, correction evidence, and billing outcomes with clear labels and review reasons. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 251,
-  "draft_source_key": "[\"time\",\"style\",\"TimeWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "5ed13954-bed0-424b-99dc-1770802af07a",
+  "source": {
+    "owner": "time",
+    "kind": "style",
+    "label": "TimeWorkspace",
+    "anchor": "time:style:TimeWorkspace:",
+    "selector": "[\"time\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"TimeWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanTime.can",
+    "revision": "bf316dcec0cd62341d28fe0964508969876a6d0f43399169808ba25a68edfd39",
+    "start": 24540,
+    "end": 25325
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "2dae2fdaaa4ac3512dd50a59b7e2e75c3f267b5eef23c6c5478bf699c7d69b19",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "ff848ba1a0c5d6749c1c0a580d7fb9cf8da03b32d4949a228f40b0bdd22b96f8",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

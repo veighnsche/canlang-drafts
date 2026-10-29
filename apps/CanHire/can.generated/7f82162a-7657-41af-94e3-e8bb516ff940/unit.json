@@ -1,44 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "hire",
-  "source": "apps/CanHire/CanHire.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "7f82162a-7657-41af-94e3-e8bb516ff940",
-  "kind": "then_view",
-  "label": "CandidateApplication",
-  "profile": "frontend",
-  "declaration_selector": "hire.CandidateApplication",
-  "target": "view CandidateApplication(row:Candidate)",
-  "prompt": "Present only the admitted candidate application and optional CV in their original order with canonical localized field captions, exact text and file formatting, null handling and safe omission of withheld fields. Keep the candidate name, stage, canonical Download CV link, recruiter-only reason, interview evidence, forms and all permissions at the use site. Do not reveal email, account, source or interview feedback.",
-  "export_roles": [
-    "render"
-  ],
-  "row_model": "Candidate",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields"
-  ],
-  "source_transformation": {
-    "kind": "row-fragment",
-    "declaration": "  view CandidateApplication(row:Candidate) $\"Present only the admitted candidate application and optional CV in their original order with canonical localized field captions, exact text and file formatting, null handling and safe omission of withheld fields. Keep the candidate name, stage, canonical Download CV link, recruiter-only reason, interview evidence, forms and all permissions at the use site. Do not reveal email, account, source or interview feedback.\" $\"Give the application readable line length and wrapping, with a compact separated CV summary below it. Inherit the hiring page typography and theme and stack naturally at narrow widths. Preserve localized file and missing-file presentation and withheld-field omission.\"\n",
-    "replacements": [
-      {
-        "original": "       text row.application,row.cv\n",
-        "replacement": "       show CandidateApplication {row=row}\n",
-        "count": 1
-      },
-      {
-        "original": "       text row.name,row.application,row.cv\n",
-        "replacement": "       text row.name\n       show CandidateApplication {row=row}\n",
-        "count": 1
-      }
-    ]
+  "id": "7f82162a-7657-41af-94e3-e8bb516ff940",
+  "source": {
+    "owner": "hire",
+    "kind": "view",
+    "label": "CandidateApplication",
+    "anchor": "hire:view:CandidateApplication:Candidate",
+    "selector": "[\"hire\",\"Section:Then\",\"[\\\"View\\\",\\\"CandidateApplication\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanHire.can",
+    "revision": "aae1e4e5e90a5fc27751f9cc739ce5013b963cee58778f0c7e2f0ae88faa3775",
+    "start": 27512,
+    "end": 28248
   },
-  "source_line": 286
+  "contract": {
+    "target": "Candidate",
+    "profile": null,
+    "prompt_sha256": "47a248af8b8b932510052211c641b7ad38cbd538a952e8e3d59ec55ed5a08933",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "47a248af8b8b932510052211c641b7ad38cbd538a952e8e3d59ec55ed5a08933",
+    "files": {
+      "implementation.js": "9e7eddb36f44b97a26f044681cae1dde180835d73d0084c58507b0e686a033cc",
+      "server.js": "9e7eddb36f44b97a26f044681cae1dde180835d73d0084c58507b0e686a033cc",
+      "source-behavior.can.txt": "a779cb2a4ab2eb36ad481c16aa86f5a01192f303c21d81d7aecc4b1a7f253af6"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

@@ -1,43 +1,35 @@
 {
-  "unit_id": "69e7ab05-ce58-450d-a864-f8af3e03f5ed",
   "abi_version": 1,
-  "kind": "then_view",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "board",
-  "label": "ActionEvidence",
-  "profile": "frontend",
-  "source": "apps/CanBoard/CanBoard.can",
-  "prompt": "Render the existing admitted Action completion author and time with canonical localized field captions, exact datetime formatting and safe omission of withheld fields. This is evidence only: it cannot complete the action or display parent board papers. Preserve the caller-owned collapse captions, origin read, controls and collection scope.",
-  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
-  "source_transformation": {
-    "kind": "row-fragment",
-    "declaration": "  view ActionEvidence(row:Action) $\"Render the existing admitted Action completion author and time with canonical localized field captions, exact datetime formatting and safe omission of withheld fields. This is evidence only: it cannot complete the action or display parent board papers. Preserve the caller-owned collapse captions, origin read, controls and collection scope.\" $\"A compact attributed completion stamp: wrap author and time on narrow screens, use existing theme typography, and preserve caller-owned collapse and control behavior.\"\n",
-    "replacements": [
-      {
-        "original": "          text row.completed_by,row.completed_at\n",
-        "replacement": "          show ActionEvidence {row=row}\n"
-      },
-      {
-        "original": "      text row.completed_by,row.completed_at\n",
-        "replacement": "      show ActionEvidence {row=row}\n"
-      }
-    ]
+  "id": "69e7ab05-ce58-450d-a864-f8af3e03f5ed",
+  "source": {
+    "owner": "board",
+    "kind": "view",
+    "label": "ActionEvidence",
+    "anchor": "board:view:ActionEvidence:Action",
+    "selector": "[\"board\",\"Section:Then\",\"[\\\"View\\\",\\\"ActionEvidence\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanBoard.can",
+    "revision": "7f798c990715144a773b42ae4dd825d2e682c5f99ed4417bafb19e45c1802362",
+    "start": 13046,
+    "end": 13595
   },
-  "row_model": "Action",
-  "export_roles": [
-    "render"
-  ],
-  "view": "ActionEvidence",
-  "declaration_selector": "board.ActionEvidence",
-  "target": "view ActionEvidence(row:Action)",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "textFields"
-  ],
-  "source_line": 126
+  "contract": {
+    "target": "Action",
+    "profile": null,
+    "prompt_sha256": "3d28a92308a5237bc97213f49d925925625d5cdb7bccc50979f2ed43fec35235",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "3d28a92308a5237bc97213f49d925925625d5cdb7bccc50979f2ed43fec35235",
+    "files": {
+      "implementation.js": "7af74f206b514f033d96bb9a33dec4d1375816c7b1311c9d49fa6eacb54c4212",
+      "server.js": "7af74f206b514f033d96bb9a33dec4d1375816c7b1311c9d49fa6eacb54c4212",
+      "source-behavior.can.txt": "ca1c275d542ae298211aefa7879f9e3d4fdfb0d4648b84a81b1626736c236771"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

@@ -1,29 +1,34 @@
 {
-  "unit_id": "ad2c4ef5-40e0-44f3-83ec-ef4b49dc7179",
   "abi_version": 1,
-  "kind": "given_trait",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "board",
-  "label": "completion_evidence",
-  "profile": "shared",
-  "source": "apps/CanBoard/CanBoard.can",
-  "prompt": "Supply the existing Action completion evidence: done defaults to false, completed_by is an optional user and completed_at an optional datetime, with their existing English/Dutch captions. Add no completion operation, permission, automatic actor/time or new invariant; complete remains the only declared transition here.",
-  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
-  "source_transformation": {
-    "kind": "model-declaration",
-    "original": "  export Action in Resolution { title:text, owner:user label=\"Responsible person\"@{nl=\"Verantwoordelijke\"}, due:date, done:bool=false, completed_by:user? label=\"Completed by\"@{nl=\"Afgerond door\"}, completed_at:datetime? label=\"Completion time\"@{nl=\"Afgerond op\"} } label=\"Board action\"@{nl=\"Bestuursactie\"}\n",
-    "replacement": "  export Action in Resolution { title:text, owner:user label=\"Responsible person\"@{nl=\"Verantwoordelijke\"}, due:date } completion_evidence label=\"Board action\"@{nl=\"Bestuursactie\"}\n",
-    "declaration": "  trait completion_evidence $\"Supply the existing Action completion evidence: done defaults to false, completed_by is an optional user and completed_at an optional datetime, with their existing English/Dutch captions. Add no completion operation, permission, automatic actor/time or new invariant; complete remains the only declared transition here.\"\n"
+  "id": "ad2c4ef5-40e0-44f3-83ec-ef4b49dc7179",
+  "source": {
+    "owner": "board",
+    "kind": "named-trait",
+    "label": "completion_evidence",
+    "anchor": "board:trait:completion_evidence:",
+    "selector": "[\"board\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"completion_evidence\\\"]\",\"slot:NamedTrait\"]",
+    "path": "CanBoard.can",
+    "revision": "7f798c990715144a773b42ae4dd825d2e682c5f99ed4417bafb19e45c1802362",
+    "start": 682,
+    "end": 1033
   },
-  "target_kind": "model",
-  "target_model": "Action",
-  "fields": [
-    "done",
-    "completed_by",
-    "completed_at"
-  ],
-  "source_line": 8
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "6f6136cce70370291621abf050701fc6a6b3cfb62b45956803c720b53d394dee",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "6f6136cce70370291621abf050701fc6a6b3cfb62b45956803c720b53d394dee",
+    "files": {
+      "contributions.can": "1792bd91be6736d0a7e285c470ec62397d86fc5a08449d5c81ceb810896aef60",
+      "source-behavior.can.txt": "c9579786ef9c5e327092739b2bbc873572b7a287b79604ab2ad7a3a6e0de4fff"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

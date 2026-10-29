@@ -1,20 +1,33 @@
 {
-  "unit_id": "51aaa87c-7f33-4bf3-89e8-a599edc0557a",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanSync/CanSync.can",
-  "owner": "sync",
-  "page": "/sync",
-  "view": null,
-  "label": null,
-  "prompt": "Use compact linked-account rows and balanced correction comparisons. Clearly separate observed remote values, desired changes, review decisions, and write outcomes; keep failed or uncertain attempts legible alongside baseline revisions and recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /sync page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 173,
-  "draft_source_key": "[\"sync\",\"page\",\"/sync\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "51aaa87c-7f33-4bf3-89e8-a599edc0557a",
+  "source": {
+    "owner": "sync",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "sync:style-inline:Page:Page",
+    "selector": "[\"sync\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"sync\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanSync.can",
+    "revision": "3f4b6bf32451aa518353a23d475d779ab5e11e21ed2aab0bd19c519c6378d2f8",
+    "start": 15578,
+    "end": 16349
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "2b63e538500dcb42da12d00ebc6eda3d938dc7e2972061eedff5f20d46cf3286",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "7261eac8542878d7df03af8bb38a0734ee38f11fe7be0bed0a8889a95477c1b6",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

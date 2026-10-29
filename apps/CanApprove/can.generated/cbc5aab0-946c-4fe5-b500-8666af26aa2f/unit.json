@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "approve",
-  "source": "apps/CanApprove/CanApprove.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "cbc5aab0-946c-4fe5-b500-8666af26aa2f",
-  "kind": "style",
-  "page": null,
-  "view": "SubmittedVersionStatus",
-  "label": null,
-  "prompt": "Align the version state badge and overdue status as a compact labeled status group with clear spacing. Wrap at narrow widths, inherit theme and typography, and retain canonical status words and accessible indicator semantics without relying on color alone.",
-  "profile": "frontend",
-  "source_line": 272,
-  "draft_source_key": "[\"approve\",\"view\",\"SubmittedVersionStatus\",null]",
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "cbc5aab0-946c-4fe5-b500-8666af26aa2f",
+  "source": {
+    "owner": "approve",
+    "kind": "view-style-inline",
+    "label": "SubmittedVersionStatus",
+    "anchor": "approve:view-style-inline:SubmittedVersionStatus:SubmittedVersionStatus",
+    "selector": "[\"approve\",\"Section:Then\",\"[\\\"View\\\",\\\"SubmittedVersionStatus\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanApprove.can",
+    "revision": "1731c783faaafa72f8a884f44430a91c0a8142fec0fe84f38b634b2fd688dc8e",
+    "start": 29963,
+    "end": 30223
+  },
+  "contract": {
+    "target": "SubmittedVersionStatus",
+    "profile": null,
+    "prompt_sha256": "de26b20c1f921c63c1741fc8321fa8c3884c8004c17907800474ede1d520f0a5",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "de26b20c1f921c63c1741fc8321fa8c3884c8004c17907800474ede1d520f0a5",
+    "files": {
+      "style.css": "2fd8a83de795e634c00e6bf7fba496a1818bdc98c8ec3349917070d1cbbd0fd5"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

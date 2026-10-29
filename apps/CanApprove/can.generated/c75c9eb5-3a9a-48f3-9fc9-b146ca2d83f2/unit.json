@@ -1,20 +1,33 @@
 {
-  "unit_id": "c75c9eb5-3a9a-48f3-9fc9-b146ca2d83f2",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanApprove/CanApprove.can",
-  "owner": "approve",
-  "page": null,
-  "view": null,
-  "label": "ApproveWorkspace",
-  "prompt": "Style document submissions as a calm review workspace with version-first rows, clear due dates, and labeled pending or decided states. Give exact files and decision reasons prominence; keep review history secondary but accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 271,
-  "draft_source_key": "[\"approve\",\"style\",\"ApproveWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "c75c9eb5-3a9a-48f3-9fc9-b146ca2d83f2",
+  "source": {
+    "owner": "approve",
+    "kind": "style",
+    "label": "ApproveWorkspace",
+    "anchor": "approve:style:ApproveWorkspace:",
+    "selector": "[\"approve\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ApproveWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanApprove.can",
+    "revision": "1731c783faaafa72f8a884f44430a91c0a8142fec0fe84f38b634b2fd688dc8e",
+    "start": 28730,
+    "end": 29450
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "70964bb63bdcd13252363a9b6c52477e4217be4665ca98b477120a271cb61dee",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "357afd697e56c97e56f1f57365ca03558ce6e12d06a13f646b4fb11af68ef0b3",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

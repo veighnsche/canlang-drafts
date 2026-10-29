@@ -1,20 +1,33 @@
 {
-  "unit_id": "6786244e-1dc9-42dc-8dac-85631e0c64d3",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanLoyalty/CanLoyalty.can",
-  "owner": "loyalty",
-  "page": null,
-  "view": null,
-  "label": "LoyaltyWorkspace",
-  "prompt": "Make earned points and tier progress readable with restrained emphasis. Keep reward reservations, fulfillment evidence, and earning corrections in distinct labeled sections; preserve the difference between points, available perks, and cash or membership allowances. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 217,
-  "draft_source_key": "[\"loyalty\",\"style\",\"LoyaltyWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "6786244e-1dc9-42dc-8dac-85631e0c64d3",
+  "source": {
+    "owner": "loyalty",
+    "kind": "style",
+    "label": "LoyaltyWorkspace",
+    "anchor": "loyalty:style:LoyaltyWorkspace:",
+    "selector": "[\"loyalty\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"LoyaltyWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanLoyalty.can",
+    "revision": "9686b9d6d3ff00b7dc7059fe3658cc9bfad43386e23e7180476422af46b895b6",
+    "start": 21382,
+    "end": 21949
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "b60725761d63a9d791fd802ddc773d43da69180d29d0209815cd739e3398ce6c",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "b60725761d63a9d791fd802ddc773d43da69180d29d0209815cd739e3398ce6c",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

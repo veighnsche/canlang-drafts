@@ -1,20 +1,33 @@
 {
-  "unit_id": "9687f98b-c18b-4d19-bfbb-efcaf6b60202",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanFeedback/CanFeedback.can",
-  "owner": "feedback",
-  "page": null,
-  "view": null,
-  "label": "FeedbackWorkspace",
-  "prompt": "Make workspace suggestions approachable with clear contribution forms and readable responses. Emphasize published roadmap status and aggregate votes in orderly rows; keep urgent private issues, moderation decisions, and duplicate context in their declared sections. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 262,
-  "draft_source_key": "[\"feedback\",\"style\",\"FeedbackWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "9687f98b-c18b-4d19-bfbb-efcaf6b60202",
+  "source": {
+    "owner": "feedback",
+    "kind": "style",
+    "label": "FeedbackWorkspace",
+    "anchor": "feedback:style:FeedbackWorkspace:",
+    "selector": "[\"feedback\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"FeedbackWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanFeedback.can",
+    "revision": "68fadca22320ed8bee1ed13a1d35fa0526f30155350e1aad9b9ea7d627e75361",
+    "start": 22516,
+    "end": 23084
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "96f46cb2557f583cb40fc8fbad3e82cd6aa6e7c523e96244bdcf8987d7525971",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "96f46cb2557f583cb40fc8fbad3e82cd6aa6e7c523e96244bdcf8987d7525971",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

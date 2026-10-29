@@ -1,20 +1,33 @@
 {
-  "unit_id": "c6fa6eab-e0c8-4fc8-a233-c3f8d35dec2d",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanField/CanField.can",
-  "owner": "field",
-  "page": null,
-  "view": null,
-  "label": "FieldWorkspace",
-  "prompt": "Use a legible dated service agenda and compact visit details that prioritize location, staff, skill, and status. Keep replacement requests and attributed reports readable; distinguish planned visits from completed work and source verification evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 196,
-  "draft_source_key": "[\"field\",\"style\",\"FieldWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "c6fa6eab-e0c8-4fc8-a233-c3f8d35dec2d",
+  "source": {
+    "owner": "field",
+    "kind": "style",
+    "label": "FieldWorkspace",
+    "anchor": "field:style:FieldWorkspace:",
+    "selector": "[\"field\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"FieldWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanField.can",
+    "revision": "5eeb69e3526d08d7017a440eb28ed5b211bc5d46d2bef5803c3c77741cf20048",
+    "start": 20207,
+    "end": 20759
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "5952fb9516b43917680927cfb014906837de352e5dceaf222abfd9b399b12804",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "5952fb9516b43917680927cfb014906837de352e5dceaf222abfd9b399b12804",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "8ae3538f-80d7-4913-8eb5-9c86f45a536e",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanReception/CanReception.can",
-  "owner": "reception",
-  "page": null,
-  "view": null,
-  "label": "ReceptionWorkspace",
-  "prompt": "Use fast-scanning visitor queues with clear expected, arrived, departed, and overdue labels. Keep host presence, scoped admission, physical credential records, and device-confirmed outcomes distinct; prioritize current reception actions without implying access from an unconfirmed request. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 365,
-  "draft_source_key": "[\"reception\",\"style\",\"ReceptionWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "8ae3538f-80d7-4913-8eb5-9c86f45a536e",
+  "source": {
+    "owner": "reception",
+    "kind": "style",
+    "label": "ReceptionWorkspace",
+    "anchor": "reception:style:ReceptionWorkspace:",
+    "selector": "[\"reception\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ReceptionWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanReception.can",
+    "revision": "843154513f57b6431796dc22154c0dd68c3f2af82798d375585ef1700cc064b3",
+    "start": 36306,
+    "end": 36899
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "98571d164c8f3d39b7ac4cd93f086fcefa8cf614b69a321a1a5c88ccd7b5c6ef",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "98571d164c8f3d39b7ac4cd93f086fcefa8cf614b69a321a1a5c88ccd7b5c6ef",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

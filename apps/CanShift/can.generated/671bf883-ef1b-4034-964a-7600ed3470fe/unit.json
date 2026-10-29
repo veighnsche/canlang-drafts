@@ -1,20 +1,33 @@
 {
-  "unit_id": "671bf883-ef1b-4034-964a-7600ed3470fe",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanShift/CanShift.can",
-  "owner": "shift",
-  "page": null,
-  "view": null,
-  "label": "ShiftWorkspace",
-  "prompt": "Create a readable dated roster with clear staff commitments, locations, roles, and conflicts. Keep coverage requirements and published duties distinct from private leave information; make swap decisions and notification outcomes easy to follow. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 324,
-  "draft_source_key": "[\"shift\",\"style\",\"ShiftWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "671bf883-ef1b-4034-964a-7600ed3470fe",
+  "source": {
+    "owner": "shift",
+    "kind": "style",
+    "label": "ShiftWorkspace",
+    "anchor": "shift:style:ShiftWorkspace:",
+    "selector": "[\"shift\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ShiftWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanShift.can",
+    "revision": "22ab7d2c3daa21ea714087173300850e2d2a1e21dfada82621d0315c21fc2f57",
+    "start": 41088,
+    "end": 41902
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "293dbfdcc761e038dec23ed38b1fcb95288648c95fe411d9f254ff0878845db0",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c316dd105b5b29754c94b021941e782cf1bde44fcd2d9e8db23ea578d822810a",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "96aca566-8f03-4011-bd9f-1cf5d879db01",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanTrade/CanTrade.can",
-  "owner": "trade",
-  "page": null,
-  "view": null,
-  "label": "TradeWorkspace",
-  "prompt": "Use approachable community listing rows with readable descriptions and clear wanted or offered labels. Keep deliberate contact visibility prominent in authoring; distinguish published listings, own drafts or closed entries, and moderation reasons within their existing views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 81,
-  "draft_source_key": "[\"trade\",\"style\",\"TradeWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "96aca566-8f03-4011-bd9f-1cf5d879db01",
+  "source": {
+    "owner": "trade",
+    "kind": "style",
+    "label": "TradeWorkspace",
+    "anchor": "trade:style:TradeWorkspace:",
+    "selector": "[\"trade\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"TradeWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanTrade.can",
+    "revision": "9738fcc400229ad937c98d457c8806ef08392e6e08f99e9ee95335b1409e2557",
+    "start": 7925,
+    "end": 8747
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "19f521602a5d3cb43504e178107395345b743768f4a8eaf4369ac23d5975535e",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "e11d104559f32fefe34b52f737732d39403f014d1bf4711c9fd24019f42ef2d4",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

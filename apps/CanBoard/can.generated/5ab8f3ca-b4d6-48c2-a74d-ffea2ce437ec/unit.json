@@ -1,20 +1,33 @@
 {
-  "unit_id": "5ab8f3ca-b4d6-48c2-a74d-ffea2ce437ec",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanBoard/CanBoard.can",
-  "owner": "board",
-  "page": null,
-  "view": null,
-  "label": "BoardWorkspace",
-  "prompt": "Use a readable meeting-record layout with ordered agenda rows, generous paper and minutes typography, and distinct resolutions and action lists. Clearly mark finalized records and attributed amendments without implying that completed actions change decisions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 125,
-  "draft_source_key": "[\"board\",\"style\",\"BoardWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "5ab8f3ca-b4d6-48c2-a74d-ffea2ce437ec",
+  "source": {
+    "owner": "board",
+    "kind": "style",
+    "label": "BoardWorkspace",
+    "anchor": "board:style:BoardWorkspace:",
+    "selector": "[\"board\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"BoardWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanBoard.can",
+    "revision": "7f798c990715144a773b42ae4dd825d2e682c5f99ed4417bafb19e45c1802362",
+    "start": 12296,
+    "end": 13046
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "e6305e1d722154c48379ca77e848622442f1f8c65da1d0d101e002a9794e8bb6",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "83eb797516983fb4ddd0601e358beabe0af0b338e185f39e7aa3be086e48a08e",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

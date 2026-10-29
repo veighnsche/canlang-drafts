@@ -1,34 +1,36 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "profile": "shared",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "0defde68-0415-4786-a33b-3ee5ce9892df",
-  "kind": "given_trait",
-  "owner": "trade",
-  "label": "member_audience",
-  "source": "apps/CanTrade/CanTrade.can",
-  "declaration_selector": "trade.member_audience",
-  "prompt": "Default a community listing to the existing members-only audience. Keep public publication an explicit choice governed by the current audience record and membership guards. Preserve enum cases, labels and every existing permission and operation; add no fields or grants.",
-  "target_kind": "field",
-  "applications": [
-    {
-      "model": "Post",
-      "field": "visibility",
-      "type": "enum(member,public)"
-    }
-  ],
-  "export_roles": [
-    "defaultValue"
-  ],
-  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
-  "source_replacement": {
-    "original": "visibility:enum(member,public)=member",
-    "replacement": "visibility:enum(member,public) member_audience"
+  "id": "0defde68-0415-4786-a33b-3ee5ce9892df",
+  "source": {
+    "owner": "trade",
+    "kind": "named-trait",
+    "label": "member_audience",
+    "anchor": "trade:trait:member_audience:",
+    "selector": "[\"trade\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"member_audience\\\"]\",\"slot:NamedTrait\"]",
+    "path": "CanTrade.can",
+    "revision": "9738fcc400229ad937c98d457c8806ef08392e6e08f99e9ee95335b1409e2557",
+    "start": 706,
+    "end": 1004
   },
-  "source_behavior_scope": "original full owning model declaration",
-  "source_line": 10
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "a7e99873654f706ed5ceb595cbf1a4359a8af4e5f55478e09b174475c019dac1",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "a7e99873654f706ed5ceb595cbf1a4359a8af4e5f55478e09b174475c019dac1",
+    "files": {
+      "contributions.can": "b775d34c230667b053978493d6c62f5d11f80ca5599f966c0c9f8433b261ff7e",
+      "implementation.js": "bec4fbc318355ff7bffade0fed5840d70d55a0be856fb8a0e0c5cdaa9b3588a5",
+      "server.js": "bec4fbc318355ff7bffade0fed5840d70d55a0be856fb8a0e0c5cdaa9b3588a5",
+      "source-behavior.can.txt": "9977c835ded88f9beed5797cd6799d82b9d1638534fb25a73a654ec4ed896b1d"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

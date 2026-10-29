@@ -1,20 +1,33 @@
 {
-  "unit_id": "bedf34aa-261f-4391-a39b-3e6b300cfdd9",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanMail/CanMail.can",
-  "owner": "mailroom",
-  "page": null,
-  "view": null,
-  "label": "MailroomWorkspace",
-  "prompt": "Use practical mailroom rows with prominent recipient, storage, kind, and handling state. Distinguish collection, forwarding, notices, and incidents; keep recipient and delegate authority context readable without exposing private instructions in broad list summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 349,
-  "draft_source_key": "[\"mailroom\",\"style\",\"MailroomWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "bedf34aa-261f-4391-a39b-3e6b300cfdd9",
+  "source": {
+    "owner": "mailroom",
+    "kind": "style",
+    "label": "MailroomWorkspace",
+    "anchor": "mailroom:style:MailroomWorkspace:",
+    "selector": "[\"mailroom\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"MailroomWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanMail.can",
+    "revision": "3bdedb3473f07d06ca42dd1c56d549816ac55d38c5dfd808b3a45af98b02c4ea",
+    "start": 39187,
+    "end": 39756
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "5be5e56ff416499328d0ace16a5b77db3cf1d30823a027610e207c324ad4d6e8",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "5be5e56ff416499328d0ace16a5b77db3cf1d30823a027610e207c324ad4d6e8",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

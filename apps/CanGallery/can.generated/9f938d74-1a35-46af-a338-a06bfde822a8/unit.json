@@ -1,20 +1,33 @@
 {
-  "unit_id": "9f938d74-1a35-46af-a338-a06bfde822a8",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanGallery/CanGallery.can",
-  "owner": "gallery",
-  "page": null,
-  "view": null,
-  "label": "GalleryWorkspace",
-  "prompt": "Let approved images lead with consistent preview proportions and restrained collection captions. Keep own submissions, pending review, and approved collections visually distinct; show review actions and collection-access rows without exposing private conversation context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 90,
-  "draft_source_key": "[\"gallery\",\"style\",\"GalleryWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "9f938d74-1a35-46af-a338-a06bfde822a8",
+  "source": {
+    "owner": "gallery",
+    "kind": "style",
+    "label": "GalleryWorkspace",
+    "anchor": "gallery:style:GalleryWorkspace:",
+    "selector": "[\"gallery\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"GalleryWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanGallery.can",
+    "revision": "5001270e54c45b9acaed734af1c6f7d6fd052acdb09df8a46026287293ed5043",
+    "start": 8750,
+    "end": 9487
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "cf612eb341ff73ecfd69b6d2ea7b99dbbdebd916333a712daf2690e4a1d91df4",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "7581b28c7545a970a3ad3c166f6f6cffb11f86d5a0cc330418c0b4a8817ca017",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "38541993-5b38-4c7f-8068-7c3362ffc68a",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanInbox/CanInbox.can",
-  "owner": "inbox",
-  "page": null,
-  "view": null,
-  "label": "InboxWorkspace",
-  "prompt": "Use a compact departmental email queue with readable subjects and sender context. Distinguish incoming evidence, route probabilities, urgency judgments, and staff decisions; keep private transfers and evidenced replies visible beside the selected message. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 316,
-  "draft_source_key": "[\"inbox\",\"style\",\"InboxWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "38541993-5b38-4c7f-8068-7c3362ffc68a",
+  "source": {
+    "owner": "inbox",
+    "kind": "style",
+    "label": "InboxWorkspace",
+    "anchor": "inbox:style:InboxWorkspace:",
+    "selector": "[\"inbox\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"InboxWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanInbox.can",
+    "revision": "37d03a076c4b831cd4020ffbf1661d14a72549df8e14cc9d08a16d0d1bd268da",
+    "start": 31470,
+    "end": 32025
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "dc6ebc7c8043a63d04fae30988561e9e25b5abbc53262a63c184fcaea1cb6c01",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "dc6ebc7c8043a63d04fae30988561e9e25b5abbc53262a63c184fcaea1cb6c01",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "b486bc2f-9227-4782-925a-ce5c8fe2810d",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanVolunteer/CanVolunteer.can",
-  "owner": "volunteer",
-  "page": null,
-  "view": null,
-  "label": "VolunteerWorkspace",
-  "prompt": "Make activity dates, requirements, and remaining places easy to scan. Keep own assignments, cancellation, reconfirmation, and attributed task completion readable; separate organizer attendance evidence and venue outcomes from participant signup status. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 205,
-  "draft_source_key": "[\"volunteer\",\"style\",\"VolunteerWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "b486bc2f-9227-4782-925a-ce5c8fe2810d",
+  "source": {
+    "owner": "volunteer",
+    "kind": "style",
+    "label": "VolunteerWorkspace",
+    "anchor": "volunteer:style:VolunteerWorkspace:",
+    "selector": "[\"volunteer\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"VolunteerWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanVolunteer.can",
+    "revision": "80fac88b1486b3d01becfd75dde1d7dda097f90c93c5fe8287890d106806bb68",
+    "start": 21733,
+    "end": 22527
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "f92004d5e6d2235185a7ef342c250819629293a0d751d257ab0c89efad11a800",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "4ee34b69e5a349d2fba6e455bde3f23c6ee50d18440eed1419aa9599cf911c2d",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

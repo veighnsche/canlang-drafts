@@ -1,20 +1,33 @@
 {
-  "unit_id": "1dcedacc-0769-4629-9c07-03b9814c94a9",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanOnboard/CanOnboard.can",
-  "owner": "onboard",
-  "page": null,
-  "view": null,
-  "label": "OnboardWorkspace",
-  "prompt": "Use a discreet readiness checklist with readable assigned steps, version context, and attachments. Make each recorded completion and remaining requirement easy to scan; keep employee identity and private onboarding information within their existing authorized views. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 138,
-  "draft_source_key": "[\"onboard\",\"style\",\"OnboardWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "1dcedacc-0769-4629-9c07-03b9814c94a9",
+  "source": {
+    "owner": "onboard",
+    "kind": "style",
+    "label": "OnboardWorkspace",
+    "anchor": "onboard:style:OnboardWorkspace:",
+    "selector": "[\"onboard\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"OnboardWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanOnboard.can",
+    "revision": "030f3a38402dfa5504a9d9205e981dabb059f19eb248d3704d935062facc3bfb",
+    "start": 11781,
+    "end": 12349
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "401e1aa4e6c9023935bccbbcccde2ab15c0ef046ea97453050c7b38875162b8a",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "401e1aa4e6c9023935bccbbcccde2ab15c0ef046ea97453050c7b38875162b8a",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

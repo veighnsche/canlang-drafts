@@ -1,21 +1,33 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "hire",
-  "source": "apps/CanHire/CanHire.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "8035fbf7-76b4-4f04-9ee2-30682279c25f",
-  "kind": "style",
-  "page": null,
-  "view": "CandidateApplication",
-  "label": null,
-  "prompt": "Give the application readable line length and wrapping, with a compact separated CV summary below it. Inherit the hiring page typography and theme and stack naturally at narrow widths. Preserve localized file and missing-file presentation and withheld-field omission.",
-  "profile": "frontend",
-  "source_line": 286,
-  "draft_source_key": "[\"hire\",\"view\",\"CandidateApplication\",null]",
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "8035fbf7-76b4-4f04-9ee2-30682279c25f",
+  "source": {
+    "owner": "hire",
+    "kind": "view-style-inline",
+    "label": "CandidateApplication",
+    "anchor": "hire:view-style-inline:CandidateApplication:CandidateApplication",
+    "selector": "[\"hire\",\"Section:Then\",\"[\\\"View\\\",\\\"CandidateApplication\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanHire.can",
+    "revision": "aae1e4e5e90a5fc27751f9cc739ce5013b963cee58778f0c7e2f0ae88faa3775",
+    "start": 27977,
+    "end": 28248
+  },
+  "contract": {
+    "target": "CandidateApplication",
+    "profile": null,
+    "prompt_sha256": "ec0443e8b7b2e6f2d2d9822fa252d5ec06af0340af5a522a7325332b660ee69a",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "ec0443e8b7b2e6f2d2d9822fa252d5ec06af0340af5a522a7325332b660ee69a",
+    "files": {
+      "style.css": "8dd14457d5bd212d8c45ceb6cd4d8a9465f9d79d70ecd22d723e95e98fd67d4c"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

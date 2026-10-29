@@ -1,20 +1,33 @@
 {
-  "unit_id": "e3220085-a11e-45ba-a115-67afec683f39",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanDiscover/CanDiscover.can",
-  "owner": "discover",
-  "page": "/discover",
-  "view": null,
-  "label": null,
-  "prompt": "Prioritize opportunity evidence and staff review over decorative metrics. Keep research plans, source-pass coverage, uncertain identities, conflicts, and review outcomes easy to scan; make CRM handoff context explicit beside the reviewed opportunity. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /discover page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 320,
-  "draft_source_key": "[\"discover\",\"page\",\"/discover\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "e3220085-a11e-45ba-a115-67afec683f39",
+  "source": {
+    "owner": "discover",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "discover:style-inline:Page:Page",
+    "selector": "[\"discover\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"discover\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanDiscover.can",
+    "revision": "486d3e9009f2457c796d0152fff27cc1fca073461aadfef6b91e3327d2a86a3f",
+    "start": 29899,
+    "end": 30615
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "05faf3de08d051c9128fe77d29d1f7ffcbfdfc2fe2c8e00d81f91cae6c877f24",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c4708b52f715e1bd1afc64e0940e1ccda3408c798f7b19a9135b52adbd830649",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

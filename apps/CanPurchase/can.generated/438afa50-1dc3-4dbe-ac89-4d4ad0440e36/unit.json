@@ -1,20 +1,33 @@
 {
-  "unit_id": "438afa50-1dc3-4dbe-ac89-4d4ad0440e36",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanPurchase/CanPurchase.can",
-  "owner": "purchase",
-  "page": null,
-  "view": null,
-  "label": "PurchaseWorkspace",
-  "prompt": "Favor clear purchase-request rows with location, required date, and aligned currency amounts. Make request details and approval state easy to scan; preserve the separation between affordable commitments, partial receipts, and spending evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 378,
-  "draft_source_key": "[\"purchase\",\"style\",\"PurchaseWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "438afa50-1dc3-4dbe-ac89-4d4ad0440e36",
+  "source": {
+    "owner": "purchase",
+    "kind": "style",
+    "label": "PurchaseWorkspace",
+    "anchor": "purchase:style:PurchaseWorkspace:",
+    "selector": "[\"purchase\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"PurchaseWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanPurchase.can",
+    "revision": "1a67feac3192e720057f0437c79d432db60b9da806c5fe92c49a939fd82318c5",
+    "start": 38944,
+    "end": 39491
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "c0f0ed6afcbdef0736f0b07b1318a7742ca39fd96f20356ba88c17100ac535bc",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c0f0ed6afcbdef0736f0b07b1318a7742ca39fd96f20356ba88c17100ac535bc",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "e55dbd9a-2643-4ec0-9fc4-f4588f1dac16",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanBoard/CanBoard.can",
-  "owner": "board",
-  "page": null,
-  "view": "ActionEvidence",
-  "label": null,
-  "prompt": "A compact attributed completion stamp: wrap author and time on narrow screens, use existing theme typography, and preserve caller-owned collapse and control behavior.",
-  "profile": "frontend",
-  "source_line": 126,
-  "draft_source_key": "[\"board\",\"view\",\"ActionEvidence\",null]",
-  "style_scope": "inline"
+  "id": "e55dbd9a-2643-4ec0-9fc4-f4588f1dac16",
+  "source": {
+    "owner": "board",
+    "kind": "view-style-inline",
+    "label": "ActionEvidence",
+    "anchor": "board:view-style-inline:ActionEvidence:ActionEvidence",
+    "selector": "[\"board\",\"Section:Then\",\"[\\\"View\\\",\\\"ActionEvidence\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanBoard.can",
+    "revision": "7f798c990715144a773b42ae4dd825d2e682c5f99ed4417bafb19e45c1802362",
+    "start": 13425,
+    "end": 13595
+  },
+  "contract": {
+    "target": "ActionEvidence",
+    "profile": null,
+    "prompt_sha256": "c59d18fc3513f782303dcd1189ba3c6017128b1ed35315161d30abfa634f5103",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c59d18fc3513f782303dcd1189ba3c6017128b1ed35315161d30abfa634f5103",
+    "files": {
+      "style.css": "094d9c464862d46622920829ea499311f1c2039bd0c5843b9157b2a86b09e366"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

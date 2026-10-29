@@ -1,20 +1,33 @@
 {
-  "unit_id": "15437397-d74e-408e-aa3d-c50e7e4460b8",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanCatch/CanCatch.can",
-  "owner": "catch",
-  "page": "/errors",
-  "view": null,
-  "label": null,
-  "prompt": "Use dense but legible error issue rows with environment, release, frequency, and triage state. Render stack evidence in readable monospace blocks, and distinguish capture health, repair tasks, occurrence evidence, and alert delivery. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /errors page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 172,
-  "draft_source_key": "[\"catch\",\"page\",\"/errors\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "15437397-d74e-408e-aa3d-c50e7e4460b8",
+  "source": {
+    "owner": "catch",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "catch:style-inline:Page:Page",
+    "selector": "[\"catch\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"errors\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanCatch.can",
+    "revision": "7a01e19921a0a55a1a28453d1d0f4f8a4a76891101fcae22645544a5120b8cb8",
+    "start": 16603,
+    "end": 17099
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "6ca55fe7f665805993e47cb8311fb51cb93593020fb6c4556a801ae142d70ea6",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "6ca55fe7f665805993e47cb8311fb51cb93593020fb6c4556a801ae142d70ea6",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

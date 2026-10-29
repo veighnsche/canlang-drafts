@@ -1,28 +1,34 @@
 {
-  "unit_id": "1337f3b5-3901-42ce-9c04-dc2e263f8c62",
   "abi_version": 1,
-  "kind": "given_trait",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "board",
-  "label": null,
-  "profile": "shared",
-  "source": "apps/CanBoard/CanBoard.can",
-  "prompt": "Give this Meeting its existing finalization evidence: finalized defaults to false; finalized_by and finalized_at remain nullable. Preserve the original localized field labels. Do not finalize automatically, add invariants, relax the lock or grant permission; the existing finalize scenario owns the transition.",
-  "interface_status": "Provisional handwritten interface; no compiler/runtime execution claimed",
-  "source_transformation": {
-    "kind": "model-declaration",
-    "original": "  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label=\"Attendance\"@{nl=\"Aanwezigheid\"}, minutes:text? label=\"Minutes\"@{nl=\"Notulen\"}, finalized:bool=false label=label_Meeting_finalized, finalized_by:user? label=\"Finalized by\"@{nl=\"Definitief gemaakt door\"}, finalized_at:datetime? label=\"Finalization time\"@{nl=\"Definitief gemaakt op\"} } label=\"Meeting\"@{nl=\"Vergadering\"}\n",
-    "replacement": "  Meeting { title:text, at:datetime, timezone:timezone, location:Location, attendance:user[] label=\"Attendance\"@{nl=\"Aanwezigheid\"}, minutes:text? label=\"Minutes\"@{nl=\"Notulen\"} } trait $\"Give this Meeting its existing finalization evidence: finalized defaults to false; finalized_by and finalized_at remain nullable. Preserve the original localized field labels. Do not finalize automatically, add invariants, relax the lock or grant permission; the existing finalize scenario owns the transition.\" label=\"Meeting\"@{nl=\"Vergadering\"}\n"
+  "id": "1337f3b5-3901-42ce-9c04-dc2e263f8c62",
+  "source": {
+    "owner": "board",
+    "kind": "inline-trait",
+    "label": "Meeting",
+    "anchor": "board:inline-trait:Meeting:Meeting",
+    "selector": "[\"board\",\"Section:Given\",\"[\\\"Model\\\",\\\"Meeting\\\"]\",\"slot:InlineTrait\"]",
+    "path": "CanBoard.can",
+    "revision": "7f798c990715144a773b42ae4dd825d2e682c5f99ed4417bafb19e45c1802362",
+    "start": 1820,
+    "end": 2140
   },
-  "target_kind": "model",
-  "target_model": "Meeting",
-  "fields": [
-    "finalized",
-    "finalized_by",
-    "finalized_at"
-  ],
-  "source_line": 15
+  "contract": {
+    "target": "Meeting",
+    "profile": null,
+    "prompt_sha256": "36211f6ba51f90472b35ecf551c31cb6d4a4df93538114164f30cbb2d905b873",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "36211f6ba51f90472b35ecf551c31cb6d4a4df93538114164f30cbb2d905b873",
+    "files": {
+      "contributions.can": "87eb6995c01f6f9155cb1ac314e569fe5c51072f121e1ea7ccd070f0f07e7942",
+      "source-behavior.can.txt": "0346928636ac008596a026978e0addfd667bb0f9e3c35354dbcdc33a0b0ceee4"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

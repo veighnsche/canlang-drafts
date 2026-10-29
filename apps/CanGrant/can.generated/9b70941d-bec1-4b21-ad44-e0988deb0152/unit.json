@@ -1,20 +1,33 @@
 {
-  "unit_id": "9b70941d-bec1-4b21-ad44-e0988deb0152",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanGrant/CanGrant.can",
-  "owner": "grant",
-  "page": null,
-  "view": null,
-  "label": "GrantWorkspace",
-  "prompt": "Use calm program descriptions and private application rows with clear requested currency amounts, review state, and notices. Keep reviewer changes, withdrawals, and correction evidence readable; distinguish affordable commitments from actual received awards. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 342,
-  "draft_source_key": "[\"grant\",\"style\",\"GrantWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "9b70941d-bec1-4b21-ad44-e0988deb0152",
+  "source": {
+    "owner": "grant",
+    "kind": "style",
+    "label": "GrantWorkspace",
+    "anchor": "grant:style:GrantWorkspace:",
+    "selector": "[\"grant\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"GrantWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanGrant.can",
+    "revision": "561a529ccfa417d4a61058dd3a782a8c32931f3c778691012cc0849e39898a67",
+    "start": 40896,
+    "end": 41454
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "04c670e3c3561d8992898dddfa5162b07b93bb4c08fd33a16181742ad4f50130",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "04c670e3c3561d8992898dddfa5162b07b93bb4c08fd33a16181742ad4f50130",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

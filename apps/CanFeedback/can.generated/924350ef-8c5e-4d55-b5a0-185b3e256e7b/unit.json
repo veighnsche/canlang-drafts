@@ -1,34 +1,36 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "profile": "shared",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "924350ef-8c5e-4d55-b5a0-185b3e256e7b",
-  "kind": "given_trait",
-  "owner": "feedback",
-  "label": "pending_review",
-  "source": "apps/CanFeedback/CanFeedback.can",
-  "declaration_selector": "feedback.pending_review",
-  "prompt": "Default a submitted suggestion to hidden, preserving the existing product-owner review before public publication. Keep the contributor-edit hook, moderation operations and policies unchanged. Preserve the boolean type and localized label; add no fields or grants.",
-  "target_kind": "field",
-  "applications": [
-    {
-      "model": "Suggestion",
-      "field": "hidden",
-      "type": "bool"
-    }
-  ],
-  "export_roles": [
-    "defaultValue"
-  ],
-  "contribution_format": "draft owner-attached partial model fragments; not standalone app source",
-  "source_replacement": {
-    "original": "hidden:bool=true",
-    "replacement": "hidden:bool pending_review"
+  "id": "924350ef-8c5e-4d55-b5a0-185b3e256e7b",
+  "source": {
+    "owner": "feedback",
+    "kind": "named-trait",
+    "label": "pending_review",
+    "anchor": "feedback:trait:pending_review:",
+    "selector": "[\"feedback\",\"Section:Given\",\"[\\\"TraitDef\\\",\\\"pending_review\\\"]\",\"slot:NamedTrait\"]",
+    "path": "CanFeedback.can",
+    "revision": "68fadca22320ed8bee1ed13a1d35fa0526f30155350e1aad9b9ea7d627e75361",
+    "start": 638,
+    "end": 928
   },
-  "source_behavior_scope": "original full owning model declaration",
-  "source_line": 10
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "29aa4ebef82bda98b99d6c0874495e83e8c76451456dbbdd1ffa08f2a7ce1761",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "29aa4ebef82bda98b99d6c0874495e83e8c76451456dbbdd1ffa08f2a7ce1761",
+    "files": {
+      "contributions.can": "208e15b31d0dd5692d9a6682220f3ff62d4b6563b7f8f59abafcb339ae550d45",
+      "implementation.js": "9a79597346397baa200d7fd28c23e3e9426b964f7abbb35ab0e9b7a86d1ea4f4",
+      "server.js": "9a79597346397baa200d7fd28c23e3e9426b964f7abbb35ab0e9b7a86d1ea4f4",
+      "source-behavior.can.txt": "f67e89a99383427e10fe31b97f70ad622b2a1397dcfa9937c092635b67010b22"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

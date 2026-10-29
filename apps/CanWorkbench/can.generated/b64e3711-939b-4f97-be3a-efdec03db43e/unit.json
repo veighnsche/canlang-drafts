@@ -1,20 +1,33 @@
 {
-  "unit_id": "b64e3711-939b-4f97-be3a-efdec03db43e",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanWorkbench/CanWorkbench.can",
-  "owner": "workbench",
-  "page": "/workbench",
-  "view": null,
-  "label": null,
-  "prompt": "Use a focused session-and-step layout with readable goals and complete proposed arguments. Clearly distinguish authorized context, suggestions, explicit approvals, and actual delivery outcomes; keep stopped sessions, expiry, and durable history visible beside recovery context. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /workbench page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 170,
-  "draft_source_key": "[\"workbench\",\"page\",\"/workbench\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "b64e3711-939b-4f97-be3a-efdec03db43e",
+  "source": {
+    "owner": "workbench",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "workbench:style-inline:Page:Page",
+    "selector": "[\"workbench\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"workbench\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanWorkbench.can",
+    "revision": "d393863eb9556c40c74d68db26f283871b9d7d52586feb45b0a7eea2276092bd",
+    "start": 14241,
+    "end": 15039
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "0c298eeba870a4313446d878ba8382ae797e60654105071207c13560487f2d37",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "f836afe3aae5e425f9830ad226089356c2f5db3e5b68a4ec50e0129141330f53",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

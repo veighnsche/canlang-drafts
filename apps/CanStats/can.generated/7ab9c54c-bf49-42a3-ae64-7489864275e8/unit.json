@@ -1,20 +1,33 @@
 {
-  "unit_id": "7ab9c54c-bf49-42a3-ae64-7489864275e8",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanStats/CanStats.can",
-  "owner": "stats",
-  "page": "/traffic",
-  "view": null,
-  "label": null,
-  "prompt": "Use restrained traffic-report rows with readable ranges, observed events, and identifier coverage. Clearly label weighted estimates and goals; keep intake health and accepted event evidence accessible without making observed inquiries resemble confirmed sales. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /traffic page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 156,
-  "draft_source_key": "[\"stats\",\"page\",\"/traffic\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "7ab9c54c-bf49-42a3-ae64-7489864275e8",
+  "source": {
+    "owner": "stats",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "stats:style-inline:Page:Page",
+    "selector": "[\"stats\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"traffic\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanStats.can",
+    "revision": "8a39c71ef37ca5f917f92afa74ae5d384585cce13ba6130eeab6f84b0a95183a",
+    "start": 16791,
+    "end": 17554
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "4e190ca4c2a0a77f4af99f8eee0d8c3cdf84a730f2a878a4e767b82212c63710",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "eb9ca4717d212e43d676cc5fc72dae2f08eaf52f847f286a0074fe9e4dd56876",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

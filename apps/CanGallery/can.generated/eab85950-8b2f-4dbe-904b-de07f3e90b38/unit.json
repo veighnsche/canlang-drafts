@@ -1,21 +1,33 @@
 {
-  "unit_id": "eab85950-8b2f-4dbe-904b-de07f3e90b38",
   "abi_version": 1,
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "source": "apps/CanGallery/CanGallery.can",
-  "owner": "gallery",
-  "page": null,
-  "view": "SubmissionIdentity",
-  "label": null,
-  "prompt": "Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.",
-  "profile": "frontend",
-  "source_line": 91,
-  "draft_source_key": "[\"gallery\",\"view\",\"SubmissionIdentity\",null]",
-  "interface_status": "Provisional handwritten CSS ownership hooks; no compiler or browser run claimed",
-  "style_scope": "inline"
+  "id": "eab85950-8b2f-4dbe-904b-de07f3e90b38",
+  "source": {
+    "owner": "gallery",
+    "kind": "view-style-inline",
+    "label": "SubmissionIdentity",
+    "anchor": "gallery:view-style-inline:SubmissionIdentity:SubmissionIdentity",
+    "selector": "[\"gallery\",\"Section:Then\",\"[\\\"View\\\",\\\"SubmissionIdentity\\\"]\",\"slot:ViewRootStyleInline\"]",
+    "path": "CanGallery.can",
+    "revision": "5001270e54c45b9acaed734af1c6f7d6fd052acdb09df8a46026287293ed5043",
+    "start": 9830,
+    "end": 9987
+  },
+  "contract": {
+    "target": "SubmissionIdentity",
+    "profile": null,
+    "prompt_sha256": "4ed9ae186ebf628fe996d2cb527c5be3d088da79882f1ca537ba7c0907b924cc",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "4ed9ae186ebf628fe996d2cb527c5be3d088da79882f1ca537ba7c0907b924cc",
+    "files": {
+      "style.css": "593b55d5ebe1b659f8d5633f43d9ba1189c6c47cdc9235e8fee6297a7a30605f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved"
+  }
 }

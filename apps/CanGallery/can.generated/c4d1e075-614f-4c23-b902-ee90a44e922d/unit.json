@@ -1,43 +1,35 @@
 {
-  "unit_id": "c4d1e075-614f-4c23-b902-ee90a44e922d",
   "abi_version": 1,
-  "kind": "then_view",
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "gallery",
-  "label": "SubmissionIdentity",
-  "profile": "frontend",
-  "source": "apps/CanGallery/CanGallery.can",
-  "declaration_selector": "gallery.SubmissionIdentity",
-  "target": "view SubmissionIdentity(row:Submission)",
-  "prompt": "Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller.",
-  "export_roles": [
-    "render"
-  ],
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "row_model": "Submission",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "titleField",
-    "textFields"
-  ],
-  "definition_style_prompt": "Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.",
-  "source_inverse": {
-    "added_declaration": "  view SubmissionIdentity(row:Submission) $\"Present the admitted submission title, author and rights evidence as a readable shared image identity. Preserve canonical localized field formatting, null handling and field admission. Leave approval time, statement, review state, withdrawal evidence and every canonical form/action at the caller.\"\n   style $\"Keep the image title prominent and rights evidence readable with responsive wrapping; inherit the existing theme and expose local identity/details parts.\"\n",
-    "replacements": [
-      {
-        "original": "       title row.title\n       text row.author,row.rights,row.decided_at\n",
-        "replacement": "       show SubmissionIdentity {row=row}\n       text row.decided_at\n"
-      },
-      {
-        "original": "     title row.title\n     content row.statement\n     text row.author,row.rights\n",
-        "replacement": "     show SubmissionIdentity {row=row}\n     content row.statement\n"
-      }
-    ]
+  "id": "c4d1e075-614f-4c23-b902-ee90a44e922d",
+  "source": {
+    "owner": "gallery",
+    "kind": "view",
+    "label": "SubmissionIdentity",
+    "anchor": "gallery:view:SubmissionIdentity:Submission",
+    "selector": "[\"gallery\",\"Section:Then\",\"[\\\"View\\\",\\\"SubmissionIdentity\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanGallery.can",
+    "revision": "5001270e54c45b9acaed734af1c6f7d6fd052acdb09df8a46026287293ed5043",
+    "start": 9487,
+    "end": 9987
   },
-  "source_line": 91
+  "contract": {
+    "target": "Submission",
+    "profile": null,
+    "prompt_sha256": "01985327abe513c1daf9ef7d1d17ac220b45c15ef7600f4a23c0a426aa488567",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "01985327abe513c1daf9ef7d1d17ac220b45c15ef7600f4a23c0a426aa488567",
+    "files": {
+      "implementation.js": "023d7d3d09169ddfba3070d43885d5d6b4f38266a8e81aadb72ca1bdc6680700",
+      "server.js": "023d7d3d09169ddfba3070d43885d5d6b4f38266a8e81aadb72ca1bdc6680700",
+      "source-behavior.can.txt": "3bdb54a81b3f3643d0964e8b947f1c6a20fe7bcefda57dad9cbafe37cc17854d"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "ee3f57d2-6e19-4ec7-89e1-9b9ff75746b6",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanLearn/CanLearn.can",
-  "owner": "learn",
-  "page": null,
-  "view": null,
-  "label": "LearnWorkspace",
-  "prompt": "Use generous typography for text courses and clear version context beside acknowledgment controls. Keep personal learning records and dated acknowledgment history easy to scan; avoid decorative progress indicators that imply unrecorded completion. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 144,
-  "draft_source_key": "[\"learn\",\"style\",\"LearnWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "ee3f57d2-6e19-4ec7-89e1-9b9ff75746b6",
+  "source": {
+    "owner": "learn",
+    "kind": "style",
+    "label": "LearnWorkspace",
+    "anchor": "learn:style:LearnWorkspace:",
+    "selector": "[\"learn\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"LearnWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanLearn.can",
+    "revision": "fc933bea75afb471df345b442360ea8282a10fb57b3b99d6cfc60e010be14641",
+    "start": 12259,
+    "end": 12806
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "311d641b3a7c2ebe44b3395e08f3f226661fbd45c4a793f01a01e74318db5280",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "311d641b3a7c2ebe44b3395e08f3f226661fbd45c4a793f01a01e74318db5280",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

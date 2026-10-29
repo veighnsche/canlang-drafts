@@ -1,20 +1,33 @@
 {
-  "unit_id": "21e4c10d-b963-4626-acef-656ffb5af4d1",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanEnrich/CanEnrich.can",
-  "owner": "enrich",
-  "page": "/enrichment",
-  "view": null,
-  "label": null,
-  "prompt": "Use a restrained company-review table with clear provider evidence and balanced before-and-after comparisons. Distinguish proposed registry facts, accepted facts, prior values, reviewer reasons, and failed lookups; preserve the chronology of retained evidence. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /enrichment page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 169,
-  "draft_source_key": "[\"enrich\",\"page\",\"/enrichment\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "21e4c10d-b963-4626-acef-656ffb5af4d1",
+  "source": {
+    "owner": "enrich",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "enrich:style-inline:Page:Page",
+    "selector": "[\"enrich\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"enrichment\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanEnrich.can",
+    "revision": "f7401ad1277ae9492324028c7fffe9c1efc973f50d01e9714f97f20a76c500cd",
+    "start": 13175,
+    "end": 13907
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "4f9c57c7eadee624f9cb7372eeccf8cff84c17d03c9228fa21516674781b8471",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "1bb77c164cc927eb8999898fe9d393f0ba0af5519bd4509da04b5a59b9fb6488",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

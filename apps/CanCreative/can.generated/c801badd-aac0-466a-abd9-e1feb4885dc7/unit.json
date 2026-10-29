@@ -1,20 +1,33 @@
 {
-  "unit_id": "c801badd-aac0-466a-abd9-e1feb4885dc7",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanCreative/CanCreative.can",
-  "owner": "creative",
-  "page": null,
-  "view": null,
-  "label": "CreativeWorkspace",
-  "prompt": "Give generated images generous preview space beside concise job progress and workflow context. Distinguish successful outputs, pending delivery, historical callback refusals, and unresolved usage; keep published workflow revisions and budget limits legible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 191,
-  "draft_source_key": "[\"creative\",\"style\",\"CreativeWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "c801badd-aac0-466a-abd9-e1feb4885dc7",
+  "source": {
+    "owner": "creative",
+    "kind": "style",
+    "label": "CreativeWorkspace",
+    "anchor": "creative:style:CreativeWorkspace:",
+    "selector": "[\"creative\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"CreativeWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanCreative.can",
+    "revision": "fe547f5449c9f5ba97c8fc1fe4223b035ac487dcd005e0ac55588b4b0466a65e",
+    "start": 19493,
+    "end": 20262
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "be3c26d0754b12d6a16a8732136df1b4963cfcc64e5bd8110ab8569938119dac",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "34e57186b2014f93146802bab7fbdf613d759a7fd7f94f06a547319c8e407ac0",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

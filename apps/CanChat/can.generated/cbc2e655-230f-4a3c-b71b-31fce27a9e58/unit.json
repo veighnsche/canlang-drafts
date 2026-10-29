@@ -1,20 +1,33 @@
 {
-  "unit_id": "cbc2e655-230f-4a3c-b71b-31fce27a9e58",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanChat/CanChat.can",
-  "owner": "chat",
-  "page": null,
-  "view": null,
-  "label": "ChatWorkspace",
-  "prompt": "Prioritize comfortable conversation reading and clear branching controls. Keep generation progress, reply failures, and unresolved usage visible near the relevant messages; present allowance and administrator rows quietly without obscuring explicit recovery actions. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 190,
-  "draft_source_key": "[\"chat\",\"style\",\"ChatWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "cbc2e655-230f-4a3c-b71b-31fce27a9e58",
+  "source": {
+    "owner": "chat",
+    "kind": "style",
+    "label": "ChatWorkspace",
+    "anchor": "chat:style:ChatWorkspace:",
+    "selector": "[\"chat\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"ChatWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanChat.can",
+    "revision": "5ea02c26c8bca1c6de7ee362b98de15080eb4ee9e7149f1bb98461c34891c26d",
+    "start": 17507,
+    "end": 18072
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "10cf44a81db1a2a675f46f5f8e4838f7628ecdbf16722ddc8b13fb3907643895",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "10cf44a81db1a2a675f46f5f8e4838f7628ecdbf16722ddc8b13fb3907643895",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

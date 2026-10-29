@@ -1,20 +1,33 @@
 {
-  "unit_id": "9abe5d15-42a5-404a-ab4c-3b207529c2dd",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanDecide/CanDecide.can",
-  "owner": "decide",
-  "page": "/decisions",
-  "view": null,
-  "label": null,
-  "prompt": "Make decision briefs and alternatives comfortable to read, with clear draft and review chronology. Give comparisons balanced space; distinguish model advice, delivery progress, and the attributed human choice without styling advice as an accepted decision. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply this to the /decisions page content; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 151,
-  "draft_source_key": "[\"decide\",\"page\",\"/decisions\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "inline"
+  "id": "9abe5d15-42a5-404a-ab4c-3b207529c2dd",
+  "source": {
+    "owner": "decide",
+    "kind": "style-inline",
+    "label": "Page",
+    "anchor": "decide:style-inline:Page:Page",
+    "selector": "[\"decide\",\"Section:Then\",\"[\\\"Route\\\",[[\\\"Punct\\\",\\\"/\\\"],[\\\"RouteStatic\\\",[[\\\"Name\\\",\\\"decisions\\\"]]]]]\",\"slot:StyleInline\"]",
+    "path": "CanDecide.can",
+    "revision": "e746a2ad0d3b293162f851fa14322363cafc4959c048c1f78195c828ec0082c5",
+    "start": 15429,
+    "end": 16091
+  },
+  "contract": {
+    "target": "Page",
+    "profile": null,
+    "prompt_sha256": "0088f4754181216cba765ee530a9857165cc9eb43cae74bad9fde77d28eaada1",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "13ee398b2fefe8ce3263af28f013437fd73381263f69bb17d5caf98c41303a41",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

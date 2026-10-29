@@ -1,20 +1,33 @@
 {
-  "unit_id": "807b491b-fa5c-4628-adfe-5e2632ad563e",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanLeave/CanLeave.can",
-  "owner": "leave",
-  "page": null,
-  "view": null,
-  "label": "LeaveWorkspace",
-  "prompt": "Use discreet leave-request rows and readable working-day calendar details. Align annual allowance and remaining days; clearly distinguish requested dates, private review decisions, and schedule synchronization outcomes without revealing sensitive reasons through visual summaries. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 240,
-  "draft_source_key": "[\"leave\",\"style\",\"LeaveWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "807b491b-fa5c-4628-adfe-5e2632ad563e",
+  "source": {
+    "owner": "leave",
+    "kind": "style",
+    "label": "LeaveWorkspace",
+    "anchor": "leave:style:LeaveWorkspace:",
+    "selector": "[\"leave\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"LeaveWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanLeave.can",
+    "revision": "f9e8265843f4728177e0585105aca7c84147f6d231fe1470a27f1644ed820a29",
+    "start": 22992,
+    "end": 23572
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "7323a78d21e7ad46e8b7073de4c9d19801bc76971afb95454cc610118e035e68",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "7323a78d21e7ad46e8b7073de4c9d19801bc76971afb95454cc610118e035e68",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

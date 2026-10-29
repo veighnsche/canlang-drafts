@@ -1,20 +1,33 @@
 {
-  "unit_id": "4ff9b942-4f3f-4eef-9a10-d510c33d6885",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanEvent/CanEvent.can",
-  "owner": "events",
-  "page": null,
-  "view": null,
-  "label": "EventsWorkspace",
-  "prompt": "Make published events inviting yet practical, with dates, venue, and capacity easy to scan. Keep own ticket and admission states distinct from payment and venue outcomes; use orderly registration rows and readable change histories. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 528,
-  "draft_source_key": "[\"events\",\"style\",\"EventsWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "4ff9b942-4f3f-4eef-9a10-d510c33d6885",
+  "source": {
+    "owner": "events",
+    "kind": "style",
+    "label": "EventsWorkspace",
+    "anchor": "events:style:EventsWorkspace:",
+    "selector": "[\"events\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"EventsWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanEvent.can",
+    "revision": "9d6fae68a075f2614e9a15e4a9e591ff6a7213128d7884fa0077ce6792e53edf",
+    "start": 61577,
+    "end": 62109
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "c93bb5e4457eb92b00e7c8c98587c147e7cbcd0347f2c55d3e60f77e9778a30a",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "c93bb5e4457eb92b00e7c8c98587c147e7cbcd0347f2c55d3e60f77e9778a30a",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

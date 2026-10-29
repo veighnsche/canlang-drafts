@@ -1,20 +1,33 @@
 {
-  "unit_id": "3bdad14f-246f-48a3-a712-de60ca3f8ba9",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanHire/CanHire.can",
-  "owner": "hire",
-  "page": null,
-  "view": null,
-  "label": "HireWorkspace",
-  "prompt": "Make vacancies readable and welcoming, prioritizing role, location, and application requirements. Keep own application status clear and private; use restrained forms and orderly hiring information without revealing interview feedback or reviewed handoff details across roles. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 285,
-  "draft_source_key": "[\"hire\",\"style\",\"HireWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "3bdad14f-246f-48a3-a712-de60ca3f8ba9",
+  "source": {
+    "owner": "hire",
+    "kind": "style",
+    "label": "HireWorkspace",
+    "anchor": "hire:style:HireWorkspace:",
+    "selector": "[\"hire\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"HireWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanHire.can",
+    "revision": "aae1e4e5e90a5fc27751f9cc739ce5013b963cee58778f0c7e2f0ae88faa3775",
+    "start": 26938,
+    "end": 27512
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "a30201e39ab1abdcfbc1d4ad4cef54284e3e4256c7559be3a16db4ca702de4e2",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "a30201e39ab1abdcfbc1d4ad4cef54284e3e4256c7559be3a16db4ca702de4e2",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }

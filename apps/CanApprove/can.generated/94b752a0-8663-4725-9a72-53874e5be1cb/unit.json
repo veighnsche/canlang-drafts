@@ -1,45 +1,35 @@
 {
   "abi_version": 1,
-  "draft": true,
-  "origin": "handwritten-draft",
-  "provider": null,
-  "model": null,
-  "owner": "approve",
-  "source": "apps/CanApprove/CanApprove.can",
-  "interface_status": "Provisional handwritten ABI; no compiler or runtime support claimed",
-  "unit_id": "94b752a0-8663-4725-9a72-53874e5be1cb",
-  "kind": "then_view",
-  "label": "SubmittedVersionStatus",
-  "profile": "frontend",
-  "declaration_selector": "approve.SubmittedVersionStatus",
-  "target": "view SubmittedVersionStatus(row:Submission)",
-  "prompt": "Present the admitted exact submission state as its canonical localized badge followed by its canonical overdue status indicator in the original order. Preserve the existing state and overdue semantics, null handling, withheld-field omission and accessible status text. Keep revision, file, note, due time, reason, reviewer choices, decision and assignment controls, withdrawal button, enclosing version captions, queries, pagination and histories at the use site.",
-  "export_roles": [
-    "render"
-  ],
-  "row_model": "Submission",
-  "checked_controls": [],
-  "required_ui_helpers": [
-    "element",
-    "hooks",
-    "badgeField",
-    "statusField"
-  ],
-  "source_transformation": {
-    "kind": "row-fragment",
-    "declaration": "  view SubmittedVersionStatus(row:Submission) $\"Present the admitted exact submission state as its canonical localized badge followed by its canonical overdue status indicator in the original order. Preserve the existing state and overdue semantics, null handling, withheld-field omission and accessible status text. Keep revision, file, note, due time, reason, reviewer choices, decision and assignment controls, withdrawal button, enclosing version captions, queries, pagination and histories at the use site.\" $\"Align the version state badge and overdue status as a compact labeled status group with clear spacing. Wrap at narrow widths, inherit theme and typography, and retain canonical status words and accessible indicator semantics without relying on color alone.\"\n",
-    "replacements": [
-      {
-        "original": "       badge row.state\n       status row.overdue\n",
-        "replacement": "       show SubmittedVersionStatus {row=row}\n",
-        "count": 1
-      },
-      {
-        "original": "      badge row.state\n      status row.overdue\n",
-        "replacement": "      show SubmittedVersionStatus {row=row}\n",
-        "count": 1
-      }
-    ]
+  "id": "94b752a0-8663-4725-9a72-53874e5be1cb",
+  "source": {
+    "owner": "approve",
+    "kind": "view",
+    "label": "SubmittedVersionStatus",
+    "anchor": "approve:view:SubmittedVersionStatus:Submission",
+    "selector": "[\"approve\",\"Section:Then\",\"[\\\"View\\\",\\\"SubmittedVersionStatus\\\"]\",\"slot:ViewDefinition\"]",
+    "path": "CanApprove.can",
+    "revision": "1731c783faaafa72f8a884f44430a91c0a8142fec0fe84f38b634b2fd688dc8e",
+    "start": 29450,
+    "end": 30223
   },
-  "source_line": 272
+  "contract": {
+    "target": "Submission",
+    "profile": null,
+    "prompt_sha256": "9e08e5f5e36a9b7c9ceeb7e5fc604472ca36ebb26012160f191a5eb4656048e3",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "9e08e5f5e36a9b7c9ceeb7e5fc604472ca36ebb26012160f191a5eb4656048e3",
+    "files": {
+      "implementation.js": "20c1e81c76de2f94a536631f56aa439434d9fc0a5d71b3291a839ff4d4a04daa",
+      "server.js": "20c1e81c76de2f94a536631f56aa439434d9fc0a5d71b3291a839ff4d4a04daa",
+      "source-behavior.can.txt": "0e437a8d47c6433b69c901ac0665ee3990b39527fd50127dcf4bba528b3f88ea"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-draft; existing files preserved; implementation.js copied byte-for-byte from server.js"
+  }
 }

@@ -1,20 +1,33 @@
 {
-  "unit_id": "d8aca0b3-2bad-4ad4-9119-f8dbdfb08c41",
-  "kind": "style",
-  "draft": true,
-  "origin": "handwritten-script",
-  "source": "apps/CanDesk/CanDesk.can",
-  "owner": "desk",
-  "page": null,
-  "view": null,
-  "label": "DeskWorkspace",
-  "prompt": "Use a practical support queue with scan-friendly request rows and clear ownership. Make customer conversation and private staff notes visually distinct using labeled sections; keep unmatched email evidence, replies, and intake forms accessible. Keep daisyUI theme and shared shell defaults, canonical permissions/actions, localized labels, complete forms/errors, visible keyboard focus, and responsive stacking. Apply consistently to each styled page content scope; keep page admission and the shared shell unchanged.",
-  "profile": "frontend",
-  "source_line": 182,
-  "draft_source_key": "[\"desk\",\"style\",\"DeskWorkspace\",null]",
   "abi_version": 1,
-  "provider": null,
-  "model": null,
-  "target": "browser-css",
-  "style_scope": "definition"
+  "id": "d8aca0b3-2bad-4ad4-9119-f8dbdfb08c41",
+  "source": {
+    "owner": "desk",
+    "kind": "style",
+    "label": "DeskWorkspace",
+    "anchor": "desk:style:DeskWorkspace:",
+    "selector": "[\"desk\",\"Section:Then\",\"[\\\"StyleDef\\\",\\\"DeskWorkspace\\\"]\",\"slot:StyleDefinition\"]",
+    "path": "CanDesk.can",
+    "revision": "db4d85b7a868acb0b4760a66d4cd0f6a5973e0391711ec11dd23db2463125374",
+    "start": 19613,
+    "end": 20156
+  },
+  "contract": {
+    "target": null,
+    "profile": null,
+    "prompt_sha256": "900f9f9ab764f32994421f884434c2f58706b0f05dd537c35e843b54b1036ccf",
+    "signature": null
+  },
+  "original": {
+    "prompt_sha256": "900f9f9ab764f32994421f884434c2f58706b0f05dd537c35e843b54b1036ccf",
+    "files": {
+      "style.css": "2645a56726c77eb3ad15371c515b5bf51cdfaa7ace25077c200e5c362728588f"
+    }
+  },
+  "provenance": {
+    "origin": "adopted",
+    "runner": null,
+    "model": null,
+    "note": "explicit bind adopted legacy handwritten-script; existing files preserved"
+  }
 }
